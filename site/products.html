@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Products | Hanbit Korea 한빛코리아</title>
+<meta name="description" content="Product catalogue">
+<meta name="theme-color" content="#1f3a2e">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="progress" aria-hidden="true"><i></i></div>
+<div class="topbar"><div class="wrap">
+  <div class="group"><span class="lang" title="Korea">🇰🇷 <span lang="ko">한국어</span> · KR</span><a class="hide-s" href="tel:+82800000000">Toll-free: 080-000-0000</a></div>
+  <div class="group right"><a href="mailto:info@example.com">info@example.com</a><a href="login.html">Login</a></div>
+</div></div>
+<header class="site-header"><div class="wrap">
+  <a class="brand" href="index.html" aria-label="Hanbit Korea home"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f8f5ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c4 3 6 6 6 9a6 6 0 0 1-12 0c0-3 2-6 6-9z"/><path d="M12 21V11"/></svg></span><span><b>Hanbit Korea <span lang="ko">한빛코리아</span></b><small>KOREA · EST. [YEAR TBC]</small></span></a>
+  <button class="menu-btn" aria-expanded="false" aria-controls="site-nav" aria-label="Menu"><span></span></button>
+  <nav class="nav" id="site-nav" aria-label="Main"><ul><li><a class="nl" href="index.html">Home</a></li><li><a class="nl" href="about.html">About Us</a></li><li><a class="nl" href="quality.html">Certificate / Quality</a></li><li><a class="nl" href="testing.html">Testing Principle</a></li><li><a class="nl" href="gallery.html">Gallery</a></li><li><a class="nl" href="services.html">Services</a></li>
+    <li class="has-mega"><button class="nl" aria-expanded="false" aria-haspopup="true" aria-current="page">Products ▾</button><div class="mega"><div><h4>Series A <span class="sr-only">— Core range</span></h4><a href="product-01.html">Sample Product 01</a><a href="product-02.html">Sample Product 02</a><a href="product-03.html">Sample Product 03</a><a href="products.html?cat=series-a"><strong>All Series A →</strong></a></div><div><h4>Series B <span class="sr-only">— Premium range</span></h4><a href="product-05.html">Sample Product 05</a><a href="product-06.html">Sample Product 06</a><a href="product-07.html">Sample Product 07</a><a href="products.html?cat=series-b"><strong>All Series B →</strong></a></div><div><h4>Series C <span class="sr-only">— Accessories & refills</span></h4><a href="product-09.html">Sample Product 09</a><a href="product-10.html">Sample Product 10</a><a href="product-11.html">Sample Product 11</a><a href="products.html?cat=series-c"><strong>All Series C →</strong></a></div><div class="all"><a href="products.html"><strong>Browse the full product range →</strong></a> &nbsp; <a href="products.html#catalogue">Download catalogues →</a></div></div></li>
+    <li><a class="nl" href="contact.html">Contact Us</a></li></ul></nav>
+</div></header>
+<main id="main">
+<section class="page-hero"><div class="wrap">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a> / Products</nav>
+<span class="eyebrow">Product catalogue</span><br><h1>Products</h1><p class="lead">Browse the range, compare specifications and download catalogues.</p></div></section><section class="section" id="products" aria-labelledby="p-h"><div class="wrap">
+  <div class="sec-head"><div><span class="eyebrow">Products &amp; catalogue</span><h2 id="p-h">Find the right product.</h2>
+  <p class="lead">Browse by series, compare specifications or download our catalogues. <span class="tbc">Sample dataset</span></p></div></div>
+  <div data-tabs>
+    <div class="tabs-bar" role="tablist" aria-label="Products and catalogue"><button role="tab" id="tab-products" aria-controls="panel-products" data-hash="products">Products</button>
+      <button role="tab" id="tab-catalogue" aria-controls="panel-catalogue" data-hash="catalogue">Catalogue</button><span class="tab-ink" aria-hidden="true"></span></div>
+    <div role="tabpanel" id="panel-products" aria-labelledby="tab-products" tabindex="0">
+      <div data-product-grid data-per-page="12">
+        <div class="toolbar"><div class="filters" role="group" aria-label="Filter by series"><button type="button" data-cat="all" aria-pressed="true">All</button><button type="button" data-cat="series-a" aria-pressed="false">Series A</button><button type="button" data-cat="series-b" aria-pressed="false">Series B</button><button type="button" data-cat="series-c" aria-pressed="false">Series C</button></div>
+          <div class="search"><label class="sr-only" for="q">Search products</label><input id="q" type="search" placeholder="Search products or model…"></div></div>
+        <div class="grid" aria-live="polite"></div>
+        <noscript><p class="state">Enable JavaScript to browse products, or <a href="products.html">view the product list</a>.</p></noscript>
+        <div class="more" hidden><p><span></span></p><button class="btn btn-ghost" type="button">Load more</button></div>
+      </div></div>
+    <div role="tabpanel" id="panel-catalogue" aria-labelledby="tab-catalogue" tabindex="0" hidden>
+      <div class="docs-list"><article class="doc-card" data-reveal><img src="assets/img/doc-0.svg" alt="" width="96" height="128" loading="lazy">
+      <div><h3>Full product catalogue</h3><p>Catalogue PDF — All series, specifications and ordering information.</p></div><a class="btn btn-ghost btn-sm" href="assets/docs/product-catalogue.pdf" download>Download</a></article><article class="doc-card" data-reveal><img src="assets/img/doc-1.svg" alt="" width="96" height="128" loading="lazy">
+      <div><h3>Series A brochure</h3><p>Brochure PDF — Core range overview.</p></div><a class="btn btn-ghost btn-sm" href="assets/docs/series-a-brochure.pdf" download>Download</a></article><article class="doc-card" data-reveal><img src="assets/img/doc-2.svg" alt="" width="96" height="128" loading="lazy">
+      <div><h3>Series B brochure</h3><p>Brochure PDF — Premium range overview.</p></div><a class="btn btn-ghost btn-sm" href="assets/docs/series-b-brochure.pdf" download>Download</a></article><article class="doc-card" data-reveal><img src="assets/img/doc-0.svg" alt="" width="96" height="128" loading="lazy">
+      <div><h3>Technical specification sheet</h3><p>Technical PDF — Dimensions, materials and tolerances.</p></div><a class="btn btn-ghost btn-sm" href="assets/docs/technical-specifications.pdf" download>Download</a></article><article class="doc-card" data-reveal><img src="assets/img/doc-1.svg" alt="" width="96" height="128" loading="lazy">
+      <div><h3>Quality & testing summary</h3><p>Quality PDF — Testing procedure and reporting overview.</p></div><a class="btn btn-ghost btn-sm" href="assets/docs/quality-testing-summary.pdf" download>Download</a></article><article class="doc-card" data-reveal><img src="assets/img/doc-2.svg" alt="" width="96" height="128" loading="lazy">
+      <div><h3>Certificates pack</h3><p>Certificates PDF — Supporting certificates and declarations.</p></div><a class="btn btn-ghost btn-sm" href="assets/docs/certificates.pdf" download>Download</a></article></div>
+      <div class="panel" style="margin-top:34px"><h3>Request the full catalogue</h3><p style="margin-bottom:1.2rem">Leave your details and we will send the latest full catalogue.</p>
+        <form class="form" data-form="catalogue" novalidate>
+<div class="row"><div><label for="f-name-catalogue">Name *</label><input id="f-name-catalogue" name="name" required autocomplete="name"><div class="field-err" data-err></div></div>
+<div><label for="f-email-catalogue">Email *</label><input id="f-email-catalogue" name="email" type="email" required autocomplete="email"><div class="field-err" data-err></div></div></div>
+
+<input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+<label class="check"><span style="display:contents"><input type="checkbox" name="consent" required> <span>I agree to be contacted about my enquiry. See our <a href="privacy.html">Privacy Policy</a>.</span></span></label><div class="field-err" data-err></div>
+<div><button class="btn btn-primary" type="submit">Request catalogue</button></div>
+<div class="form-msg" aria-live="polite"></div></form></div>
+    </div>
+  </div></div></section>
+</main>
+<footer class="footer"><div class="wrap">
+  <div class="fgrid">
+    <div><a class="brand" href="index.html" aria-label="Hanbit Korea home"><span class="mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f8f5ee" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c4 3 6 6 6 9a6 6 0 0 1-12 0c0-3 2-6 6-9z"/><path d="M12 21V11"/></svg></span><span><b>Hanbit Korea <span lang="ko">한빛코리아</span></b><small>PRECISION, TESTED AND DOCUMENTED.</small></span></a><p style="margin-top:1em;max-width:36ch">Korean product company. [Add a short, verified company description here.]</p>
+      <div class="social" aria-label="Social media"><a href="#" aria-label="Instagram">IG</a><a href="#" aria-label="YouTube">YT</a><a href="#" aria-label="LinkedIn">in</a><a href="#" aria-label="Naver Blog">N</a></div></div>
+    <div><h4>Quick links</h4><ul><li><a href="about.html">About us</a></li><li><a href="quality.html">Certificate / Quality</a></li><li><a href="testing.html">Testing principle</a></li><li><a href="gallery.html">Gallery</a></li><li><a href="services.html">Services</a></li><li><a href="contact.html">Contact us</a></li></ul></div>
+    <div><h4>Products</h4><ul><li><a href="products.html?cat=series-a">Series A</a></li><li><a href="products.html?cat=series-b">Series B</a></li><li><a href="products.html?cat=series-c">Series C</a></li><li><a href="products.html#catalogue">Catalogue downloads</a></li></ul></div>
+    <div><h4>Customer support</h4><ul><li>Toll-free: <a href="tel:+82800000000">080-000-0000</a></li><li><a href="mailto:info@example.com">info@example.com</a></li><li>[Business address — to be supplied]</li><li>Mon–Fri 09:00–18:00 KST [to be confirmed]</li></ul></div>
+  </div>
+  <div class="fbottom"><span>© 2026 Hanbit Korea Co., Ltd.. All rights reserved.</span>
+    <span class="legal"><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms &amp; Conditions</a></span>
+    <label class="sr-only" for="lang-sel">Language</label><select id="lang-sel" aria-label="Language"><option>English</option><option disabled>한국어 (coming soon)</option></select></div>
+</div></footer>
+<button class="to-top" aria-label="Back to top" type="button">↑</button>
+<dialog id="qv-dialog" aria-label="Quick view"><button class="dlg-x" aria-label="Close">×</button><div class="qv-body"></div></dialog>
+<dialog id="cmp-dialog" aria-label="Compare products"><button class="dlg-x" aria-label="Close">×</button><div class="cmp-wrap"></div></dialog>
+<div class="compare-bar" role="region" aria-label="Compare"><span class="cmp-count">0 selected</span><button class="btn btn-gold btn-sm cmp-go" disabled>Compare</button><button class="btn btn-ghost-light btn-sm cmp-clear">Clear</button></div>
+<script src="assets/js/data.js"></script>
+<script src="assets/vendor/gsap.min.js" defer></script>
+<script src="assets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="assets/js/app.js" defer></script>
+</body></html>
