@@ -255,6 +255,7 @@ export function App() {
               <FreeTherapyMissionSection
                 onContactClick={() => scrollToSection('contact')}
                 onNavigateAbout={() => scrollToSection('about')}
+                onNavigateTherapy={() => scrollToSection('therapy')}
               />
 
               {/* Clinical Video Testimonials */}

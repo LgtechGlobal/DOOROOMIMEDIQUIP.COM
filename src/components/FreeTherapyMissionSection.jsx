@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 import { SITE_CONFIG } from '../data/siteData';
 
-export const FreeTherapyMissionSection = ({ onContactClick, onNavigateAbout }) => {
+export const FreeTherapyMissionSection = ({ onContactClick, onNavigateAbout, onNavigateTherapy }) => {
   const [showPdfModal, setShowPdfModal] = useState(false);
 
   const keyBenefits = [
@@ -257,6 +257,35 @@ export const FreeTherapyMissionSection = ({ onContactClick, onNavigateAbout }) =
             >
               Contact Nearest Center →
             </button>
+          </div>
+        </div>
+
+        {/* Flagship Machines Teaser Linking to Therapy Page */}
+        <div className="mt-16 rounded-3xl bg-gradient-to-br from-hanbit-forest via-emerald-950 to-hanbit-dark text-white p-8 sm:p-12 shadow-xl border border-hanbit-gold/40">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+            <div className="space-y-3 max-w-2xl text-center lg:text-left">
+              <span className="text-xs font-mono font-bold text-hanbit-gold uppercase tracking-widest block">
+                Flagship Physiotherapy Equipment · 대한민국 두루미
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-extrabold font-serif">
+                BEDRO Smart-1 & TAEYANGSUK PLUS Thermal Mat
+              </h3>
+              <p className="text-xs sm:text-sm text-emerald-100/80 font-light leading-relaxed">
+                Discover the 6 foundational sciences of Dooroomi therapy: Spinal Soft Tissue Traction, Ancient Meridian Acupressure, Far-Infrared Moxibustion, 1890 Chiropractic Alignment, 12,000 Gauss Alternating Magnetism (50–60 Hz), and Patented BioWave Neuromodulation.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-3 shrink-0">
+              {onNavigateTherapy && (
+                <button
+                  onClick={onNavigateTherapy}
+                  className="px-6 py-3 rounded-full bg-hanbit-gold hover:bg-amber-300 text-hanbit-dark text-xs font-bold transition-all shadow-md cursor-pointer inline-flex items-center gap-2"
+                >
+                  <Activity className="w-4 h-4" />
+                  <span>Explore Dedicated Therapy Science & Equipment →</span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
 
