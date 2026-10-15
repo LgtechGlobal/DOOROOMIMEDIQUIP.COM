@@ -132,7 +132,7 @@ export const AllProductsRowSection = ({ onSelectProduct }) => {
             <span className="font-mono text-[11px] text-neutral-400">
               <span className="font-bold text-hanbit-forest">{String(selectedIndex + 1).padStart(2, '0')}</span>
               <span className="mx-1">/</span>
-              <span>{String(PRODUCTS.length).padStart(2, '0')}</span>
+              <span>{String(productsList.length).padStart(2, '0')}</span>
             </span>
           </div>
         </div>

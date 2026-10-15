@@ -97,10 +97,10 @@ export const ProductsGalleryPage = ({
                   : 'bg-hanbit-ivory text-hanbit-muted hover:bg-hanbit-sage-light hover:text-hanbit-forest border border-hanbit-border/70'
               }`}
             >
-              All Formulations ({PRODUCTS.length})
+              All Formulations ({productsList.length})
             </button>
             {CATEGORIES.map((cat) => {
-              const count = PRODUCTS.filter((p) => p.cat === cat.id).length;
+              const count = productsList.filter((p) => p.cat === cat.id).length;
               return (
                 <button
                   key={cat.id}
@@ -142,7 +142,7 @@ export const ProductsGalleryPage = ({
         {(selectedCategory !== 'all' || searchQuery) && (
           <div className="flex items-center justify-between text-xs text-hanbit-muted px-2 mb-6">
             <span>
-              Showing <b>{filteredProducts.length}</b> of {PRODUCTS.length} formulations
+              Showing <b>{filteredProducts.length}</b> of {productsList.length} formulations
               {selectedCategory !== 'all' && ` in ${CATEGORIES.find((c) => c.id === selectedCategory)?.name}`}
               {searchQuery && ` matching "${searchQuery}"`}
             </span>

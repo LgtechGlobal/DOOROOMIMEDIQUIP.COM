@@ -312,7 +312,7 @@ export const SingleProductPage = ({
                 onClick={onBackToGallery}
                 className="text-xs font-bold text-hanbit-gold hover:underline flex items-center gap-1 cursor-pointer"
               >
-                <span>View Full Gallery ({PRODUCTS.length})</span>
+                <span>View Full Gallery ({productsList.length})</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
