@@ -1,13 +1,16 @@
 # Dependencies
 node_modules
+**/node_modules
 /.pnp
 .pnp.js
 
 # Testing and Coverage
 /coverage
+**/coverage
 
 # Production Build Artifacts
 dist
+**/dist
 dist-ssr
 *.local
 
