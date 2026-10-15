@@ -17,6 +17,7 @@ import { SingleProductPage } from './components/SingleProductPage';
 import { ContactSection } from './components/ContactSection';
 import { CeoSection } from './components/CeoSection';
 import { FreeTherapyMissionSection } from './components/FreeTherapyMissionSection';
+import { PatientTestimonialsRowSection } from './components/PatientTestimonialsRowSection';
 import { Footer } from './components/Footer';
 import { QuickViewModal } from './components/QuickViewModal';
 import { CompareDrawer } from './components/CompareDrawer';
@@ -257,6 +258,9 @@ export function App() {
                 onNavigateAbout={() => scrollToSection('about')}
                 onNavigateTherapy={() => scrollToSection('therapy')}
               />
+
+              {/* Real Patient Recovery Testimonials - Single Row Carousel with 5 Stars & Portraits */}
+              <PatientTestimonialsRowSection />
 
               {/* Clinical Video Testimonials */}
               <TestimonialVideoSection />
