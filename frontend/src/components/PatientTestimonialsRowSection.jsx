@@ -16,13 +16,15 @@ import {
   FileText,
   BadgeCheck
 } from 'lucide-react';
+import { useData } from '../context/DataContext';
 
 export const PatientTestimonialsRowSection = () => {
+  const { testimonials: dynamicTestimonials } = useData();
   const scrollRef = useRef(null);
   const [selectedStory, setSelectedStory] = useState(null);
   const [selectedScan, setSelectedScan] = useState(null);
 
-  const testimonials = [
+  const defaultTestimonials = [
     {
       id: "p1",
       name: "Smt. Kmamari Sahoo",
@@ -114,6 +116,8 @@ export const PatientTestimonialsRowSection = () => {
       fullStory: "My name is Ramesh Chandra Sahu, Age 58 years, At-Chandapur, P.O- Chandapur, Dist- Nayagarh, Odisha. I had Back Pain and Blood Pressure problems since 5 years. I have taken many medicines and injections and many types of treatments before coming to DOOROOMI.\n\nThen I heard about DOOROOMI Medical Treatments from a known person. I went to the DOOROOMI center, and now I am perfectly fine and can do my work on a regular basis. I would heartily like to thanks DOOROOMI Medical and would pray that may DOOROOMI Medical get succeed in their work and keep helping people like me."
     }
   ];
+
+  const testimonials = dynamicTestimonials && dynamicTestimonials.length > 0 ? dynamicTestimonials : defaultTestimonials;
 
   const handleScroll = (direction) => {
     if (scrollRef.current) {

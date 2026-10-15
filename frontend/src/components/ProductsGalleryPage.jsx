@@ -13,7 +13,8 @@ import {
   FileText,
   ShieldCheck
 } from 'lucide-react';
-import { PRODUCTS, CATEGORIES } from '../data/siteData';
+import { PRODUCTS as FALLBACK_PRODUCTS, CATEGORIES } from '../data/siteData';
+import { useData } from '../context/DataContext';
 
 export const ProductsGalleryPage = ({
   onSelectProduct,
@@ -22,12 +23,15 @@ export const ProductsGalleryPage = ({
   comparedProducts = [],
   onToggleCompare
 }) => {
+  const { products: dynamicProducts } = useData();
+  const productsList = dynamicProducts && dynamicProducts.length > 0 ? dynamicProducts : FALLBACK_PRODUCTS;
+
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
   // Filter products by category & search query
   const filteredProducts = useMemo(() => {
-    return PRODUCTS.filter((p) => {
+    return productsList.filter((p) => {
       const matchesCat = selectedCategory === 'all' || p.cat === selectedCategory;
       const query = searchQuery.toLowerCase().trim();
       if (!query) return matchesCat;

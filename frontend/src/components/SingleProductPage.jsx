@@ -13,7 +13,8 @@ import {
   Share2, 
   FileText 
 } from 'lucide-react';
-import { PRODUCTS, CATEGORIES } from '../data/siteData';
+import { PRODUCTS as FALLBACK_PRODUCTS, CATEGORIES } from '../data/siteData';
+import { useData } from '../context/DataContext';
 
 export const SingleProductPage = ({
   productId,
@@ -24,14 +25,17 @@ export const SingleProductPage = ({
   comparedProducts = [],
   onToggleCompare,
 }) => {
+  const { products: dynamicProducts } = useData();
+  const productsList = dynamicProducts && dynamicProducts.length > 0 ? dynamicProducts : FALLBACK_PRODUCTS;
+
   const [copied, setCopied] = useState(false);
   const [zoomImage, setZoomImage] = useState(false);
 
   // Find product by id or slug
-  const product = PRODUCTS.find((p) => p.id === productId || p.slug === productId) || PRODUCTS[0];
+  const product = productsList.find((p) => p.id === productId || p.slug === productId) || productsList[0];
 
   // Companion products from same series
-  const companionProducts = PRODUCTS
+  const companionProducts = productsList
     .filter((p) => p.cat === product.cat && p.id !== product.id)
     .slice(0, 3);
 

@@ -1,23 +1,28 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { ChevronsLeft, ChevronsRight, ArrowUpRight, Play, Pause } from 'lucide-react';
-import { PRODUCTS } from '../data/siteData';
+import { PRODUCTS as FALLBACK_PRODUCTS } from '../data/siteData';
+import { useData } from '../context/DataContext';
 
 export const AllProductsRowSection = ({ onSelectProduct }) => {
+  const { products: dynamicProducts } = useData();
+  const productsList = dynamicProducts && dynamicProducts.length > 0 ? dynamicProducts : FALLBACK_PRODUCTS;
+
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
   const thumbnailRefs = useRef([]);
   const thumbContainerRef = useRef(null);
 
-  const activeProduct = PRODUCTS[selectedIndex] || PRODUCTS[0];
+  const safeIndex = selectedIndex % productsList.length;
+  const activeProduct = productsList[safeIndex] || productsList[0];
 
   const handleNext = useCallback(() => {
-    setSelectedIndex((prev) => (prev + 1) % PRODUCTS.length);
-  }, []);
+    setSelectedIndex((prev) => (prev + 1) % productsList.length);
+  }, [productsList.length]);
 
   const handlePrev = useCallback(() => {
-    setSelectedIndex((prev) => (prev - 1 + PRODUCTS.length) % PRODUCTS.length);
-  }, []);
+    setSelectedIndex((prev) => (prev - 1 + productsList.length) % productsList.length);
+  }, [productsList.length]);
 
   // Smooth, non-laggy auto-cycle: pauses on mouse hover or when manually paused
   useEffect(() => {
@@ -191,8 +196,8 @@ export const AllProductsRowSection = ({ onSelectProduct }) => {
               ref={thumbContainerRef}
               className="flex-1 flex items-center justify-start gap-3 sm:gap-6 lg:gap-8 overflow-x-auto py-2 px-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
             >
-              {PRODUCTS.map((prod, idx) => {
-                const isSelected = idx === selectedIndex;
+              {productsList.map((prod, idx) => {
+                const isSelected = idx === safeIndex;
                 return (
                   <button
                     key={prod.id}
