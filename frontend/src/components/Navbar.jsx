@@ -5,7 +5,9 @@ import { SITE_CONFIG } from '../data/siteData';
 export const Navbar = ({
   activeSection,
   onNavigate,
-  onOpenLogin
+  onOpenLogin,
+  isAdminAuthenticated,
+  onOpenAdmin
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -147,13 +149,23 @@ export const Navbar = ({
               <Mail className="w-3 h-3 text-hanbit-gold" />
               <span className="hidden sm:inline">{SITE_CONFIG.email}</span>
             </a>
-            <button
-              onClick={onOpenLogin}
-              className="inline-flex items-center gap-1.5 px-3.5 py-0.5 rounded bg-hanbit-forest/80 border border-emerald-800/80 text-amber-200 hover:bg-hanbit-gold hover:text-hanbit-dark transition-all text-xs font-medium cursor-pointer"
-            >
-              <User className="w-3 h-3" />
-              <span>B2B Portal</span>
-            </button>
+            {isAdminAuthenticated ? (
+              <button
+                onClick={onOpenAdmin}
+                className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded bg-gradient-to-r from-emerald-900 to-hanbit-forest border border-hanbit-gold text-amber-200 hover:text-white transition-all text-xs font-bold cursor-pointer shadow-xs"
+              >
+                <ShieldCheck className="w-3.5 h-3.5 text-hanbit-gold" />
+                <span>Admin Portal</span>
+              </button>
+            ) : (
+              <button
+                onClick={onOpenLogin}
+                className="inline-flex items-center gap-1.5 px-3.5 py-0.5 rounded bg-hanbit-forest/80 border border-emerald-800/80 text-amber-200 hover:bg-hanbit-gold hover:text-hanbit-dark transition-all text-xs font-medium cursor-pointer"
+              >
+                <User className="w-3 h-3" />
+                <span>B2B Portal</span>
+              </button>
+            )}
           </div>
         </div>
       </div>

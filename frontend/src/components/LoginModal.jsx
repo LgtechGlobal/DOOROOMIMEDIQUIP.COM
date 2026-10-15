@@ -1,96 +1,200 @@
 import React, { useState } from 'react';
-import { X, Lock, ArrowRight } from 'lucide-react';
+import { X, Lock, ArrowRight, ShieldCheck, User, Eye, EyeOff, KeyRound, Sparkles } from 'lucide-react';
 import { SITE_CONFIG } from '../data/siteData';
 
-export const LoginModal = ({ isOpen, onClose }) => {
-  const [email, setEmail] = useState('');
+export const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
+  const [loginId, setLoginId] = useState('');
   const [password, setPassword] = useState('');
-  const [status, setStatus] = useState(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  const handleAutoFill = () => {
+    setLoginId('dooroomi');
+    setPassword('dooroomi@123');
+    setError('');
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus('Partner portal authentication is currently restricted to active enterprise distributors. To establish access, contact your Dooroomi account manager.');
+    setError('');
+    setLoading(true);
+
+    const cleanUser = loginId.trim().toLowerCase();
+    const cleanPass = password.trim();
+
+    try {
+      // 1. Attempt API call to backend authentication
+      let authenticated = false;
+      let userData = { username: 'dooroomi', role: 'admin', name: 'Dooroomi Administrator' };
+
+      try {
+        const res = await fetch('http://localhost:5000/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: cleanUser, password: cleanPass })
+        });
+
+        const data = await res.json();
+        if (res.ok && data.success) {
+          authenticated = true;
+          if (data.token) localStorage.setItem('dooroomi_admin_token', data.token);
+          if (data.user) userData = data.user;
+        }
+      } catch (networkErr) {
+        // Backend offline fallback: check direct credentials
+        console.warn('Backend server unreachable, validating credentials locally:', networkErr.message);
+      }
+
+      // Check credentials
+      if (!authenticated) {
+        if (cleanUser === 'dooroomi' && cleanPass === 'dooroomi@123') {
+          authenticated = true;
+        }
+      }
+
+      if (authenticated) {
+        localStorage.setItem('dooroomi_admin', 'true');
+        localStorage.setItem('dooroomi_user', JSON.stringify(userData));
+        if (onLoginSuccess) {
+          onLoginSuccess(userData);
+        }
+        onClose();
+      } else {
+        setError('Access Denied. Only authorized Dooroomi Admin ID and password can access the Admin Portal.');
+      }
+    } catch (err) {
+      setError('An error occurred during authentication. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-hanbit-dark/75 backdrop-blur-sm"
+        className="fixed inset-0 bg-hanbit-dark/80 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
 
-      <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-hanbit-border p-8 z-10 animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-hanbit-gold/40 p-8 z-10 animate-in fade-in zoom-in-95 duration-200">
+        
+        {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-8 h-8 rounded-full bg-hanbit-ivory text-hanbit-forest flex items-center justify-center"
+          className="absolute top-4 right-4 w-9 h-9 rounded-full bg-hanbit-ivory hover:bg-stone-200 text-hanbit-forest flex items-center justify-center transition-colors cursor-pointer"
+          title="Close Modal"
         >
           <X className="w-4 h-4" />
         </button>
 
+        {/* Modal Header */}
         <div className="text-center space-y-2 mb-6">
-          <div className="w-12 h-12 mx-auto rounded-2xl bg-hanbit-sage-light text-hanbit-forest flex items-center justify-center">
-            <Lock className="w-6 h-6 text-hanbit-gold" />
+          <div className="w-14 h-14 mx-auto rounded-2xl bg-gradient-to-tr from-hanbit-forest to-emerald-900 text-hanbit-gold flex items-center justify-center shadow-md border border-hanbit-gold/40">
+            <Lock className="w-7 h-7" />
           </div>
-          <h3 className="text-xl font-extrabold text-hanbit-forest">
-            B2B Partner Portal
+          
+          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-amber-50 text-amber-800 text-[10px] font-mono font-bold border border-amber-200">
+            <ShieldCheck className="w-3 h-3 text-amber-600" />
+            <span>Dooroomi B2B & Administrator Gateway</span>
+          </div>
+
+          <h3 className="text-2xl font-extrabold text-hanbit-forest font-serif">
+            Admin Portal Login
           </h3>
-          <p className="text-xs text-hanbit-muted">
-            Access lot COA chromatograms, manufacturing scheduling, and wholesale tracking.
+          <p className="text-xs text-hanbit-muted leading-relaxed font-light">
+            Authorized management portal for clinical inquiries, wholesale B2B distributor tracking, and 15+ therapy centers.
           </p>
         </div>
 
-        {status && (
-          <div className="p-3 mb-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs leading-relaxed">
-            {status}
+        {/* Credentials Reminder Card */}
+        <div className="mb-5 p-3.5 rounded-2xl bg-hanbit-ivory border border-hanbit-border/80 flex items-center justify-between text-xs">
+          <div className="space-y-0.5">
+            <span className="text-[10px] uppercase font-mono font-bold text-hanbit-gold tracking-wider block">
+              Admin Access Credentials
+            </span>
+            <div className="text-hanbit-forest font-mono text-[11px]">
+              ID: <strong className="text-emerald-800 font-bold">dooroomi</strong> · Pass: <strong className="text-emerald-800 font-bold">dooroomi@123</strong>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={handleAutoFill}
+            className="px-2.5 py-1 rounded-lg bg-white border border-hanbit-gold/60 text-[11px] font-bold text-hanbit-forest hover:bg-hanbit-gold hover:text-white transition-all shadow-2xs cursor-pointer shrink-0"
+          >
+            Auto Fill
+          </button>
+        </div>
+
+        {/* Error Alert */}
+        {error && (
+          <div className="p-3 mb-4 rounded-xl bg-red-50 border border-red-200 text-red-800 text-xs leading-relaxed flex items-start gap-2">
+            <span className="text-red-500 font-bold">⚠</span>
+            <span>{error}</span>
           </div>
         )}
 
+        {/* Login Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold text-hanbit-forest mb-1">
-              Authorized Business Email
+            <label className="block text-xs font-bold text-hanbit-forest mb-1 font-mono">
+              Administrator ID / Login ID
             </label>
-            <input
-              type="email"
-              required
-              placeholder="partner@distributor.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-hanbit-ivory border border-hanbit-border text-xs focus:outline-none focus:border-hanbit-gold"
-            />
+            <div className="relative">
+              <input
+                type="text"
+                required
+                placeholder="dooroomi"
+                value={loginId}
+                onChange={(e) => setLoginId(e.target.value)}
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-hanbit-ivory border border-hanbit-border text-xs text-hanbit-forest font-mono focus:outline-none focus:border-hanbit-gold focus:ring-1 focus:ring-hanbit-gold"
+              />
+              <User className="w-4 h-4 text-hanbit-gold absolute left-3 top-3 pointer-events-none" />
+            </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-hanbit-forest mb-1">
-              Secure Security Key
+            <label className="block text-xs font-bold text-hanbit-forest mb-1 font-mono">
+              Security Key / Password
             </label>
-            <input
-              type="password"
-              required
-              placeholder="••••••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl bg-hanbit-ivory border border-hanbit-border text-xs focus:outline-none focus:border-hanbit-gold"
-            />
+            <div className="relative">
+              <input
+                type={showPassword ? "text" : "password"}
+                required
+                placeholder="dooroomi@123"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-hanbit-ivory border border-hanbit-border text-xs text-hanbit-forest font-mono focus:outline-none focus:border-hanbit-gold focus:ring-1 focus:ring-hanbit-gold"
+              />
+              <KeyRound className="w-4 h-4 text-hanbit-gold absolute left-3 top-3 pointer-events-none" />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-3 text-hanbit-muted hover:text-hanbit-forest cursor-pointer"
+              >
+                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
           </div>
 
           <div className="pt-2">
             <button
               type="submit"
-              className="w-full py-3 rounded-full bg-hanbit-forest hover:bg-hanbit-dark text-white text-xs font-bold transition-all flex items-center justify-center gap-2"
+              disabled={loading}
+              className="w-full py-3 rounded-full bg-gradient-to-r from-hanbit-forest to-emerald-950 hover:from-hanbit-dark hover:to-hanbit-forest text-white text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-md cursor-pointer disabled:opacity-50"
             >
-              <span>Authenticate Client Access</span>
+              <span>{loading ? 'Authenticating...' : 'Sign In to Admin Portal'}</span>
               <ArrowRight className="w-3.5 h-3.5 text-hanbit-gold" />
             </button>
           </div>
         </form>
 
         <div className="mt-6 pt-4 border-t border-hanbit-border text-center">
-          <p className="text-[11px] text-hanbit-muted">
-            Need partner credentials? Contact <a href={`mailto:${SITE_CONFIG.email}`} className="text-hanbit-gold font-bold hover:underline">{SITE_CONFIG.email}</a>
+          <p className="text-[11px] text-hanbit-muted font-light">
+            MongoDB Database: <strong className="text-emerald-700 font-mono">dooroomimediquip.72damgv.mongodb.net</strong>
           </p>
         </div>
       </div>

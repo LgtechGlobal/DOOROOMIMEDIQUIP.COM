@@ -1,0 +1,105 @@
+import express from 'express';
+import { Inquiry } from '../models/Inquiry.js';
+import jwt from 'jsonwebtoken';
+
+export const inquiriesRouter = express.Router();
+const JWT_SECRET = process.env.JWT_SECRET || 'dooroomi_super_secret_jwt_key_2026';
+
+// Middleware to verify admin token for protected routes
+const requireAdmin = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ success: false, message: 'Authentication required' });
+  }
+
+  const token = authHeader.split(' ')[1];
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    if (decoded.role !== 'admin') {
+      return res.status(403).json({ success: false, message: 'Admin privilege required' });
+    }
+    req.user = decoded;
+    next();
+  } catch (err) {
+    return res.status(401).json({ success: false, message: 'Invalid or expired token' });
+  }
+};
+
+// POST /api/inquiries (Public - from website contact & quote forms)
+inquiriesRouter.post('/', async (req, res) => {
+  try {
+    const { name, email, phone, company, type, productInterest, message } = req.body;
+
+    if (!name || !email) {
+      return res.status(400).json({ success: false, message: 'Name and email are required' });
+    }
+
+    const inquiry = await Inquiry.create({
+      name,
+      email,
+      phone: phone || '',
+      company: company || '',
+      type: type || 'general',
+      productInterest: productInterest || 'BEDRO Smart-1 / TAEYANGSUK Mat',
+      message: message || '',
+      status: 'Pending'
+    });
+
+    return res.status(201).json({
+      success: true,
+      message: 'Inquiry submitted successfully. A Dooroomi representative will contact you.',
+      inquiry
+    });
+  } catch (err) {
+    console.error('Error creating inquiry:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// GET /api/inquiries (Admin Protected)
+inquiriesRouter.get('/', requireAdmin, async (req, res) => {
+  try {
+    const inquiries = await Inquiry.find().sort({ createdAt: -1 });
+    return res.json({
+      success: true,
+      count: inquiries.length,
+      inquiries
+    });
+  } catch (err) {
+    console.error('Error fetching inquiries:', err);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// PATCH /api/inquiries/:id (Admin Protected - update status or notes)
+inquiriesRouter.patch('/:id', requireAdmin, async (req, res) => {
+  try {
+    const { status, notes } = req.body;
+    const inquiry = await Inquiry.findByIdAndUpdate(
+      req.params.id,
+      { ...(status && { status }), ...(notes !== undefined && { notes }) },
+      { new: true }
+    );
+
+    if (!inquiry) {
+      return res.status(404).json({ success: false, message: 'Inquiry not found' });
+    }
+
+    return res.json({ success: true, inquiry });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// DELETE /api/inquiries/:id (Admin Protected)
+inquiriesRouter.delete('/:id', requireAdmin, async (req, res) => {
+  try {
+    const deleted = await Inquiry.findByIdAndDelete(req.params.id);
+    if (!deleted) {
+      return res.status(404).json({ success: false, message: 'Inquiry not found' });
+    }
+    return res.json({ success: true, message: 'Inquiry deleted successfully' });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});

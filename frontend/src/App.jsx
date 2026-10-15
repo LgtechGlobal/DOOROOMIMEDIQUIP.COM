@@ -22,8 +22,9 @@ import { Footer } from './components/Footer';
 import { QuickViewModal } from './components/QuickViewModal';
 import { CompareDrawer } from './components/CompareDrawer';
 import { LoginModal } from './components/LoginModal';
+import { AdminPortalPage } from './components/AdminPortalPage';
 
-const DEDICATED_ROUTES = ['about', 'certificates', 'principle', 'therapy', 'services', 'gallery'];
+const DEDICATED_ROUTES = ['about', 'certificates', 'principle', 'therapy', 'services', 'gallery', 'admin'];
 
 const parseHash = () => {
   const hash = window.location.hash || '';
@@ -54,6 +55,30 @@ export function App() {
   const [quoteProduct, setQuoteProduct] = useState(null);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [selectedCatId, setSelectedCatId] = useState('all');
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() => {
+    return localStorage.getItem('dooroomi_admin') === 'true';
+  });
+
+  const handleLoginSuccess = () => {
+    setIsAdminAuthenticated(true);
+    setIsLoginOpen(false);
+    window.location.hash = '/admin';
+    setCurrentRoute({ view: 'admin', productId: null });
+    setActiveSection('admin');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('dooroomi_admin');
+    localStorage.removeItem('dooroomi_admin_token');
+    localStorage.removeItem('dooroomi_token');
+    localStorage.removeItem('dooroomi_user');
+    setIsAdminAuthenticated(false);
+    window.location.hash = '';
+    setCurrentRoute({ view: 'home', productId: null });
+    setActiveSection('hero');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   // Listen to hash changes for browser forward/backward and deep links
   useEffect(() => {
@@ -173,10 +198,22 @@ export function App() {
           onNavigate={scrollToSection}
           onOpenLogin={() => setIsLoginOpen(true)}
           onSelectCategory={(catId) => setSelectedCatId(catId)}
+          isAdminAuthenticated={isAdminAuthenticated}
+          onOpenAdmin={() => {
+            window.location.hash = '/admin';
+            setCurrentRoute({ view: 'admin', productId: null });
+            setActiveSection('admin');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
         />
 
         <main className="flex-1">
-          {currentRoute.view === 'about' ? (
+          {currentRoute.view === 'admin' ? (
+            <AdminPortalPage
+              onNavigateHome={() => scrollToSection('home')}
+              onLogout={handleLogout}
+            />
+          ) : currentRoute.view === 'about' ? (
             <AboutUsPage
               onNavigateHome={scrollToSection}
               onNavigateGallery={() => scrollToSection('gallery')}
@@ -299,6 +336,7 @@ export function App() {
         <LoginModal
           isOpen={isLoginOpen}
           onClose={() => setIsLoginOpen(false)}
+          onLoginSuccess={handleLoginSuccess}
         />
       </div>
     </SmoothScroll>
