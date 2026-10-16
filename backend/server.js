@@ -47,30 +47,7 @@ const rawAllowedOrigins = [
 const allowedOriginsSet = new Set(rawAllowedOrigins);
 
 const corsOptions = {
-  origin: (origin, callback) => {
-    // Allow non-browser requests or same-origin (origin is undefined)
-    if (!origin) return callback(null, true);
-    
-    const cleanOrigin = origin.trim().replace(/\/$/, '');
-    
-    // Check direct match in allowed origins
-    if (allowedOriginsSet.has(cleanOrigin)) {
-      return callback(null, true);
-    }
-    
-    // Check wildcard match for dooroomimediquip.com domains, onrender.com, and local development
-    if (
-      cleanOrigin.endsWith('dooroomimediquip.com') ||
-      cleanOrigin.includes('onrender.com') ||
-      cleanOrigin.includes('localhost') ||
-      cleanOrigin.includes('127.0.0.1')
-    ) {
-      return callback(null, true);
-    }
-    
-    // Fallback: permit access to ensure zero blockage
-    return callback(null, true);
-  },
+  origin: true, // Universal origin reflection for dooroomimediquip.com, onrender.com, and local development
   methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: [
     'Content-Type',

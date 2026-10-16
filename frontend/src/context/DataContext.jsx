@@ -394,9 +394,7 @@ export const DataProvider = ({ children }) => {
     const token = sessionStorage.getItem('dooroomi_admin_token') || localStorage.getItem('dooroomi_admin_token') || 'master_admin_token_2026';
     return {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      'x-admin-key': 'dooroomi_admin_2026_master_secret',
-      'x-admin-session': 'dooroomi_admin_active'
+      'Authorization': `Bearer ${token}`
     };
   };
 

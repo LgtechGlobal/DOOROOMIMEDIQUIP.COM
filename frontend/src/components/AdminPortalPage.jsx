@@ -206,9 +206,7 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token ? `Bearer ${token}` : '',
-          'x-admin-key': 'dooroomi_admin_2026_master_secret',
-          'x-admin-session': 'dooroomi_admin_active'
+          'Authorization': token ? `Bearer ${token}` : 'Bearer master_admin_token_2026'
         },
         body: JSON.stringify({ status: newStatus })
       });
@@ -230,9 +228,7 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token ? `Bearer ${token}` : '',
-          'x-admin-key': 'dooroomi_admin_2026_master_secret',
-          'x-admin-session': 'dooroomi_admin_active'
+          'Authorization': token ? `Bearer ${token}` : 'Bearer master_admin_token_2026'
         }
       });
       if (!res.ok) {
@@ -455,9 +451,7 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token ? `Bearer ${token}` : '',
-          'x-admin-key': 'dooroomi_admin_2026_master_secret',
-          'x-admin-session': 'dooroomi_admin_active'
+          'Authorization': token ? `Bearer ${token}` : 'Bearer master_admin_token_2026'
         },
         body: JSON.stringify(editingInquiry)
       });
