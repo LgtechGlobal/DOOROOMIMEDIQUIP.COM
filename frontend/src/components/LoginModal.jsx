@@ -10,10 +10,34 @@ export const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showGooglePrompt, setShowGooglePrompt] = useState(false);
-  const [customGoogleEmail, setCustomGoogleEmail] = useState('');
+  const [googleEmail, setGoogleEmail] = useState('dooroomimediquip@gmail.com');
+  const [googlePassword, setGooglePassword] = useState('');
+  const [showGooglePassword, setShowGooglePassword] = useState(false);
   const [useOtherAccount, setUseOtherAccount] = useState(false);
 
   if (!isOpen) return null;
+
+  const handleAuthSuccess = (data) => {
+    if (data.token) {
+      sessionStorage.setItem('dooroomi_admin_token', data.token);
+    }
+    if (data.user) {
+      sessionStorage.setItem('dooroomi_user', JSON.stringify(data.user));
+    }
+    sessionStorage.setItem('dooroomi_admin', 'true');
+
+    // Clear any old credentials or cached data from localStorage
+    localStorage.removeItem('dooroomi_admin');
+    localStorage.removeItem('dooroomi_admin_token');
+    localStorage.removeItem('dooroomi_user');
+
+    if (onLoginSuccess) {
+      onLoginSuccess(data.user);
+    }
+    setShowGooglePrompt(false);
+    setGooglePassword('');
+    onClose();
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,23 +56,7 @@ export const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
 
       const data = await res.json().catch(() => ({}));
       if (res.ok && data.success) {
-        if (data.token) {
-          sessionStorage.setItem('dooroomi_admin_token', data.token);
-        }
-        if (data.user) {
-          sessionStorage.setItem('dooroomi_user', JSON.stringify(data.user));
-        }
-        sessionStorage.setItem('dooroomi_admin', 'true');
-
-        // Clear any old credentials or cached data from localStorage
-        localStorage.removeItem('dooroomi_admin');
-        localStorage.removeItem('dooroomi_admin_token');
-        localStorage.removeItem('dooroomi_user');
-
-        if (onLoginSuccess) {
-          onLoginSuccess(data.user);
-        }
-        onClose();
+        handleAuthSuccess(data);
       } else {
         setError(data.message || 'Access Denied. Invalid administrator credentials.');
       }
@@ -59,11 +67,23 @@ export const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
     }
   };
 
-  const handleGoogleAuth = async (emailToUse) => {
+  const handleGoogleVerifySubmit = async (e) => {
+    if (e) e.preventDefault();
     setError('');
-    setLoading(true);
 
-    const targetEmail = (emailToUse || 'dooroomimediquip@gmail.com').trim().toLowerCase();
+    const targetEmail = (useOtherAccount ? googleEmail : 'dooroomimediquip@gmail.com').trim().toLowerCase();
+
+    if (!targetEmail) {
+      setError('Please provide an authorized Gmail address.');
+      return;
+    }
+
+    if (!googlePassword.trim()) {
+      setError('Please enter the password to verify your Gmail account.');
+      return;
+    }
+
+    setLoading(true);
 
     try {
       const res = await fetch(`${API_BASE_URL}/auth/google`, {
@@ -71,31 +91,16 @@ export const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: targetEmail,
-          name: 'Dooroomi Global Administrator'
+          password: googlePassword.trim(),
+          name: 'Dooroomi Administrator'
         })
       });
 
       const data = await res.json().catch(() => ({}));
       if (res.ok && data.success) {
-        if (data.token) {
-          sessionStorage.setItem('dooroomi_admin_token', data.token);
-        }
-        if (data.user) {
-          sessionStorage.setItem('dooroomi_user', JSON.stringify(data.user));
-        }
-        sessionStorage.setItem('dooroomi_admin', 'true');
-
-        localStorage.removeItem('dooroomi_admin');
-        localStorage.removeItem('dooroomi_admin_token');
-        localStorage.removeItem('dooroomi_user');
-
-        if (onLoginSuccess) {
-          onLoginSuccess(data.user);
-        }
-        setShowGooglePrompt(false);
-        onClose();
+        handleAuthSuccess(data);
       } else {
-        setError(data.message || 'Google account verification failed. Access restricted to authorized administrators.');
+        setError(data.message || 'Verification failed. Invalid password for this Gmail account.');
       }
     } catch (networkErr) {
       setError('Cannot connect to backend server. Please verify backend status.');
@@ -104,18 +109,9 @@ export const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
     }
   };
 
-  const handleGoogleSignIn = () => {
+  const handleGoogleSignInClick = () => {
     setError('');
-    if (window.google?.accounts?.id) {
-      try {
-        window.google.accounts.id.prompt((notification) => {
-          if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-            setShowGooglePrompt(true);
-          }
-        });
-        return;
-      } catch (_) {}
-    }
+    setGooglePassword('');
     setShowGooglePrompt(true);
   };
 
@@ -165,7 +161,7 @@ export const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
           </div>
         )}
 
-        {/* GOOGLE RECOVERY PROMPT */}
+        {/* GOOGLE RECOVERY & PASSWORD VERIFICATION PROMPT */}
         {showGooglePrompt ? (
           <div className="space-y-4 animate-in fade-in duration-200">
             <div className="flex items-center justify-between pb-3 border-b border-neutral-100">
@@ -176,11 +172,17 @@ export const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
                   <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
                   <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
                 </svg>
-                <h4 className="text-sm font-bold text-neutral-800">Google Administrator Login</h4>
+                <div>
+                  <h4 className="text-sm font-bold text-neutral-800">Sign in with Google</h4>
+                  <p className="text-[10px] text-neutral-400">Gmail Administrator Verification</p>
+                </div>
               </div>
               <button
                 type="button"
-                onClick={() => setShowGooglePrompt(false)}
+                onClick={() => {
+                  setShowGooglePrompt(false);
+                  setError('');
+                }}
                 className="text-xs text-neutral-400 hover:text-neutral-700 cursor-pointer"
               >
                 Back
@@ -188,70 +190,112 @@ export const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
             </div>
 
             <p className="text-xs text-neutral-600 leading-relaxed">
-              If you forgot your password, authenticate with your registered Google Administrator account to regain instant access.
+              Verify your authorized Gmail account and enter your password to authenticate as administrator.
             </p>
 
-            {/* Default Official Admin Account Card */}
-            <div 
-              onClick={() => handleGoogleAuth('dooroomimediquip@gmail.com')}
-              className="p-3.5 rounded-2xl border border-sky-200 bg-sky-50/60 hover:bg-sky-50 hover:border-sky-400 cursor-pointer transition-all flex items-center justify-between group shadow-2xs"
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-sky-600 to-emerald-600 text-white font-bold flex items-center justify-center text-sm shadow-xs">
-                  D
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-neutral-900 flex items-center gap-1.5">
-                    <span>Dooroomi Official Admin</span>
-                    <span className="px-1.5 py-0.5 rounded text-[9px] bg-emerald-100 text-emerald-800 font-semibold">Authorized</span>
+            <form onSubmit={handleGoogleVerifySubmit} className="space-y-3.5">
+              {/* Account Selection Card or Input */}
+              {!useOtherAccount ? (
+                <div className="p-3 rounded-2xl border border-sky-200 bg-sky-50/50 flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-sky-600 to-emerald-600 text-white font-bold flex items-center justify-center text-xs shadow-xs">
+                      D
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-neutral-900 flex items-center gap-1.5">
+                        <span>Dooroomi Official Admin</span>
+                        <span className="px-1.5 py-0.2 rounded text-[9px] bg-emerald-100 text-emerald-800 font-semibold">Authorized</span>
+                      </div>
+                      <span className="text-[11px] text-neutral-500 font-mono">dooroomimediquip@gmail.com</span>
+                    </div>
                   </div>
-                  <span className="text-xs text-neutral-500 font-mono">dooroomimediquip@gmail.com</span>
-                </div>
-              </div>
-              <ArrowRight className="w-4 h-4 text-sky-600 group-hover:translate-x-1 transition-transform" />
-            </div>
-
-            {/* Option to use custom Google email */}
-            {useOtherAccount ? (
-              <div className="space-y-2 pt-2">
-                <label className="block text-xs font-bold text-neutral-700 font-mono">
-                  Enter Authorized Google Email:
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    type="email"
-                    placeholder="e.g. admin@dooroomimediquip.com"
-                    value={customGoogleEmail}
-                    onChange={(e) => setCustomGoogleEmail(e.target.value)}
-                    className="flex-1 px-3 py-2 rounded-xl border border-neutral-300 text-xs text-neutral-800 focus:outline-none focus:border-sky-500"
-                  />
                   <button
                     type="button"
-                    onClick={() => handleGoogleAuth(customGoogleEmail)}
-                    disabled={!customGoogleEmail || loading}
-                    className="px-4 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition-colors disabled:opacity-50 cursor-pointer"
+                    onClick={() => setUseOtherAccount(true)}
+                    className="text-[11px] text-sky-600 hover:text-sky-700 font-medium cursor-pointer"
                   >
-                    Continue
+                    Change
                   </button>
                 </div>
+              ) : (
+                <div>
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block text-xs font-bold text-neutral-700 font-mono">
+                      Authorized Gmail Address:
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setUseOtherAccount(false);
+                        setGoogleEmail('dooroomimediquip@gmail.com');
+                      }}
+                      className="text-[10px] text-sky-600 hover:underline cursor-pointer"
+                    >
+                      Use default admin Gmail
+                    </button>
+                  </div>
+                  <input
+                    type="email"
+                    required
+                    placeholder="e.g. admin@dooroomimediquip.com"
+                    value={googleEmail}
+                    onChange={(e) => setGoogleEmail(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-neutral-300 text-xs text-neutral-800 focus:outline-none focus:border-sky-500 font-mono"
+                  />
+                </div>
+              )}
+
+              {/* Password Verification Input */}
+              <div>
+                <label className="block text-xs font-bold text-neutral-800 mb-1 font-mono">
+                  Enter Password to Verify:
+                </label>
+                <div className="relative">
+                  <input
+                    type={showGooglePassword ? "text" : "password"}
+                    required
+                    placeholder="Enter Gmail / Admin password"
+                    value={googlePassword}
+                    onChange={(e) => setGooglePassword(e.target.value)}
+                    className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-neutral-300 text-xs text-neutral-800 focus:outline-none focus:border-sky-500 font-mono"
+                  />
+                  <Lock className="w-4 h-4 text-neutral-400 absolute left-3 top-3 pointer-events-none" />
+                  <button
+                    type="button"
+                    onClick={() => setShowGooglePassword(!showGooglePassword)}
+                    className="absolute right-3 top-3 text-neutral-400 hover:text-neutral-700 cursor-pointer"
+                  >
+                    {showGooglePassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+                <p className="text-[10px] text-neutral-400 mt-1">
+                  Requires valid administrator password to confirm your identity.
+                </p>
               </div>
-            ) : (
+
+              {/* Submit Button */}
+              <div className="pt-2">
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-sm cursor-pointer disabled:opacity-50"
+                >
+                  <span>{loading ? 'Verifying Credentials...' : 'Verify Password & Sign In'}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               <button
                 type="button"
-                onClick={() => setUseOtherAccount(true)}
-                className="w-full text-center text-xs text-neutral-500 hover:text-sky-600 font-medium py-1 cursor-pointer transition-colors"
+                onClick={() => {
+                  setShowGooglePrompt(false);
+                  setError('');
+                }}
+                className="w-full py-2 text-center text-xs text-neutral-500 hover:text-neutral-800 cursor-pointer transition-colors"
               >
-                Use another Google Administrator email
+                Cancel &amp; return to ID login
               </button>
-            )}
-
-            <button
-              type="button"
-              onClick={() => setShowGooglePrompt(false)}
-              className="w-full py-2.5 rounded-xl border border-neutral-200 text-neutral-600 hover:bg-neutral-50 text-xs font-medium cursor-pointer transition-colors mt-2"
-            >
-              Cancel &amp; Return to Password Login
-            </button>
+            </form>
           </div>
         ) : (
           /* STANDARD FORM LOGIN + GOOGLE BUTTON */
@@ -325,7 +369,7 @@ export const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
             {/* GOOGLE SIGN IN BUTTON */}
             <button
               type="button"
-              onClick={handleGoogleSignIn}
+              onClick={handleGoogleSignInClick}
               disabled={loading}
               className="w-full py-2.5 px-4 rounded-xl border border-neutral-300 hover:border-neutral-400 bg-white hover:bg-neutral-50 text-neutral-700 text-xs font-semibold flex items-center justify-center gap-2.5 shadow-xs hover:shadow-sm transition-all cursor-pointer disabled:opacity-50 group"
             >

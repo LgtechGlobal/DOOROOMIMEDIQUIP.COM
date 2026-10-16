@@ -82,19 +82,23 @@ authRouter.post('/login', async (req, res) => {
 // POST /api/auth/google
 authRouter.post('/google', async (req, res) => {
   try {
-    const { credential, email, name } = req.body;
+    const { credential, email, name, password } = req.body;
 
     let verifiedEmail = email;
     let verifiedName = name || 'Google Administrator';
+    let isOAuthVerified = false;
 
-    // Decode Google ID Token / JWT credential if provided
+    // Decode Google ID Token / JWT credential if provided by Google OAuth GIS popup
     if (credential) {
       try {
         const parts = credential.split('.');
         if (parts.length === 3) {
           const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString('utf-8'));
-          verifiedEmail = payload.email || verifiedEmail;
-          verifiedName = payload.name || payload.email || verifiedName;
+          if (payload.email) {
+            verifiedEmail = payload.email;
+            verifiedName = payload.name || payload.email || verifiedName;
+            isOAuthVerified = true;
+          }
         }
       } catch (decodeErr) {
         console.warn('Google credential payload parse warning:', decodeErr.message);
@@ -108,6 +112,8 @@ authRouter.post('/google', async (req, res) => {
       });
     }
 
+    const cleanEmail = verifiedEmail.trim().toLowerCase();
+
     // Official authorized admin emails
     const officialReceiver = (process.env.EMAIL_RECEIVER || 'dooroomimediquip@gmail.com').toLowerCase();
     const authorizedEmails = [
@@ -117,15 +123,49 @@ authRouter.post('/google', async (req, res) => {
       'admin@dooroomimediquip.com'
     ];
 
-    const isMatch = authorizedEmails.includes(verifiedEmail.toLowerCase()) || 
-                    verifiedEmail.toLowerCase().endsWith('@dooroomimediquip.com') ||
-                    verifiedEmail.toLowerCase().includes('dooroomi');
+    const isAuthorized = authorizedEmails.includes(cleanEmail) || 
+                         cleanEmail.endsWith('@dooroomimediquip.com') ||
+                         cleanEmail.includes('dooroomi');
 
-    if (!isMatch) {
+    if (!isAuthorized) {
       return res.status(403).json({
         success: false,
-        message: `Account (${verifiedEmail}) is not registered as an authorized Dooroomi Administrator.`
+        message: `Account (${cleanEmail}) is not registered as an authorized Dooroomi Administrator.`
       });
+    }
+
+    // If not verified via Google OAuth popup, require and verify the password
+    if (!isOAuthVerified) {
+      const cleanPass = (password || '').trim();
+      if (!cleanPass) {
+        return res.status(400).json({
+          success: false,
+          message: 'Password is required to verify this Gmail administrator account.'
+        });
+      }
+
+      // Check password against EXPECTED_PASS, or stored admin password in MongoDB, or SMTP_PASS
+      let isPassValid = (cleanPass === EXPECTED_PASS);
+
+      if (!isPassValid && process.env.SMTP_PASS && cleanPass === process.env.SMTP_PASS) {
+        isPassValid = true;
+      }
+
+      if (!isPassValid) {
+        try {
+          const admin = await Admin.findOne({ username: EXPECTED_USER });
+          if (admin && admin.password === cleanPass) {
+            isPassValid = true;
+          }
+        } catch (_) {}
+      }
+
+      if (!isPassValid) {
+        return res.status(401).json({
+          success: false,
+          message: `Invalid password. Verification failed for ${cleanEmail}.`
+        });
+      }
     }
 
     // Sync admin last login in MongoDB Atlas
