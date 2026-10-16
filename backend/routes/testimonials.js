@@ -63,15 +63,23 @@ testimonialsRouter.post('/', verifyToken, async (req, res) => {
 // PUT update testimonial (Admin authenticated)
 testimonialsRouter.put('/:id', verifyToken, async (req, res) => {
   try {
+    const idParam = req.params.id;
+    const query = {
+      $or: [
+        { id: idParam },
+        ...(mongoose.Types.ObjectId.isValid(idParam) ? [{ _id: idParam }] : [])
+      ]
+    };
     const updated = await Testimonial.findOneAndUpdate(
-      { id: req.params.id },
+      query,
       { $set: req.body },
       { new: true }
     );
     if (!updated) {
       return res.status(404).json({ success: false, message: 'Testimonial not found' });
     }
-    res.json({ success: true, message: 'Testimonial updated successfully', testimonial: updated });
+    console.log(`[MongoDB Atlas] Testimonial "${updated.name}" (${updated.id}) updated successfully.`);
+    res.json({ success: true, message: 'Testimonial updated successfully in MongoDB', testimonial: updated });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Failed to update testimonial', error: err.message });
   }

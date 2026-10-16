@@ -26,47 +26,36 @@ export const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
     const cleanPass = password.trim();
 
     try {
-      // 1. Attempt API call to backend authentication
-      let authenticated = false;
-      let userData = { username: 'dooroomi', role: 'admin', name: 'Dooroomi Administrator' };
+      const res = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: cleanUser, password: cleanPass })
+      });
 
-      try {
-        const res = await fetch('http://localhost:5000/api/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username: cleanUser, password: cleanPass })
-        });
-
-        const data = await res.json();
-        if (res.ok && data.success) {
-          authenticated = true;
-          if (data.token) localStorage.setItem('dooroomi_admin_token', data.token);
-          if (data.user) userData = data.user;
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.success) {
+        if (data.token) {
+          sessionStorage.setItem('dooroomi_admin_token', data.token);
         }
-      } catch (networkErr) {
-        // Backend offline fallback: check direct credentials
-        console.warn('Backend server unreachable, validating credentials locally:', networkErr.message);
-      }
-
-      // Check credentials
-      if (!authenticated) {
-        if (cleanUser === 'dooroomi' && cleanPass === 'dooroomi@123') {
-          authenticated = true;
+        if (data.user) {
+          sessionStorage.setItem('dooroomi_user', JSON.stringify(data.user));
         }
-      }
+        sessionStorage.setItem('dooroomi_admin', 'true');
 
-      if (authenticated) {
-        localStorage.setItem('dooroomi_admin', 'true');
-        localStorage.setItem('dooroomi_user', JSON.stringify(userData));
+        // Clear any old credentials or cached data from localStorage
+        localStorage.removeItem('dooroomi_admin');
+        localStorage.removeItem('dooroomi_admin_token');
+        localStorage.removeItem('dooroomi_user');
+
         if (onLoginSuccess) {
-          onLoginSuccess(userData);
+          onLoginSuccess(data.user);
         }
         onClose();
       } else {
-        setError('Access Denied. Only authorized Dooroomi Admin ID and password can access the Admin Portal.');
+        setError(data.message || 'Access Denied. Invalid administrator credentials.');
       }
-    } catch (err) {
-      setError('An error occurred during authentication. Please try again.');
+    } catch (networkErr) {
+      setError('Cannot connect to backend server. Please make sure the server is running on port 5000.');
     } finally {
       setLoading(false);
     }

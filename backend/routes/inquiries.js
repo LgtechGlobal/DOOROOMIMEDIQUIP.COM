@@ -1,6 +1,7 @@
 import express from 'express';
 import { Inquiry } from '../models/Inquiry.js';
 import jwt from 'jsonwebtoken';
+import { sendInquiryEmail } from '../services/emailService.js';
 
 export const inquiriesRouter = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET || 'dooroomi_super_secret_jwt_key_2026';
@@ -60,6 +61,10 @@ inquiriesRouter.post('/', async (req, res) => {
       status: 'Pending'
     });
 
+    // Automatically send email notification to admin & patient
+    sendInquiryEmail({ name, email, phone, company, type, productInterest, message })
+      .catch((mailErr) => console.warn('Email dispatch warning:', mailErr.message));
+
     return res.status(201).json({
       success: true,
       message: 'Inquiry submitted successfully. A Dooroomi representative will contact you.',
@@ -101,6 +106,26 @@ inquiriesRouter.patch('/:id', requireAdmin, async (req, res) => {
     }
 
     return res.json({ success: true, inquiry });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// PUT /api/inquiries/:id (Admin Protected - full inquiry update)
+inquiriesRouter.put('/:id', requireAdmin, async (req, res) => {
+  try {
+    const updated = await Inquiry.findByIdAndUpdate(
+      req.params.id,
+      { $set: req.body },
+      { new: true }
+    );
+
+    if (!updated) {
+      return res.status(404).json({ success: false, message: 'Inquiry not found' });
+    }
+
+    console.log(`[MongoDB Atlas] Inquiry from "${updated.name}" (${updated._id}) updated successfully.`);
+    return res.json({ success: true, message: 'Inquiry updated successfully in MongoDB', inquiry: updated });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
   }

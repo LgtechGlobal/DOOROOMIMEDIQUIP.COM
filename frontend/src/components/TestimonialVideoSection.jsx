@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { 
   Play, 
   Pause, 
@@ -108,15 +108,86 @@ export const TestimonialVideoSection = () => {
     }
   ];
 
+  const [isPaused, setIsPaused] = useState(false);
+  const isWrappingRef = useRef(false);
+
+  // Triple video items for seamless infinite looping
+  const infiniteVideos = useMemo(() => {
+    return [
+      ...testimonials.map((t, i) => ({ ...t, _uniqueKey: `v-set1-${t.id || i}`, _origIdx: i })),
+      ...testimonials.map((t, i) => ({ ...t, _uniqueKey: `v-set2-${t.id || i}`, _origIdx: i })),
+      ...testimonials.map((t, i) => ({ ...t, _uniqueKey: `v-set3-${t.id || i}`, _origIdx: i }))
+    ];
+  }, []);
+
+  // Center on middle set initially
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    const timer = setTimeout(() => {
+      if (container) {
+        const singleSetWidth = container.scrollWidth / 3;
+        container.scrollLeft = singleSetWidth;
+      }
+    }, 150);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Dynamic step per video card (width + gap)
+  const getVideoStep = () => {
+    if (!scrollContainerRef.current) return 360;
+    const card = scrollContainerRef.current.querySelector('.video-slide-card');
+    if (!card) return 360;
+    const style = window.getComputedStyle(scrollContainerRef.current);
+    const gap = parseFloat(style.columnGap || style.gap || '24') || 24;
+    return card.offsetWidth + gap;
+  };
+
   const scroll = (direction) => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 370;
+      const step = getVideoStep();
       scrollContainerRef.current.scrollBy({
-        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        left: direction === 'left' ? -step : step,
         behavior: 'smooth'
       });
     }
   };
+
+  // Seamless infinite wrap handler
+  const handleScrollWrap = () => {
+    const container = scrollContainerRef.current;
+    if (!container || isWrappingRef.current) return;
+    const singleSetWidth = container.scrollWidth / 3;
+    if (singleSetWidth <= 0) return;
+
+    if (container.scrollLeft >= singleSetWidth * 2 - 10) {
+      isWrappingRef.current = true;
+      container.style.scrollBehavior = 'auto';
+      container.scrollLeft -= singleSetWidth;
+      container.style.scrollBehavior = 'smooth';
+      setTimeout(() => { isWrappingRef.current = false; }, 60);
+    } else if (container.scrollLeft <= 10) {
+      isWrappingRef.current = true;
+      container.style.scrollBehavior = 'auto';
+      container.scrollLeft += singleSetWidth;
+      container.style.scrollBehavior = 'smooth';
+      setTimeout(() => { isWrappingRef.current = false; }, 60);
+    }
+  };
+
+  // Pause if user is listening to any video audio
+  const hasActiveAudio = Object.values(mutedStates).some(muted => muted === false);
+
+  // Auto-slide one by one smoothly every 4.5 seconds
+  useEffect(() => {
+    if (isPaused || hasActiveAudio) return;
+
+    const interval = setInterval(() => {
+      scroll('right');
+    }, 4500);
+
+    return () => clearInterval(interval);
+  }, [isPaused, hasActiveAudio]);
 
   const togglePlay = (index) => {
     const video = videoRefs.current[index];
@@ -195,16 +266,21 @@ export const TestimonialVideoSection = () => {
         {/* Side Scroll Video Strip */}
         <div
           ref={scrollContainerRef}
+          onScroll={handleScrollWrap}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => setIsPaused(false)}
           className="flex items-stretch gap-5 sm:gap-6 overflow-x-auto pb-6 pt-1 px-1 scroll-smooth snap-x snap-mandatory [scrollbar-width:thin] [scrollbar-color:#dfbe7e_transparent] [&::-webkit-scrollbar]:h-2 [&::-webkit-scrollbar-track]:bg-neutral-100 [&::-webkit-scrollbar-thumb]:bg-hanbit-gold/60 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-hanbit-gold"
         >
-          {testimonials.map((item, idx) => {
+          {infiniteVideos.map((item, idx) => {
             const isPlaying = playingStates[idx] !== undefined ? playingStates[idx] : true;
             const isMuted = mutedStates[idx] !== undefined ? mutedStates[idx] : true;
 
             return (
               <div
-                key={item.id}
-                className="w-[280px] sm:w-[320px] md:w-[350px] shrink-0 snap-start group relative rounded-3xl overflow-hidden bg-hanbit-dark shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between border border-hanbit-border/80 hover:border-hanbit-gold"
+                key={item._uniqueKey}
+                className="video-slide-card w-[280px] sm:w-[320px] md:w-[350px] shrink-0 snap-start group relative rounded-3xl overflow-hidden bg-hanbit-dark shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col justify-between border border-hanbit-border/80 hover:border-hanbit-gold"
               >
                 {/* Video Container */}
                 <div className="relative aspect-[9/13] w-full overflow-hidden bg-neutral-900">

@@ -46,15 +46,23 @@ centersRouter.post('/', verifyToken, async (req, res) => {
 // PUT update center (Admin authenticated)
 centersRouter.put('/:id', verifyToken, async (req, res) => {
   try {
+    const idParam = req.params.id;
+    const query = {
+      $or: [
+        { id: idParam },
+        ...(mongoose.Types.ObjectId.isValid(idParam) ? [{ _id: idParam }] : [])
+      ]
+    };
     const updated = await Center.findOneAndUpdate(
-      { id: req.params.id },
+      query,
       { $set: req.body },
       { new: true }
     );
     if (!updated) {
       return res.status(404).json({ success: false, message: 'Therapy center not found' });
     }
-    res.json({ success: true, message: 'Therapy center updated successfully', center: updated });
+    console.log(`[MongoDB Atlas] Center "${updated.city} - ${updated.area}" (${updated.id}) updated successfully.`);
+    res.json({ success: true, message: 'Therapy center updated successfully in MongoDB', center: updated });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Failed to update center', error: err.message });
   }

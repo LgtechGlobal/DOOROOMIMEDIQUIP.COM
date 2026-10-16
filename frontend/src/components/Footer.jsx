@@ -42,8 +42,12 @@ export const Footer = ({ onNavigate, onSelectCategory }) => {
             
             {/* Col 1: Brand & Heritage */}
             <div className="lg:col-span-4 space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full p-0.5 bg-gradient-to-tr from-hanbit-gold via-hanbit-cyan to-amber-300 shadow-md flex items-center justify-center overflow-hidden">
+              <button 
+                onClick={() => onNavigate('hero')}
+                className="flex items-center gap-3 text-left group cursor-pointer"
+                title="Back to Top / Home"
+              >
+                <div className="w-12 h-12 rounded-full p-0.5 bg-gradient-to-tr from-hanbit-gold via-hanbit-cyan to-amber-300 shadow-md flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform">
                   <img 
                     src="./assets/img/brand-logo.jpg" 
                     alt="Dooroomi 두루미 Logo" 
@@ -75,11 +79,11 @@ export const Footer = ({ onNavigate, onSelectCategory }) => {
                       두루미
                     </span>
                   </div>
-                  <p className="text-[11px] font-medium text-emerald-200/70 tracking-wide">
+                  <p className="text-[11px] font-medium text-emerald-200/70 tracking-wide group-hover:text-emerald-100 transition-colors">
                     Korea Bio-Cosmetics & Mediquip
                   </p>
                 </div>
-              </div>
+              </button>
 
               <p className="text-xs text-emerald-100/70 leading-relaxed font-light max-w-sm">
                 Korean precision bio-cosmetics formulation, clinical verification, and automated cleanroom manufacturing. Certified ISO 22716 & CGMP.
@@ -157,38 +161,43 @@ export const Footer = ({ onNavigate, onSelectCategory }) => {
               </h4>
               <ul className="space-y-2 text-xs">
                 <li>
-                  <button onClick={() => onNavigate('hero')} className="hover:text-white transition-colors">
+                  <button onClick={() => onNavigate('hero')} className="hover:text-white transition-colors cursor-pointer text-left">
                     Home
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => onNavigate('about')} className="hover:text-white transition-colors">
+                  <button onClick={() => onNavigate('about')} className="hover:text-white transition-colors cursor-pointer text-left">
                     About Us
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => onNavigate('certificates')} className="hover:text-white transition-colors">
+                  <button onClick={() => onNavigate('certificates')} className="hover:text-white transition-colors cursor-pointer text-left">
                     Certificates & Quality
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => onNavigate('gallery')} className="hover:text-white transition-colors">
-                    Products Gallery
+                  <button onClick={() => onNavigate('gallery')} className="hover:text-white transition-colors cursor-pointer text-left">
+                    Products
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => onNavigate('principle')} className="hover:text-white transition-colors">
+                  <button onClick={() => onNavigate('principle')} className="hover:text-white transition-colors cursor-pointer text-left">
                     Formulation Principle
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => onNavigate('therapy')} className="hover:text-white transition-colors">
+                  <button onClick={() => onNavigate('therapy')} className="hover:text-white transition-colors cursor-pointer text-left">
                     Therapy & Equipment
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => onNavigate('services')} className="hover:text-white transition-colors">
+                  <button onClick={() => onNavigate('services')} className="hover:text-white transition-colors cursor-pointer text-left">
                     Services & FAQs
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => onNavigate('contact')} className="hover:text-amber-200 text-emerald-200/90 font-medium transition-colors cursor-pointer text-left">
+                    Submit Therapy Inquiry
                   </button>
                 </li>
               </ul>
@@ -215,7 +224,7 @@ export const Footer = ({ onNavigate, onSelectCategory }) => {
                 ))}
                 <li>
                   <button onClick={() => onNavigate('gallery')} className="text-amber-200 font-semibold hover:underline block pt-1 cursor-pointer">
-                    Explore Products Gallery →
+                    Explore All Products →
                   </button>
                 </li>
               </ul>
@@ -227,18 +236,32 @@ export const Footer = ({ onNavigate, onSelectCategory }) => {
                 Corporate Inquiries
               </h4>
               <div className="space-y-2.5 text-xs">
-                <p className="flex items-center gap-2">
-                  <Phone className="w-3.5 h-3.5 text-hanbit-gold shrink-0" />
+                <a 
+                  href={`tel:${SITE_CONFIG.phoneTel}`}
+                  className="flex items-center gap-2 hover:text-white transition-colors group cursor-pointer"
+                  title="Call Toll-Free Number"
+                >
+                  <Phone className="w-3.5 h-3.5 text-hanbit-gold shrink-0 group-hover:scale-110 transition-transform" />
                   <span>Toll-Free: {SITE_CONFIG.phone}</span>
-                </p>
-                <p className="flex items-center gap-2">
-                  <Mail className="w-3.5 h-3.5 text-hanbit-gold shrink-0" />
+                </a>
+                <a 
+                  href={`mailto:${SITE_CONFIG.email}`}
+                  className="flex items-center gap-2 hover:text-white transition-colors group cursor-pointer"
+                  title="Send Corporate Email"
+                >
+                  <Mail className="w-3.5 h-3.5 text-hanbit-gold shrink-0 group-hover:scale-110 transition-transform" />
                   <span>{SITE_CONFIG.email}</span>
-                </p>
-                <p className="flex items-start gap-2 text-emerald-100/60 leading-snug">
-                  <MapPin className="w-3.5 h-3.5 text-hanbit-gold shrink-0 mt-0.5" />
+                </a>
+                <a 
+                  href={`https://maps.google.com/?q=${encodeURIComponent(SITE_CONFIG.addressEn)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-2 text-emerald-100/60 hover:text-white transition-colors leading-snug group cursor-pointer"
+                  title="Open Headquarters Location in Google Maps"
+                >
+                  <MapPin className="w-3.5 h-3.5 text-hanbit-gold shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
                   <span>{SITE_CONFIG.addressEn}</span>
-                </p>
+                </a>
                 <p className="text-[11px] text-emerald-300/80 pt-1">
                   Hours: {SITE_CONFIG.hours}
                 </p>
@@ -275,6 +298,18 @@ export const Footer = ({ onNavigate, onSelectCategory }) => {
 
         </div>
       </footer>
+
+      {/* Floating Back to Top Button */}
+      {showToTop && (
+        <button
+          onClick={scrollToTop}
+          aria-label="Scroll back to top"
+          className="fixed bottom-24 left-6 z-40 w-11 h-11 rounded-full bg-hanbit-dark/95 hover:bg-hanbit-forest text-hanbit-gold border border-hanbit-gold/60 shadow-2xl flex items-center justify-center transition-all duration-300 hover:scale-110 cursor-pointer backdrop-blur-md group"
+          title="Back to Top"
+        >
+          <ArrowUp className="w-5 h-5 group-hover:-translate-y-0.5 transition-transform" />
+        </button>
+      )}
 
       {/* Classy Floating WhatsApp Chat Widget */}
       <WhatsAppWidget />

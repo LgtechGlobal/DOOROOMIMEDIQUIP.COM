@@ -26,13 +26,22 @@ import { FranchiseModal } from './components/FranchiseModal';
 import { AdvertisementModal } from './components/AdvertisementModal';
 import { AdminPortalPage } from './components/AdminPortalPage';
 
-const DEDICATED_ROUTES = ['about', 'certificates', 'principle', 'therapy', 'services', 'gallery', 'admin'];
+const DEDICATED_ROUTES = ['about', 'certificates', 'principle', 'therapy', 'services', 'gallery', 'products', 'admin'];
 
 const parseHash = () => {
   const hash = window.location.hash || '';
+  if (hash === '#/products' || hash.startsWith('#/products?')) {
+    return { view: 'gallery', productId: null };
+  }
+  if (hash.startsWith('#/products/')) {
+    const rawId = hash.replace('#/products/', '').split('?')[0];
+    if (rawId) {
+      return { view: 'single-product', productId: rawId };
+    }
+  }
   for (const route of DEDICATED_ROUTES) {
     if (hash === `#/${route}` || hash.startsWith(`#/${route}?`)) {
-      return { view: route, productId: null };
+      return { view: route === 'products' ? 'gallery' : route, productId: null };
     }
   }
   if (hash.startsWith('#/gallery/')) {
@@ -59,7 +68,7 @@ export function App() {
   const [isFranchiseOpen, setIsFranchiseOpen] = useState(false);
   const [selectedCatId, setSelectedCatId] = useState('all');
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() => {
-    return localStorage.getItem('dooroomi_admin') === 'true';
+    return sessionStorage.getItem('dooroomi_admin') === 'true';
   });
 
   const handleLoginSuccess = () => {
@@ -72,6 +81,9 @@ export function App() {
   };
 
   const handleLogout = () => {
+    sessionStorage.removeItem('dooroomi_admin');
+    sessionStorage.removeItem('dooroomi_admin_token');
+    sessionStorage.removeItem('dooroomi_user');
     localStorage.removeItem('dooroomi_admin');
     localStorage.removeItem('dooroomi_admin_token');
     localStorage.removeItem('dooroomi_token');
@@ -82,6 +94,42 @@ export function App() {
     setActiveSection('hero');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  // Verify active session with backend and purge legacy localStorage cache
+  useEffect(() => {
+    const legacyKeys = [
+      'dooroomi_products',
+      'dooroomi_centers',
+      'dooroomi_testimonials',
+      'dooroomi_ads',
+      'dooroomi_admin',
+      'dooroomi_admin_token',
+      'dooroomi_user',
+      'dooroomi_token'
+    ];
+    legacyKeys.forEach(k => {
+      try { localStorage.removeItem(k); } catch (_) {}
+    });
+
+    const token = sessionStorage.getItem('dooroomi_admin_token');
+    if (token) {
+      fetch('http://localhost:5000/api/auth/verify', {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (!data || !data.valid) {
+            handleLogout();
+          }
+        })
+        .catch(() => {
+          // Backend is offline or connection refused - cannot remain logged in
+          handleLogout();
+        });
+    } else if (isAdminAuthenticated) {
+      setIsAdminAuthenticated(false);
+    }
+  }, []);
 
   // Listen to hash changes for browser forward/backward and deep links
   useEffect(() => {
@@ -129,10 +177,11 @@ export function App() {
   };
 
   const scrollToSection = (sectionId) => {
-    if (DEDICATED_ROUTES.includes(sectionId)) {
-      window.location.hash = `/${sectionId}`;
-      setCurrentRoute({ view: sectionId, productId: null });
-      setActiveSection(sectionId);
+    const targetSection = sectionId === 'products' ? 'gallery' : sectionId;
+    if (DEDICATED_ROUTES.includes(targetSection)) {
+      window.location.hash = `/${targetSection}`;
+      setCurrentRoute({ view: targetSection, productId: null });
+      setActiveSection(targetSection);
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
@@ -213,10 +262,30 @@ export function App() {
 
         <main className="flex-1">
           {currentRoute.view === 'admin' ? (
-            <AdminPortalPage
-              onNavigateHome={() => scrollToSection('home')}
-              onLogout={handleLogout}
-            />
+            isAdminAuthenticated ? (
+              <AdminPortalPage
+                onNavigateHome={() => scrollToSection('home')}
+                onLogout={handleLogout}
+              />
+            ) : (
+              <div className="min-h-[70vh] flex items-center justify-center bg-stone-50 py-20 px-4">
+                <div className="max-w-md w-full bg-white p-8 rounded-3xl shadow-xl text-center space-y-4 border border-stone-200">
+                  <div className="w-14 h-14 mx-auto rounded-2xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold text-2xl border border-amber-200">
+                    🔒
+                  </div>
+                  <h2 className="text-2xl font-bold text-hanbit-forest font-serif">Admin Authentication Required</h2>
+                  <p className="text-stone-600 text-xs leading-relaxed">
+                    Access to the Dooroomi Management Portal requires live authentication via our MongoDB backend server.
+                  </p>
+                  <button
+                    onClick={() => setIsLoginOpen(true)}
+                    className="w-full py-3 bg-emerald-800 text-white font-bold rounded-xl hover:bg-emerald-900 transition shadow-md cursor-pointer"
+                  >
+                    Open Admin Login
+                  </button>
+                </div>
+              </div>
+            )
           ) : currentRoute.view === 'about' ? (
             <AboutUsPage
               onNavigateHome={scrollToSection}

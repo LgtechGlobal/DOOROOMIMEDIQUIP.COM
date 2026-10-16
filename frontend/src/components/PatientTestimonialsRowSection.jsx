@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { 
   Star, 
   ChevronLeft, 
@@ -119,12 +119,84 @@ export const PatientTestimonialsRowSection = () => {
 
   const testimonials = dynamicTestimonials && dynamicTestimonials.length > 0 ? dynamicTestimonials : defaultTestimonials;
 
+  const [isPaused, setIsPaused] = useState(false);
+  const isWrappingRef = useRef(false);
+
+  // Triple items for seamless infinite loop
+  const infiniteTestimonials = useMemo(() => {
+    if (!testimonials || testimonials.length === 0) return [];
+    return [
+      ...testimonials.map((t, i) => ({ ...t, _uniqueKey: `t-set1-${t.id || i}` })),
+      ...testimonials.map((t, i) => ({ ...t, _uniqueKey: `t-set2-${t.id || i}` })),
+      ...testimonials.map((t, i) => ({ ...t, _uniqueKey: `t-set3-${t.id || i}` }))
+    ];
+  }, [testimonials]);
+
+  // Center scroll on middle set initially
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+    const timer = setTimeout(() => {
+      if (container) {
+        const singleSetWidth = container.scrollWidth / 3;
+        container.scrollLeft = singleSetWidth;
+      }
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [testimonials]);
+
+  // Calculate dynamic card step (card width + gap)
+  const getCardStep = () => {
+    if (!scrollRef.current) return 420;
+    const card = scrollRef.current.querySelector('.testimonial-card');
+    if (!card) return 420;
+    const style = window.getComputedStyle(scrollRef.current);
+    const gap = parseFloat(style.columnGap || style.gap || '24') || 24;
+    return card.offsetWidth + gap;
+  };
+
   const handleScroll = (direction) => {
     if (scrollRef.current) {
-      const scrollAmount = direction === 'left' ? -420 : 420;
-      scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      const step = getCardStep();
+      scrollRef.current.scrollBy({
+        left: direction === 'left' ? -step : step,
+        behavior: 'smooth'
+      });
     }
   };
+
+  // Seamless infinite wrap handler
+  const handleScrollWrap = () => {
+    const container = scrollRef.current;
+    if (!container || isWrappingRef.current) return;
+    const singleSetWidth = container.scrollWidth / 3;
+    if (singleSetWidth <= 0) return;
+
+    if (container.scrollLeft >= singleSetWidth * 2 - 10) {
+      isWrappingRef.current = true;
+      container.style.scrollBehavior = 'auto';
+      container.scrollLeft -= singleSetWidth;
+      container.style.scrollBehavior = 'smooth';
+      setTimeout(() => { isWrappingRef.current = false; }, 60);
+    } else if (container.scrollLeft <= 10) {
+      isWrappingRef.current = true;
+      container.style.scrollBehavior = 'auto';
+      container.scrollLeft += singleSetWidth;
+      container.style.scrollBehavior = 'smooth';
+      setTimeout(() => { isWrappingRef.current = false; }, 60);
+    }
+  };
+
+  // Auto-slide one by one smoothly every 4 seconds (pauses on hover or modal)
+  useEffect(() => {
+    if (isPaused || selectedStory || selectedScan) return;
+
+    const interval = setInterval(() => {
+      handleScroll('right');
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [isPaused, selectedStory, selectedScan]);
 
   return (
     <section id="patient-testimonials" className="relative py-16 sm:py-24 bg-gradient-to-b from-[#fbfbfa] via-white to-[#f4f7f4] border-t border-b border-hanbit-border/60 overflow-hidden">
@@ -349,14 +421,19 @@ export const PatientTestimonialsRowSection = () => {
         {/* SINGLE ROW HORIZONTAL SCROLL CAROUSEL */}
         <div 
           ref={scrollRef}
+          onScroll={handleScrollWrap}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+          onTouchEnd={() => setIsPaused(false)}
           className="flex items-stretch gap-6 overflow-x-auto pb-6 pt-2 no-scrollbar scroll-smooth snap-x snap-mandatory cursor-grab active:cursor-grabbing"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
-          {testimonials.map((item) => (
+          {infiniteTestimonials.map((item) => (
             <div
-              key={item.id}
+              key={item._uniqueKey}
               onClick={() => setSelectedStory(item)}
-              className="snap-start shrink-0 w-[320px] sm:w-[380px] md:w-[420px] rounded-3xl bg-white border border-hanbit-border/80 hover:border-hanbit-gold shadow-sm hover:shadow-xl transition-all duration-300 p-6 flex flex-col justify-between group cursor-pointer relative overflow-hidden"
+              className="testimonial-card snap-start shrink-0 w-[320px] sm:w-[380px] md:w-[420px] rounded-3xl bg-white border border-hanbit-border/80 hover:border-hanbit-gold shadow-sm hover:shadow-xl transition-all duration-300 p-6 flex flex-col justify-between group cursor-pointer relative overflow-hidden"
             >
               {/* Top Accent Bar */}
               <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-hanbit-forest via-hanbit-gold to-emerald-600 opacity-80 group-hover:opacity-100 transition-opacity" />

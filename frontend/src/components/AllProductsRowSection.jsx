@@ -71,7 +71,7 @@ export const AllProductsRowSection = ({ onSelectProduct }) => {
           </div>
 
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-hanbit-forest tracking-tight font-serif leading-tight">
-            Certified Medical Systems & Bio-Cosmetic Formulations.
+            Certified Medical Systems & Therapy Formulations.
           </h2>
 
           <p className="mt-2 text-xs sm:text-sm text-hanbit-muted font-light leading-relaxed max-w-2xl mx-auto">

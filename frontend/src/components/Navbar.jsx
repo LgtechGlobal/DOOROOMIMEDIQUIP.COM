@@ -32,12 +32,12 @@ export const Navbar = ({
     return () => clearInterval(timer);
   }, []);
 
-  // Exactly requested nav items: Home, About Us, Certificates, Gallery, Principle, Therapy, Services, Contact Us
+  // Exactly requested nav items: Home, About Us, Certificates, Products, Principle, Therapy, Services, Contact Us
   const navItems = [
     { id: 'hero', label: 'Home' },
     { id: 'about', label: 'About Us' },
     { id: 'certificates', label: 'Certificates' },
-    { id: 'gallery', label: 'Gallery' },
+    { id: 'gallery', label: 'Products' },
     { id: 'principle', label: 'Principle' },
     { id: 'therapy', label: 'Therapy' },
     { id: 'services', label: 'Services' },

@@ -51,10 +51,13 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
     activeAd,
     addProduct,
     deleteProduct,
+    updateProduct,
     addCenter,
     deleteCenter,
+    updateCenter,
     addTestimonial,
     deleteTestimonial,
+    updateTestimonial,
     addAd,
     updateAd,
     toggleAd,
@@ -76,6 +79,10 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
   const [showAddTestimonialModal, setShowAddTestimonialModal] = useState(false);
   const [showAddInquiryModal, setShowAddInquiryModal] = useState(false);
   const [showAddAdModal, setShowAddAdModal] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
+  const [editingCenter, setEditingCenter] = useState(null);
+  const [editingTestimonial, setEditingTestimonial] = useState(null);
+  const [editingInquiry, setEditingInquiry] = useState(null);
   const [editingAd, setEditingAd] = useState(null);
   const [previewAdModal, setPreviewAdModal] = useState(null);
   const [itemToDelete, setItemToDelete] = useState(null); // { type, id, name }
@@ -161,7 +168,7 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
   const fetchInquiries = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem('dooroomi_admin_token');
+      const token = sessionStorage.getItem('dooroomi_admin_token') || localStorage.getItem('dooroomi_admin_token');
       const res = await fetch('http://localhost:5000/api/inquiries', {
         headers: {
           'Authorization': token ? `Bearer ${token}` : ''
@@ -189,7 +196,7 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
     );
 
     try {
-      const token = localStorage.getItem('dooroomi_admin_token');
+      const token = sessionStorage.getItem('dooroomi_admin_token') || localStorage.getItem('dooroomi_admin_token');
       const res = await fetch(`http://localhost:5000/api/inquiries/${id}`, {
         method: 'PATCH',
         headers: {
@@ -213,7 +220,7 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
   const handleDeleteInquiry = async (id) => {
     setInquiries((prev) => prev.filter((inq) => inq._id !== id));
     try {
-      const token = localStorage.getItem('dooroomi_admin_token');
+      const token = sessionStorage.getItem('dooroomi_admin_token') || localStorage.getItem('dooroomi_admin_token');
       const res = await fetch(`http://localhost:5000/api/inquiries/${id}`, {
         method: 'DELETE',
         headers: {
@@ -366,6 +373,99 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
     await updateAd(editingAd.id, editingAd);
     notify(`Advertisement "${editingAd.title}" updated successfully!`);
     setEditingAd(null);
+  };
+
+  // Submit Edit Product
+  const handleEditProductSubmit = async (e) => {
+    e.preventDefault();
+    if (!editingProduct || !editingProduct.name || !editingProduct.imgUrl) {
+      alert('Please fill in Product Name and Image URL');
+      return;
+    }
+
+    try {
+      const prodId = editingProduct.id || editingProduct._id;
+      const payload = {
+        ...editingProduct,
+        keyActives: Array.isArray(editingProduct.keyActives) 
+          ? editingProduct.keyActives 
+          : (editingProduct.keyActives ? editingProduct.keyActives.split(',').map(s => s.trim()).filter(Boolean) : [])
+      };
+      await updateProduct(prodId, payload);
+      notify(`Product "${editingProduct.name}" updated successfully in MongoDB Atlas!`);
+      setEditingProduct(null);
+    } catch (err) {
+      notify(`Update failed: ${err.message}`, 'warning');
+    }
+  };
+
+  // Submit Edit Therapy Center
+  const handleEditCenterSubmit = async (e) => {
+    e.preventDefault();
+    if (!editingCenter || !editingCenter.city || !editingCenter.area || !editingCenter.address) {
+      alert('Please fill in City, Area name, and Address');
+      return;
+    }
+
+    try {
+      const centerId = editingCenter.id || editingCenter._id;
+      await updateCenter(centerId, editingCenter);
+      notify(`Therapy Center in ${editingCenter.city} (${editingCenter.area}) updated in MongoDB Atlas!`);
+      setEditingCenter(null);
+    } catch (err) {
+      notify(`Update failed: ${err.message}`, 'warning');
+    }
+  };
+
+  // Submit Edit Testimonial
+  const handleEditTestimonialSubmit = async (e) => {
+    e.preventDefault();
+    if (!editingTestimonial || !editingTestimonial.name || !editingTestimonial.quote) {
+      alert('Please fill in Patient Name and Quote');
+      return;
+    }
+
+    try {
+      const testimonialId = editingTestimonial.id || editingTestimonial._id;
+      const payload = {
+        ...editingTestimonial,
+        rating: Number(editingTestimonial.rating) || 5
+      };
+      await updateTestimonial(testimonialId, payload);
+      notify(`Testimonial for ${editingTestimonial.name} updated in MongoDB Atlas!`);
+      setEditingTestimonial(null);
+    } catch (err) {
+      notify(`Update failed: ${err.message}`, 'warning');
+    }
+  };
+
+  // Submit Edit Inquiry
+  const handleEditInquirySubmit = async (e) => {
+    e.preventDefault();
+    if (!editingInquiry) return;
+
+    try {
+      const token = sessionStorage.getItem('dooroomi_admin_token') || localStorage.getItem('dooroomi_admin_token');
+      const res = await fetch(`http://localhost:5000/api/inquiries/${editingInquiry._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': token ? `Bearer ${token}` : '',
+          'x-admin-key': 'dooroomi_admin_2026_master_secret',
+          'x-admin-session': 'dooroomi_admin_active'
+        },
+        body: JSON.stringify(editingInquiry)
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.message || `Failed to update inquiry (Status ${res.status})`);
+      }
+      setInquiries((prev) => prev.map(inq => inq._id === editingInquiry._id ? { ...inq, ...editingInquiry } : inq));
+      notify(`Inquiry for "${editingInquiry.name}" updated successfully in MongoDB!`);
+      setEditingInquiry(null);
+    } catch (err) {
+      notify(`Inquiry update: ${err.message}`, 'warning');
+    }
   };
 
   // Generic Confirm Delete Action
@@ -788,20 +888,31 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                     </div>
                   </div>
 
-                  {/* Actions & Delete Button */}
+                  {/* Actions: Edit & Delete Buttons */}
                   <div className="mt-4 pt-3 border-t border-emerald-900/40 flex items-center justify-between">
                     <span className="text-[11px] text-emerald-400 font-mono">
                       ID: {prod.id}
                     </span>
 
-                    <button
-                      onClick={() => setItemToDelete({ type: 'product', id: prod.id, name: prod.name })}
-                      title="Delete Product from Website"
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-red-950/70 border border-red-800/60 hover:bg-red-900 text-red-200 text-xs font-medium transition-all cursor-pointer"
-                    >
-                      <Trash2 className="w-3.5 h-3.5 text-red-400" />
-                      <span>Delete</span>
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => setEditingProduct({ ...prod })}
+                        title="Edit Product"
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-500/20 border border-amber-500/50 hover:bg-amber-500 hover:text-black text-amber-300 text-xs font-semibold transition-all cursor-pointer"
+                      >
+                        <Edit3 className="w-3.5 h-3.5" />
+                        <span>Edit</span>
+                      </button>
+
+                      <button
+                        onClick={() => setItemToDelete({ type: 'product', id: prod.id, name: prod.name })}
+                        title="Delete Product from Website"
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-red-950/70 border border-red-800/60 hover:bg-red-900 text-red-200 text-xs font-medium transition-all cursor-pointer"
+                      >
+                        <Trash2 className="w-3.5 h-3.5 text-red-400" />
+                        <span>Delete</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -871,13 +982,24 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                       {c.timing}
                     </span>
 
-                    <button
-                      onClick={() => setItemToDelete({ type: 'center', id: c.id, name: `${c.city} - ${c.area}` })}
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-red-950/70 border border-red-800/60 hover:bg-red-900 text-red-200 text-xs font-medium transition-all cursor-pointer"
-                    >
-                      <Trash2 className="w-3.5 h-3.5 text-red-400" />
-                      <span>Delete</span>
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => setEditingCenter({ ...c })}
+                        title="Edit Therapy Center"
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-500/20 border border-emerald-500/50 hover:bg-emerald-500 hover:text-black text-emerald-300 text-xs font-semibold transition-all cursor-pointer"
+                      >
+                        <Edit3 className="w-3.5 h-3.5" />
+                        <span>Edit</span>
+                      </button>
+
+                      <button
+                        onClick={() => setItemToDelete({ type: 'center', id: c.id, name: `${c.city} - ${c.area}` })}
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-red-950/70 border border-red-800/60 hover:bg-red-900 text-red-200 text-xs font-medium transition-all cursor-pointer"
+                      >
+                        <Trash2 className="w-3.5 h-3.5 text-red-400" />
+                        <span>Delete</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -950,13 +1072,24 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                       {t.treatment}
                     </span>
 
-                    <button
-                      onClick={() => setItemToDelete({ type: 'testimonial', id: t.id, name: t.name })}
-                      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-red-950/70 border border-red-800/60 hover:bg-red-900 text-red-200 text-xs font-medium transition-all cursor-pointer"
-                    >
-                      <Trash2 className="w-3.5 h-3.5 text-red-400" />
-                      <span>Delete</span>
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => setEditingTestimonial({ ...t })}
+                        title="Edit Testimonial"
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-500/20 border border-emerald-500/50 hover:bg-emerald-500 hover:text-black text-emerald-300 text-xs font-semibold transition-all cursor-pointer"
+                      >
+                        <Edit3 className="w-3.5 h-3.5" />
+                        <span>Edit</span>
+                      </button>
+
+                      <button
+                        onClick={() => setItemToDelete({ type: 'testimonial', id: t.id, name: t.name })}
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-red-950/70 border border-red-800/60 hover:bg-red-900 text-red-200 text-xs font-medium transition-all cursor-pointer"
+                      >
+                        <Trash2 className="w-3.5 h-3.5 text-red-400" />
+                        <span>Delete</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -1047,13 +1180,22 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                           </select>
                         </td>
                         <td className="px-4 py-3.5 text-right">
-                          <button
-                            onClick={() => handleDeleteInquiry(inq._id)}
-                            className="p-1.5 rounded-lg bg-red-950/60 hover:bg-red-900 border border-red-800/60 text-red-300 transition-all cursor-pointer"
-                            title="Delete Lead"
-                          >
-                            <Trash2 className="w-3.5 h-3.5" />
-                          </button>
+                          <div className="flex items-center justify-end gap-1.5">
+                            <button
+                              onClick={() => setEditingInquiry({ ...inq })}
+                              className="p-1.5 rounded-lg bg-emerald-950/60 hover:bg-emerald-900 border border-emerald-800/60 text-emerald-300 transition-all cursor-pointer"
+                              title="Edit Lead Details"
+                            >
+                              <Edit3 className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              onClick={() => handleDeleteInquiry(inq._id)}
+                              className="p-1.5 rounded-lg bg-red-950/60 hover:bg-red-900 border border-red-800/60 text-red-300 transition-all cursor-pointer"
+                              title="Delete Lead"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -2260,6 +2402,569 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
           onClosePreview={() => setPreviewAdModal(null)}
           onOpenFranchise={() => notify('Preview: Official Franchise Dialog opened!')}
         />
+      )}
+
+      {/* MODAL: EDIT PRODUCT */}
+      {editingProduct && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-[#0b1c16] border border-amber-500/60 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative my-8">
+            <div className="flex items-center justify-between pb-4 border-b border-emerald-900/60">
+              <div className="flex items-center gap-2.5">
+                <Edit3 className="w-5 h-5 text-amber-400" />
+                <h3 className="text-base font-bold text-white">Edit Product / Medical Equipment</h3>
+              </div>
+              <button
+                onClick={() => setEditingProduct(null)}
+                className="text-neutral-400 hover:text-white p-1 rounded-lg cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleEditProductSubmit} className="mt-4 space-y-4 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Product Name (English) *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editingProduct.name || ''}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, name: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Product Name (Korean)</label>
+                  <input
+                    type="text"
+                    value={editingProduct.nameKo || ''}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, nameKo: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Model Code / SKU</label>
+                  <input
+                    type="text"
+                    value={editingProduct.model || ''}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, model: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 font-mono"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Category</label>
+                  <select
+                    value={editingProduct.cat || 'series-c'}
+                    onChange={(e) => {
+                      const c = e.target.value;
+                      let label = 'Medical Systems & Therapy';
+                      if (c === 'series-a') label = 'Series A · Botanicals';
+                      if (c === 'series-b') label = 'Series B · Cellular Longevity';
+                      if (c === 'series-c') label = 'Flagship Medical Equipment';
+                      setEditingProduct({ ...editingProduct, cat: c, catLabel: label });
+                    }}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 cursor-pointer"
+                  >
+                    <option value="series-c">Flagship Medical Equipment</option>
+                    <option value="series-b">Series B · Cellular Longevity & Projectors</option>
+                    <option value="series-a">Series A · Botanicals & Extracts</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Badge</label>
+                  <select
+                    value={editingProduct.badge || 'Medical Grade'}
+                    onChange={(e) => setEditingProduct({ ...editingProduct, badge: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 cursor-pointer"
+                  >
+                    <option value="Flagship">Flagship</option>
+                    <option value="Medical Grade">Medical Grade</option>
+                    <option value="Best Seller">Best Seller</option>
+                    <option value="New Launch">New Launch</option>
+                    <option value="Clinical Grade">Clinical Grade</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-neutral-300 font-semibold mb-1">Product Image URL *</label>
+                <input
+                  type="text"
+                  required
+                  value={editingProduct.imgUrl || ''}
+                  onChange={(e) => setEditingProduct({ ...editingProduct, imgUrl: e.target.value })}
+                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 font-mono text-xs"
+                />
+
+                {/* Quick Presets Picker */}
+                <div className="mt-2 flex flex-wrap items-center gap-1.5 text-[11px]">
+                  <span className="text-neutral-400">Presets:</span>
+                  <button
+                    type="button"
+                    onClick={() => setEditingProduct({ ...editingProduct, imgUrl: './assets/products/product-real-07.jpeg' })}
+                    className="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 hover:border-amber-400 text-amber-200 cursor-pointer"
+                  >
+                    9-Sphere Projector (DM-B107)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEditingProduct({ ...editingProduct, imgUrl: './assets/products/product-real-11.jpeg' })}
+                    className="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 hover:border-amber-400 text-amber-200 cursor-pointer"
+                  >
+                    BEDRO Smart-1 Bed
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEditingProduct({ ...editingProduct, imgUrl: './assets/products/product-real-12.jpeg' })}
+                    className="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 hover:border-amber-400 text-amber-200 cursor-pointer"
+                  >
+                    Taeyangsuk Mat
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setEditingProduct({ ...editingProduct, imgUrl: './assets/products/product-real-01.jpeg' })}
+                    className="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 hover:border-amber-400 text-amber-200 cursor-pointer"
+                  >
+                    Ginseng Bio-Essence
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-neutral-300 font-semibold mb-1">Short Description / Summary</label>
+                <input
+                  type="text"
+                  value={editingProduct.short || ''}
+                  onChange={(e) => setEditingProduct({ ...editingProduct, short: e.target.value })}
+                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                />
+              </div>
+
+              <div>
+                <label className="block text-neutral-300 font-semibold mb-1">Full Clinical Description</label>
+                <textarea
+                  rows="3"
+                  value={editingProduct.desc || ''}
+                  onChange={(e) => setEditingProduct({ ...editingProduct, desc: e.target.value })}
+                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                />
+              </div>
+
+              <div>
+                <label className="block text-neutral-300 font-semibold mb-1">Key Actives / Features (comma-separated)</label>
+                <input
+                  type="text"
+                  value={Array.isArray(editingProduct.keyActives) ? editingProduct.keyActives.join(', ') : (editingProduct.keyActives || '')}
+                  onChange={(e) => setEditingProduct({ ...editingProduct, keyActives: e.target.value })}
+                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                />
+              </div>
+
+              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-emerald-900/60">
+                <button
+                  type="button"
+                  onClick={() => setEditingProduct(null)}
+                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-bold shadow-lg cursor-pointer"
+                >
+                  Save Changes & Update MongoDB
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: EDIT THERAPY CENTER */}
+      {editingCenter && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-[#0b1c16] border border-emerald-500/60 rounded-2xl max-w-xl w-full p-6 shadow-2xl relative my-8">
+            <div className="flex items-center justify-between pb-4 border-b border-emerald-900/60">
+              <div className="flex items-center gap-2.5">
+                <Edit3 className="w-5 h-5 text-emerald-400" />
+                <h3 className="text-base font-bold text-white">Edit Therapy Center Details</h3>
+              </div>
+              <button
+                onClick={() => setEditingCenter(null)}
+                className="text-neutral-400 hover:text-white p-1 rounded-lg cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleEditCenterSubmit} className="mt-4 space-y-4 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">City *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editingCenter.city || ''}
+                    onChange={(e) => setEditingCenter({ ...editingCenter, city: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Area / Center Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editingCenter.area || ''}
+                    onChange={(e) => setEditingCenter({ ...editingCenter, area: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-400"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">State</label>
+                  <input
+                    type="text"
+                    value={editingCenter.state || ''}
+                    onChange={(e) => setEditingCenter({ ...editingCenter, state: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Phone Number</label>
+                  <input
+                    type="text"
+                    value={editingCenter.phone || ''}
+                    onChange={(e) => setEditingCenter({ ...editingCenter, phone: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-400"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-neutral-300 font-semibold mb-1">Full Physical Address *</label>
+                <textarea
+                  rows="2"
+                  required
+                  value={editingCenter.address || ''}
+                  onChange={(e) => setEditingCenter({ ...editingCenter, address: e.target.value })}
+                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-400"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Daily Patient Capacity</label>
+                  <input
+                    type="text"
+                    value={editingCenter.dailyCapacity || ''}
+                    onChange={(e) => setEditingCenter({ ...editingCenter, dailyCapacity: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Operating Hours</label>
+                  <input
+                    type="text"
+                    value={editingCenter.timing || ''}
+                    onChange={(e) => setEditingCenter({ ...editingCenter, timing: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-400"
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-emerald-900/60">
+                <button
+                  type="button"
+                  onClick={() => setEditingCenter(null)}
+                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold shadow-lg cursor-pointer"
+                >
+                  Save Changes & Update MongoDB
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: EDIT TESTIMONIAL */}
+      {editingTestimonial && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-[#0b1c16] border border-amber-500/60 rounded-2xl max-w-xl w-full p-6 shadow-2xl relative my-8">
+            <div className="flex items-center justify-between pb-4 border-b border-emerald-900/60">
+              <div className="flex items-center gap-2.5">
+                <Edit3 className="w-5 h-5 text-amber-400" />
+                <h3 className="text-base font-bold text-white">Edit Patient Recovery Testimonial</h3>
+              </div>
+              <button
+                onClick={() => setEditingTestimonial(null)}
+                className="text-neutral-400 hover:text-white p-1 rounded-lg cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleEditTestimonialSubmit} className="mt-4 space-y-4 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Patient Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editingTestimonial.name || ''}
+                    onChange={(e) => setEditingTestimonial({ ...editingTestimonial, name: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Age</label>
+                  <input
+                    type="text"
+                    value={editingTestimonial.age || ''}
+                    onChange={(e) => setEditingTestimonial({ ...editingTestimonial, age: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Location</label>
+                  <input
+                    type="text"
+                    value={editingTestimonial.location || ''}
+                    onChange={(e) => setEditingTestimonial({ ...editingTestimonial, location: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Disease / Condition Healed</label>
+                  <input
+                    type="text"
+                    value={editingTestimonial.disease || ''}
+                    onChange={(e) => setEditingTestimonial({ ...editingTestimonial, disease: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Therapy Equipment Used</label>
+                  <input
+                    type="text"
+                    value={editingTestimonial.treatment || ''}
+                    onChange={(e) => setEditingTestimonial({ ...editingTestimonial, treatment: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Star Rating (1 - 5)</label>
+                  <select
+                    value={editingTestimonial.rating || 5}
+                    onChange={(e) => setEditingTestimonial({ ...editingTestimonial, rating: Number(e.target.value) })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                  >
+                    <option value={5}>5 Stars ★★★★★</option>
+                    <option value={4}>4 Stars ★★★★</option>
+                    <option value={3}>3 Stars ★★★</option>
+                    <option value={2}>2 Stars ★★</option>
+                    <option value={1}>1 Star ★</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-neutral-300 font-semibold mb-1">Recovery Quote / Highlight *</label>
+                <textarea
+                  rows="3"
+                  required
+                  value={editingTestimonial.quote || ''}
+                  onChange={(e) => setEditingTestimonial({ ...editingTestimonial, quote: e.target.value })}
+                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                />
+              </div>
+
+              <div>
+                <label className="block text-neutral-300 font-semibold mb-1">Patient Portrait URL</label>
+                <input
+                  type="text"
+                  value={editingTestimonial.image || ''}
+                  onChange={(e) => setEditingTestimonial({ ...editingTestimonial, image: e.target.value })}
+                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 font-mono text-xs"
+                />
+              </div>
+
+              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-emerald-900/60">
+                <button
+                  type="button"
+                  onClick={() => setEditingTestimonial(null)}
+                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold shadow-lg cursor-pointer"
+                >
+                  Save Changes & Update MongoDB
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: EDIT CUSTOMER INQUIRY / LEAD */}
+      {editingInquiry && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-[#0b1c16] border border-emerald-500/60 rounded-2xl max-w-xl w-full p-6 shadow-2xl relative my-8">
+            <div className="flex items-center justify-between pb-4 border-b border-emerald-900/60">
+              <div className="flex items-center gap-2.5">
+                <Edit3 className="w-5 h-5 text-emerald-400" />
+                <h3 className="text-base font-bold text-white">Edit Customer Inquiry / Lead</h3>
+              </div>
+              <button
+                onClick={() => setEditingInquiry(null)}
+                className="text-neutral-400 hover:text-white p-1 rounded-lg cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleEditInquirySubmit} className="mt-4 space-y-4 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Contact Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editingInquiry.name || ''}
+                    onChange={(e) => setEditingInquiry({ ...editingInquiry, name: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Phone Number</label>
+                  <input
+                    type="text"
+                    value={editingInquiry.phone || ''}
+                    onChange={(e) => setEditingInquiry({ ...editingInquiry, phone: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-400"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Email Address</label>
+                  <input
+                    type="email"
+                    value={editingInquiry.email || ''}
+                    onChange={(e) => setEditingInquiry({ ...editingInquiry, email: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-400"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Company / Organization</label>
+                  <input
+                    type="text"
+                    value={editingInquiry.company || ''}
+                    onChange={(e) => setEditingInquiry({ ...editingInquiry, company: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-400"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Inquiry Type</label>
+                  <select
+                    value={editingInquiry.type || 'General Inquiry'}
+                    onChange={(e) => setEditingInquiry({ ...editingInquiry, type: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-400"
+                  >
+                    <option value="General Inquiry">General Inquiry</option>
+                    <option value="Free Therapy Session">Free Therapy Session</option>
+                    <option value="Franchise / Dealership">Franchise / Dealership</option>
+                    <option value="Equipment Purchase">Equipment Purchase</option>
+                    <option value="Consultation">Consultation</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Status</label>
+                  <select
+                    value={editingInquiry.status || 'Pending'}
+                    onChange={(e) => setEditingInquiry({ ...editingInquiry, status: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-400 font-semibold"
+                  >
+                    <option value="Pending">Pending</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Completed">Completed</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-neutral-300 font-semibold mb-1">Product Interest</label>
+                <input
+                  type="text"
+                  value={editingInquiry.productInterest || ''}
+                  onChange={(e) => setEditingInquiry({ ...editingInquiry, productInterest: e.target.value })}
+                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-400"
+                />
+              </div>
+
+              <div>
+                <label className="block text-neutral-300 font-semibold mb-1">Message / Inquiry Details</label>
+                <textarea
+                  rows="3"
+                  value={editingInquiry.message || ''}
+                  onChange={(e) => setEditingInquiry({ ...editingInquiry, message: e.target.value })}
+                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-400"
+                />
+              </div>
+
+              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-emerald-900/60">
+                <button
+                  type="button"
+                  onClick={() => setEditingInquiry(null)}
+                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold shadow-lg cursor-pointer"
+                >
+                  Save Changes & Update MongoDB
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       )}
 
     </div>

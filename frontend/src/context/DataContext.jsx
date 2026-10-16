@@ -277,7 +277,7 @@ const INITIAL_ADS = [
     buttonText: "Inquire for Franchise",
     buttonLink: "#/therapy",
     buttonActionType: "franchise",
-    isEnabled: true,
+    isEnabled: false,
     priority: 1,
     discountTag: "100% Free Daily Therapy Model"
   },
@@ -312,100 +312,59 @@ const INITIAL_ADS = [
 ];
 
 export const DataProvider = ({ children }) => {
-  const [products, setProducts] = useState(() => {
-    try {
-      const cached = localStorage.getItem('dooroomi_products');
-      return cached ? JSON.parse(cached) : INITIAL_PRODUCTS;
-    } catch {
-      return INITIAL_PRODUCTS;
-    }
-  });
-
-  const [centers, setCenters] = useState(() => {
-    try {
-      const cached = localStorage.getItem('dooroomi_centers');
-      return cached ? JSON.parse(cached) : INITIAL_CENTERS;
-    } catch {
-      return INITIAL_CENTERS;
-    }
-  });
-
-  const [testimonials, setTestimonials] = useState(() => {
-    try {
-      const cached = localStorage.getItem('dooroomi_testimonials');
-      if (cached) {
-        const parsed = JSON.parse(cached);
-        if (Array.isArray(parsed) && parsed.length >= INITIAL_TESTIMONIALS.length) {
-          return parsed;
-        }
-      }
-      return INITIAL_TESTIMONIALS;
-    } catch {
-      return INITIAL_TESTIMONIALS;
-    }
-  });
-
-  const [ads, setAds] = useState(() => {
-    try {
-      const cached = localStorage.getItem('dooroomi_ads');
-      return cached ? JSON.parse(cached) : INITIAL_ADS;
-    } catch {
-      return INITIAL_ADS;
-    }
-  });
+  const [products, setProducts] = useState(INITIAL_PRODUCTS);
+  const [centers, setCenters] = useState(INITIAL_CENTERS);
+  const [testimonials, setTestimonials] = useState(INITIAL_TESTIMONIALS);
+  const [ads, setAds] = useState(INITIAL_ADS);
 
   const activeAd = ads.find(a => a.isEnabled) || null;
 
   const [isSyncing, setIsSyncing] = useState(false);
   const [dbConnected, setDbConnected] = useState(true);
 
-  // Sync with MongoDB backend on initial load
+  // Sync with MongoDB Atlas backend on initial load
   const syncWithBackend = async () => {
     setIsSyncing(true);
     try {
-      // 1. Fetch products
+      // 1. Fetch products from MongoDB
       const pRes = await fetch(`${BACKEND_URL}/products`);
       if (pRes.ok) {
         const pData = await pRes.json();
         if (pData.success && pData.products && pData.products.length > 0) {
           setProducts(pData.products);
-          localStorage.setItem('dooroomi_products', JSON.stringify(pData.products));
         }
       }
 
-      // 2. Fetch centers
+      // 2. Fetch centers from MongoDB
       const cRes = await fetch(`${BACKEND_URL}/centers`);
       if (cRes.ok) {
         const cData = await cRes.json();
         if (cData.success && cData.centers && cData.centers.length > 0) {
           setCenters(cData.centers);
-          localStorage.setItem('dooroomi_centers', JSON.stringify(cData.centers));
         }
       }
 
-      // 3. Fetch testimonials
+      // 3. Fetch testimonials from MongoDB
       const tRes = await fetch(`${BACKEND_URL}/testimonials`);
       if (tRes.ok) {
         const tData = await tRes.json();
         if (tData.success && tData.testimonials && tData.testimonials.length > 0) {
           setTestimonials(tData.testimonials);
-          localStorage.setItem('dooroomi_testimonials', JSON.stringify(tData.testimonials));
         }
       }
 
-      // 4. Fetch ads
+      // 4. Fetch ads from MongoDB
       const aRes = await fetch(`${BACKEND_URL}/ads`);
       if (aRes.ok) {
         const aData = await aRes.json();
         if (aData.success && aData.ads && aData.ads.length > 0) {
           setAds(aData.ads);
-          localStorage.setItem('dooroomi_ads', JSON.stringify(aData.ads));
         }
       }
 
       setDbConnected(true);
     } catch (err) {
-      console.warn('Backend connection notice (running with local cache):', err.message);
+      console.warn('Backend MongoDB connection failed:', err.message);
       setDbConnected(false);
     } finally {
       setIsSyncing(false);
@@ -413,12 +372,27 @@ export const DataProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    // Purge any legacy cached data from localStorage so only MongoDB is used
+    const keysToRemove = [
+      'dooroomi_products',
+      'dooroomi_centers',
+      'dooroomi_testimonials',
+      'dooroomi_ads',
+      'dooroomi_admin',
+      'dooroomi_admin_token',
+      'dooroomi_user',
+      'dooroomi_token'
+    ];
+    keysToRemove.forEach(k => {
+      try { localStorage.removeItem(k); } catch (_) {}
+    });
+
     syncWithBackend();
   }, []);
 
   // Helper for admin authorization headers
   const getAuthHeaders = () => {
-    const token = localStorage.getItem('dooroomi_admin_token') || 'master_admin_token_2026';
+    const token = sessionStorage.getItem('dooroomi_admin_token') || localStorage.getItem('dooroomi_admin_token') || 'master_admin_token_2026';
     return {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`,
@@ -427,24 +401,14 @@ export const DataProvider = ({ children }) => {
     };
   };
 
-  // --- PRODUCT CRUD ---
+  // --- PRODUCT CRUD (Direct to MongoDB) ---
   const addProduct = async (newProd) => {
-    const tempId = newProd.id || 'p-' + Date.now();
     const formatted = {
       ...newProd,
-      id: tempId,
-      slug: (newProd.name || 'product').toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + Date.now().toString().slice(-4),
       badge: newProd.badge || 'Medical Grade',
       cat: newProd.cat || 'series-a',
       catLabel: newProd.catLabel || 'Medical Systems & Therapy'
     };
-
-    // Optimistic UI update
-    setProducts((prev) => {
-      const updated = [formatted, ...prev];
-      localStorage.setItem('dooroomi_products', JSON.stringify(updated));
-      return updated;
-    });
 
     try {
       const res = await fetch(`${BACKEND_URL}/products`, {
@@ -452,29 +416,23 @@ export const DataProvider = ({ children }) => {
         headers: getAuthHeaders(),
         body: JSON.stringify(formatted)
       });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.product) {
-          setProducts((prev) => {
-            const replaced = prev.map(p => p.id === tempId ? data.product : p);
-            localStorage.setItem('dooroomi_products', JSON.stringify(replaced));
-            return replaced;
-          });
-        }
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.message || `Failed to add product to MongoDB (Status ${res.status})`);
       }
+      if (data.product) {
+        setProducts((prev) => [data.product, ...prev]);
+      } else {
+        await syncWithBackend();
+      }
+      return data;
     } catch (err) {
-      console.warn('Saved locally, background MongoDB sync failed:', err.message);
+      console.error('MongoDB addProduct failed:', err.message);
+      throw err;
     }
   };
 
   const deleteProduct = async (productId) => {
-    // Optimistic UI update
-    setProducts((prev) => {
-      const filtered = prev.filter(p => p.id !== productId && p.slug !== productId && p._id !== productId);
-      localStorage.setItem('dooroomi_products', JSON.stringify(filtered));
-      return filtered;
-    });
-
     try {
       const res = await fetch(`${BACKEND_URL}/products/${productId}`, {
         method: 'DELETE',
@@ -482,49 +440,43 @@ export const DataProvider = ({ children }) => {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        throw new Error(data.message || `Failed to delete product from database (Status ${res.status})`);
+        throw new Error(data.message || `Failed to delete product from MongoDB (Status ${res.status})`);
       }
+      setProducts((prev) => prev.filter(p => p.id !== productId && p.slug !== productId && p._id !== productId));
       return data;
     } catch (err) {
-      console.warn('MongoDB sync notice:', err.message);
+      console.error('MongoDB deleteProduct failed:', err.message);
       throw err;
     }
   };
 
   const updateProduct = async (productId, updatedFields) => {
-    setProducts((prev) => {
-      const updated = prev.map(p => p.id === productId ? { ...p, ...updatedFields } : p);
-      localStorage.setItem('dooroomi_products', JSON.stringify(updated));
-      return updated;
-    });
-
     try {
-      await fetch(`${BACKEND_URL}/products/${productId}`, {
+      const res = await fetch(`${BACKEND_URL}/products/${productId}`, {
         method: 'PUT',
         headers: getAuthHeaders(),
         body: JSON.stringify(updatedFields)
       });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.message || `Failed to update product in MongoDB (Status ${res.status})`);
+      }
+      setProducts((prev) => prev.map(p => (p.id === productId || p._id === productId) ? { ...p, ...updatedFields } : p));
+      return data;
     } catch (err) {
-      console.warn('Updated locally, background MongoDB sync failed:', err.message);
+      console.error('MongoDB updateProduct failed:', err.message);
+      throw err;
     }
   };
 
-  // --- CENTERS CRUD ---
+  // --- CENTERS CRUD (Direct to MongoDB) ---
   const addCenter = async (newCenter) => {
-    const tempId = newCenter.id || 'tc-' + Date.now();
     const formatted = {
       ...newCenter,
-      id: tempId,
       timing: newCenter.timing || 'Mon–Sat: 8:00 AM – 5:00 PM',
       status: newCenter.status || 'Active · 100% Free Daily Therapy',
       dailyCapacity: newCenter.dailyCapacity || '120+ Patients/Day'
     };
-
-    setCenters((prev) => {
-      const updated = [formatted, ...prev];
-      localStorage.setItem('dooroomi_centers', JSON.stringify(updated));
-      return updated;
-    });
 
     try {
       const res = await fetch(`${BACKEND_URL}/centers`, {
@@ -532,28 +484,23 @@ export const DataProvider = ({ children }) => {
         headers: getAuthHeaders(),
         body: JSON.stringify(formatted)
       });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.center) {
-          setCenters((prev) => {
-            const replaced = prev.map(c => c.id === tempId ? data.center : c);
-            localStorage.setItem('dooroomi_centers', JSON.stringify(replaced));
-            return replaced;
-          });
-        }
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.message || `Failed to add center to MongoDB (Status ${res.status})`);
       }
+      if (data.center) {
+        setCenters((prev) => [data.center, ...prev]);
+      } else {
+        await syncWithBackend();
+      }
+      return data;
     } catch (err) {
-      console.warn('Saved locally, background MongoDB sync failed:', err.message);
+      console.error('MongoDB addCenter failed:', err.message);
+      throw err;
     }
   };
 
   const deleteCenter = async (centerId) => {
-    setCenters((prev) => {
-      const filtered = prev.filter(c => c.id !== centerId && c._id !== centerId);
-      localStorage.setItem('dooroomi_centers', JSON.stringify(filtered));
-      return filtered;
-    });
-
     try {
       const res = await fetch(`${BACKEND_URL}/centers/${centerId}`, {
         method: 'DELETE',
@@ -561,31 +508,43 @@ export const DataProvider = ({ children }) => {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        throw new Error(data.message || `Failed to delete center from database (Status ${res.status})`);
+        throw new Error(data.message || `Failed to delete center from MongoDB (Status ${res.status})`);
       }
+      setCenters((prev) => prev.filter(c => c.id !== centerId && c._id !== centerId));
       return data;
     } catch (err) {
-      console.warn('Center delete MongoDB sync notice:', err.message);
+      console.error('MongoDB deleteCenter failed:', err.message);
       throw err;
     }
   };
 
-  // --- TESTIMONIALS CRUD ---
+  const updateCenter = async (centerId, updatedFields) => {
+    try {
+      const res = await fetch(`${BACKEND_URL}/centers/${centerId}`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(updatedFields)
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.message || `Failed to update center in MongoDB (Status ${res.status})`);
+      }
+      setCenters((prev) => prev.map(c => (c.id === centerId || c._id === centerId) ? { ...c, ...updatedFields } : c));
+      return data;
+    } catch (err) {
+      console.error('MongoDB updateCenter failed:', err.message);
+      throw err;
+    }
+  };
+
+  // --- TESTIMONIALS CRUD (Direct to MongoDB) ---
   const addTestimonial = async (newTestimonial) => {
-    const tempId = newTestimonial.id || 'p' + Date.now();
     const formatted = {
       ...newTestimonial,
-      id: tempId,
       rating: Number(newTestimonial.rating) || 5,
       docPage: 14,
       image: newTestimonial.image || '/assets/testimonials/patient-kmamari-sahoo.jpg'
     };
-
-    setTestimonials((prev) => {
-      const updated = [formatted, ...prev];
-      localStorage.setItem('dooroomi_testimonials', JSON.stringify(updated));
-      return updated;
-    });
 
     try {
       const res = await fetch(`${BACKEND_URL}/testimonials`, {
@@ -593,28 +552,23 @@ export const DataProvider = ({ children }) => {
         headers: getAuthHeaders(),
         body: JSON.stringify(formatted)
       });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.testimonial) {
-          setTestimonials((prev) => {
-            const replaced = prev.map(t => t.id === tempId ? data.testimonial : t);
-            localStorage.setItem('dooroomi_testimonials', JSON.stringify(replaced));
-            return replaced;
-          });
-        }
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.message || `Failed to add testimonial to MongoDB (Status ${res.status})`);
       }
+      if (data.testimonial) {
+        setTestimonials((prev) => [data.testimonial, ...prev]);
+      } else {
+        await syncWithBackend();
+      }
+      return data;
     } catch (err) {
-      console.warn('Saved testimonial locally, background sync failed:', err.message);
+      console.error('MongoDB addTestimonial failed:', err.message);
+      throw err;
     }
   };
 
   const deleteTestimonial = async (testimonialId) => {
-    setTestimonials((prev) => {
-      const filtered = prev.filter(t => t.id !== testimonialId && t._id !== testimonialId);
-      localStorage.setItem('dooroomi_testimonials', JSON.stringify(filtered));
-      return filtered;
-    });
-
     try {
       const res = await fetch(`${BACKEND_URL}/testimonials/${testimonialId}`, {
         method: 'DELETE',
@@ -622,16 +576,36 @@ export const DataProvider = ({ children }) => {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        throw new Error(data.message || `Failed to delete testimonial from database (Status ${res.status})`);
+        throw new Error(data.message || `Failed to delete testimonial from MongoDB (Status ${res.status})`);
       }
+      setTestimonials((prev) => prev.filter(t => t.id !== testimonialId && t._id !== testimonialId));
       return data;
     } catch (err) {
-      console.warn('Testimonial delete MongoDB sync notice:', err.message);
+      console.error('MongoDB deleteTestimonial failed:', err.message);
       throw err;
     }
   };
 
-  // --- ADS / POPUP CRUD ---
+  const updateTestimonial = async (testimonialId, updatedFields) => {
+    try {
+      const res = await fetch(`${BACKEND_URL}/testimonials/${testimonialId}`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(updatedFields)
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.message || `Failed to update testimonial in MongoDB (Status ${res.status})`);
+      }
+      setTestimonials((prev) => prev.map(t => (t.id === testimonialId || t._id === testimonialId) ? { ...t, ...updatedFields } : t));
+      return data;
+    } catch (err) {
+      console.error('MongoDB updateTestimonial failed:', err.message);
+      throw err;
+    }
+  };
+
+  // --- ADS / POPUP CRUD (Direct to MongoDB) ---
   const clearAdDismissalFlags = () => {
     try {
       Object.keys(sessionStorage).forEach((key) => {
@@ -645,10 +619,8 @@ export const DataProvider = ({ children }) => {
   };
 
   const addAd = async (newAd) => {
-    const tempId = newAd.id || 'ad-' + Date.now();
     const formatted = {
       ...newAd,
-      id: tempId,
       badge: newAd.badge || 'SPECIAL ANNOUNCEMENT',
       buttonText: newAd.buttonText || 'Explore Now',
       buttonLink: newAd.buttonLink || '#/therapy',
@@ -661,33 +633,25 @@ export const DataProvider = ({ children }) => {
       clearAdDismissalFlags();
     }
 
-    setAds((prev) => {
-      // If newAd is enabled, disable others
-      const updated = formatted.isEnabled 
-        ? [formatted, ...prev.map(a => ({ ...a, isEnabled: false }))]
-        : [formatted, ...prev];
-      localStorage.setItem('dooroomi_ads', JSON.stringify(updated));
-      return updated;
-    });
-
     try {
       const res = await fetch(`${BACKEND_URL}/ads`, {
         method: 'POST',
         headers: getAuthHeaders(),
         body: JSON.stringify(formatted)
       });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.ad) {
-          setAds((prev) => {
-            const replaced = prev.map(a => (a.id === tempId || a.id === data.ad.id) ? data.ad : a);
-            localStorage.setItem('dooroomi_ads', JSON.stringify(replaced));
-            return replaced;
-          });
-        }
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.message || `Failed to add ad to MongoDB (Status ${res.status})`);
       }
+      if (data.ad) {
+        setAds((prev) => formatted.isEnabled ? [data.ad, ...prev.map(a => ({ ...a, isEnabled: false }))] : [data.ad, ...prev]);
+      } else {
+        await syncWithBackend();
+      }
+      return data;
     } catch (err) {
-      console.warn('Saved ad locally, background sync failed:', err.message);
+      console.error('MongoDB addAd failed:', err.message);
+      throw err;
     }
   };
 
@@ -696,74 +660,74 @@ export const DataProvider = ({ children }) => {
       clearAdDismissalFlags();
     }
 
-    setAds((prev) => {
-      const updated = prev.map(a => {
-        if (a.id === adId || a._id === adId) {
-          return { ...a, ...updatedFields };
-        }
-        // If enabling this ad, set other ads isEnabled to false
-        if (updatedFields.isEnabled) {
-          return { ...a, isEnabled: false };
-        }
-        return a;
-      });
-      localStorage.setItem('dooroomi_ads', JSON.stringify(updated));
-      return updated;
-    });
-
     try {
-      await fetch(`${BACKEND_URL}/ads/${adId}`, {
+      const res = await fetch(`${BACKEND_URL}/ads/${adId}`, {
         method: 'PUT',
         headers: getAuthHeaders(),
         body: JSON.stringify(updatedFields)
       });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.message || `Failed to update ad in MongoDB (Status ${res.status})`);
+      }
+      setAds((prev) => prev.map(a => {
+        if (a.id === adId || a._id === adId) {
+          return { ...a, ...updatedFields };
+        }
+        if (updatedFields.isEnabled) {
+          return { ...a, isEnabled: false };
+        }
+        return a;
+      }));
+      return data;
     } catch (err) {
-      console.warn('Updated ad locally, background sync failed:', err.message);
+      console.error('MongoDB updateAd failed:', err.message);
+      throw err;
     }
   };
 
   const toggleAd = async (adId) => {
-    let willBeEnabled = false;
-    setAds((prev) => {
-      const target = prev.find(a => a.id === adId || a._id === adId);
-      if (!target) return prev;
-      willBeEnabled = !target.isEnabled;
+    const target = ads.find(a => a.id === adId || a._id === adId);
+    const willBeEnabled = target ? !target.isEnabled : true;
+    if (willBeEnabled) {
+      clearAdDismissalFlags();
+    }
 
-      if (willBeEnabled) {
-        clearAdDismissalFlags();
+    // Optimistically update state immediately so admin UI and user side reflect it without delay
+    setAds((prev) => prev.map(a => {
+      if (a.id === adId || a._id === adId) {
+        return { ...a, isEnabled: willBeEnabled };
       }
-
-      const updated = prev.map(a => {
-        if (a.id === adId || a._id === adId) {
-          return { ...a, isEnabled: willBeEnabled };
-        }
-        // If toggling on, turn off all others
-        if (willBeEnabled) {
-          return { ...a, isEnabled: false };
-        }
-        return a;
-      });
-      localStorage.setItem('dooroomi_ads', JSON.stringify(updated));
-      return updated;
-    });
+      if (willBeEnabled) {
+        return { ...a, isEnabled: false };
+      }
+      return a;
+    }));
 
     try {
-      await fetch(`${BACKEND_URL}/ads/${adId}/toggle`, {
+      const res = await fetch(`${BACKEND_URL}/ads/${adId}/toggle`, {
         method: 'PATCH',
         headers: getAuthHeaders()
       });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.message || `Failed to toggle ad in MongoDB (Status ${res.status})`);
+      }
+      return data;
     } catch (err) {
-      console.warn('Toggled ad locally, background sync failed:', err.message);
+      console.error('MongoDB toggleAd failed:', err.message);
+      // Revert if request failed
+      setAds((prev) => prev.map(a => {
+        if (a.id === adId || a._id === adId) {
+          return { ...a, isEnabled: !willBeEnabled };
+        }
+        return a;
+      }));
+      throw err;
     }
   };
 
   const deleteAd = async (adId) => {
-    setAds((prev) => {
-      const filtered = prev.filter(a => a.id !== adId && a._id !== adId);
-      localStorage.setItem('dooroomi_ads', JSON.stringify(filtered));
-      return filtered;
-    });
-
     try {
       const res = await fetch(`${BACKEND_URL}/ads/${adId}`, {
         method: 'DELETE',
@@ -771,21 +735,18 @@ export const DataProvider = ({ children }) => {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        throw new Error(data.message || `Failed to delete ad from database (Status ${res.status})`);
+        throw new Error(data.message || `Failed to delete ad from MongoDB (Status ${res.status})`);
       }
+      setAds((prev) => prev.filter(a => a.id !== adId && a._id !== adId));
       return data;
     } catch (err) {
-      console.warn('Ad delete MongoDB sync notice:', err.message);
+      console.error('MongoDB deleteAd failed:', err.message);
       throw err;
     }
   };
 
-  // Factory reset to initial defaults
+  // Factory reset: re-sync from MongoDB
   const resetToDefaults = () => {
-    localStorage.removeItem('dooroomi_products');
-    localStorage.removeItem('dooroomi_centers');
-    localStorage.removeItem('dooroomi_testimonials');
-    localStorage.removeItem('dooroomi_ads');
     setProducts(INITIAL_PRODUCTS);
     setCenters(INITIAL_CENTERS);
     setTestimonials(INITIAL_TESTIMONIALS);
@@ -808,8 +769,10 @@ export const DataProvider = ({ children }) => {
         updateProduct,
         addCenter,
         deleteCenter,
+        updateCenter,
         addTestimonial,
         deleteTestimonial,
+        updateTestimonial,
         addAd,
         updateAd,
         toggleAd,

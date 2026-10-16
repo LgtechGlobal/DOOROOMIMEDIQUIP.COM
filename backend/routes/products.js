@@ -90,15 +90,24 @@ productsRouter.post('/', verifyToken, async (req, res) => {
 // PUT update product (Admin authenticated)
 productsRouter.put('/:id', verifyToken, async (req, res) => {
   try {
+    const idParam = req.params.id;
+    const query = {
+      $or: [
+        { id: idParam },
+        { slug: idParam },
+        ...(mongoose.Types.ObjectId.isValid(idParam) ? [{ _id: idParam }] : [])
+      ]
+    };
     const updated = await Product.findOneAndUpdate(
-      { id: req.params.id },
+      query,
       { $set: req.body },
       { new: true }
     );
     if (!updated) {
       return res.status(404).json({ success: false, message: 'Product not found' });
     }
-    res.json({ success: true, message: 'Product updated successfully', product: updated });
+    console.log(`[MongoDB Atlas] Product "${updated.name}" (${updated.id}) updated successfully.`);
+    res.json({ success: true, message: 'Product updated successfully in MongoDB', product: updated });
   } catch (err) {
     res.status(500).json({ success: false, message: 'Failed to update product', error: err.message });
   }
