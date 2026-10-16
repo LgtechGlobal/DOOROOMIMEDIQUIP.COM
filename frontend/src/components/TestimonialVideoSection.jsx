@@ -189,6 +189,26 @@ export const TestimonialVideoSection = () => {
     return () => clearInterval(interval);
   }, [isPaused, hasActiveAudio]);
 
+  // Viewport Intersection Observer: Only play videos that are currently on screen to eliminate scroll lag
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const video = entry.target;
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
+    }, { threshold: 0.3 });
+
+    videoRefs.current.forEach(v => {
+      if (v) observer.observe(v);
+    });
+
+    return () => observer.disconnect();
+  }, [infiniteVideos]);
+
   const togglePlay = (index) => {
     const video = videoRefs.current[index];
     if (!video) return;
@@ -287,7 +307,7 @@ export const TestimonialVideoSection = () => {
                   <video
                     ref={el => videoRefs.current[idx] = el}
                     src={item.videoSrc}
-                    autoPlay
+                    preload="metadata"
                     loop
                     muted
                     playsInline

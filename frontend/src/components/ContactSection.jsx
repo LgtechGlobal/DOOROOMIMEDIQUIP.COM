@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Phone, Mail, MapPin, Clock, Send, CheckCircle2, Building2, Sparkles } from 'lucide-react';
 import { SITE_CONFIG } from '../data/siteData';
+import { API_BASE_URL } from '../config/api';
 
 export const ContactSection = ({
   preselectedProduct,
@@ -52,7 +53,7 @@ export const ContactSection = ({
 
     setIsSubmitting(true);
     try {
-      await fetch('http://localhost:5000/api/inquiries', {
+      await fetch(`${API_BASE_URL}/inquiries`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -1,9 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { PRODUCTS as INITIAL_PRODUCTS } from '../data/siteData';
+import { API_BASE_URL as BACKEND_URL } from '../config/api';
 
 const DataContext = createContext(null);
-
-const BACKEND_URL = 'http://localhost:5000/api';
 
 const INITIAL_CENTERS = [
   {

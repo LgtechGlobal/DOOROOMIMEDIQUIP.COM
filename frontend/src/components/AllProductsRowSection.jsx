@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { ChevronsLeft, ChevronsRight, ArrowUpRight, Play, Pause } from 'lucide-react';
 import { PRODUCTS as FALLBACK_PRODUCTS } from '../data/siteData';
 import { useData } from '../context/DataContext';
+import { getOptimizedImageUrl } from '../utils/imageUrl';
 
 export const AllProductsRowSection = ({ onSelectProduct }) => {
   const { products: dynamicProducts } = useData();
@@ -149,7 +150,7 @@ export const AllProductsRowSection = ({ onSelectProduct }) => {
               className="relative z-10 flex items-center justify-center transform-gpu transition-opacity duration-300"
             >
               <img
-                src={activeProduct.imgUrl}
+                src={getOptimizedImageUrl(activeProduct.imgUrl, { width: 800 })}
                 alt={activeProduct.name}
                 decoding="async"
                 className="max-h-[160px] sm:max-h-[210px] md:max-h-[250px] w-auto object-contain mix-blend-multiply cursor-pointer hover:scale-105 transition-transform duration-300"
@@ -212,7 +213,7 @@ export const AllProductsRowSection = ({ onSelectProduct }) => {
                     {/* Thumbnail Image */}
                     <div className="w-12 h-10 sm:w-16 sm:h-13 lg:w-18 lg:h-14 flex items-center justify-center bg-transparent">
                       <img
-                        src={prod.imgUrl}
+                        src={getOptimizedImageUrl(prod.imgUrl, { width: 160 })}
                         alt={prod.name}
                         loading="lazy"
                         decoding="async"

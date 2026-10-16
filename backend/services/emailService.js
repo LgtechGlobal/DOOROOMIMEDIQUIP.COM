@@ -56,7 +56,7 @@ export const sendInquiryEmail = async ({ name, email, phone, company, type, prod
       </div>
 
       <div style="background-color: #f7f7f7; padding: 14px; border-radius: 0 0 8px 8px; text-align: center; font-size: 11px; color: #888888;">
-        Dooroomi Mediquip · 100% Free Daily Therapy Network · South Korea & India
+        <a href="${process.env.FRONTEND_URL || 'https://www.dooroomimediquip.com'}" style="color: #1a3c2c; font-weight: bold; text-decoration: none;">DOOROOMIMEDIQUIP.COM</a> · 100% Free Daily Therapy Network · South Korea & India
       </div>
     </div>
   `;

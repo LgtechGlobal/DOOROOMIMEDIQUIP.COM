@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, ArrowRight } from 'lucide-react';
+import { getOptimizedImageUrl } from '../utils/imageUrl';
 
 export const CompareDrawer = ({
   products,
@@ -97,8 +98,9 @@ export const CompareDrawer = ({
                         <div className="space-y-2">
                           <div className="w-20 h-20 mx-auto bg-hanbit-ivory rounded-xl p-2 border border-hanbit-border/60 flex items-center justify-center">
                             <img
-                              src={prod.imgUrl}
+                              src={getOptimizedImageUrl(prod.imgUrl, { width: 160 })}
                               alt={prod.name}
+                              loading="lazy"
                               className="w-full h-full object-contain"
                             />
                           </div>

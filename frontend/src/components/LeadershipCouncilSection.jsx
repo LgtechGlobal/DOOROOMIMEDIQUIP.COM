@@ -74,6 +74,7 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
                       <img
                         src={leader.photo}
                         alt={leader.name}
+                        loading="lazy"
                         className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
@@ -178,6 +179,7 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
                     <img
                       src={selectedLeader.photo}
                       alt={selectedLeader.name}
+                      loading="lazy"
                       className="w-full h-full object-cover object-top rounded-xl"
                     />
                   </div>

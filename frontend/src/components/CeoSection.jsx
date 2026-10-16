@@ -106,6 +106,7 @@ export const CeoSection = ({ onNavigateAbout, onContactClick }) => {
                   key={ceoPhotos[activeImageIndex].id}
                   src={ceoPhotos[activeImageIndex].src}
                   alt={ceoPhotos[activeImageIndex].label}
+                  loading="lazy"
                   className="w-full h-full object-cover object-top transition-all duration-700 group-hover:scale-105 animate-in fade-in zoom-in-95"
                 />
 
@@ -171,6 +172,7 @@ export const CeoSection = ({ onNavigateAbout, onContactClick }) => {
                         <img
                           src={photo.src}
                           alt={photo.label}
+                          loading="lazy"
                           className="w-full h-full object-cover object-top"
                         />
                       </div>

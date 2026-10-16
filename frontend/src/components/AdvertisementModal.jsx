@@ -12,6 +12,7 @@ import {
   Calendar
 } from 'lucide-react';
 import { useData } from '../context/DataContext';
+import { getOptimizedImageUrl } from '../utils/imageUrl';
 
 export const AdvertisementModal = ({ onOpenFranchise, forceOpen = false, previewAd = null, onClosePreview }) => {
   const { activeAd } = useData();
@@ -133,8 +134,9 @@ export const AdvertisementModal = ({ onOpenFranchise, forceOpen = false, preview
         {ad.imageUrl && (
           <div className="relative w-full h-36 sm:h-40 bg-neutral-900 overflow-hidden group">
             <img 
-              src={ad.imageUrl} 
+              src={getOptimizedImageUrl(ad.imageUrl, { width: 600 })} 
               alt={ad.title} 
+              loading="lazy"
               className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 brightness-90"
               onError={(e) => {
                 e.target.src = '/assets/products/product-real-01.jpeg';

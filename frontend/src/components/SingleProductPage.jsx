@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { PRODUCTS as FALLBACK_PRODUCTS, CATEGORIES } from '../data/siteData';
 import { useData } from '../context/DataContext';
+import { getOptimizedImageUrl } from '../utils/imageUrl';
 
 export const SingleProductPage = ({
   productId,
@@ -120,8 +121,9 @@ export const SingleProductPage = ({
                 className="relative w-full max-w-[360px] aspect-square flex items-center justify-center cursor-zoom-in group"
               >
                 <img
-                  src={product.imgUrl}
+                  src={getOptimizedImageUrl(product.imgUrl, { width: 900 })}
                   alt={product.name}
+                  decoding="async"
                   className="w-full h-full object-contain filter drop-shadow-2xl transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute bottom-2 right-2 p-2 rounded-xl bg-white/90 backdrop-blur-md border border-hanbit-border text-hanbit-forest shadow-sm opacity-0 group-hover:opacity-100 transition-opacity text-xs font-medium flex items-center gap-1.5">
@@ -327,8 +329,10 @@ export const SingleProductPage = ({
                   <div className="flex items-center gap-4">
                     <div className="w-20 h-20 rounded-2xl bg-hanbit-ivory p-2 flex items-center justify-center shrink-0 border border-hanbit-border/50">
                       <img
-                        src={p.imgUrl}
+                        src={getOptimizedImageUrl(p.imgUrl, { width: 300 })}
                         alt={p.name}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-contain filter drop-shadow group-hover:scale-108 transition-transform"
                       />
                     </div>
@@ -364,7 +368,7 @@ export const SingleProductPage = ({
         >
           <div className="relative max-w-4xl max-h-[85vh] p-6 bg-white rounded-3xl overflow-hidden shadow-2xl border border-hanbit-border">
             <img
-              src={product.imgUrl}
+              src={getOptimizedImageUrl(product.imgUrl, { width: 1400 })}
               alt={product.name}
               className="max-h-[75vh] w-auto mx-auto object-contain filter drop-shadow-2xl"
             />

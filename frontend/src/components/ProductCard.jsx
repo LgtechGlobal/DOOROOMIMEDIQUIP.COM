@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Eye, ArrowRight, Sparkles, Check, FlaskConical, ShieldCheck } from 'lucide-react';
+import { getOptimizedImageUrl } from '../utils/imageUrl';
 
 export const ProductCard = ({
   product,
@@ -52,8 +53,9 @@ export const ProductCard = ({
 
         {/* Product Image with smooth elevation on hover */}
         <img
-          src={product.imgUrl}
+          src={getOptimizedImageUrl(product.imgUrl, { width: 500 })}
           alt={product.name}
+          loading="lazy"
           className="w-full h-full object-contain filter drop-shadow-lg transition-transform duration-500 ease-out group-hover:scale-108 group-hover:-translate-y-1"
         />
 

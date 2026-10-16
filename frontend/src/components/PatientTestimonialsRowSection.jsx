@@ -17,6 +17,7 @@ import {
   BadgeCheck
 } from 'lucide-react';
 import { useData } from '../context/DataContext';
+import { getOptimizedImageUrl } from '../utils/imageUrl';
 
 export const PatientTestimonialsRowSection = () => {
   const { testimonials: dynamicTestimonials } = useData();
@@ -446,8 +447,10 @@ export const PatientTestimonialsRowSection = () => {
                   <div className="relative shrink-0">
                     <div className="w-20 h-24 sm:w-22 sm:h-26 rounded-2xl overflow-hidden border-2 border-hanbit-gold shadow-md group-hover:scale-103 transition-transform bg-stone-100">
                       <img 
-                        src={item.image} 
+                        src={getOptimizedImageUrl(item.image, { width: 300 })} 
                         alt={item.name}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover object-top" 
                       />
                     </div>

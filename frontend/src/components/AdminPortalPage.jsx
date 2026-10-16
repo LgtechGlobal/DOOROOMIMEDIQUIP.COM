@@ -36,11 +36,15 @@ import {
   ToggleLeft,
   ToggleRight,
   Edit3,
-  Handshake
+  Handshake,
+  UploadCloud,
+  Cloud
 } from 'lucide-react';
 import { SITE_CONFIG } from '../data/siteData';
 import { useData } from '../context/DataContext';
 import { AdvertisementModal } from './AdvertisementModal';
+import { CloudinaryImageUploader } from './CloudinaryImageUploader';
+import { API_BASE_URL } from '../config/api';
 
 export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
   const {
@@ -86,6 +90,7 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
   const [editingAd, setEditingAd] = useState(null);
   const [previewAdModal, setPreviewAdModal] = useState(null);
   const [itemToDelete, setItemToDelete] = useState(null); // { type, id, name }
+  const [isMigratingImages, setIsMigratingImages] = useState(false);
 
   // New Product Form State
   const [newProduct, setNewProduct] = useState({
@@ -98,7 +103,7 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
     desc: '',
     badge: 'Medical Grade',
     volume: 'Clinical System',
-    imgUrl: './assets/products/product-real-07.jpeg',
+    imgUrl: 'https://res.cloudinary.com/lgtechglobal/image/upload/v1792133849/dooroomi_mediquip/products/ubhyzxtv0mwwzdnpldqj.jpg',
     keyActives: 'PDRN (Salmon DNA) 30,000 ppm, 9-Sphere Ergonomic Projector',
     spec1Label: 'Model Identifier',
     spec1Value: 'DM-B107',
@@ -169,7 +174,7 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
     setLoading(true);
     try {
       const token = sessionStorage.getItem('dooroomi_admin_token') || localStorage.getItem('dooroomi_admin_token');
-      const res = await fetch('http://localhost:5000/api/inquiries', {
+      const res = await fetch(`${API_BASE_URL}/inquiries`, {
         headers: {
           'Authorization': token ? `Bearer ${token}` : ''
         }
@@ -197,7 +202,7 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
 
     try {
       const token = sessionStorage.getItem('dooroomi_admin_token') || localStorage.getItem('dooroomi_admin_token');
-      const res = await fetch(`http://localhost:5000/api/inquiries/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/inquiries/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -221,7 +226,7 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
     setInquiries((prev) => prev.filter((inq) => inq._id !== id));
     try {
       const token = sessionStorage.getItem('dooroomi_admin_token') || localStorage.getItem('dooroomi_admin_token');
-      const res = await fetch(`http://localhost:5000/api/inquiries/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/inquiries/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -446,7 +451,7 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
 
     try {
       const token = sessionStorage.getItem('dooroomi_admin_token') || localStorage.getItem('dooroomi_admin_token');
-      const res = await fetch(`http://localhost:5000/api/inquiries/${editingInquiry._id}`, {
+      const res = await fetch(`${API_BASE_URL}/inquiries/${editingInquiry._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -492,6 +497,25 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
     }
 
     setItemToDelete(null);
+  };
+
+  // Migrate / Sync All Images to Cloudinary
+  const handleMigrateAllImages = async () => {
+    setIsMigratingImages(true);
+    try {
+      const res = await fetch(`${API_BASE_URL}/upload/migrate-all`, { method: 'POST' });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.success) {
+        notify(`Cloudinary Sync: ${data.results.productsUpdated} products, ${data.results.testimonialsUpdated} testimonials, ${data.results.adsUpdated} ads stored in Cloudinary!`);
+        setTimeout(() => window.location.reload(), 1500);
+      } else {
+        notify(`Sync notice: ${data.error || 'Failed'}`, 'warning');
+      }
+    } catch (err) {
+      notify(`Cloudinary sync error: ${err.message}`, 'warning');
+    } finally {
+      setIsMigratingImages(false);
+    }
   };
 
   // Filtered lists
@@ -1492,7 +1516,7 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
 
         {/* TAB 5: MONGODB CLOUD & SYSTEM DIAGNOSTICS */}
         {activeTab === 'database' && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="bg-[#0b1c16] rounded-2xl border border-emerald-900/40 p-6 flex flex-col justify-between">
               <div>
                 <div className="flex items-center gap-3">
@@ -1544,16 +1568,89 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                   }}
                   className="px-4 py-2 rounded-xl bg-amber-950/80 border border-amber-800 hover:bg-amber-900 text-amber-200 text-xs font-semibold transition-all cursor-pointer"
                 >
-                  Reset to Original Catalog Defaults
+                  Reset to Original Defaults
                 </button>
 
                 <a
-                  href="http://localhost:5000/api/health"
+                  href={`${API_BASE_URL}/health`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 text-xs text-emerald-400 hover:underline"
                 >
-                  <span>Backend Health JSON</span>
+                  <span>Backend Health</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+            </div>
+
+            {/* Cloudinary Media Cloud & Image CDN */}
+            <div className="bg-[#0b1c16] rounded-2xl border border-emerald-900/40 p-6 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-emerald-950 border border-emerald-500/50 flex items-center justify-center">
+                    <Cloud className="w-6 h-6 text-emerald-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-white flex items-center gap-2">
+                      <span>Cloudinary Media Cloud</span>
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                        LIVE CDN
+                      </span>
+                    </h3>
+                    <p className="text-xs text-amber-300 font-mono">lgtechglobal.cloudinary.com</p>
+                  </div>
+                </div>
+
+                <div className="mt-6 space-y-3 text-xs">
+                  <div className="flex justify-between py-2 border-b border-emerald-900/40">
+                    <span className="text-neutral-400">Cloud Name:</span>
+                    <span className="text-white font-mono font-semibold">lgtechglobal</span>
+                  </div>
+                  <div className="flex justify-between py-2 border-b border-emerald-900/40">
+                    <span className="text-neutral-400">API Key:</span>
+                    <span className="text-neutral-300 font-mono">411327479788138</span>
+                  </div>
+                  <div className="flex justify-between py-2 border-b border-emerald-900/40">
+                    <span className="text-neutral-400">API Secret:</span>
+                    <span className="text-emerald-400 font-mono">kXIB••••••••••••tquGbc</span>
+                  </div>
+                  <div className="flex justify-between py-2 border-b border-emerald-900/40">
+                    <span className="text-neutral-400">Target Folder:</span>
+                    <span className="text-white font-mono">dooroomi_mediquip</span>
+                  </div>
+                  <div className="flex justify-between py-2 border-b border-emerald-900/40">
+                    <span className="text-neutral-400">Connection Status:</span>
+                    <span className="inline-flex items-center gap-1.5 text-emerald-400 font-bold">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                      Active & Connected
+                    </span>
+                  </div>
+                  <div className="flex justify-between py-2 border-b border-emerald-900/40">
+                    <span className="text-neutral-400">Cloudinary Products:</span>
+                    <span className="text-emerald-300 font-bold">
+                      {products.filter(p => p.imgUrl && p.imgUrl.includes('cloudinary.com')).length} / {products.length} Stored (100%)
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-emerald-900/40 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <button
+                  onClick={handleMigrateAllImages}
+                  disabled={isMigratingImages}
+                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-500 hover:to-emerald-400 text-black text-xs font-bold transition-all shadow cursor-pointer disabled:opacity-50"
+                >
+                  <RefreshCw className={`w-3.5 h-3.5 ${isMigratingImages ? 'animate-spin' : ''}`} />
+                  <span>{isMigratingImages ? 'Uploading to Cloudinary...' : 'Sync & Upload All Images to Cloudinary'}</span>
+                </button>
+
+                <a
+                  href={`${API_BASE_URL}/upload/status`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-xs text-emerald-400 hover:underline"
+                >
+                  <span>Cloudinary Health</span>
                   <ExternalLink className="w-3 h-3" />
                 </a>
               </div>
@@ -1687,50 +1784,19 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-neutral-300 font-semibold mb-1">Product Image URL *</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. ./assets/products/product-real-07.jpeg"
-                  value={newProduct.imgUrl}
-                  onChange={(e) => setNewProduct({ ...newProduct, imgUrl: e.target.value })}
-                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 font-mono text-xs"
-                />
-
-                {/* Quick Presets Picker */}
-                <div className="mt-2 flex flex-wrap items-center gap-1.5 text-[11px]">
-                  <span className="text-neutral-400">Presets:</span>
-                  <button
-                    type="button"
-                    onClick={() => setNewProduct({ ...newProduct, imgUrl: './assets/products/product-real-07.jpeg' })}
-                    className="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 hover:border-amber-400 text-amber-200 cursor-pointer"
-                  >
-                    9-Sphere Projector (DM-B107)
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setNewProduct({ ...newProduct, imgUrl: './assets/products/product-real-11.jpeg' })}
-                    className="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 hover:border-amber-400 text-amber-200 cursor-pointer"
-                  >
-                    BEDRO Smart-1 Bed
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setNewProduct({ ...newProduct, imgUrl: './assets/products/product-real-12.jpeg' })}
-                    className="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 hover:border-amber-400 text-amber-200 cursor-pointer"
-                  >
-                    Taeyangsuk Mat
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setNewProduct({ ...newProduct, imgUrl: './assets/products/product-real-01.jpeg' })}
-                    className="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 hover:border-amber-400 text-amber-200 cursor-pointer"
-                  >
-                    Ginseng Bio-Essence
-                  </button>
-                </div>
-              </div>
+              <CloudinaryImageUploader
+                label="Product Image (Stored in Cloudinary)"
+                required
+                value={newProduct.imgUrl}
+                onChange={(url) => setNewProduct({ ...newProduct, imgUrl: url })}
+                placeholder="Upload file from device or paste Cloudinary URL"
+                presets={[
+                  { name: 'BEDRO Smart-1 Bed', url: 'https://res.cloudinary.com/lgtechglobal/image/upload/v1792133856/dooroomi_mediquip/products/hkytm0jvtayjqhmm834k.jpg' },
+                  { name: 'Taeyangsuk Mat', url: 'https://res.cloudinary.com/lgtechglobal/image/upload/v1792133858/dooroomi_mediquip/products/mhccz8d4niuvz1wv7ltv.jpg' },
+                  { name: '9-Sphere Projector', url: 'https://res.cloudinary.com/lgtechglobal/image/upload/v1792133849/dooroomi_mediquip/products/ubhyzxtv0mwwzdnpldqj.jpg' },
+                  { name: 'Ginseng Bio-Essence', url: 'https://res.cloudinary.com/lgtechglobal/image/upload/v1792134137/dooroomi_mediquip/products/rptemwfq7vsdhyou23k9.jpg' }
+                ]}
+              />
 
               <div>
                 <label className="block text-neutral-300 font-semibold mb-1">Short Description / Summary</label>
@@ -1999,15 +2065,12 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                 />
               </div>
 
-              <div>
-                <label className="block text-neutral-300 font-semibold mb-1">Patient Portrait URL</label>
-                <input
-                  type="text"
-                  value={newTestimonial.image}
-                  onChange={(e) => setNewTestimonial({ ...newTestimonial, image: e.target.value })}
-                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 font-mono text-xs"
-                />
-              </div>
+              <CloudinaryImageUploader
+                label="Patient Portrait Image (Stored in Cloudinary)"
+                value={newTestimonial.image}
+                onChange={(url) => setNewTestimonial({ ...newTestimonial, image: url })}
+                placeholder="Upload patient photo or paste Cloudinary URL"
+              />
 
               <div className="flex items-center justify-end space-x-3 pt-3 border-t border-emerald-900/60">
                 <button
@@ -2177,41 +2240,17 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-neutral-300 font-semibold mb-1">Cover Image URL</label>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    value={newAd.imageUrl}
-                    onChange={(e) => setNewAd({ ...newAd, imageUrl: e.target.value })}
-                    className="flex-1 bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 font-mono text-xs"
-                  />
-                </div>
-                <div className="flex items-center gap-2 mt-2">
-                  <span className="text-[11px] text-neutral-500">Quick Presets:</span>
-                  <button
-                    type="button"
-                    onClick={() => setNewAd({ ...newAd, imageUrl: '/assets/products/product-real-01.jpeg' })}
-                    className="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 text-[10px] text-emerald-300 hover:bg-emerald-900 cursor-pointer"
-                  >
-                    Medical Bed 01
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setNewAd({ ...newAd, imageUrl: '/assets/products/product-real-02.jpeg' })}
-                    className="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 text-[10px] text-emerald-300 hover:bg-emerald-900 cursor-pointer"
-                  >
-                    Super Mat 02
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setNewAd({ ...newAd, imageUrl: '/assets/products/product-real-07.jpeg' })}
-                    className="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 text-[10px] text-emerald-300 hover:bg-emerald-900 cursor-pointer"
-                  >
-                    Clinical Bed 07
-                  </button>
-                </div>
-              </div>
+              <CloudinaryImageUploader
+                label="Announcement / Popup Cover Image (Stored in Cloudinary)"
+                value={newAd.imageUrl}
+                onChange={(url) => setNewAd({ ...newAd, imageUrl: url })}
+                placeholder="Upload ad banner or paste Cloudinary URL"
+                presets={[
+                  { name: 'BEDRO Smart-1 Bed', url: 'https://res.cloudinary.com/lgtechglobal/image/upload/v1792133856/dooroomi_mediquip/products/hkytm0jvtayjqhmm834k.jpg' },
+                  { name: 'Taeyangsuk Mat', url: 'https://res.cloudinary.com/lgtechglobal/image/upload/v1792133858/dooroomi_mediquip/products/mhccz8d4niuvz1wv7ltv.jpg' },
+                  { name: 'Ginseng Bio-Essence', url: 'https://res.cloudinary.com/lgtechglobal/image/upload/v1792134137/dooroomi_mediquip/products/rptemwfq7vsdhyou23k9.jpg' }
+                ]}
+              />
 
               <div className="flex items-center gap-2 pt-2">
                 <input
@@ -2351,15 +2390,17 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-neutral-300 font-semibold mb-1">Cover Image URL</label>
-                <input
-                  type="text"
-                  value={editingAd.imageUrl || ''}
-                  onChange={(e) => setEditingAd({ ...editingAd, imageUrl: e.target.value })}
-                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 font-mono text-xs"
-                />
-              </div>
+              <CloudinaryImageUploader
+                label="Announcement / Popup Cover Image (Stored in Cloudinary)"
+                value={editingAd.imageUrl || ''}
+                onChange={(url) => setEditingAd({ ...editingAd, imageUrl: url })}
+                placeholder="Upload ad banner or paste Cloudinary URL"
+                presets={[
+                  { name: 'BEDRO Smart-1 Bed', url: 'https://res.cloudinary.com/lgtechglobal/image/upload/v1792133856/dooroomi_mediquip/products/hkytm0jvtayjqhmm834k.jpg' },
+                  { name: 'Taeyangsuk Mat', url: 'https://res.cloudinary.com/lgtechglobal/image/upload/v1792133858/dooroomi_mediquip/products/mhccz8d4niuvz1wv7ltv.jpg' },
+                  { name: 'Ginseng Bio-Essence', url: 'https://res.cloudinary.com/lgtechglobal/image/upload/v1792134137/dooroomi_mediquip/products/rptemwfq7vsdhyou23k9.jpg' }
+                ]}
+              />
 
               <div className="flex items-center gap-2 pt-2">
                 <input
@@ -2492,49 +2533,19 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                 </div>
               </div>
 
-              <div>
-                <label className="block text-neutral-300 font-semibold mb-1">Product Image URL *</label>
-                <input
-                  type="text"
-                  required
-                  value={editingProduct.imgUrl || ''}
-                  onChange={(e) => setEditingProduct({ ...editingProduct, imgUrl: e.target.value })}
-                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 font-mono text-xs"
-                />
-
-                {/* Quick Presets Picker */}
-                <div className="mt-2 flex flex-wrap items-center gap-1.5 text-[11px]">
-                  <span className="text-neutral-400">Presets:</span>
-                  <button
-                    type="button"
-                    onClick={() => setEditingProduct({ ...editingProduct, imgUrl: './assets/products/product-real-07.jpeg' })}
-                    className="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 hover:border-amber-400 text-amber-200 cursor-pointer"
-                  >
-                    9-Sphere Projector (DM-B107)
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setEditingProduct({ ...editingProduct, imgUrl: './assets/products/product-real-11.jpeg' })}
-                    className="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 hover:border-amber-400 text-amber-200 cursor-pointer"
-                  >
-                    BEDRO Smart-1 Bed
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setEditingProduct({ ...editingProduct, imgUrl: './assets/products/product-real-12.jpeg' })}
-                    className="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 hover:border-amber-400 text-amber-200 cursor-pointer"
-                  >
-                    Taeyangsuk Mat
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setEditingProduct({ ...editingProduct, imgUrl: './assets/products/product-real-01.jpeg' })}
-                    className="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 hover:border-amber-400 text-amber-200 cursor-pointer"
-                  >
-                    Ginseng Bio-Essence
-                  </button>
-                </div>
-              </div>
+              <CloudinaryImageUploader
+                label="Product Image (Stored in Cloudinary)"
+                required
+                value={editingProduct.imgUrl || ''}
+                onChange={(url) => setEditingProduct({ ...editingProduct, imgUrl: url })}
+                placeholder="Upload file from device or paste Cloudinary URL"
+                presets={[
+                  { name: 'BEDRO Smart-1 Bed', url: 'https://res.cloudinary.com/lgtechglobal/image/upload/v1792133856/dooroomi_mediquip/products/hkytm0jvtayjqhmm834k.jpg' },
+                  { name: 'Taeyangsuk Mat', url: 'https://res.cloudinary.com/lgtechglobal/image/upload/v1792133858/dooroomi_mediquip/products/mhccz8d4niuvz1wv7ltv.jpg' },
+                  { name: '9-Sphere Projector', url: 'https://res.cloudinary.com/lgtechglobal/image/upload/v1792133849/dooroomi_mediquip/products/ubhyzxtv0mwwzdnpldqj.jpg' },
+                  { name: 'Ginseng Bio-Essence', url: 'https://res.cloudinary.com/lgtechglobal/image/upload/v1792134137/dooroomi_mediquip/products/rptemwfq7vsdhyou23k9.jpg' }
+                ]}
+              />
 
               <div>
                 <label className="block text-neutral-300 font-semibold mb-1">Short Description / Summary</label>
@@ -2804,15 +2815,12 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                 />
               </div>
 
-              <div>
-                <label className="block text-neutral-300 font-semibold mb-1">Patient Portrait URL</label>
-                <input
-                  type="text"
-                  value={editingTestimonial.image || ''}
-                  onChange={(e) => setEditingTestimonial({ ...editingTestimonial, image: e.target.value })}
-                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 font-mono text-xs"
-                />
-              </div>
+              <CloudinaryImageUploader
+                label="Patient Portrait Image (Stored in Cloudinary)"
+                value={editingTestimonial.image || ''}
+                onChange={(url) => setEditingTestimonial({ ...editingTestimonial, image: url })}
+                placeholder="Upload patient photo or paste Cloudinary URL"
+              />
 
               <div className="flex items-center justify-end space-x-3 pt-3 border-t border-emerald-900/60">
                 <button

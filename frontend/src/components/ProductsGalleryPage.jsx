@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { PRODUCTS as FALLBACK_PRODUCTS, CATEGORIES } from '../data/siteData';
 import { useData } from '../context/DataContext';
+import { getOptimizedImageUrl } from '../utils/imageUrl';
 
 export const ProductsGalleryPage = ({
   onSelectProduct,
@@ -199,8 +200,10 @@ export const ProductsGalleryPage = ({
                     />
 
                     <img
-                      src={product.imgUrl}
+                      src={getOptimizedImageUrl(product.imgUrl, { width: 600 })}
                       alt={product.name}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-contain filter drop-shadow-lg transition-transform duration-500 ease-out group-hover:scale-108 group-hover:-translate-y-1"
                     />
 

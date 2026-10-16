@@ -58,6 +58,7 @@ export const GallerySection = () => {
                 <img
                   src={item.img}
                   alt={item.title}
+                  loading="lazy"
                   className="w-full h-full object-contain filter drop-shadow-md group-hover:scale-106 transition-transform duration-500 ease-out"
                 />
               </div>

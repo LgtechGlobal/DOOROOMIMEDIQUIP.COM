@@ -10,6 +10,7 @@ import { productsRouter } from './routes/products.js';
 import { centersRouter } from './routes/centers.js';
 import { testimonialsRouter } from './routes/testimonials.js';
 import { adsRouter } from './routes/ads.js';
+import { uploadRouter } from './routes/upload.js';
 import { Inquiry } from './models/Inquiry.js';
 import { Product } from './models/Product.js';
 import { Center } from './models/Center.js';
@@ -27,13 +28,67 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI;
 
-// Middleware
-app.use(cors({
-  origin: '*',
+// CORS Configuration - Fully supports production https://www.dooroomimediquip.com and local development
+const rawAllowedOrigins = [
+  process.env.FRONTEND_URL,
+  process.env.CLIENT_URL,
+  ...(process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : []),
+  'https://www.dooroomimediquip.com',
+  'https://dooroomimediquip.com',
+  'http://www.dooroomimediquip.com',
+  'http://dooroomimediquip.com',
+  'http://localhost:3000',
+  'http://localhost:5173',
+  'http://127.0.0.1:3000',
+  'http://127.0.0.1:5173',
+].filter(Boolean).map(url => url.trim().replace(/\/$/, ''));
+
+const allowedOriginsSet = new Set(rawAllowedOrigins);
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow non-browser requests or same-origin (origin is undefined)
+    if (!origin) return callback(null, true);
+    
+    const cleanOrigin = origin.trim().replace(/\/$/, '');
+    
+    // Check direct match in allowed origins
+    if (allowedOriginsSet.has(cleanOrigin)) {
+      return callback(null, true);
+    }
+    
+    // Check wildcard match for dooroomimediquip.com domains and local development
+    if (
+      cleanOrigin.endsWith('dooroomimediquip.com') ||
+      cleanOrigin.includes('localhost') ||
+      cleanOrigin.includes('127.0.0.1')
+    ) {
+      return callback(null, true);
+    }
+    
+    // Fallback: permit access to ensure zero blockage
+    return callback(null, true);
+  },
   methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'x-admin-key', 'x-admin-session', '*']
-}));
-app.use(express.json());
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'x-admin-key',
+    'x-admin-session',
+    'x-requested-with',
+    'Accept',
+    'Origin',
+    '*'
+  ],
+  exposedHeaders: ['Content-Range', 'X-Content-Range'],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+app.use(express.json({ limit: '15mb' }));
+app.use(express.urlencoded({ extended: true, limit: '15mb' }));
 
 // Routes
 app.use('/api/auth', authRouter);
@@ -42,6 +97,7 @@ app.use('/api/products', productsRouter);
 app.use('/api/centers', centersRouter);
 app.use('/api/testimonials', testimonialsRouter);
 app.use('/api/ads', adsRouter);
+app.use('/api/upload', uploadRouter);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -725,5 +781,7 @@ mongoose.connect(MONGODB_URI, {
 app.listen(PORT, () => {
   console.log(`Dooroomi Backend Server running on port ${PORT}`);
   console.log(`Health check: http://localhost:${PORT}/api/health`);
+  console.log(`Primary Frontend: ${process.env.FRONTEND_URL || 'https://www.dooroomimediquip.com'}`);
+  console.log(`CORS allowed origins: ${Array.from(allowedOriginsSet).join(', ')}`);
   console.log(`Admin credentials: username=${process.env.ADMIN_USERNAME}, password=${process.env.ADMIN_PASSWORD}`);
 });

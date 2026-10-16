@@ -23,6 +23,7 @@ import { QuickViewModal } from './components/QuickViewModal';
 import { CompareDrawer } from './components/CompareDrawer';
 import { LoginModal } from './components/LoginModal';
 import { FranchiseModal } from './components/FranchiseModal';
+import { API_BASE_URL } from './config/api';
 import { AdvertisementModal } from './components/AdvertisementModal';
 import { AdminPortalPage } from './components/AdminPortalPage';
 
@@ -113,7 +114,7 @@ export function App() {
 
     const token = sessionStorage.getItem('dooroomi_admin_token');
     if (token) {
-      fetch('http://localhost:5000/api/auth/verify', {
+      fetch(`${API_BASE_URL}/auth/verify`, {
         headers: { Authorization: `Bearer ${token}` }
       })
         .then(res => res.json())

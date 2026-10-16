@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, ArrowRight, ShieldCheck, Download, Sparkles } from 'lucide-react';
+import { getOptimizedImageUrl } from '../utils/imageUrl';
 
 export const QuickViewModal = ({
   product,
@@ -38,8 +39,10 @@ export const QuickViewModal = ({
             
             <div className="w-full max-w-[280px] aspect-square flex items-center justify-center">
               <img
-                src={product.imgUrl}
+                src={getOptimizedImageUrl(product.imgUrl, { width: 600 })}
                 alt={product.name}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-contain filter drop-shadow-xl"
               />
             </div>
