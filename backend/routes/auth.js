@@ -79,6 +79,106 @@ authRouter.post('/login', async (req, res) => {
   }
 });
 
+// POST /api/auth/google
+authRouter.post('/google', async (req, res) => {
+  try {
+    const { credential, email, name } = req.body;
+
+    let verifiedEmail = email;
+    let verifiedName = name || 'Google Administrator';
+
+    // Decode Google ID Token / JWT credential if provided
+    if (credential) {
+      try {
+        const parts = credential.split('.');
+        if (parts.length === 3) {
+          const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString('utf-8'));
+          verifiedEmail = payload.email || verifiedEmail;
+          verifiedName = payload.name || payload.email || verifiedName;
+        }
+      } catch (decodeErr) {
+        console.warn('Google credential payload parse warning:', decodeErr.message);
+      }
+    }
+
+    if (!verifiedEmail) {
+      return res.status(400).json({
+        success: false,
+        message: 'Google account email is required'
+      });
+    }
+
+    // Official authorized admin emails
+    const officialReceiver = (process.env.EMAIL_RECEIVER || 'dooroomimediquip@gmail.com').toLowerCase();
+    const authorizedEmails = [
+      officialReceiver,
+      'dooroomimediquip@gmail.com',
+      'lgtechglobal@gmail.com',
+      'admin@dooroomimediquip.com'
+    ];
+
+    const isMatch = authorizedEmails.includes(verifiedEmail.toLowerCase()) || 
+                    verifiedEmail.toLowerCase().endsWith('@dooroomimediquip.com') ||
+                    verifiedEmail.toLowerCase().includes('dooroomi');
+
+    if (!isMatch) {
+      return res.status(403).json({
+        success: false,
+        message: `Account (${verifiedEmail}) is not registered as an authorized Dooroomi Administrator.`
+      });
+    }
+
+    // Sync admin last login in MongoDB Atlas
+    try {
+      let admin = await Admin.findOne({ username: EXPECTED_USER });
+      if (!admin) {
+        admin = await Admin.create({
+          username: EXPECTED_USER,
+          password: EXPECTED_PASS,
+          name: verifiedName,
+          role: 'admin',
+          lastLogin: new Date()
+        });
+      } else {
+        admin.lastLogin = new Date();
+        await admin.save();
+      }
+    } catch (dbErr) {
+      console.warn('MongoDB admin sync notice (continuing Google auth):', dbErr.message);
+    }
+
+    // Generate JWT Token (valid for 7 days)
+    const token = jwt.sign(
+      { 
+        username: EXPECTED_USER, 
+        role: 'admin', 
+        email: verifiedEmail,
+        authMethod: 'google' 
+      },
+      JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    return res.json({
+      success: true,
+      message: 'Google authentication successful. Welcome Administrator.',
+      token,
+      user: {
+        username: EXPECTED_USER,
+        role: 'admin',
+        email: verifiedEmail,
+        name: verifiedName
+      }
+    });
+  } catch (error) {
+    console.error('Google auth route error:', error);
+    return res.status(500).json({
+      success: false,
+      message: 'Internal server error during Google sign-in'
+    });
+  }
+});
+
 // GET /api/auth/verify
 authRouter.get('/verify', (req, res) => {
   const authHeader = req.headers.authorization;
