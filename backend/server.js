@@ -35,6 +35,7 @@ const rawAllowedOrigins = [
   ...(process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : []),
   'https://www.dooroomimediquip.com',
   'https://dooroomimediquip.com',
+  'https://dooroomimediquip-com.onrender.com',
   'http://www.dooroomimediquip.com',
   'http://dooroomimediquip.com',
   'http://localhost:3000',
@@ -57,9 +58,10 @@ const corsOptions = {
       return callback(null, true);
     }
     
-    // Check wildcard match for dooroomimediquip.com domains and local development
+    // Check wildcard match for dooroomimediquip.com domains, onrender.com, and local development
     if (
       cleanOrigin.endsWith('dooroomimediquip.com') ||
+      cleanOrigin.includes('onrender.com') ||
       cleanOrigin.includes('localhost') ||
       cleanOrigin.includes('127.0.0.1')
     ) {
