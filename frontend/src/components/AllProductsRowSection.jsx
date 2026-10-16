@@ -3,7 +3,6 @@ import {
   ChevronsLeft, 
   ChevronsRight, 
   ArrowRight, 
-  ArrowUpRight, 
   Play, 
   Pause, 
   ShieldCheck, 
@@ -278,20 +277,6 @@ export const AllProductsRowSection = ({ onSelectProduct, onSelectForQuote, onNav
                     >
                       <span>View Details</span>
                       <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        if (onSelectForQuote) {
-                          onSelectForQuote(activeProduct);
-                        } else if (onSelectProduct) {
-                          onSelectProduct(activeProduct.id);
-                        }
-                      }}
-                      className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-neutral-300 hover:border-neutral-400 bg-white hover:bg-neutral-50 text-neutral-700 font-medium text-xs transition-colors cursor-pointer"
-                    >
-                      <span>View Certification</span>
-                      <ArrowUpRight className="w-3.5 h-3.5 text-neutral-400" />
                     </button>
                   </div>
 
