@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import { Product } from '../models/Product.js';
 import { verifyToken } from './auth.js';
 
@@ -106,13 +107,28 @@ productsRouter.put('/:id', verifyToken, async (req, res) => {
 // DELETE remove product (Admin authenticated)
 productsRouter.delete('/:id', verifyToken, async (req, res) => {
   try {
-    const deleted = await Product.findOneAndDelete({ id: req.params.id });
+    const idParam = req.params.id;
+    const query = {
+      $or: [
+        { id: idParam },
+        { slug: idParam },
+        ...(mongoose.Types.ObjectId.isValid(idParam) ? [{ _id: idParam }] : [])
+      ]
+    };
+    const deleted = await Product.findOneAndDelete(query);
     if (!deleted) {
-      return res.status(404).json({ success: false, message: 'Product not found' });
+      return res.status(404).json({ success: false, message: `Product "${idParam}" not found in MongoDB database` });
     }
-    res.json({ success: true, message: 'Product deleted from website successfully', deletedId: req.params.id });
+    console.log(`[MongoDB Atlas] Product "${deleted.name}" (${deleted.id}) deleted successfully.`);
+    res.json({ 
+      success: true, 
+      message: `Product "${deleted.name}" deleted from MongoDB Atlas database successfully`, 
+      deletedId: idParam,
+      product: deleted 
+    });
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Failed to delete product', error: err.message });
+    console.error('Delete product error:', err);
+    res.status(500).json({ success: false, message: 'Failed to delete product from database', error: err.message });
   }
 });
 

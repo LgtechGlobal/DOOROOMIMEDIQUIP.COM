@@ -8,6 +8,8 @@ export const SITE_CONFIG = {
   phone: "1800-419-5278",
   phoneTel: "18004195278",
   tollFree: "1800-419-5278",
+  whatsapp: "+91 91536 97636",
+  whatsappTel: "919153697636",
   email: "dooroomimediquip@gmail.com",
   inquiryEmail: "dooroomimediquip@gmail.com",
   companyProfilePdf: "./assets/ceo/company-profile.pdf",

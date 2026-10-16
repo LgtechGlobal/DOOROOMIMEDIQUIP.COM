@@ -2,17 +2,26 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { authRouter } from './routes/auth.js';
 import { inquiriesRouter } from './routes/inquiries.js';
 import { productsRouter } from './routes/products.js';
 import { centersRouter } from './routes/centers.js';
 import { testimonialsRouter } from './routes/testimonials.js';
+import { adsRouter } from './routes/ads.js';
 import { Inquiry } from './models/Inquiry.js';
 import { Product } from './models/Product.js';
 import { Center } from './models/Center.js';
 import { Testimonial } from './models/Testimonial.js';
+import { Ad } from './models/Ad.js';
 
-dotenv.config();
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Ensure .env is always loaded regardless of working directory
+dotenv.config({ path: path.join(__dirname, '.env') });
+dotenv.config(); // fallback
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -21,8 +30,8 @@ const MONGODB_URI = process.env.MONGODB_URI;
 // Middleware
 app.use(cors({
   origin: '*',
-  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'x-admin-key', 'x-admin-session', '*']
 }));
 app.use(express.json());
 
@@ -32,6 +41,7 @@ app.use('/api/inquiries', inquiriesRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/centers', centersRouter);
 app.use('/api/testimonials', testimonialsRouter);
+app.use('/api/ads', adsRouter);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
@@ -328,6 +338,74 @@ const seedInitialData = async () => {
           imgUrl: "./assets/products/product-real-12.jpeg",
           keyActives: ["Taeyangsuk Natural Bio-Ceramics", "EMF Shielding Multi-Layer Carbon Wire", "Micro-Controller Digital Temp"],
           specs: [["Model Identifier", "DM-MAT02"], ["Standard Compliance", "EMF Safe / ISO 9001 / Korea Medical Certification"]]
+        },
+        {
+          id: "p13",
+          slug: "product-13",
+          name: "Golden Crane Intensive Lifting Cream",
+          nameKo: "황금 학 인텐시브 리프팅 크림",
+          cat: "series-b",
+          catLabel: "Series B · Cellular Longevity",
+          model: "DM-B113",
+          short: "Infused with 24K nano-gold flakes, royal jelly peptides, and adenosine for deep dermal density.",
+          desc: "An opulent sculpting cream that firms the facial contour and visibly tightens relaxed dermal tissue. Harnesses bio-peptide complexes and pure Korean gold for an illuminated, porcelain glow.",
+          volume: "50 ml / 1.69 fl. oz.",
+          texture: "Luxurious Cashmere Balm",
+          badge: "Royal Luxury",
+          imgUrl: "./assets/products/product-real-13.jpeg",
+          keyActives: ["24K Pure Gold Nano-Flakes", "Royal Jelly Peptide Complex", "Acetyl Hexapeptide-8"],
+          specs: [["Model Identifier", "DM-B113"], ["Standard Compliance", "ISO 22716 / Korea CGMP"]]
+        },
+        {
+          id: "p14",
+          slug: "product-14",
+          name: "Marine Collagen Firming Treatment",
+          nameKo: "마린 콜라겐 퍼밍 트리트먼트",
+          cat: "series-b",
+          catLabel: "Series B · Cellular Longevity",
+          model: "DM-B114",
+          short: "Deep-sea low-dalton hydrolyzed collagen with spirulina extract for structural elasticity.",
+          desc: "Delivers intensive elasticity restoration by replenishing the extracellular matrix. Features 500-Dalton marine collagen peptides that penetrate stratum corneum barriers seamlessly.",
+          volume: "60 ml / 2.02 fl. oz.",
+          texture: "Hydro-Rich Firming Jelly",
+          badge: "Collagen Matrix",
+          imgUrl: "./assets/products/product-real-14.jpeg",
+          keyActives: ["500 Da Marine Collagen 65%", "Spirulina Maxima Extract", "Adenosine 0.05%"],
+          specs: [["Model Identifier", "DM-B114"], ["Standard Compliance", "ISO 22716 / CGMP Certified"]]
+        },
+        {
+          id: "p15",
+          slug: "product-15",
+          name: "Silk Ceramide Barrier Softener",
+          nameKo: "실크 세라마이드 베리어 소프너",
+          cat: "series-a",
+          catLabel: "Series A · Botanicals",
+          model: "DM-A115",
+          short: "Natural silk amino acids blended with phytosphingosine to nourish and comfort lipid-depleted skin.",
+          desc: "Acts as an ultra-nourishing preparatory step that restores skin's natural acidic protective mantle while quenching micro-cracks and rough dry patches instantly.",
+          volume: "150 ml / 5.07 fl. oz.",
+          texture: "Milky Conditioning Emulsion",
+          badge: "Barrier Shield",
+          imgUrl: "./assets/products/product-real-15.jpeg",
+          keyActives: ["Silk Amino Acid Complex", "Phytosphingosine", "Ceramide Complex 5%"],
+          specs: [["Model Identifier", "DM-A115"], ["Standard Compliance", "ISO 22716 / Dermatest Excellent"]]
+        },
+        {
+          id: "p16",
+          slug: "product-16",
+          name: "Camellia Bio-Defense Radiance Oil",
+          nameKo: "동백 바이오 디펜스 래디언스 오일",
+          cat: "series-a",
+          catLabel: "Series A · Botanicals",
+          model: "DM-A116",
+          short: "Cold-pressed Jeju Camellia Japonica seed oil enriched with astaxanthin antioxidant shield.",
+          desc: "A velvety dry facial oil rich in oleic acid (Omega-9) and Polyphenols. Shields skin against urban oxidative stress and blue-light radiation while locking in luminous moisture.",
+          volume: "30 ml / 1.01 fl. oz.",
+          texture: "Featherlight Non-Greasy Dry Oil",
+          badge: "Pure Radiance",
+          imgUrl: "./assets/products/product-real-16.jpeg",
+          keyActives: ["Jeju Camellia Seed Oil 85%", "Natural Astaxanthin", "Tocopherol (Vit E)"],
+          specs: [["Model Identifier", "DM-A116"], ["Standard Compliance", "EVE Vegan Certified / ISO 22716"]]
         }
       ]);
       console.log('Initial products seeded into MongoDB Atlas successfully.');
@@ -571,9 +649,59 @@ const seedInitialData = async () => {
           docPage: 14,
           quote: "Suffering for 12 years with joint pain, thyroid and shortness of breath, I was helpless. 3 months at Dooroomi center gave me a new life, reduced my weight, and healed my breathing!",
           fullStory: "My name is Snehalata Sahu, 54 yrs, Kalinga Vihar. Suffering for 12 years with joint pain, thyroid and asthma. At Dooroomi, using BEDRO Smart-1 and Taeyangsuk Mat cured my joint pains and restored my normal breathing without inhalers."
+        },
+        {
+          id: "p5",
+          name: "Sri Ullash Chandra Mohapatra",
+          age: "72 Years",
+          location: "Pokhariput (Near D.A.V. School), Bhubaneswar",
+          disease: "Knee Osteoarthritis, High BP & Constipation",
+          diseaseKo: "무릎 관절염 · 고혈압 · 소화기 개선",
+          duration: "Suffering for 1+ Years",
+          treatment: "Natural Taeyangsuk Sintered Therapy",
+          image: "/assets/testimonials/patient-ullash-mohapatra.jpg",
+          rating: 5,
+          docPage: 15,
+          quote: "Suffering from severe knee pain for over a year, I couldn't walk peacefully. At the Pokhariput Dooroomi center, I became 100% free from knee pain! Taeyangsuk natural therapy replaced my anxiety with immense happiness.",
+          fullStory: "My name is Ullash Chandra Mohapatra, Age 72 years, At-Pokhariput, Near D.A.V. Public School, P.O- Pokhariput, Bhubaneswar. I was suffering from knee pain for about one year. Now I am 100% free from knee pain! I have not taken any other treatment before coming to DOOROOMI centre for knee pain. I got information through Ramesh Chandra Panda who was taking treatment from DOOROOMI centre.\n\nI felt happiness emerge from anxiety. All the people of DOOROOMI centre are gentle, excellent and helpful. DOOROOMI is an auspicious organization. It gives treatment through TAEYANGSUK. TAEYANGSUK is a natural substance prepared from several sacred natural minerals. I will go door to door and tell everyone about DOOROOMI."
+        },
+        {
+          id: "p6",
+          name: "Sri Ramesh Chandra Sahu",
+          age: "58 Years",
+          location: "Chandapur, Dist- Nayagarh, Odisha",
+          disease: "Chronic Slipped Disc, Back Pain & High BP",
+          diseaseKo: "만성 허리 디스크 및 고혈압 완치",
+          duration: "Suffering for 5 Years",
+          treatment: "Dooroomi Thermal Spine Realignment",
+          image: "/assets/testimonials/patient-ramesh-sahu.jpg",
+          rating: 5,
+          docPage: 15,
+          quote: "After 5 years of painful injections and medicines for back pain and high blood pressure, Dooroomi therapy made me completely fine. I can now do my daily work with full strength and joy!",
+          fullStory: "My name is Ramesh Chandra Sahu, Age 58 years, At-Chandapur, P.O- Chandapur, Dist- Nayagarh, Odisha. I had Back Pain and Blood Pressure problems since 5 years. I have taken many medicines and injections and many types of treatments before coming to DOOROOMI.\n\nThen I heard about DOOROOMI Medical Treatments from a known person. I went to the DOOROOMI center, and now I am perfectly fine and can do my work on a regular basis. I would heartily like to thanks DOOROOMI Medical and would pray that may DOOROOMI Medical get succeed in their work and keep helping people like me."
         }
       ]);
       console.log('Initial testimonials seeded into MongoDB Atlas successfully.');
+    }
+
+    // Seed default advertisement if empty
+    const adCount = await Ad.countDocuments();
+    if (adCount === 0) {
+      await Ad.create({
+        id: "ad-franchise-2026",
+        title: "DOOROOMI Official Franchise & Health Center Partner Program 2026",
+        badge: "EXCLUSIVE OPPORTUNITY",
+        subtitle: "Expand Korea's Leading Medical Equipment & Free Daily Therapy Centers Across India",
+        description: "Join hands with DOOROOMIMEDIQUIP and SKS International. Open a high-demand, fully certified Korean Medical Therapy Center in your city with complete technical guidance, certified equipment, and brand support.",
+        imageUrl: "/assets/products/product-real-01.jpeg",
+        buttonText: "Inquire for Franchise",
+        buttonLink: "#/therapy",
+        buttonActionType: "franchise",
+        isEnabled: true,
+        priority: 1,
+        discountTag: "100% Free Daily Therapy Model"
+      });
+      console.log('Initial advertisement seeded into MongoDB Atlas successfully.');
     }
   } catch (e) {
     console.warn('Note: Could not seed data:', e.message);

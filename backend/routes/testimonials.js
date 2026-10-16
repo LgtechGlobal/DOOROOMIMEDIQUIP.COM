@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import { Testimonial } from '../models/Testimonial.js';
 import { verifyToken } from './auth.js';
 
@@ -79,13 +80,27 @@ testimonialsRouter.put('/:id', verifyToken, async (req, res) => {
 // DELETE remove testimonial (Admin authenticated)
 testimonialsRouter.delete('/:id', verifyToken, async (req, res) => {
   try {
-    const deleted = await Testimonial.findOneAndDelete({ id: req.params.id });
+    const idParam = req.params.id;
+    const query = {
+      $or: [
+        { id: idParam },
+        ...(mongoose.Types.ObjectId.isValid(idParam) ? [{ _id: idParam }] : [])
+      ]
+    };
+    const deleted = await Testimonial.findOneAndDelete(query);
     if (!deleted) {
-      return res.status(404).json({ success: false, message: 'Testimonial not found' });
+      return res.status(404).json({ success: false, message: `Patient testimonial "${idParam}" not found in database` });
     }
-    res.json({ success: true, message: 'Patient testimonial deleted from website successfully', deletedId: req.params.id });
+    console.log(`[MongoDB Atlas] Testimonial "${deleted.name}" (${deleted.id}) deleted successfully.`);
+    res.json({ 
+      success: true, 
+      message: `Patient testimonial from "${deleted.name}" deleted from MongoDB Atlas database successfully`, 
+      deletedId: idParam,
+      testimonial: deleted 
+    });
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Failed to delete testimonial', error: err.message });
+    console.error('Delete testimonial error:', err);
+    res.status(500).json({ success: false, message: 'Failed to delete testimonial from database', error: err.message });
   }
 });
 

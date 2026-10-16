@@ -8,7 +8,7 @@ export const WhatsAppWidget = () => {
   const [showTooltip, setShowTooltip] = useState(true);
 
   // Dooroomi WhatsApp direct international support number
-  const WHATSAPP_NUMBER = "82808502026";
+  const WHATSAPP_NUMBER = "919153697636";
 
   const quickPrompts = [
     {

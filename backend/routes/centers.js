@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import { Center } from '../models/Center.js';
 import { verifyToken } from './auth.js';
 
@@ -62,13 +63,27 @@ centersRouter.put('/:id', verifyToken, async (req, res) => {
 // DELETE remove center (Admin authenticated)
 centersRouter.delete('/:id', verifyToken, async (req, res) => {
   try {
-    const deleted = await Center.findOneAndDelete({ id: req.params.id });
+    const idParam = req.params.id;
+    const query = {
+      $or: [
+        { id: idParam },
+        ...(mongoose.Types.ObjectId.isValid(idParam) ? [{ _id: idParam }] : [])
+      ]
+    };
+    const deleted = await Center.findOneAndDelete(query);
     if (!deleted) {
-      return res.status(404).json({ success: false, message: 'Therapy center not found' });
+      return res.status(404).json({ success: false, message: `Therapy center "${idParam}" not found in database` });
     }
-    res.json({ success: true, message: 'Therapy center deleted successfully', deletedId: req.params.id });
+    console.log(`[MongoDB Atlas] Center "${deleted.city} - ${deleted.area}" (${deleted.id}) deleted successfully.`);
+    res.json({ 
+      success: true, 
+      message: `Therapy center "${deleted.city} - ${deleted.area}" deleted from MongoDB Atlas database successfully`, 
+      deletedId: idParam,
+      center: deleted 
+    });
   } catch (err) {
-    res.status(500).json({ success: false, message: 'Failed to delete center', error: err.message });
+    console.error('Delete center error:', err);
+    res.status(500).json({ success: false, message: 'Failed to delete center from database', error: err.message });
   }
 });
 

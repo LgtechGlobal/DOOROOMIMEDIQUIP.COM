@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, Mail, Menu, X, ArrowRight, ShieldCheck, User, Globe } from 'lucide-react';
+import { Phone, Mail, Menu, X, ArrowRight, ShieldCheck, User, Globe, Handshake } from 'lucide-react';
 import { SITE_CONFIG } from '../data/siteData';
 
 export const Navbar = ({
   activeSection,
   onNavigate,
   onOpenLogin,
+  onOpenFranchise,
   isAdminAuthenticated,
   onOpenAdmin
 }) => {
@@ -246,13 +247,14 @@ export const Navbar = ({
             })}
           </nav>
 
-          {/* Right Action Button */}
+          {/* Right Action Button: Franchise */}
           <div className="hidden lg:flex items-center gap-3 shrink-0">
             <button
-              onClick={() => handleNavClick('contact')}
-              className="px-5 py-2.5 rounded-full bg-gradient-to-r from-hanbit-forest to-hanbit-dark text-white text-xs xl:text-sm font-semibold hover:shadow-lg hover:from-emerald-950 hover:to-emerald-900 border border-hanbit-gold/40 transition-all inline-flex items-center gap-2 group"
+              onClick={() => onOpenFranchise && onOpenFranchise()}
+              className="px-5 py-2.5 rounded-full bg-gradient-to-r from-hanbit-forest to-hanbit-dark text-white text-xs xl:text-sm font-semibold hover:shadow-lg hover:from-emerald-950 hover:to-emerald-900 border border-hanbit-gold/40 transition-all inline-flex items-center gap-2 group cursor-pointer"
             >
-              <span>Request Quote</span>
+              <Handshake className="w-4 h-4 text-hanbit-gold group-hover:scale-110 transition-transform" />
+              <span>Franchise</span>
               <ArrowRight className="w-3.5 h-3.5 text-hanbit-gold group-hover:translate-x-0.5 transition-transform" />
             </button>
           </div>
@@ -290,10 +292,14 @@ export const Navbar = ({
             })}
             <div className="pt-4 border-t border-hanbit-border mt-3 space-y-2">
               <button
-                onClick={() => handleNavClick('contact')}
-                className="w-full py-2.5 rounded-xl bg-hanbit-forest text-white text-xs font-semibold flex items-center justify-center gap-2"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  if (onOpenFranchise) onOpenFranchise();
+                }}
+                className="w-full py-2.5 rounded-xl bg-hanbit-forest text-white text-xs font-semibold flex items-center justify-center gap-2 cursor-pointer"
               >
-                <span>Request B2B Quote</span>
+                <Handshake className="w-4 h-4 text-hanbit-gold" />
+                <span>Franchise Application</span>
                 <ArrowRight className="w-3.5 h-3.5 text-hanbit-gold" />
               </button>
               <button

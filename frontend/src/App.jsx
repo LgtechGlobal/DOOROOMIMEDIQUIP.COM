@@ -22,6 +22,8 @@ import { Footer } from './components/Footer';
 import { QuickViewModal } from './components/QuickViewModal';
 import { CompareDrawer } from './components/CompareDrawer';
 import { LoginModal } from './components/LoginModal';
+import { FranchiseModal } from './components/FranchiseModal';
+import { AdvertisementModal } from './components/AdvertisementModal';
 import { AdminPortalPage } from './components/AdminPortalPage';
 
 const DEDICATED_ROUTES = ['about', 'certificates', 'principle', 'therapy', 'services', 'gallery', 'admin'];
@@ -54,6 +56,7 @@ export function App() {
   const [comparedProducts, setComparedProducts] = useState([]);
   const [quoteProduct, setQuoteProduct] = useState(null);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isFranchiseOpen, setIsFranchiseOpen] = useState(false);
   const [selectedCatId, setSelectedCatId] = useState('all');
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() => {
     return localStorage.getItem('dooroomi_admin') === 'true';
@@ -197,6 +200,7 @@ export function App() {
           activeSection={activeSection}
           onNavigate={scrollToSection}
           onOpenLogin={() => setIsLoginOpen(true)}
+          onOpenFranchise={() => setIsFranchiseOpen(true)}
           onSelectCategory={(catId) => setSelectedCatId(catId)}
           isAdminAuthenticated={isAdminAuthenticated}
           onOpenAdmin={() => {
@@ -338,6 +342,19 @@ export function App() {
           onClose={() => setIsLoginOpen(false)}
           onLoginSuccess={handleLoginSuccess}
         />
+
+        {/* Official Franchise Partnership Modal */}
+        <FranchiseModal
+          isOpen={isFranchiseOpen}
+          onClose={() => setIsFranchiseOpen(false)}
+        />
+
+        {/* Dynamic Admin-Controlled Advertisement / Announcement Modal (User Facing) */}
+        {currentRoute.view !== 'admin' && (
+          <AdvertisementModal
+            onOpenFranchise={() => setIsFranchiseOpen(true)}
+          />
+        )}
       </div>
     </SmoothScroll>
   );

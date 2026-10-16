@@ -31,27 +31,39 @@ import {
   AlertTriangle,
   Image as ImageIcon,
   CheckCircle,
-  Eye
+  Eye,
+  Megaphone,
+  ToggleLeft,
+  ToggleRight,
+  Edit3,
+  Handshake
 } from 'lucide-react';
 import { SITE_CONFIG } from '../data/siteData';
 import { useData } from '../context/DataContext';
+import { AdvertisementModal } from './AdvertisementModal';
 
 export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
   const {
     products,
     centers,
     testimonials,
+    ads,
+    activeAd,
     addProduct,
     deleteProduct,
     addCenter,
     deleteCenter,
     addTestimonial,
     deleteTestimonial,
+    addAd,
+    updateAd,
+    toggleAd,
+    deleteAd,
     resetToDefaults,
     dbConnected: contextDbConnected
   } = useData();
 
-  const [activeTab, setActiveTab] = useState('products'); // 'products' | 'centers' | 'testimonials' | 'inquiries' | 'database'
+  const [activeTab, setActiveTab] = useState('products'); // 'products' | 'centers' | 'testimonials' | 'ads' | 'inquiries' | 'database'
   const [inquiries, setInquiries] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -63,6 +75,9 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
   const [showAddCenterModal, setShowAddCenterModal] = useState(false);
   const [showAddTestimonialModal, setShowAddTestimonialModal] = useState(false);
   const [showAddInquiryModal, setShowAddInquiryModal] = useState(false);
+  const [showAddAdModal, setShowAddAdModal] = useState(false);
+  const [editingAd, setEditingAd] = useState(null);
+  const [previewAdModal, setPreviewAdModal] = useState(null);
   const [itemToDelete, setItemToDelete] = useState(null); // { type, id, name }
 
   // New Product Form State
@@ -121,6 +136,21 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
     message: ''
   });
 
+  // New Advertisement / Popup State
+  const [newAd, setNewAd] = useState({
+    title: '',
+    badge: 'SPECIAL ANNOUNCEMENT',
+    subtitle: '',
+    description: '',
+    imageUrl: '/assets/products/product-real-01.jpeg',
+    buttonText: 'Inquire for Franchise',
+    buttonLink: '#/therapy',
+    buttonActionType: 'franchise',
+    isEnabled: true,
+    priority: 1,
+    discountTag: '100% Free Daily Therapy Model'
+  });
+
   // Show temporary toast notification
   const notify = (msg, type = 'success') => {
     setNotification({ msg, type });
@@ -160,14 +190,19 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
 
     try {
       const token = localStorage.getItem('dooroomi_admin_token');
-      await fetch(`http://localhost:5000/api/inquiries/${id}`, {
+      const res = await fetch(`http://localhost:5000/api/inquiries/${id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': token ? `Bearer ${token}` : ''
+          'Authorization': token ? `Bearer ${token}` : '',
+          'x-admin-key': 'dooroomi_admin_2026_master_secret',
+          'x-admin-session': 'dooroomi_admin_active'
         },
         body: JSON.stringify({ status: newStatus })
       });
+      if (!res.ok) {
+        throw new Error('Server returned ' + res.status);
+      }
       notify(`Inquiry status updated to ${newStatus}`);
     } catch (err) {
       notify('Status updated locally.', 'info');
@@ -179,13 +214,19 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
     setInquiries((prev) => prev.filter((inq) => inq._id !== id));
     try {
       const token = localStorage.getItem('dooroomi_admin_token');
-      await fetch(`http://localhost:5000/api/inquiries/${id}`, {
+      const res = await fetch(`http://localhost:5000/api/inquiries/${id}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': token ? `Bearer ${token}` : ''
+          'Content-Type': 'application/json',
+          'Authorization': token ? `Bearer ${token}` : '',
+          'x-admin-key': 'dooroomi_admin_2026_master_secret',
+          'x-admin-session': 'dooroomi_admin_active'
         }
       });
-      notify('Inquiry deleted successfully');
+      if (!res.ok) {
+        throw new Error('Server returned ' + res.status);
+      }
+      notify('Inquiry deleted from MongoDB Atlas database successfully!');
     } catch (err) {
       notify('Inquiry removed locally.', 'info');
     }
@@ -288,20 +329,66 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
     });
   };
 
+  // Submit Add Advertisement
+  const handleAddAdSubmit = async (e) => {
+    e.preventDefault();
+    if (!newAd.title) {
+      alert('Please fill in the Announcement / Ad Title');
+      return;
+    }
+
+    await addAd(newAd);
+    setShowAddAdModal(false);
+    notify(`Advertisement "${newAd.title}" published!`);
+    setNewAd({
+      title: '',
+      badge: 'SPECIAL ANNOUNCEMENT',
+      subtitle: '',
+      description: '',
+      imageUrl: '/assets/products/product-real-01.jpeg',
+      buttonText: 'Inquire for Franchise',
+      buttonLink: '#/therapy',
+      buttonActionType: 'franchise',
+      isEnabled: true,
+      priority: 1,
+      discountTag: '100% Free Daily Therapy Model'
+    });
+  };
+
+  // Submit Edit Advertisement
+  const handleEditAdSubmit = async (e) => {
+    e.preventDefault();
+    if (!editingAd || !editingAd.title) {
+      alert('Please fill in the Announcement / Ad Title');
+      return;
+    }
+
+    await updateAd(editingAd.id, editingAd);
+    notify(`Advertisement "${editingAd.title}" updated successfully!`);
+    setEditingAd(null);
+  };
+
   // Generic Confirm Delete Action
   const handleConfirmDelete = async () => {
     if (!itemToDelete) return;
     const { type, id, name } = itemToDelete;
 
-    if (type === 'product') {
-      await deleteProduct(id);
-      notify(`Product "${name}" deleted from website & MongoDB!`);
-    } else if (type === 'center') {
-      await deleteCenter(id);
-      notify(`Therapy center "${name}" removed from website & MongoDB!`);
-    } else if (type === 'testimonial') {
-      await deleteTestimonial(id);
-      notify(`Testimonial from "${name}" removed from website & MongoDB!`);
+    try {
+      if (type === 'product') {
+        await deleteProduct(id);
+        notify(`Product "${name}" successfully deleted from MongoDB Atlas database!`);
+      } else if (type === 'center') {
+        await deleteCenter(id);
+        notify(`Therapy center "${name}" successfully deleted from MongoDB Atlas database!`);
+      } else if (type === 'testimonial') {
+        await deleteTestimonial(id);
+        notify(`Testimonial from "${name}" successfully deleted from MongoDB Atlas database!`);
+      } else if (type === 'ad') {
+        await deleteAd(id);
+        notify(`Advertisement "${name}" successfully deleted from MongoDB Atlas database!`);
+      }
+    } catch (err) {
+      notify(`Notice: ${err.message}. If backend is offline, make sure backend server is running.`, 'warning');
     }
 
     setItemToDelete(null);
@@ -321,6 +408,11 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
   const filteredTestimonials = testimonials.filter(t => {
     const q = searchQuery.toLowerCase();
     return !q || t.name.toLowerCase().includes(q) || t.disease.toLowerCase().includes(q) || t.location.toLowerCase().includes(q);
+  });
+
+  const filteredAds = (ads || []).filter(a => {
+    const q = searchQuery.toLowerCase();
+    return !q || a.title?.toLowerCase().includes(q) || a.badge?.toLowerCase().includes(q) || a.description?.toLowerCase().includes(q);
   });
 
   const filteredInquiries = inquiries.filter(i => {
@@ -400,8 +492,8 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
       {/* Main CMS Container */}
       <div className="flex-1 w-full max-w-[1780px] mx-auto px-4 sm:px-8 py-6 flex flex-col gap-6">
 
-        {/* 4 Interactive KPI Counters */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {/* 5 Interactive KPI Counters */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
           <div 
             onClick={() => setActiveTab('products')} 
             className={`p-4 rounded-xl border transition-all cursor-pointer ${
@@ -447,6 +539,31 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
             <div className="mt-2 flex items-baseline gap-2">
               <span className="text-2xl font-bold text-white">{testimonials.length}</span>
               <span className="text-xs text-emerald-400">5-Star Recoveries</span>
+            </div>
+          </div>
+
+          <div 
+            onClick={() => setActiveTab('ads')} 
+            className={`p-4 rounded-xl border transition-all cursor-pointer ${
+              activeTab === 'ads' ? 'bg-emerald-950/90 border-amber-500/80 shadow-lg' : 'bg-[#0b1c16] border-emerald-900/40 hover:border-emerald-700'
+            }`}
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Popup Ads / Promo</span>
+              <Megaphone className="w-4 h-4 text-amber-400" />
+            </div>
+            <div className="mt-2 flex items-baseline gap-2">
+              <span className="text-2xl font-bold text-white">{ads?.length || 0}</span>
+              {activeAd && activeAd.isEnabled ? (
+                <span className="text-[11px] font-bold text-emerald-400 flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  Popup Live
+                </span>
+              ) : (
+                <span className="text-[11px] font-medium text-neutral-400">
+                  Disabled
+                </span>
+              )}
             </div>
           </div>
 
@@ -507,6 +624,21 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
             >
               <Star className="w-3.5 h-3.5" />
               <span>Patient Reviews ({testimonials.length})</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab('ads'); setSearchQuery(''); }}
+              className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                activeTab === 'ads'
+                  ? 'bg-gradient-to-r from-amber-600 to-amber-500 text-black shadow-md'
+                  : 'text-neutral-300 hover:text-white hover:bg-emerald-950/60'
+              }`}
+            >
+              <Megaphone className="w-3.5 h-3.5" />
+              <span>Popup Ads ({ads?.length || 0})</span>
+              {activeAd && activeAd.isEnabled && (
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse ml-0.5"></span>
+              )}
             </button>
 
             <button
@@ -574,6 +706,16 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
               >
                 <Plus className="w-3.5 h-3.5" />
                 <span>Add Testimonial</span>
+              </button>
+            )}
+
+            {activeTab === 'ads' && (
+              <button
+                onClick={() => setShowAddAdModal(true)}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black text-xs font-bold shadow-md cursor-pointer transition-all"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>Create New Ad</span>
               </button>
             )}
           </div>
@@ -926,6 +1068,283 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                 </table>
               </div>
             </div>
+          </div>
+        )}
+
+        {/* TAB 4: POPUP ANNOUNCEMENTS & ADVERTISEMENTS MANAGEMENT */}
+        {activeTab === 'ads' && (
+          <div className="flex flex-col gap-6">
+            
+            {/* Header with Title and Create Button */}
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <h2 className="text-base font-bold text-white flex items-center gap-2">
+                  <Megaphone className="w-5 h-5 text-amber-400" />
+                  <span>Website Entrance Popup & Announcements</span>
+                  <span className="text-xs font-normal text-neutral-400">
+                    ({filteredAds.length} announcements configured)
+                  </span>
+                </h2>
+                <p className="text-xs text-neutral-400 mt-0.5">
+                  When enabled, visitors will see this popup immediately upon opening the website. If you disable it, no popup will show on the user side.
+                </p>
+              </div>
+
+              <button
+                onClick={() => setShowAddAdModal(true)}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black text-xs font-bold shadow-lg transition-all cursor-pointer"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Create New Announcement</span>
+              </button>
+            </div>
+
+            {/* Master Control & Live Website Status Banner */}
+            <div className={`p-5 rounded-2xl border transition-all ${
+              activeAd && activeAd.isEnabled 
+                ? 'bg-gradient-to-r from-emerald-950/80 via-[#0b1c16] to-[#0b1c16] border-emerald-500/60 shadow-lg'
+                : 'bg-gradient-to-r from-neutral-900 via-[#0b1c16] to-[#0b1c16] border-neutral-700/60'
+            }`}>
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div className="flex items-start gap-3.5">
+                  <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 border ${
+                    activeAd && activeAd.isEnabled 
+                      ? 'bg-emerald-900/60 border-emerald-500 text-emerald-300' 
+                      : 'bg-neutral-800 border-neutral-600 text-neutral-400'
+                  }`}>
+                    {activeAd && activeAd.isEnabled ? (
+                      <CheckCircle2 className="w-6 h-6 text-emerald-400 animate-pulse" />
+                    ) : (
+                      <AlertTriangle className="w-6 h-6 text-amber-400" />
+                    )}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2.5">
+                      <h3 className="text-sm sm:text-base font-bold text-white">
+                        {activeAd && activeAd.isEnabled ? 'Public Website Popup is Currently ACTIVE' : 'Public Website Popup is Currently DISABLED'}
+                      </h3>
+                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                        activeAd && activeAd.isEnabled 
+                          ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' 
+                          : 'bg-neutral-700 text-neutral-300'
+                      }`}>
+                        {activeAd && activeAd.isEnabled ? 'Live on Website' : 'Off / Hidden'}
+                      </span>
+                    </div>
+
+                    <p className="text-xs text-neutral-300 mt-1 max-w-2xl leading-relaxed">
+                      {activeAd && activeAd.isEnabled ? (
+                        <>
+                          Current Active Ad: <strong className="text-amber-400 font-medium">"{activeAd.title}"</strong> ({activeAd.badge}). Visitors will see this popup on arrival and can close it with one click on the "X" cross.
+                        </>
+                      ) : (
+                        'No advertisement popup will appear for visitors. You can enable any announcement below whenever you have an upcoming event, new center opening, or franchise campaign.'
+                      )}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Quick Master Actions */}
+                <div className="flex items-center gap-2.5 shrink-0 self-end md:self-auto">
+                  {activeAd && activeAd.isEnabled ? (
+                    <>
+                      <button
+                        onClick={() => setPreviewAdModal(activeAd)}
+                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-900/60 border border-emerald-700/60 hover:bg-emerald-800 text-xs font-semibold text-emerald-100 transition-colors cursor-pointer"
+                      >
+                        <Eye className="w-4 h-4 text-amber-400" />
+                        <span>Preview Live Popup</span>
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          toggleAd(activeAd.id);
+                          notify('Popup ads turned OFF on website!');
+                        }}
+                        className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-red-950/80 border border-red-700/60 hover:bg-red-900 text-xs font-bold text-red-200 transition-colors cursor-pointer"
+                      >
+                        <ToggleRight className="w-4 h-4 text-red-400" />
+                        <span>Turn Off Popup Ads</span>
+                      </button>
+                    </>
+                  ) : (
+                    filteredAds.length > 0 && (
+                      <button
+                        onClick={() => {
+                          toggleAd(filteredAds[0].id);
+                          notify(`Activated "${filteredAds[0].title}" as live popup!`);
+                        }}
+                        className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-black text-xs font-bold shadow-lg transition-all cursor-pointer"
+                      >
+                        <ToggleLeft className="w-4 h-4" />
+                        <span>Enable Featured Ad Now</span>
+                      </button>
+                    )
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Ads Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {filteredAds.map((ad) => {
+                const isLive = ad.isEnabled;
+                return (
+                  <div 
+                    key={ad.id}
+                    className={`bg-[#0b1c16] rounded-2xl border transition-all flex flex-col justify-between overflow-hidden shadow-sm hover:shadow-xl ${
+                      isLive 
+                        ? 'border-emerald-500 shadow-emerald-950/50' 
+                        : 'border-emerald-900/40 hover:border-emerald-700'
+                    }`}
+                  >
+                    <div>
+                      {/* Image Thumbnail with Overlay Badges */}
+                      <div className="relative w-full h-44 bg-neutral-900 overflow-hidden group">
+                        <img 
+                          src={ad.imageUrl || '/assets/products/product-real-01.jpeg'} 
+                          alt={ad.title} 
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          onError={(e) => {
+                            e.target.src = '/assets/products/product-real-01.jpeg';
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0b1c16] via-transparent to-transparent" />
+                        
+                        {/* Live Status Pill */}
+                        <div className="absolute top-3 left-3">
+                          {isLive ? (
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500 text-black shadow-md">
+                              <span className="w-1.5 h-1.5 rounded-full bg-black animate-pulse"></span>
+                              ENABLED · LIVE POPUP
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold bg-neutral-800/90 text-neutral-400 border border-neutral-700">
+                              DISABLED / OFF
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Discount / Highlight Tag */}
+                        {ad.discountTag && (
+                          <div className="absolute bottom-2.5 left-3 px-2.5 py-0.5 rounded-full bg-amber-500 text-black text-[10px] font-extrabold uppercase">
+                            {ad.discountTag}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Content Info */}
+                      <div className="p-4 sm:p-5 flex flex-col gap-2">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-[10px] font-bold text-amber-400 uppercase tracking-wider">
+                            {ad.badge || 'SPECIAL ANNOUNCEMENT'}
+                          </span>
+                          <span className="text-[10px] text-neutral-500 font-mono">
+                            Priority #{ad.priority || 1}
+                          </span>
+                        </div>
+
+                        <h3 className="text-base font-bold text-white line-clamp-2 leading-snug">
+                          {ad.title}
+                        </h3>
+
+                        {ad.subtitle && (
+                          <p className="text-xs text-amber-200/80 font-medium line-clamp-1">
+                            {ad.subtitle}
+                          </p>
+                        )}
+
+                        {ad.description && (
+                          <p className="text-xs text-neutral-400 line-clamp-2 leading-relaxed mt-1">
+                            {ad.description}
+                          </p>
+                        )}
+
+                        {/* Action Details Pill */}
+                        <div className="mt-3 p-2 rounded-xl bg-[#07130f] border border-emerald-900/50 flex items-center justify-between text-xs">
+                          <div className="flex items-center gap-1.5 text-neutral-300">
+                            {ad.buttonActionType === 'franchise' && <Handshake className="w-3.5 h-3.5 text-amber-400" />}
+                            {ad.buttonActionType === 'whatsapp' && <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />}
+                            {ad.buttonActionType === 'call' && <PhoneCall className="w-3.5 h-3.5 text-blue-400" />}
+                            {ad.buttonActionType === 'link' && <ExternalLink className="w-3.5 h-3.5 text-amber-400" />}
+                            <span className="text-[11px] font-medium capitalize">
+                              Action: {ad.buttonActionType || 'link'}
+                            </span>
+                          </div>
+                          <span className="text-[11px] font-bold text-amber-300">
+                            "{ad.buttonText || 'Learn More'}"
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Bottom Action Footer */}
+                    <div className="p-4 bg-[#07130f]/60 border-t border-emerald-900/50 flex items-center justify-between gap-2">
+                      {/* Live Toggle Button */}
+                      <button
+                        onClick={() => {
+                          toggleAd(ad.id);
+                          notify(isLive ? `Disabled "${ad.title}"` : `Enabled "${ad.title}" as active popup!`);
+                        }}
+                        className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                          isLive
+                            ? 'bg-emerald-950 text-emerald-300 border border-emerald-600 hover:bg-emerald-900'
+                            : 'bg-neutral-800 text-neutral-300 border border-neutral-700 hover:bg-neutral-700'
+                        }`}
+                      >
+                        {isLive ? (
+                          <>
+                            <ToggleRight className="w-4 h-4 text-emerald-400" />
+                            <span>Enabled</span>
+                          </>
+                        ) : (
+                          <>
+                            <ToggleLeft className="w-4 h-4 text-neutral-400" />
+                            <span>Click to Enable</span>
+                          </>
+                        )}
+                      </button>
+
+                      <div className="flex items-center space-x-1.5">
+                        <button
+                          onClick={() => setPreviewAdModal(ad)}
+                          className="p-1.5 rounded-lg bg-emerald-950/60 hover:bg-emerald-900 border border-emerald-800/60 text-emerald-300 transition-all cursor-pointer"
+                          title="Preview Live Modal"
+                        >
+                          <Eye className="w-3.5 h-3.5" />
+                        </button>
+
+                        <button
+                          onClick={() => setEditingAd(ad)}
+                          className="p-1.5 rounded-lg bg-amber-950/60 hover:bg-amber-900 border border-amber-800/60 text-amber-300 transition-all cursor-pointer"
+                          title="Edit Advertisement"
+                        >
+                          <Edit3 className="w-3.5 h-3.5" />
+                        </button>
+
+                        <button
+                          onClick={() => setItemToDelete({ type: 'ad', id: ad.id, name: ad.title })}
+                          className="p-1.5 rounded-lg bg-red-950/60 hover:bg-red-900 border border-red-800/60 text-red-300 transition-all cursor-pointer"
+                          title="Delete Advertisement"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+
+                  </div>
+                );
+              })}
+
+              {filteredAds.length === 0 && (
+                <div className="col-span-full py-12 text-center bg-[#0b1c16] rounded-2xl border border-emerald-900/40 p-6">
+                  <Megaphone className="w-10 h-10 text-neutral-600 mx-auto mb-3" />
+                  <p className="text-sm font-semibold text-neutral-300">No advertisements found</p>
+                  <p className="text-xs text-neutral-500 mt-1">Create your first special announcement or popup campaign above.</p>
+                </div>
+              )}
+            </div>
+
           </div>
         )}
 
@@ -1502,6 +1921,345 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* MODAL: CREATE NEW ADVERTISEMENT */}
+      {showAddAdModal && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-[#0b1c16] border border-amber-500/60 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative my-8">
+            <div className="flex items-center justify-between pb-4 border-b border-emerald-900/60">
+              <div className="flex items-center gap-2.5">
+                <Megaphone className="w-5 h-5 text-amber-400" />
+                <h3 className="text-base font-bold text-white">Create New Popup Announcement</h3>
+              </div>
+              <button
+                onClick={() => setShowAddAdModal(false)}
+                className="text-neutral-400 hover:text-white p-1 rounded-lg cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleAddAdSubmit} className="mt-4 space-y-4 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Badge Tag *</label>
+                  <input
+                    type="text"
+                    value={newAd.badge}
+                    onChange={(e) => setNewAd({ ...newAd, badge: e.target.value })}
+                    placeholder="e.g. EXCLUSIVE OPPORTUNITY"
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Discount / Highlight Tag</label>
+                  <input
+                    type="text"
+                    value={newAd.discountTag}
+                    onChange={(e) => setNewAd({ ...newAd, discountTag: e.target.value })}
+                    placeholder="e.g. 100% Free Daily Therapy Model"
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-neutral-300 font-semibold mb-1">Announcement Title *</label>
+                <input
+                  type="text"
+                  value={newAd.title}
+                  onChange={(e) => setNewAd({ ...newAd, title: e.target.value })}
+                  placeholder="e.g. DOOROOMI Official Franchise & Health Center Partner Program 2026"
+                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 font-medium"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-neutral-300 font-semibold mb-1">Subtitle</label>
+                <input
+                  type="text"
+                  value={newAd.subtitle}
+                  onChange={(e) => setNewAd({ ...newAd, subtitle: e.target.value })}
+                  placeholder="e.g. Expand Korea's Leading Medical Equipment & Free Daily Therapy Centers Across India"
+                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                />
+              </div>
+
+              <div>
+                <label className="block text-neutral-300 font-semibold mb-1">Description / Details</label>
+                <textarea
+                  rows="3"
+                  value={newAd.description}
+                  onChange={(e) => setNewAd({ ...newAd, description: e.target.value })}
+                  placeholder="Detailed announcement text..."
+                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Button Action Type</label>
+                  <select
+                    value={newAd.buttonActionType}
+                    onChange={(e) => setNewAd({ ...newAd, buttonActionType: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                  >
+                    <option value="franchise">Open Franchise Modal (Handshake)</option>
+                    <option value="whatsapp">Direct WhatsApp Chat</option>
+                    <option value="link">Website Section Link</option>
+                    <option value="call">Direct Phone Call</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Button Text</label>
+                  <input
+                    type="text"
+                    value={newAd.buttonText}
+                    onChange={(e) => setNewAd({ ...newAd, buttonText: e.target.value })}
+                    placeholder="e.g. Inquire for Franchise"
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Target Link (if link)</label>
+                  <input
+                    type="text"
+                    value={newAd.buttonLink}
+                    onChange={(e) => setNewAd({ ...newAd, buttonLink: e.target.value })}
+                    placeholder="#/therapy"
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 font-mono"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-neutral-300 font-semibold mb-1">Cover Image URL</label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={newAd.imageUrl}
+                    onChange={(e) => setNewAd({ ...newAd, imageUrl: e.target.value })}
+                    className="flex-1 bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 font-mono text-xs"
+                  />
+                </div>
+                <div className="flex items-center gap-2 mt-2">
+                  <span className="text-[11px] text-neutral-500">Quick Presets:</span>
+                  <button
+                    type="button"
+                    onClick={() => setNewAd({ ...newAd, imageUrl: '/assets/products/product-real-01.jpeg' })}
+                    className="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 text-[10px] text-emerald-300 hover:bg-emerald-900 cursor-pointer"
+                  >
+                    Medical Bed 01
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setNewAd({ ...newAd, imageUrl: '/assets/products/product-real-02.jpeg' })}
+                    className="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 text-[10px] text-emerald-300 hover:bg-emerald-900 cursor-pointer"
+                  >
+                    Super Mat 02
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setNewAd({ ...newAd, imageUrl: '/assets/products/product-real-07.jpeg' })}
+                    className="px-2 py-0.5 rounded bg-emerald-950 border border-emerald-800 text-[10px] text-emerald-300 hover:bg-emerald-900 cursor-pointer"
+                  >
+                    Clinical Bed 07
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 pt-2">
+                <input
+                  type="checkbox"
+                  id="enableImmediate"
+                  checked={newAd.isEnabled}
+                  onChange={(e) => setNewAd({ ...newAd, isEnabled: e.target.checked })}
+                  className="rounded border-emerald-800 text-amber-500 focus:ring-amber-400 w-4 h-4 cursor-pointer"
+                />
+                <label htmlFor="enableImmediate" className="text-neutral-200 cursor-pointer font-medium">
+                  Set as Active Live Popup immediately on DOOROOMIMEDIQUIP.COM
+                </label>
+              </div>
+
+              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-emerald-900/60">
+                <button
+                  type="button"
+                  onClick={() => setShowAddAdModal(false)}
+                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold shadow-lg cursor-pointer"
+                >
+                  Save & Publish Ad
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: EDIT ADVERTISEMENT */}
+      {editingAd && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+          <div className="bg-[#0b1c16] border border-amber-500/60 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative my-8">
+            <div className="flex items-center justify-between pb-4 border-b border-emerald-900/60">
+              <div className="flex items-center gap-2.5">
+                <Edit3 className="w-5 h-5 text-amber-400" />
+                <h3 className="text-base font-bold text-white">Edit Announcement / Advertisement</h3>
+              </div>
+              <button
+                onClick={() => setEditingAd(null)}
+                className="text-neutral-400 hover:text-white p-1 rounded-lg cursor-pointer"
+              >
+                ✕
+              </button>
+            </div>
+
+            <form onSubmit={handleEditAdSubmit} className="mt-4 space-y-4 text-xs">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Badge Tag *</label>
+                  <input
+                    type="text"
+                    value={editingAd.badge || ''}
+                    onChange={(e) => setEditingAd({ ...editingAd, badge: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Discount / Highlight Tag</label>
+                  <input
+                    type="text"
+                    value={editingAd.discountTag || ''}
+                    onChange={(e) => setEditingAd({ ...editingAd, discountTag: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-neutral-300 font-semibold mb-1">Announcement Title *</label>
+                <input
+                  type="text"
+                  value={editingAd.title || ''}
+                  onChange={(e) => setEditingAd({ ...editingAd, title: e.target.value })}
+                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 font-medium"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-neutral-300 font-semibold mb-1">Subtitle</label>
+                <input
+                  type="text"
+                  value={editingAd.subtitle || ''}
+                  onChange={(e) => setEditingAd({ ...editingAd, subtitle: e.target.value })}
+                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                />
+              </div>
+
+              <div>
+                <label className="block text-neutral-300 font-semibold mb-1">Description / Details</label>
+                <textarea
+                  rows="3"
+                  value={editingAd.description || ''}
+                  onChange={(e) => setEditingAd({ ...editingAd, description: e.target.value })}
+                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Button Action Type</label>
+                  <select
+                    value={editingAd.buttonActionType || 'link'}
+                    onChange={(e) => setEditingAd({ ...editingAd, buttonActionType: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                  >
+                    <option value="franchise">Open Franchise Modal (Handshake)</option>
+                    <option value="whatsapp">Direct WhatsApp Chat</option>
+                    <option value="link">Website Section Link</option>
+                    <option value="call">Direct Phone Call</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Button Text</label>
+                  <input
+                    type="text"
+                    value={editingAd.buttonText || ''}
+                    onChange={(e) => setEditingAd({ ...editingAd, buttonText: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                  />
+                </div>
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Target Link (if link)</label>
+                  <input
+                    type="text"
+                    value={editingAd.buttonLink || ''}
+                    onChange={(e) => setEditingAd({ ...editingAd, buttonLink: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 font-mono"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-neutral-300 font-semibold mb-1">Cover Image URL</label>
+                <input
+                  type="text"
+                  value={editingAd.imageUrl || ''}
+                  onChange={(e) => setEditingAd({ ...editingAd, imageUrl: e.target.value })}
+                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 font-mono text-xs"
+                />
+              </div>
+
+              <div className="flex items-center gap-2 pt-2">
+                <input
+                  type="checkbox"
+                  id="editEnableToggle"
+                  checked={!!editingAd.isEnabled}
+                  onChange={(e) => setEditingAd({ ...editingAd, isEnabled: e.target.checked })}
+                  className="rounded border-emerald-800 text-amber-500 focus:ring-amber-400 w-4 h-4 cursor-pointer"
+                />
+                <label htmlFor="editEnableToggle" className="text-neutral-200 cursor-pointer font-medium">
+                  Enable as Live Popup on Website
+                </label>
+              </div>
+
+              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-emerald-900/60">
+                <button
+                  type="button"
+                  onClick={() => setEditingAd(null)}
+                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold shadow-lg cursor-pointer"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: LIVE PREVIEW OF POPUP */}
+      {previewAdModal && (
+        <AdvertisementModal
+          forceOpen={true}
+          previewAd={previewAdModal}
+          onClosePreview={() => setPreviewAdModal(null)}
+          onOpenFranchise={() => notify('Preview: Official Franchise Dialog opened!')}
+        />
       )}
 
     </div>

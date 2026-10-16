@@ -14,8 +14,7 @@ import {
   Phone,
   Mail,
   MapPin,
-  ExternalLink,
-  CreditCard
+  ExternalLink
 } from 'lucide-react';
 import { SITE_CONFIG } from '../data/siteData';
 
@@ -38,13 +37,6 @@ export const CeoSection = ({ onNavigateAbout, onContactClick }) => {
       label: "Leadership & Care",
       subtitle: "Dedicated to Patient Vitality",
       caption: `Pledging authentic Korean therapeutic technology and community wellness for families worldwide.`
-    },
-    {
-      id: "business-card",
-      src: ceo.photos.card,
-      label: "Official Business Card",
-      subtitle: "Verified Credentials",
-      caption: `Official SKS International executive card registered in Goyang-Si, Gyeonggi-do, Republic of Korea.`
     }
   ];
 
@@ -114,17 +106,11 @@ export const CeoSection = ({ onNavigateAbout, onContactClick }) => {
                   key={ceoPhotos[activeImageIndex].id}
                   src={ceoPhotos[activeImageIndex].src}
                   alt={ceoPhotos[activeImageIndex].label}
-                  className={`w-full h-full ${
-                    ceoPhotos[activeImageIndex].id === 'business-card' 
-                      ? 'object-contain p-4 bg-[#f8f5ef]' 
-                      : 'object-cover object-top'
-                  } transition-all duration-700 group-hover:scale-105 animate-in fade-in zoom-in-95`}
+                  className="w-full h-full object-cover object-top transition-all duration-700 group-hover:scale-105 animate-in fade-in zoom-in-95"
                 />
 
-                {/* Subtle Gradient Overlay (for portrait photos) */}
-                {ceoPhotos[activeImageIndex].id !== 'business-card' && (
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent pointer-events-none" />
-                )}
+                {/* Subtle Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent pointer-events-none" />
 
                 {/* Top Corner Official Stamp */}
                 <div className="absolute top-4 left-4 z-20 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/75 backdrop-blur-md border border-hanbit-gold/40 text-[11px] font-bold text-amber-200 shadow-md">
@@ -144,15 +130,13 @@ export const CeoSection = ({ onNavigateAbout, onContactClick }) => {
                           : 'text-white/70 hover:text-white hover:bg-white/10'
                       }`}
                     >
-                      {idx === 0 ? 'Portrait' : idx === 1 ? 'Pose' : 'Visiting Card'}
+                      {idx === 0 ? 'Portrait' : 'Leadership'}
                     </button>
                   ))}
                 </div>
 
                 {/* In-Image Caption at Bottom */}
-                <div className={`absolute bottom-0 inset-x-0 p-6 z-20 space-y-1.5 pointer-events-none ${
-                  ceoPhotos[activeImageIndex].id === 'business-card' ? 'bg-black/85 backdrop-blur-md' : ''
-                }`}>
+                <div className="absolute bottom-0 inset-x-0 p-6 z-20 space-y-1.5 pointer-events-none">
                   <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-hanbit-gold/20 border border-hanbit-gold/40 text-[10px] font-mono font-bold text-amber-200">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                     <span>{ceoPhotos[activeImageIndex].subtitle}</span>
@@ -315,17 +299,22 @@ export const CeoSection = ({ onNavigateAbout, onContactClick }) => {
                   </div>
                 </a>
 
-                {/* Business Card Preview Shortcut */}
-                <button 
-                  onClick={() => setActiveImageIndex(2)}
+                {/* SKS International Company Details Shortcut */}
+                <a 
+                  href={`https://${ceo.website}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-colors text-white group cursor-pointer text-left"
                 >
-                  <CreditCard className="w-4 h-4 text-hanbit-gold shrink-0 group-hover:scale-110 transition-transform" />
+                  <Building2 className="w-4 h-4 text-hanbit-gold shrink-0 group-hover:scale-110 transition-transform" />
                   <div>
-                    <span className="text-[10px] text-neutral-400 block">Visiting Card</span>
-                    <span className="font-semibold text-amber-200">View Official Card</span>
+                    <span className="text-[10px] text-neutral-400 block">SKS International</span>
+                    <span className="font-semibold text-amber-200 flex items-center gap-1">
+                      SKS International Co., Ltd.
+                      <ExternalLink className="w-3 h-3 text-neutral-400" />
+                    </span>
                   </div>
-                </button>
+                </a>
               </div>
 
               {/* Korea HQ Address */}

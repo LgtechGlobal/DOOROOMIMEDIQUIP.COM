@@ -327,13 +327,22 @@ export const PatientTestimonialsRowSection = () => {
               </button>
             </div>
 
-            <button
-              onClick={() => setSelectedScan("/assets/testimonials/testimonial-page14.png")}
-              className="px-4 py-2.5 rounded-full bg-hanbit-ivory border border-hanbit-gold/60 text-xs font-bold text-hanbit-forest hover:bg-hanbit-gold hover:text-white transition-all inline-flex items-center gap-1.5 shadow-2xs cursor-pointer"
-            >
-              <FileText className="w-4 h-4 text-hanbit-gold" />
-              <span>Original Document (Pages 14 & 15)</span>
-            </button>
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={() => setSelectedScan("/assets/testimonials/testimonial-page14.png")}
+                className="px-3.5 py-2 rounded-full bg-hanbit-ivory border border-hanbit-gold/60 text-xs font-bold text-hanbit-forest hover:bg-hanbit-gold hover:text-white transition-all inline-flex items-center gap-1.5 shadow-2xs cursor-pointer"
+              >
+                <FileText className="w-3.5 h-3.5 text-hanbit-gold" />
+                <span>Doc Page 14</span>
+              </button>
+              <button
+                onClick={() => setSelectedScan("/assets/testimonials/testimonial-page15.png")}
+                className="px-3.5 py-2 rounded-full bg-hanbit-ivory border border-hanbit-gold/60 text-xs font-bold text-hanbit-forest hover:bg-hanbit-gold hover:text-white transition-all inline-flex items-center gap-1.5 shadow-2xs cursor-pointer"
+              >
+                <FileText className="w-3.5 h-3.5 text-hanbit-gold" />
+                <span>Doc Page 15</span>
+              </button>
+            </div>
           </div>
         </div>
 
