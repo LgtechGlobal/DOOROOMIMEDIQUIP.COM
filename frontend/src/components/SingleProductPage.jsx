@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { 
   ArrowLeft, 
   ArrowRight, 
-  Download, 
   Sparkles, 
   ShieldCheck, 
   FlaskConical, 
@@ -10,7 +9,6 @@ import {
   ChevronRight, 
   Check, 
   Eye, 
-  Share2, 
   FileText 
 } from 'lucide-react';
 import { PRODUCTS as FALLBACK_PRODUCTS, CATEGORIES } from '../data/siteData';
@@ -29,7 +27,6 @@ export const SingleProductPage = ({
   const { products: dynamicProducts } = useData();
   const productsList = dynamicProducts && dynamicProducts.length > 0 ? dynamicProducts : FALLBACK_PRODUCTS;
 
-  const [copied, setCopied] = useState(false);
   const [zoomImage, setZoomImage] = useState(false);
 
   // Find product by id or slug
@@ -41,14 +38,6 @@ export const SingleProductPage = ({
     .slice(0, 3);
 
   const isCompared = comparedProducts.some((p) => p.id === product.id);
-
-  const handleShare = () => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(window.location.href);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-    }
-  };
 
   return (
     <div className="min-h-screen bg-[#fbfbfa] pt-6 pb-24">
@@ -271,26 +260,6 @@ export const SingleProductPage = ({
                   {isCompared && <Check className="w-3 h-3 stroke-[3]" />}
                 </div>
                 <span>{isCompared ? 'Added to Compare' : 'Compare'}</span>
-              </button>
-
-              {/* PDF Technical Sheet */}
-              <a
-                href="./assets/docs/technical-specifications.pdf"
-                download
-                className="py-4 px-5 rounded-2xl bg-white hover:bg-hanbit-ivory border border-hanbit-border text-hanbit-forest text-xs font-bold transition-all flex items-center gap-2 cursor-pointer"
-              >
-                <Download className="w-4 h-4 text-hanbit-muted" />
-                <span>PDF Sheet</span>
-              </a>
-
-              {/* Share Button */}
-              <button
-                onClick={handleShare}
-                className="p-4 rounded-2xl bg-white hover:bg-hanbit-ivory border border-hanbit-border text-hanbit-forest text-xs font-medium transition-all flex items-center justify-center cursor-pointer"
-                title="Share link"
-              >
-                <Share2 className="w-4 h-4 text-hanbit-muted" />
-                {copied && <span className="ml-1.5 text-xs text-emerald-600 font-bold">Link Copied!</span>}
               </button>
             </div>
 
