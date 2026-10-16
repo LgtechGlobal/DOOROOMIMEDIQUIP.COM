@@ -12,12 +12,6 @@ export const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
 
   if (!isOpen) return null;
 
-  const handleAutoFill = () => {
-    setLoginId('dooroomi');
-    setPassword('dooroomi@123');
-    setError('');
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -100,25 +94,6 @@ export const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
           </p>
         </div>
 
-        {/* Credentials Reminder Card */}
-        <div className="mb-5 p-3.5 rounded-2xl bg-hanbit-ivory border border-hanbit-border/80 flex items-center justify-between text-xs">
-          <div className="space-y-0.5">
-            <span className="text-[10px] uppercase font-mono font-bold text-hanbit-gold tracking-wider block">
-              Admin Access Credentials
-            </span>
-            <div className="text-hanbit-forest font-mono text-[11px]">
-              ID: <strong className="text-emerald-800 font-bold">dooroomi</strong> · Pass: <strong className="text-emerald-800 font-bold">dooroomi@123</strong>
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={handleAutoFill}
-            className="px-2.5 py-1 rounded-lg bg-white border border-hanbit-gold/60 text-[11px] font-bold text-hanbit-forest hover:bg-hanbit-gold hover:text-white transition-all shadow-2xs cursor-pointer shrink-0"
-          >
-            Auto Fill
-          </button>
-        </div>
-
         {/* Error Alert */}
         {error && (
           <div className="p-3 mb-4 rounded-xl bg-red-50 border border-red-200 text-red-800 text-xs leading-relaxed flex items-start gap-2">
@@ -137,7 +112,7 @@ export const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
               <input
                 type="text"
                 required
-                placeholder="dooroomi"
+                placeholder="Enter Admin ID"
                 value={loginId}
                 onChange={(e) => setLoginId(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-hanbit-ivory border border-hanbit-border text-xs text-hanbit-forest font-mono focus:outline-none focus:border-hanbit-gold focus:ring-1 focus:ring-hanbit-gold"
@@ -154,7 +129,7 @@ export const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
               <input
                 type={showPassword ? "text" : "password"}
                 required
-                placeholder="dooroomi@123"
+                placeholder="Enter Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-hanbit-ivory border border-hanbit-border text-xs text-hanbit-forest font-mono focus:outline-none focus:border-hanbit-gold focus:ring-1 focus:ring-hanbit-gold"
