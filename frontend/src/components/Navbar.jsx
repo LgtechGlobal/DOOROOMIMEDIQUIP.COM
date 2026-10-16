@@ -81,9 +81,9 @@ export const Navbar = ({
             </span>
           </div>
 
-          <div className="flex items-center space-x-3 sm:space-x-5">
+          <div className="flex items-center space-x-2 sm:space-x-5 shrink-0">
             {/* 4 Colorful Social Link Icons */}
-            <div className="flex items-center space-x-1.5">
+            <div className="hidden md:flex items-center space-x-1.5">
               {/* Facebook */}
               <a
                 href="https://facebook.com"

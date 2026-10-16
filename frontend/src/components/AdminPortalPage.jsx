@@ -541,7 +541,7 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
   });
 
   return (
-    <div className="min-h-screen bg-[#07130f] text-neutral-100 flex flex-col font-sans selection:bg-amber-500 selection:text-black">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#07130f] text-neutral-100 flex flex-col font-sans selection:bg-amber-500 selection:text-black">
       {/* Toast Notification */}
       {notification && (
         <div className={`fixed top-5 right-5 z-[100] px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 border text-sm font-semibold transition-all transform animate-bounce ${
@@ -555,33 +555,33 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
       )}
 
       {/* Top Korean Luxury Executive Bar */}
-      <header className="bg-[#0b1c16] border-b border-emerald-800/40 sticky top-0 z-40 backdrop-blur-md">
-        <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+      <header className="bg-[#0b1c16] border-b border-emerald-800/40 sticky top-0 z-40 backdrop-blur-md w-full">
+        <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 py-3.5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-4">
           
-          <div className="flex items-center space-x-3.5">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 via-amber-500 to-emerald-400 p-0.5 shadow-lg shadow-emerald-950/60">
+          <div className="flex items-center space-x-3 sm:space-x-3.5 min-w-0 max-w-full">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl bg-gradient-to-tr from-amber-600 via-amber-500 to-emerald-400 p-0.5 shadow-lg shadow-emerald-950/60">
               <div className="w-full h-full bg-[#07130f] rounded-[10px] flex items-center justify-center">
                 <ShieldCheck className="w-5 h-5 text-amber-400" />
               </div>
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-base sm:text-lg font-bold text-white tracking-wide">
+            <div className="min-w-0">
+              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+                <h1 className="text-sm sm:text-base lg:text-lg font-bold text-white tracking-wide truncate">
                   DOOROOMI <span className="text-amber-400 font-serif">두루미</span> ADMIN PORTAL
                 </h1>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40">
+                <span className="px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 shrink-0">
                   FULL CONTROL CMS
                 </span>
               </div>
-              <p className="text-xs text-emerald-300/70">
-                Korea HQ & India Executive Operations Management System
+              <p className="text-[11px] sm:text-xs text-emerald-300/70 truncate sm:whitespace-normal">
+                Korea HQ &amp; India Executive Operations Management System
               </p>
             </div>
           </div>
 
           {/* Quick Actions & Live MongoDB Status */}
-          <div className="flex items-center space-x-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-950/80 border border-emerald-700/50 text-xs">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 shrink-0 w-full md:w-auto justify-start md:justify-end">
+            <div className="hidden lg:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-emerald-950/80 border border-emerald-700/50 text-xs">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
               <span className="text-emerald-200 font-medium">MongoDB Atlas:</span>
               <span className="text-amber-300 font-mono text-[11px]">dooroomimediquip.72damgv</span>
@@ -589,7 +589,7 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
 
             <button
               onClick={onNavigateHome}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-900/60 border border-emerald-700/60 hover:bg-emerald-800 text-xs font-semibold text-emerald-100 transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-900/60 border border-emerald-700/60 hover:bg-emerald-800 text-xs font-semibold text-emerald-100 transition-colors cursor-pointer shrink-0"
             >
               <ExternalLink className="w-3.5 h-3.5 text-amber-400" />
               <span>Public Website</span>
@@ -597,7 +597,7 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
 
             <button
               onClick={onLogout}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-950/80 border border-red-800/80 hover:bg-red-900 text-xs font-semibold text-red-200 transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-950/80 border border-red-800/80 hover:bg-red-900 text-xs font-semibold text-red-200 transition-colors cursor-pointer shrink-0"
             >
               <LogOut className="w-3.5 h-3.5" />
               <span>Sign Out</span>

@@ -241,7 +241,9 @@ export function App() {
 
   return (
     <SmoothScroll>
-      <div className="min-h-screen flex flex-col font-sans bg-hanbit-ivory text-hanbit-ink selection:bg-hanbit-gold selection:text-white">
+      <div className={`min-h-screen flex flex-col font-sans selection:bg-hanbit-gold selection:text-white w-full max-w-full overflow-x-hidden ${
+        currentRoute.view === 'admin' ? 'bg-[#07130f] text-neutral-100' : 'bg-hanbit-ivory text-hanbit-ink'
+      }`}>
         {/* Glowing scroll progress bar at very top */}
         <ScrollProgress />
 
@@ -261,7 +263,7 @@ export function App() {
           }}
         />
 
-        <main className="flex-1">
+        <main className="flex-1 w-full max-w-full overflow-x-hidden">
           {currentRoute.view === 'admin' ? (
             isAdminAuthenticated ? (
               <AdminPortalPage
