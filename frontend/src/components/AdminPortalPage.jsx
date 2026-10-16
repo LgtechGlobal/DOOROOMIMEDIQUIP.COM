@@ -1689,23 +1689,27 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
 
       {/* MODAL 1: ADD NEW PRODUCT */}
       {showAddProductModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-[#0b1c16] border border-amber-500/60 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative my-8">
-            <div className="flex items-center justify-between pb-4 border-b border-emerald-900/60">
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-hidden">
+          <div className="bg-[#0b1c16] border border-amber-500/60 rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl relative overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            {/* Modal Header (Pinned at Top) */}
+            <div className="shrink-0 px-6 py-4 border-b border-emerald-900/60 flex items-center justify-between bg-[#0b1c16]">
               <div className="flex items-center gap-2.5">
                 <Package className="w-5 h-5 text-amber-400" />
                 <h3 className="text-base font-bold text-white">Add New Product / Medical Equipment</h3>
               </div>
               <button
+                type="button"
                 onClick={() => setShowAddProductModal(false)}
-                className="text-neutral-400 hover:text-white p-1 rounded-lg cursor-pointer"
+                className="w-8 h-8 rounded-full bg-neutral-900/80 hover:bg-neutral-800 text-neutral-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer text-sm font-bold"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleAddProductSubmit} className="mt-4 space-y-4 text-xs">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Form wrapping scrollable content and sticky action footer */}
+            <form onSubmit={handleAddProductSubmit} className="flex flex-col flex-1 min-h-0 overflow-hidden">
+              <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3.5 text-xs [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-emerald-800/80 [&::-webkit-scrollbar-track]:bg-[#07130f]">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-neutral-300 font-semibold mb-1">Product Name (English) *</label>
                   <input
@@ -1824,18 +1828,20 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                   className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
                 />
               </div>
+            </div>
 
-              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-emerald-900/60">
+            {/* Modal Sticky Footer (Always Visible) */}
+              <div className="shrink-0 px-6 py-3.5 border-t border-emerald-900/60 bg-[#081712] flex items-center justify-end space-x-3">
                 <button
                   type="button"
                   onClick={() => setShowAddProductModal(false)}
-                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-bold shadow-lg cursor-pointer"
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-bold shadow-lg cursor-pointer transition-all"
                 >
                   Publish Product to Website
                 </button>
@@ -1847,22 +1853,26 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
 
       {/* MODAL 2: ADD NEW THERAPY CENTER */}
       {showAddCenterModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-[#0b1c16] border border-emerald-500/60 rounded-2xl max-w-xl w-full p-6 shadow-2xl relative my-8">
-            <div className="flex items-center justify-between pb-4 border-b border-emerald-900/60">
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-hidden">
+          <div className="bg-[#0b1c16] border border-emerald-500/60 rounded-2xl max-w-xl w-full max-h-[90vh] flex flex-col shadow-2xl relative overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            {/* Modal Header (Pinned at Top) */}
+            <div className="shrink-0 px-6 py-4 border-b border-emerald-900/60 flex items-center justify-between bg-[#0b1c16]">
               <div className="flex items-center gap-2.5">
                 <Building2 className="w-5 h-5 text-emerald-400" />
                 <h3 className="text-base font-bold text-white">Add New Free Therapy Center</h3>
               </div>
               <button
+                type="button"
                 onClick={() => setShowAddCenterModal(false)}
-                className="text-neutral-400 hover:text-white p-1 rounded-lg cursor-pointer"
+                className="w-8 h-8 rounded-full bg-neutral-900/80 hover:bg-neutral-800 text-neutral-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer text-sm font-bold"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleAddCenterSubmit} className="mt-4 space-y-4 text-xs">
+            {/* Form wrapping scrollable content and sticky action footer */}
+            <form onSubmit={handleAddCenterSubmit} className="flex flex-col flex-1 min-h-0 overflow-hidden">
+              <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3.5 text-xs [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-emerald-800/80 [&::-webkit-scrollbar-track]:bg-[#07130f]">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-neutral-300 font-semibold mb-1">City *</label>
@@ -1949,17 +1959,20 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                 </div>
               </div>
 
-              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-emerald-900/60">
+              </div>
+
+              {/* Modal Sticky Footer (Always Visible) */}
+              <div className="shrink-0 px-6 py-3.5 border-t border-emerald-900/60 bg-[#081712] flex items-center justify-end space-x-3">
                 <button
                   type="button"
                   onClick={() => setShowAddCenterModal(false)}
-                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold shadow-lg cursor-pointer"
+                  className="px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold shadow-lg cursor-pointer transition-all"
                 >
                   Add Center to Directory
                 </button>
@@ -1971,22 +1984,26 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
 
       {/* MODAL 3: ADD NEW TESTIMONIAL */}
       {showAddTestimonialModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-[#0b1c16] border border-amber-500/60 rounded-2xl max-w-xl w-full p-6 shadow-2xl relative my-8">
-            <div className="flex items-center justify-between pb-4 border-b border-emerald-900/60">
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-hidden">
+          <div className="bg-[#0b1c16] border border-amber-500/60 rounded-2xl max-w-xl w-full max-h-[90vh] flex flex-col shadow-2xl relative overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            {/* Modal Header (Pinned at Top) */}
+            <div className="shrink-0 px-6 py-4 border-b border-emerald-900/60 flex items-center justify-between bg-[#0b1c16]">
               <div className="flex items-center gap-2.5">
                 <Star className="w-5 h-5 text-amber-400 fill-amber-400" />
                 <h3 className="text-base font-bold text-white">Add Patient Recovery Testimonial</h3>
               </div>
               <button
+                type="button"
                 onClick={() => setShowAddTestimonialModal(false)}
-                className="text-neutral-400 hover:text-white p-1 rounded-lg cursor-pointer"
+                className="w-8 h-8 rounded-full bg-neutral-900/80 hover:bg-neutral-800 text-neutral-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer text-sm font-bold"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleAddTestimonialSubmit} className="mt-4 space-y-4 text-xs">
+            {/* Form wrapping scrollable content and sticky action footer */}
+            <form onSubmit={handleAddTestimonialSubmit} className="flex flex-col flex-1 min-h-0 overflow-hidden">
+              <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3.5 text-xs [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-emerald-800/80 [&::-webkit-scrollbar-track]:bg-[#07130f]">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-neutral-300 font-semibold mb-1">Patient Name *</label>
@@ -2066,17 +2083,20 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                 placeholder="Upload patient photo or paste Cloudinary URL"
               />
 
-              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-emerald-900/60">
+              </div>
+
+              {/* Modal Sticky Footer (Always Visible) */}
+              <div className="shrink-0 px-6 py-3.5 border-t border-emerald-900/60 bg-[#081712] flex items-center justify-end space-x-3">
                 <button
                   type="button"
                   onClick={() => setShowAddTestimonialModal(false)}
-                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold shadow-lg cursor-pointer"
+                  className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold shadow-lg cursor-pointer transition-all"
                 >
                   Publish Testimonial
                 </button>
@@ -2124,23 +2144,27 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
 
       {/* MODAL: CREATE NEW ADVERTISEMENT */}
       {showAddAdModal && (
-        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-[#0b1c16] border border-amber-500/60 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative my-8">
-            <div className="flex items-center justify-between pb-4 border-b border-emerald-900/60">
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-hidden">
+          <div className="bg-[#0b1c16] border border-amber-500/60 rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl relative overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            {/* Modal Header (Pinned at Top) */}
+            <div className="shrink-0 px-6 py-4 border-b border-emerald-900/60 flex items-center justify-between bg-[#0b1c16]">
               <div className="flex items-center gap-2.5">
                 <Megaphone className="w-5 h-5 text-amber-400" />
                 <h3 className="text-base font-bold text-white">Create New Popup Announcement</h3>
               </div>
               <button
+                type="button"
                 onClick={() => setShowAddAdModal(false)}
-                className="text-neutral-400 hover:text-white p-1 rounded-lg cursor-pointer"
+                className="w-8 h-8 rounded-full bg-neutral-900/80 hover:bg-neutral-800 text-neutral-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer text-sm font-bold"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleAddAdSubmit} className="mt-4 space-y-4 text-xs">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Form wrapping scrollable content and sticky action footer */}
+            <form onSubmit={handleAddAdSubmit} className="flex flex-col flex-1 min-h-0 overflow-hidden">
+              <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3.5 text-xs [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-emerald-800/80 [&::-webkit-scrollbar-track]:bg-[#07130f]">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-neutral-300 font-semibold mb-1">Badge Tag *</label>
                   <input
@@ -2259,17 +2283,20 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                 </label>
               </div>
 
-              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-emerald-900/60">
+              </div>
+
+              {/* Modal Action Footer (Pinned at Bottom) */}
+              <div className="shrink-0 px-6 py-3.5 border-t border-emerald-900/60 bg-[#081712] flex items-center justify-end space-x-3">
                 <button
                   type="button"
                   onClick={() => setShowAddAdModal(false)}
-                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold shadow-lg cursor-pointer"
+                  className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold shadow-lg cursor-pointer transition-colors"
                 >
                   Save & Publish Ad
                 </button>
@@ -2281,145 +2308,151 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
 
       {/* MODAL: EDIT ADVERTISEMENT */}
       {editingAd && (
-        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-[#0b1c16] border border-amber-500/60 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative my-8">
-            <div className="flex items-center justify-between pb-4 border-b border-emerald-900/60">
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-hidden">
+          <div className="bg-[#0b1c16] border border-amber-500/60 rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl relative overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            {/* Modal Header (Pinned at Top) */}
+            <div className="shrink-0 px-6 py-4 border-b border-emerald-900/60 flex items-center justify-between bg-[#0b1c16]">
               <div className="flex items-center gap-2.5">
                 <Edit3 className="w-5 h-5 text-amber-400" />
                 <h3 className="text-base font-bold text-white">Edit Announcement / Advertisement</h3>
               </div>
               <button
+                type="button"
                 onClick={() => setEditingAd(null)}
-                className="text-neutral-400 hover:text-white p-1 rounded-lg cursor-pointer"
+                className="w-8 h-8 rounded-full bg-neutral-900/80 hover:bg-neutral-800 text-neutral-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer text-sm font-bold"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleEditAdSubmit} className="mt-4 space-y-4 text-xs">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Form wrapping scrollable content and sticky action footer */}
+            <form onSubmit={handleEditAdSubmit} className="flex flex-col flex-1 min-h-0 overflow-hidden">
+              <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3.5 text-xs [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-emerald-800/80 [&::-webkit-scrollbar-track]:bg-[#07130f]">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  <div>
+                    <label className="block text-neutral-300 font-semibold mb-1">Badge Tag *</label>
+                    <input
+                      type="text"
+                      value={editingAd.badge || ''}
+                      onChange={(e) => setEditingAd({ ...editingAd, badge: e.target.value })}
+                      className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-neutral-300 font-semibold mb-1">Discount / Highlight Tag</label>
+                    <input
+                      type="text"
+                      value={editingAd.discountTag || ''}
+                      onChange={(e) => setEditingAd({ ...editingAd, discountTag: e.target.value })}
+                      className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                    />
+                  </div>
+                </div>
+
                 <div>
-                  <label className="block text-neutral-300 font-semibold mb-1">Badge Tag *</label>
+                  <label className="block text-neutral-300 font-semibold mb-1">Announcement Title *</label>
                   <input
                     type="text"
-                    value={editingAd.badge || ''}
-                    onChange={(e) => setEditingAd({ ...editingAd, badge: e.target.value })}
-                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                    value={editingAd.title || ''}
+                    onChange={(e) => setEditingAd({ ...editingAd, title: e.target.value })}
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 font-medium"
                     required
                   />
                 </div>
+
                 <div>
-                  <label className="block text-neutral-300 font-semibold mb-1">Discount / Highlight Tag</label>
+                  <label className="block text-neutral-300 font-semibold mb-1">Subtitle</label>
                   <input
                     type="text"
-                    value={editingAd.discountTag || ''}
-                    onChange={(e) => setEditingAd({ ...editingAd, discountTag: e.target.value })}
+                    value={editingAd.subtitle || ''}
+                    onChange={(e) => setEditingAd({ ...editingAd, subtitle: e.target.value })}
                     className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
                   />
                 </div>
-              </div>
 
-              <div>
-                <label className="block text-neutral-300 font-semibold mb-1">Announcement Title *</label>
-                <input
-                  type="text"
-                  value={editingAd.title || ''}
-                  onChange={(e) => setEditingAd({ ...editingAd, title: e.target.value })}
-                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 font-medium"
-                  required
-                />
-              </div>
-
-              <div>
-                <label className="block text-neutral-300 font-semibold mb-1">Subtitle</label>
-                <input
-                  type="text"
-                  value={editingAd.subtitle || ''}
-                  onChange={(e) => setEditingAd({ ...editingAd, subtitle: e.target.value })}
-                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
-                />
-              </div>
-
-              <div>
-                <label className="block text-neutral-300 font-semibold mb-1">Description / Details</label>
-                <textarea
-                  rows="3"
-                  value={editingAd.description || ''}
-                  onChange={(e) => setEditingAd({ ...editingAd, description: e.target.value })}
-                  className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-neutral-300 font-semibold mb-1">Button Action Type</label>
-                  <select
-                    value={editingAd.buttonActionType || 'link'}
-                    onChange={(e) => setEditingAd({ ...editingAd, buttonActionType: e.target.value })}
-                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
-                  >
-                    <option value="franchise">Open Franchise Modal (Handshake)</option>
-                    <option value="whatsapp">Direct WhatsApp Chat</option>
-                    <option value="link">Website Section Link</option>
-                    <option value="call">Direct Phone Call</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-neutral-300 font-semibold mb-1">Button Text</label>
-                  <input
-                    type="text"
-                    value={editingAd.buttonText || ''}
-                    onChange={(e) => setEditingAd({ ...editingAd, buttonText: e.target.value })}
+                  <label className="block text-neutral-300 font-semibold mb-1">Description / Details</label>
+                  <textarea
+                    rows="3"
+                    value={editingAd.description || ''}
+                    onChange={(e) => setEditingAd({ ...editingAd, description: e.target.value })}
                     className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
                   />
                 </div>
-                <div>
-                  <label className="block text-neutral-300 font-semibold mb-1">Target Link (if link)</label>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                  <div>
+                    <label className="block text-neutral-300 font-semibold mb-1">Button Action Type</label>
+                    <select
+                      value={editingAd.buttonActionType || 'link'}
+                      onChange={(e) => setEditingAd({ ...editingAd, buttonActionType: e.target.value })}
+                      className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                    >
+                      <option value="franchise">Open Franchise Modal (Handshake)</option>
+                      <option value="whatsapp">Direct WhatsApp Chat</option>
+                      <option value="link">Website Section Link</option>
+                      <option value="call">Direct Phone Call</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-neutral-300 font-semibold mb-1">Button Text</label>
+                    <input
+                      type="text"
+                      value={editingAd.buttonText || ''}
+                      onChange={(e) => setEditingAd({ ...editingAd, buttonText: e.target.value })}
+                      className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-neutral-300 font-semibold mb-1">Target Link (if link)</label>
+                    <input
+                      type="text"
+                      value={editingAd.buttonLink || ''}
+                      onChange={(e) => setEditingAd({ ...editingAd, buttonLink: e.target.value })}
+                      className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 font-mono"
+                    />
+                  </div>
+                </div>
+
+                <CloudinaryImageUploader
+                  label="Announcement / Popup Cover Image (Stored in Cloudinary)"
+                  value={editingAd.imageUrl || ''}
+                  onChange={(url) => setEditingAd({ ...editingAd, imageUrl: url })}
+                  placeholder="Upload ad banner or paste Cloudinary URL"
+                  presets={[
+                    { name: 'BEDRO Smart-1 Bed', url: 'https://res.cloudinary.com/lgtechglobal/image/upload/v1792133856/dooroomi_mediquip/products/hkytm0jvtayjqhmm834k.jpg' },
+                    { name: 'Taeyangsuk Mat', url: 'https://res.cloudinary.com/lgtechglobal/image/upload/v1792133858/dooroomi_mediquip/products/mhccz8d4niuvz1wv7ltv.jpg' },
+                    { name: 'Ginseng Bio-Essence', url: 'https://res.cloudinary.com/lgtechglobal/image/upload/v1792134137/dooroomi_mediquip/products/rptemwfq7vsdhyou23k9.jpg' }
+                  ]}
+                />
+
+                <div className="flex items-center gap-2 pt-1 pb-1">
                   <input
-                    type="text"
-                    value={editingAd.buttonLink || ''}
-                    onChange={(e) => setEditingAd({ ...editingAd, buttonLink: e.target.value })}
-                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 font-mono"
+                    type="checkbox"
+                    id="editEnableToggle"
+                    checked={!!editingAd.isEnabled}
+                    onChange={(e) => setEditingAd({ ...editingAd, isEnabled: e.target.checked })}
+                    className="rounded border-emerald-800 text-amber-500 focus:ring-amber-400 w-4 h-4 cursor-pointer"
                   />
+                  <label htmlFor="editEnableToggle" className="text-neutral-200 cursor-pointer font-medium">
+                    Enable as Live Popup on Website
+                  </label>
                 </div>
               </div>
 
-              <CloudinaryImageUploader
-                label="Announcement / Popup Cover Image (Stored in Cloudinary)"
-                value={editingAd.imageUrl || ''}
-                onChange={(url) => setEditingAd({ ...editingAd, imageUrl: url })}
-                placeholder="Upload ad banner or paste Cloudinary URL"
-                presets={[
-                  { name: 'BEDRO Smart-1 Bed', url: 'https://res.cloudinary.com/lgtechglobal/image/upload/v1792133856/dooroomi_mediquip/products/hkytm0jvtayjqhmm834k.jpg' },
-                  { name: 'Taeyangsuk Mat', url: 'https://res.cloudinary.com/lgtechglobal/image/upload/v1792133858/dooroomi_mediquip/products/mhccz8d4niuvz1wv7ltv.jpg' },
-                  { name: 'Ginseng Bio-Essence', url: 'https://res.cloudinary.com/lgtechglobal/image/upload/v1792134137/dooroomi_mediquip/products/rptemwfq7vsdhyou23k9.jpg' }
-                ]}
-              />
-
-              <div className="flex items-center gap-2 pt-2">
-                <input
-                  type="checkbox"
-                  id="editEnableToggle"
-                  checked={!!editingAd.isEnabled}
-                  onChange={(e) => setEditingAd({ ...editingAd, isEnabled: e.target.checked })}
-                  className="rounded border-emerald-800 text-amber-500 focus:ring-amber-400 w-4 h-4 cursor-pointer"
-                />
-                <label htmlFor="editEnableToggle" className="text-neutral-200 cursor-pointer font-medium">
-                  Enable as Live Popup on Website
-                </label>
-              </div>
-
-              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-emerald-900/60">
+              {/* Modal Action Footer (Pinned at Bottom) */}
+              <div className="shrink-0 px-6 py-3.5 border-t border-emerald-900/60 bg-[#081712] flex items-center justify-end space-x-3">
                 <button
                   type="button"
                   onClick={() => setEditingAd(null)}
-                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold shadow-lg cursor-pointer"
+                  className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold shadow-lg cursor-pointer transition-colors"
                 >
                   Save Changes
                 </button>
@@ -2441,23 +2474,27 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
 
       {/* MODAL: EDIT PRODUCT */}
       {editingProduct && (
-        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-[#0b1c16] border border-amber-500/60 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative my-8">
-            <div className="flex items-center justify-between pb-4 border-b border-emerald-900/60">
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-hidden">
+          <div className="bg-[#0b1c16] border border-amber-500/60 rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl relative overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            {/* Modal Header (Pinned at Top) */}
+            <div className="shrink-0 px-6 py-4 border-b border-emerald-900/60 flex items-center justify-between bg-[#0b1c16]">
               <div className="flex items-center gap-2.5">
                 <Edit3 className="w-5 h-5 text-amber-400" />
                 <h3 className="text-base font-bold text-white">Edit Product / Medical Equipment</h3>
               </div>
               <button
+                type="button"
                 onClick={() => setEditingProduct(null)}
-                className="text-neutral-400 hover:text-white p-1 rounded-lg cursor-pointer"
+                className="w-8 h-8 rounded-full bg-neutral-900/80 hover:bg-neutral-800 text-neutral-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer text-sm font-bold"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleEditProductSubmit} className="mt-4 space-y-4 text-xs">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {/* Form wrapping scrollable content and sticky action footer */}
+            <form onSubmit={handleEditProductSubmit} className="flex flex-col flex-1 min-h-0 overflow-hidden">
+              <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3.5 text-xs [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-emerald-800/80 [&::-webkit-scrollbar-track]:bg-[#07130f]">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-neutral-300 font-semibold mb-1">Product Name (English) *</label>
                   <input
@@ -2571,17 +2608,20 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                 />
               </div>
 
-              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-emerald-900/60">
+              </div>
+
+              {/* Modal Sticky Footer (Always Visible) */}
+              <div className="shrink-0 px-6 py-3.5 border-t border-emerald-900/60 bg-[#081712] flex items-center justify-end space-x-3">
                 <button
                   type="button"
                   onClick={() => setEditingProduct(null)}
-                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-bold shadow-lg cursor-pointer"
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-bold shadow-lg cursor-pointer transition-all"
                 >
                   Save Changes & Update MongoDB
                 </button>
@@ -2593,22 +2633,26 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
 
       {/* MODAL: EDIT THERAPY CENTER */}
       {editingCenter && (
-        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-[#0b1c16] border border-emerald-500/60 rounded-2xl max-w-xl w-full p-6 shadow-2xl relative my-8">
-            <div className="flex items-center justify-between pb-4 border-b border-emerald-900/60">
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-hidden">
+          <div className="bg-[#0b1c16] border border-emerald-500/60 rounded-2xl max-w-xl w-full max-h-[90vh] flex flex-col shadow-2xl relative overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            {/* Modal Header (Pinned at Top) */}
+            <div className="shrink-0 px-6 py-4 border-b border-emerald-900/60 flex items-center justify-between bg-[#0b1c16]">
               <div className="flex items-center gap-2.5">
                 <Edit3 className="w-5 h-5 text-emerald-400" />
                 <h3 className="text-base font-bold text-white">Edit Therapy Center Details</h3>
               </div>
               <button
+                type="button"
                 onClick={() => setEditingCenter(null)}
-                className="text-neutral-400 hover:text-white p-1 rounded-lg cursor-pointer"
+                className="w-8 h-8 rounded-full bg-neutral-900/80 hover:bg-neutral-800 text-neutral-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer text-sm font-bold"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleEditCenterSubmit} className="mt-4 space-y-4 text-xs">
+            {/* Form wrapping scrollable content and sticky action footer */}
+            <form onSubmit={handleEditCenterSubmit} className="flex flex-col flex-1 min-h-0 overflow-hidden">
+              <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3.5 text-xs [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-emerald-800/80 [&::-webkit-scrollbar-track]:bg-[#07130f]">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-neutral-300 font-semibold mb-1">City *</label>
@@ -2688,17 +2732,20 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                 </div>
               </div>
 
-              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-emerald-900/60">
+              </div>
+
+              {/* Modal Sticky Footer (Always Visible) */}
+              <div className="shrink-0 px-6 py-3.5 border-t border-emerald-900/60 bg-[#081712] flex items-center justify-end space-x-3">
                 <button
                   type="button"
                   onClick={() => setEditingCenter(null)}
-                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold shadow-lg cursor-pointer"
+                  className="px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold shadow-lg cursor-pointer transition-all"
                 >
                   Save Changes & Update MongoDB
                 </button>
@@ -2710,22 +2757,26 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
 
       {/* MODAL: EDIT TESTIMONIAL */}
       {editingTestimonial && (
-        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-[#0b1c16] border border-amber-500/60 rounded-2xl max-w-xl w-full p-6 shadow-2xl relative my-8">
-            <div className="flex items-center justify-between pb-4 border-b border-emerald-900/60">
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-hidden">
+          <div className="bg-[#0b1c16] border border-amber-500/60 rounded-2xl max-w-xl w-full max-h-[90vh] flex flex-col shadow-2xl relative overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            {/* Modal Header (Pinned at Top) */}
+            <div className="shrink-0 px-6 py-4 border-b border-emerald-900/60 flex items-center justify-between bg-[#0b1c16]">
               <div className="flex items-center gap-2.5">
                 <Edit3 className="w-5 h-5 text-amber-400" />
                 <h3 className="text-base font-bold text-white">Edit Patient Recovery Testimonial</h3>
               </div>
               <button
+                type="button"
                 onClick={() => setEditingTestimonial(null)}
-                className="text-neutral-400 hover:text-white p-1 rounded-lg cursor-pointer"
+                className="w-8 h-8 rounded-full bg-neutral-900/80 hover:bg-neutral-800 text-neutral-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer text-sm font-bold"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleEditTestimonialSubmit} className="mt-4 space-y-4 text-xs">
+            {/* Form wrapping scrollable content and sticky action footer */}
+            <form onSubmit={handleEditTestimonialSubmit} className="flex flex-col flex-1 min-h-0 overflow-hidden">
+              <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3.5 text-xs [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-emerald-800/80 [&::-webkit-scrollbar-track]:bg-[#07130f]">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-neutral-300 font-semibold mb-1">Patient Name *</label>
@@ -2816,17 +2867,20 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                 placeholder="Upload patient photo or paste Cloudinary URL"
               />
 
-              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-emerald-900/60">
+              </div>
+
+              {/* Modal Sticky Footer (Always Visible) */}
+              <div className="shrink-0 px-6 py-3.5 border-t border-emerald-900/60 bg-[#081712] flex items-center justify-end space-x-3">
                 <button
                   type="button"
                   onClick={() => setEditingTestimonial(null)}
-                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold shadow-lg cursor-pointer"
+                  className="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-black font-bold shadow-lg cursor-pointer transition-all"
                 >
                   Save Changes & Update MongoDB
                 </button>
@@ -2838,22 +2892,26 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
 
       {/* MODAL: EDIT CUSTOMER INQUIRY / LEAD */}
       {editingInquiry && (
-        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-[#0b1c16] border border-emerald-500/60 rounded-2xl max-w-xl w-full p-6 shadow-2xl relative my-8">
-            <div className="flex items-center justify-between pb-4 border-b border-emerald-900/60">
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-hidden">
+          <div className="bg-[#0b1c16] border border-emerald-500/60 rounded-2xl max-w-xl w-full max-h-[90vh] flex flex-col shadow-2xl relative overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            {/* Modal Header (Pinned at Top) */}
+            <div className="shrink-0 px-6 py-4 border-b border-emerald-900/60 flex items-center justify-between bg-[#0b1c16]">
               <div className="flex items-center gap-2.5">
                 <Edit3 className="w-5 h-5 text-emerald-400" />
                 <h3 className="text-base font-bold text-white">Edit Customer Inquiry / Lead</h3>
               </div>
               <button
+                type="button"
                 onClick={() => setEditingInquiry(null)}
-                className="text-neutral-400 hover:text-white p-1 rounded-lg cursor-pointer"
+                className="w-8 h-8 rounded-full bg-neutral-900/80 hover:bg-neutral-800 text-neutral-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer text-sm font-bold"
               >
                 ✕
               </button>
             </div>
 
-            <form onSubmit={handleEditInquirySubmit} className="mt-4 space-y-4 text-xs">
+            {/* Form wrapping scrollable content and sticky action footer */}
+            <form onSubmit={handleEditInquirySubmit} className="flex flex-col flex-1 min-h-0 overflow-hidden">
+              <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3.5 text-xs [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-emerald-800/80 [&::-webkit-scrollbar-track]:bg-[#07130f]">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-neutral-300 font-semibold mb-1">Contact Name *</label>
@@ -2949,17 +3007,20 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                 />
               </div>
 
-              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-emerald-900/60">
+              </div>
+
+              {/* Modal Sticky Footer (Always Visible) */}
+              <div className="shrink-0 px-6 py-3.5 border-t border-emerald-900/60 bg-[#081712] flex items-center justify-end space-x-3">
                 <button
                   type="button"
                   onClick={() => setEditingInquiry(null)}
-                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer"
+                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold shadow-lg cursor-pointer"
+                  className="px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold shadow-lg cursor-pointer transition-all"
                 >
                   Save Changes & Update MongoDB
                 </button>

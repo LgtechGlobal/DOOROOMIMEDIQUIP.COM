@@ -115,11 +115,11 @@ export const AdvertisementModal = ({ onOpenFranchise, forceOpen = false, preview
       aria-modal="true"
     >
       <div 
-        className="relative w-full max-w-md bg-gradient-to-b from-[#0b1c16] via-[#081712] to-[#040c09] border border-amber-500/40 rounded-2xl shadow-2xl shadow-emerald-950/90 overflow-hidden transform transition-all animate-scaleUp"
+        className="relative w-full max-w-md max-h-[90vh] flex flex-col bg-gradient-to-b from-[#0b1c16] via-[#081712] to-[#040c09] border border-amber-500/40 rounded-2xl shadow-2xl shadow-emerald-950/90 overflow-hidden transform transition-all animate-scaleUp"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Gold Ambient Glow Bar */}
-        <div className="h-1 w-full bg-gradient-to-r from-amber-600 via-amber-400 to-emerald-500" />
+        <div className="shrink-0 h-1 w-full bg-gradient-to-r from-amber-600 via-amber-400 to-emerald-500" />
 
         {/* Close Button ("X" cross section) */}
         <button
@@ -132,7 +132,7 @@ export const AdvertisementModal = ({ onOpenFranchise, forceOpen = false, preview
 
         {/* Media / Visual Banner */}
         {ad.imageUrl && (
-          <div className="relative w-full h-36 sm:h-40 bg-neutral-900 overflow-hidden group">
+          <div className="shrink-0 relative w-full h-36 sm:h-40 bg-neutral-900 overflow-hidden group">
             <img 
               src={getOptimizedImageUrl(ad.imageUrl, { width: 600 })} 
               alt={ad.title} 
@@ -154,8 +154,8 @@ export const AdvertisementModal = ({ onOpenFranchise, forceOpen = false, preview
           </div>
         )}
 
-        {/* Modal Content Body */}
-        <div className="p-4 sm:p-5">
+        {/* Modal Scrollable Content Body */}
+        <div className="flex-1 overflow-y-auto p-4 sm:p-5 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-emerald-800/80 [&::-webkit-scrollbar-track]:bg-transparent">
           
           {/* Badge & Official Korean Tag */}
           <div className="flex flex-wrap items-center gap-2 mb-2">
@@ -175,14 +175,14 @@ export const AdvertisementModal = ({ onOpenFranchise, forceOpen = false, preview
 
           {/* Subtitle */}
           {ad.subtitle && (
-            <p className="mt-1 text-xs sm:text-sm font-medium text-amber-300/90 leading-snug line-clamp-2">
+            <p className="mt-1 text-xs sm:text-sm font-medium text-amber-300/90 leading-snug">
               {ad.subtitle}
             </p>
           )}
 
           {/* Description */}
           {ad.description && (
-            <p className="mt-2 text-[11px] sm:text-xs text-neutral-300/85 leading-relaxed line-clamp-2">
+            <p className="mt-2 text-[11px] sm:text-xs text-neutral-300/85 leading-relaxed">
               {ad.description}
             </p>
           )}
@@ -198,28 +198,27 @@ export const AdvertisementModal = ({ onOpenFranchise, forceOpen = false, preview
               <span>100% Free Daily Therapy</span>
             </div>
           </div>
+        </div>
 
-          {/* Action Buttons Row */}
-          <div className="mt-4 pt-3 border-t border-emerald-900/50 flex items-center justify-between gap-2">
-            <button
-              onClick={handleClose}
-              className="px-3 py-1.5 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-colors cursor-pointer"
-            >
-              Dismiss
-            </button>
+        {/* Action Buttons Row (Pinned Sticky Footer) */}
+        <div className="shrink-0 px-4 py-3 sm:px-5 sm:py-3.5 border-t border-emerald-900/60 bg-[#06120e] flex items-center justify-between gap-2">
+          <button
+            onClick={handleClose}
+            className="px-3 py-1.5 rounded-lg text-xs font-medium text-neutral-400 hover:text-white transition-colors cursor-pointer"
+          >
+            Dismiss
+          </button>
 
-            <button
-              onClick={handleAction}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 hover:from-amber-500 hover:to-amber-400 text-black font-bold text-xs tracking-wide shadow-md shadow-amber-600/30 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
-            >
-              {ad.buttonActionType === 'franchise' && <Handshake className="w-3.5 h-3.5" />}
-              {ad.buttonActionType === 'whatsapp' && <MessageCircle className="w-3.5 h-3.5" />}
-              {ad.buttonActionType === 'call' && <PhoneCall className="w-3.5 h-3.5" />}
-              {ad.buttonActionType === 'link' && <ArrowRight className="w-3.5 h-3.5" />}
-              <span>{ad.buttonText || 'Explore Now'}</span>
-            </button>
-          </div>
-
+          <button
+            onClick={handleAction}
+            className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-600 via-amber-500 to-amber-600 hover:from-amber-500 hover:to-amber-400 text-black font-bold text-xs tracking-wide shadow-md shadow-amber-600/30 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
+          >
+            {ad.buttonActionType === 'franchise' && <Handshake className="w-3.5 h-3.5" />}
+            {ad.buttonActionType === 'whatsapp' && <MessageCircle className="w-3.5 h-3.5" />}
+            {ad.buttonActionType === 'call' && <PhoneCall className="w-3.5 h-3.5" />}
+            {ad.buttonActionType === 'link' && <ArrowRight className="w-3.5 h-3.5" />}
+            <span>{ad.buttonText || 'Explore Now'}</span>
+          </button>
         </div>
 
       </div>
