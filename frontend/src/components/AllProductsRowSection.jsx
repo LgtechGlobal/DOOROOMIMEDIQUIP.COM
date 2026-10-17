@@ -79,10 +79,13 @@ export const AllProductsRowSection = ({ onSelectProduct, onSelectForQuote, onNav
 
   // Ensure safe index within current filtered list
   const currentList = filteredProducts.length > 0 ? filteredProducts : productsList;
-  const safeIndex = selectedIndex < currentList.length ? selectedIndex : 0;
-  const nextIndex = currentList.length > 1 ? (safeIndex + 1) % currentList.length : 0;
+  const count = currentList.length;
+  const safeIndex = selectedIndex < count ? selectedIndex : 0;
+  const nextIndex1 = count > 1 ? (safeIndex + 1) % count : 0;
+  const nextIndex2 = count > 2 ? (safeIndex + 2) % count : (count > 1 ? 1 : 0);
   const product1 = currentList[safeIndex] || currentList[0];
-  const product2 = currentList[nextIndex] || currentList[0];
+  const product2 = currentList[nextIndex1] || currentList[0];
+  const product3 = currentList[nextIndex2] || currentList[0];
 
   const handleNext = useCallback(() => {
     setSelectedIndex((prev) => (prev + 1) % currentList.length);
@@ -143,9 +146,6 @@ export const AllProductsRowSection = ({ onSelectProduct, onSelectForQuote, onNav
       '100% Pure Electromagnetic Shielding'
     ];
   };
-
-  const featureList1 = getProductFeatures(product1);
-  const featureList2 = getProductFeatures(product2);
 
   return (
     <section 
@@ -231,88 +231,29 @@ export const AllProductsRowSection = ({ onSelectProduct, onSelectForQuote, onNav
           </div>
         </div>
 
-        {/* 2 Big Size Product Showcase Cards Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 mb-10 sm:mb-14">
-          {[
-            { prod: product1, features: featureList1, index: safeIndex },
-            { prod: product2, features: featureList2, index: nextIndex }
-          ].map(({ prod, features, index }, cardIdx) => {
+        {/* 3 Big Size Product Images Showcase (Pure Images - No Text Details) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-10 sm:mb-14">
+          {[product1, product2, product3].map((prod, cardIdx) => {
             if (!prod) return null;
             return (
               <div
                 key={`${prod.id}-${cardIdx}`}
-                className="relative bg-gradient-to-br from-sky-50/50 via-white to-blue-50/30 rounded-3xl p-6 sm:p-7 border border-sky-100 shadow-sm shadow-sky-950/5 overflow-hidden transition-all duration-300 flex flex-col justify-between"
+                onClick={() => onSelectProduct && onSelectProduct(prod.id)}
+                className="relative bg-gradient-to-br from-sky-50/50 via-white to-blue-50/30 rounded-3xl p-6 sm:p-8 border border-sky-100/90 shadow-sm shadow-sky-950/5 hover:shadow-xl hover:border-sky-300 transition-all duration-300 flex items-center justify-center min-h-[250px] sm:min-h-[290px] lg:min-h-[320px] group cursor-pointer overflow-hidden"
               >
-                {/* Card Top Meta Bar: SKU badge & Category pill */}
-                <div className="flex items-center justify-between pb-3 border-b border-sky-100/80 mb-4">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-100/70 text-sky-700 text-xs font-bold font-mono tracking-wide">
-                    <span className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse" />
-                    <span>{prod.model || 'DM-MED01'}</span>
-                  </div>
-
-                  <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-sky-50 text-sky-800 border border-sky-200/60 font-mono">
-                    {prod.badge || 'MEDICAL GRADE'}
-                  </span>
+                {/* Soft 3D Glow & Floor Circular Pedestal */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="w-56 h-56 sm:w-64 sm:h-64 rounded-full bg-gradient-to-b from-sky-100/70 via-blue-50/40 to-transparent blur-2xl group-hover:scale-110 transition-transform duration-500" />
+                  <div className="absolute bottom-4 w-44 sm:w-56 h-8 bg-sky-950/10 blur-md rounded-[100%]" />
                 </div>
 
-                {/* Card Inner Grid: Left Details & Right Big Size Product Image on Pedestal */}
-                <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 items-center flex-1">
-                  
-                  {/* Details Column */}
-                  <div className="sm:col-span-6 flex flex-col justify-between space-y-3.5">
-                    <div>
-                      <h3 className="text-lg sm:text-xl font-bold text-neutral-900 font-serif leading-snug line-clamp-2">
-                        {prod.name}
-                      </h3>
-                      {prod.nameKo && (
-                        <p className="text-xs text-neutral-400 font-medium mt-1">
-                          ({prod.nameKo})
-                        </p>
-                      )}
-                    </div>
-
-                    {/* 3 Key Advantages with Blue Shields */}
-                    <div className="space-y-2 py-1">
-                      {features.slice(0, 3).map((feat, i) => (
-                        <div key={i} className="flex items-center gap-2 text-xs text-neutral-700 font-medium">
-                          <ShieldCheck className="w-4 h-4 text-sky-600 shrink-0" />
-                          <span className="line-clamp-1">{feat}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Action Button */}
-                    <div className="pt-1">
-                      <button
-                        onClick={() => onSelectProduct && onSelectProduct(prod.id)}
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs shadow-md shadow-sky-600/20 hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
-                      >
-                        <span>View Details</span>
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Big Size Product Image on 3D Glowing Pedestal */}
-                  <div className="sm:col-span-6 relative flex items-center justify-center min-h-[200px] sm:min-h-[230px]">
-                    {/* Soft 3D Glow & Floor Circular Pedestal */}
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <div className="w-48 h-48 sm:w-56 sm:h-56 rounded-full bg-gradient-to-b from-sky-100/70 via-blue-50/50 to-transparent blur-xl" />
-                      <div className="absolute bottom-2 w-40 sm:w-48 h-7 bg-sky-950/10 blur-md rounded-[100%]" />
-                    </div>
-
-                    {/* Big Size Product Image */}
-                    <img
-                      key={prod.id}
-                      src={getOptimizedImageUrl(prod.imgUrl, { width: 650 })}
-                      alt={prod.name}
-                      className="relative z-10 max-h-[175px] sm:max-h-[220px] w-auto object-contain mix-blend-multiply cursor-pointer hover:scale-105 transition-transform duration-300 drop-shadow-sm"
-                      onClick={() => onSelectProduct && onSelectProduct(prod.id)}
-                    />
-                  </div>
-
-                </div>
-
+                {/* Big Size Product Image */}
+                <img
+                  key={prod.id}
+                  src={getOptimizedImageUrl(prod.imgUrl, { width: 800 })}
+                  alt={prod.name}
+                  className="relative z-10 max-h-[210px] sm:max-h-[240px] lg:max-h-[270px] w-auto max-w-[92%] object-contain mix-blend-multiply group-hover:scale-108 transition-transform duration-300 drop-shadow-sm select-none"
+                />
               </div>
             );
           })}

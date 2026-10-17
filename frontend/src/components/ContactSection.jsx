@@ -109,12 +109,12 @@ export const ContactSection = ({
                   </div>
                   <div>
                     <span className="font-bold text-hanbit-muted uppercase tracking-wider block text-[10px]">
-                      Toll-Free Phone (Korea)
+                      Toll-Free Helpline &amp; Phone
                     </span>
                     <a href={`tel:${SITE_CONFIG.phoneTel}`} className="font-bold text-sm text-hanbit-forest hover:text-hanbit-gold">
                       {SITE_CONFIG.phone}
                     </a>
-                    <span className="text-hanbit-muted block text-[11px]">International: +82-2-850-2026</span>
+                    <span className="text-hanbit-muted block text-[11px]">Direct Support: {SITE_CONFIG.phone}</span>
                   </div>
                 </div>
 

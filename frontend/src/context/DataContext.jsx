@@ -44,7 +44,7 @@ const INITIAL_CENTERS = [
     area: "Nawada Corporate Center & Factory",
     state: "Delhi NCR",
     address: "Metro Pillar 734, Main Najafgarh Road, Nawada, New Delhi - 110059",
-    phone: "1800-419-5278",
+    phone: "0674 291 6680",
     timing: "Mon–Sat: 9:00 AM – 6:00 PM",
     status: "Active · India HQ & Free Therapy",
     dailyCapacity: "220+ Patients/Day"
