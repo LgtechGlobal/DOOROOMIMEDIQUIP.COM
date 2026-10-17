@@ -247,15 +247,16 @@ export const Navbar = ({
             })}
           </nav>
 
-          {/* Right Action Button: Franchise */}
+          {/* Right Action Button: Contact for Franchise */}
           <div className="hidden lg:flex items-center gap-3 shrink-0">
             <button
               onClick={() => onOpenFranchise && onOpenFranchise()}
-              className="px-5 py-2.5 rounded-full bg-gradient-to-r from-hanbit-forest to-hanbit-dark text-white text-xs xl:text-sm font-semibold hover:shadow-lg hover:from-emerald-950 hover:to-emerald-900 border border-hanbit-gold/40 transition-all inline-flex items-center gap-2 group cursor-pointer"
+              className="relative overflow-hidden px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-stone-950 text-xs xl:text-sm font-extrabold shadow-lg shadow-amber-500/30 hover:shadow-xl hover:shadow-amber-500/40 hover:scale-[1.03] active:scale-[0.98] border border-amber-300/80 transition-all duration-300 inline-flex items-center gap-2 group cursor-pointer"
             >
-              <Handshake className="w-4 h-4 text-hanbit-gold group-hover:scale-110 transition-transform" />
-              <span>Franchise</span>
-              <ArrowRight className="w-3.5 h-3.5 text-hanbit-gold group-hover:translate-x-0.5 transition-transform" />
+              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 ease-in-out pointer-events-none" />
+              <Handshake className="w-4 h-4 text-stone-950 group-hover:scale-110 group-hover:rotate-6 transition-transform shrink-0" />
+              <span className="tracking-tight whitespace-nowrap">Contact for Franchise</span>
+              <ArrowRight className="w-3.5 h-3.5 text-stone-950 group-hover:translate-x-1 transition-transform shrink-0" />
             </button>
           </div>
 
@@ -296,11 +297,11 @@ export const Navbar = ({
                   setIsMobileMenuOpen(false);
                   if (onOpenFranchise) onOpenFranchise();
                 }}
-                className="w-full py-2.5 rounded-xl bg-hanbit-forest text-white text-xs font-semibold flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-400 text-stone-950 text-xs font-extrabold shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98] transition-all"
               >
-                <Handshake className="w-4 h-4 text-hanbit-gold" />
-                <span>Franchise Application</span>
-                <ArrowRight className="w-3.5 h-3.5 text-hanbit-gold" />
+                <Handshake className="w-4 h-4 text-stone-950" />
+                <span>Contact for Franchise</span>
+                <ArrowRight className="w-3.5 h-3.5 text-stone-950" />
               </button>
               <button
                 onClick={() => {
