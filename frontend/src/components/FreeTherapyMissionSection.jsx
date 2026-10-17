@@ -106,7 +106,7 @@ export const FreeTherapyMissionSection = ({ onContactClick, onNavigateAbout, onN
               </h3>
 
               <p className="text-sm sm:text-base text-gray-200 font-light leading-relaxed">
-                Under the leadership of Global Founder <b>Mr. Wan Gyeom Kim</b> and India Managing Director <b>Mrs. Mahi Singh</b>, our philosophy has always been simple: You should never have to spend hard-earned money before knowing whether a medical therapy works for your condition. Over 15 state-of-the-art therapeutic centers are operating every day across India waiting to serve you.
+                Under the leadership of India Managing Director <b>Mrs. Mahi Singh</b>, our philosophy has always been simple: You should never have to spend hard-earned money before knowing whether a medical therapy works for your condition. Over 15 state-of-the-art therapeutic centers are operating every day across India waiting to serve you.
               </p>
 
               <div className="flex flex-wrap items-center gap-4 pt-2">

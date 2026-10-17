@@ -29,41 +29,6 @@ export const SITE_CONFIG = {
   ],
   leadership: [
     {
-      id: "wan-gyeom-kim",
-      role: "Honourable Global CEO & Founder",
-      titleHeader: "Message from our Global CEO",
-      name: "Mr. Wan Gyeom Kim",
-      nameKo: "김완겸 회장",
-      base: "Seoul, South Korea",
-      photo: "./assets/ceo/leader-wan-gyeom-kim.png",
-      bio: "Founded Dooroomi on November 24, 1991 in Seoul. Guided by the philosophy of 'Love, Service, and Kindness', he established the worldwide natural thermal therapy standard.",
-      credentials: ["Founder Since 1991", "51+ Countries Export", "Global R&D Directorate", "ISO & CGMP Certified"],
-      fullMessage: [
-        "Dooroomi was incorporated in Year 1991. Since then, we have been developing and manufacturing various types of thermal treatment devices for home uses, other medical and skin care devices, as well as health care devices and professional medical devices for hospital environment, which are now being exported to more than 51 countries in the world. What contributed to our fast growth since our foundation was our spirits for sharing health, love, and service with the entire world which were the basis of our mindset when we developed and manufactured our products.",
-        "With our corporate mission, “To contribute to the human health by providing the best service with our best technology and love,” we, Dooroomi has been manufacturing and providing our customers with quality products with world class competitiveness. According to the establishment of the R&D group within Dooroomi, we are determined to secure our leadership position in terms of development of the next generation medical devices, as well as training talented minds, innovation, and strengthening our capabilities for knowledge based on management of our company.",
-        "We will lead the way to make the society a better place for us all with our commitment for compliance, environmental awareness, and sharing with our neighbors. As we step up to the leadership in the medical device industry of the world, we would like to welcome you to join us in our journey to the new future!",
-        "Thank you very much for your attention."
-      ]
-    },
-    {
-      id: "jaewee-kim",
-      role: "Honourable Global President",
-      titleHeader: "Message from our Global President",
-      name: "Mr. Jaewee Kim",
-      nameKo: "김재위 사장",
-      base: "Seoul, South Korea",
-      photo: "./assets/ceo/leader-jaewee-kim.png",
-      bio: "Directs Dooroomi's worldwide clinical network, spearheading international expansion into 51+ countries across the Americas, Europe, and Asia.",
-      credentials: ["Global President", "FDA (USA) & CE Acknowledged", "Clinical Expansion Lead", "51+ Nations Reach"],
-      fullMessage: [
-        "The keyword to a fast and emerging India is 'Health'. Our Endeavour is to make India rank high on this keyword wherein every individual pursues a healthy and happy life. Dooroomi was established on November 24th, 1991 with the motto of 'love, service, and kindness'. Dooroomi warmly invites people to experience its products without paying any charge. Our aim is to help people improve their quality of lives by providing them with the best services and products since we observed that a major chunk of India's population is facing challenges in daily life due to deteriorating health.",
-        "Dooroomi products have been praised for their great features and safety. Our innovative technology has recently been acknowledged by the FDA (USA) and CE (European) which employ high standards and strict certification procedures.",
-        "Dooroomi is determined in pioneering new and innovative ways to improve the lives of people in India. We will always innovate ourselves as per the changing advancement and would respond to our customer's aspirations. We are committed to build a life-long relationship with our consumers.",
-        "We are grateful to our customers who have supported us and have shown true love and trust in brand Dooroomi. We shall leave no stone unturned to deliver our customers a happy and healthy future.",
-        "Thank you so much."
-      ]
-    },
-    {
       id: "mahi-singh",
       role: "Honourable India CEO & Managing Director",
       titleHeader: "Message from our India CEO",
