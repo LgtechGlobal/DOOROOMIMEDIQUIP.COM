@@ -231,28 +231,28 @@ export const AllProductsRowSection = ({ onSelectProduct, onSelectForQuote, onNav
           </div>
         </div>
 
-        {/* 3 Big Size Product Images Showcase (Pure Images - No Text Details) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-10 sm:mb-14">
+        {/* 3 Product Images Showcase (Clean & Compact) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 mb-8 sm:mb-12">
           {[product1, product2, product3].map((prod, cardIdx) => {
             if (!prod) return null;
             return (
               <div
                 key={`${prod.id}-${cardIdx}`}
                 onClick={() => onSelectProduct && onSelectProduct(prod.id)}
-                className="relative bg-gradient-to-br from-sky-50/50 via-white to-blue-50/30 rounded-3xl p-6 sm:p-8 border border-sky-100/90 shadow-sm shadow-sky-950/5 hover:shadow-xl hover:border-sky-300 transition-all duration-300 flex items-center justify-center min-h-[250px] sm:min-h-[290px] lg:min-h-[320px] group cursor-pointer overflow-hidden"
+                className="relative bg-gradient-to-br from-sky-50/50 via-white to-blue-50/30 rounded-3xl p-5 sm:p-6 border border-sky-100/90 shadow-sm shadow-sky-950/5 hover:shadow-xl hover:border-sky-300 transition-all duration-300 flex items-center justify-center min-h-[195px] sm:min-h-[215px] lg:min-h-[235px] group cursor-pointer overflow-hidden"
               >
                 {/* Soft 3D Glow & Floor Circular Pedestal */}
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="w-56 h-56 sm:w-64 sm:h-64 rounded-full bg-gradient-to-b from-sky-100/70 via-blue-50/40 to-transparent blur-2xl group-hover:scale-110 transition-transform duration-500" />
-                  <div className="absolute bottom-4 w-44 sm:w-56 h-8 bg-sky-950/10 blur-md rounded-[100%]" />
+                  <div className="w-44 h-44 sm:w-52 sm:h-52 rounded-full bg-gradient-to-b from-sky-100/70 via-blue-50/40 to-transparent blur-2xl group-hover:scale-110 transition-transform duration-500" />
+                  <div className="absolute bottom-3 w-36 sm:w-44 h-6 bg-sky-950/10 blur-md rounded-[100%]" />
                 </div>
 
-                {/* Big Size Product Image */}
+                {/* Refined Size Product Image */}
                 <img
                   key={prod.id}
                   src={getOptimizedImageUrl(prod.imgUrl, { width: 800 })}
                   alt={prod.name}
-                  className="relative z-10 max-h-[210px] sm:max-h-[240px] lg:max-h-[270px] w-auto max-w-[92%] object-contain mix-blend-multiply group-hover:scale-108 transition-transform duration-300 drop-shadow-sm select-none"
+                  className="relative z-10 max-h-[150px] sm:max-h-[175px] lg:max-h-[195px] w-auto max-w-[85%] object-contain mix-blend-multiply group-hover:scale-108 transition-transform duration-300 drop-shadow-sm select-none"
                 />
               </div>
             );

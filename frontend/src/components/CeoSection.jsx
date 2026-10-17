@@ -5,16 +5,10 @@ import {
   ShieldCheck, 
   Quote, 
   CheckCircle2, 
-  Globe, 
   ArrowRight, 
   HeartHandshake,
-  Building2,
   Calendar,
-  Check,
-  Phone,
-  Mail,
-  MapPin,
-  ExternalLink
+  Check
 } from 'lucide-react';
 import { SITE_CONFIG } from '../data/siteData';
 
@@ -92,16 +86,16 @@ export const CeoSection = ({ onNavigateAbout, onContactClick }) => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
           {/* Left Column: Interactive Photo & Business Card Presentation */}
-          <div className="lg:col-span-5 relative">
+          <div className="lg:col-span-5 relative max-w-sm sm:max-w-md mx-auto w-full">
             
             {/* 3D Backdrop Glow Card Layer */}
             <div className="absolute -inset-3 rounded-3xl bg-gradient-to-tr from-hanbit-gold/20 via-transparent to-emerald-400/20 blur-xl opacity-70 pointer-events-none" />
 
             {/* Main Active Photo Container */}
-            <div className="relative rounded-3xl overflow-hidden bg-hanbit-dark border-2 border-hanbit-gold/50 shadow-2xl group">
+            <div className="relative rounded-3xl overflow-hidden bg-hanbit-dark border-2 border-hanbit-gold/50 shadow-2xl group max-h-[460px]">
               
               {/* Image Frame with Smooth Crossfade Animation */}
-              <div className="relative aspect-[3/4] w-full overflow-hidden bg-neutral-900 flex items-center justify-center">
+              <div className="relative aspect-[4/5] max-h-[460px] w-full overflow-hidden bg-neutral-900 flex items-center justify-center">
                 <img
                   key={ceoPhotos[activeImageIndex].id}
                   src={ceoPhotos[activeImageIndex].src}
@@ -253,80 +247,7 @@ export const CeoSection = ({ onNavigateAbout, onContactClick }) => {
               </div>
             </div>
 
-            {/* Real Executive Contact & Office Details from Business Card */}
-            <div className="p-5 rounded-2xl bg-black/40 border border-hanbit-gold/30 space-y-3">
-              <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-amber-200 block">
-                Official Executive Contact & Korea Headquarters
-              </span>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                {/* Direct Mobile */}
-                <a 
-                  href={`tel:${ceo.mobile.replace(/\s+/g, '')}`}
-                  className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-colors text-white group cursor-pointer"
-                >
-                  <Phone className="w-4 h-4 text-hanbit-gold shrink-0 group-hover:scale-110 transition-transform" />
-                  <div>
-                    <span className="text-[10px] text-neutral-400 block">Mobile (Korea)</span>
-                    <span className="font-mono font-semibold text-emerald-200">{ceo.mobile}</span>
-                  </div>
-                </a>
-
-                {/* Direct Email */}
-                <a 
-                  href={`mailto:${ceo.email}`}
-                  className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-colors text-white group cursor-pointer"
-                >
-                  <Mail className="w-4 h-4 text-hanbit-gold shrink-0 group-hover:scale-110 transition-transform" />
-                  <div>
-                    <span className="text-[10px] text-neutral-400 block">Direct Email</span>
-                    <span className="font-mono font-semibold text-emerald-200">{ceo.email}</span>
-                  </div>
-                </a>
-
-                {/* Official Website */}
-                <a 
-                  href={`https://${ceo.website}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-colors text-white group cursor-pointer"
-                >
-                  <Globe className="w-4 h-4 text-hanbit-gold shrink-0 group-hover:scale-110 transition-transform" />
-                  <div>
-                    <span className="text-[10px] text-neutral-400 block">Global Website</span>
-                    <span className="font-mono font-semibold text-emerald-200 flex items-center gap-1">
-                      {ceo.website}
-                      <ExternalLink className="w-3 h-3 text-neutral-400" />
-                    </span>
-                  </div>
-                </a>
-
-                {/* SKS International Company Details Shortcut */}
-                <a 
-                  href={`https://${ceo.website}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2.5 p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-colors text-white group cursor-pointer text-left"
-                >
-                  <Building2 className="w-4 h-4 text-hanbit-gold shrink-0 group-hover:scale-110 transition-transform" />
-                  <div>
-                    <span className="text-[10px] text-neutral-400 block">SKS International</span>
-                    <span className="font-semibold text-amber-200 flex items-center gap-1">
-                      SKS International Co., Ltd.
-                      <ExternalLink className="w-3 h-3 text-neutral-400" />
-                    </span>
-                  </div>
-                </a>
-              </div>
-
-              {/* Korea HQ Address */}
-              <div className="pt-2 border-t border-white/10 flex items-start gap-2 text-xs text-emerald-100/80">
-                <MapPin className="w-4 h-4 text-hanbit-gold shrink-0 mt-0.5" />
-                <span className="leading-relaxed">
-                  <b className="text-white">Head Office:</b> {ceo.address}
-                </span>
-              </div>
-            </div>
 
             {/* 3 Executive Milestones Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
