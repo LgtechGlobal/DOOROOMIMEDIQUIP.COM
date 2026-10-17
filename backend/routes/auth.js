@@ -308,55 +308,58 @@ export const verifyToken = (req, res, next) => {
 // Default seed administrators matching the active team access list
 const SEED_ADMINS = [
   {
-    name: 'Dev',
-    email: 'deb@gmail.com',
-    username: 'dev_deb',
-    password: 'password123',
-    role: 'admin',
-    lastLogin: new Date('2026-08-14T10:00:00Z')
+    name: 'Dooroomi Global Administrator',
+    email: 'dooroomimediquip@gmail.com',
+    username: 'dooroomi',
+    password: process.env.ADMIN_PASSWORD || 'dooroomi@123',
+    role: 'superadmin',
+    lastLogin: new Date()
   },
   {
     name: 'Manas Kumar Gumansingh',
     email: 'gumansingh.oditechglobal@gmail.com',
     username: 'manas_gumansingh',
-    password: 'password123',
+    password: 'dooroomi@123',
     role: 'admin',
-    lastLogin: new Date('2026-10-17T11:30:00Z')
+    lastLogin: new Date()
   },
   {
     name: 'Debendra Rao',
     email: 'ceo@oditechglobal.com',
     username: 'debendra_rao',
-    password: 'password123',
+    password: 'dooroomi@123',
     role: 'admin',
-    lastLogin: new Date('2026-08-13T09:15:00Z')
+    lastLogin: new Date()
   },
   {
-    name: 'Oditech Official',
-    email: 'oditechofficial@gmail.com',
-    username: 'oditech_official',
-    password: 'password123',
+    name: 'Dooroomi Executive Operations',
+    email: 'admin@dooroomimediquip.com',
+    username: 'dooroomi_executive',
+    password: 'dooroomi@123',
     role: 'admin',
-    lastLogin: new Date('2026-10-01T14:45:00Z')
+    lastLogin: new Date()
   },
   {
-    name: 'Guman Singh',
-    email: 'gumansingh.oditech@gmail.com',
-    username: 'guman_singh',
-    password: 'password123',
+    name: 'LG Tech Global Admin',
+    email: 'lgtechglobal@gmail.com',
+    username: 'lgtech_admin',
+    password: 'dooroomi@123',
     role: 'admin',
-    lastLogin: new Date('2026-06-12T08:20:00Z')
+    lastLogin: new Date()
   }
 ];
 
 // GET /api/auth/admins - List all active administrators
 authRouter.get('/admins', async (req, res) => {
   try {
-    let admins = await Admin.find({}).sort({ createdAt: 1 });
+    let admins = await Admin.find({}).sort({ role: -1, createdAt: 1 });
 
     // Auto-seed initial administrator team accounts if missing
     for (const seed of SEED_ADMINS) {
-      const exists = admins.find(a => a.email && a.email.toLowerCase() === seed.email.toLowerCase());
+      const exists = admins.find(a => 
+        (a.email && a.email.toLowerCase() === seed.email.toLowerCase()) ||
+        (a.username && a.username.toLowerCase() === seed.username.toLowerCase())
+      );
       if (!exists) {
         try {
           const created = await Admin.create(seed);
@@ -367,8 +370,15 @@ authRouter.get('/admins', async (req, res) => {
       }
     }
 
-    // Filter to valid display administrators with email
-    const displayAdmins = admins.filter(a => a.email);
+    // Ensure dooroomi has email
+    const rootAdmin = admins.find(a => a.username === 'dooroomi');
+    if (rootAdmin && !rootAdmin.email) {
+      rootAdmin.email = 'dooroomimediquip@gmail.com';
+      await rootAdmin.save();
+    }
+
+    // Filter to valid display administrators
+    const displayAdmins = admins.filter(a => a.email || a.username === 'dooroomi');
 
     return res.json({
       success: true,
@@ -377,7 +387,7 @@ authRouter.get('/admins', async (req, res) => {
         id: a._id,
         _id: a._id,
         name: a.name || 'Administrator',
-        email: a.email,
+        email: a.email || `${a.username}@dooroomimediquip.com`,
         username: a.username,
         role: a.role || 'admin',
         lastLogin: a.lastLogin || a.updatedAt || a.createdAt,
@@ -456,6 +466,155 @@ authRouter.post('/admins', async (req, res) => {
   }
 });
 
+// PUT /api/auth/admins/:id/password - Update administrator password
+authRouter.put('/admins/:id/password', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { newPassword, currentPassword } = req.body;
+
+    if (!newPassword || newPassword.trim().length < 4) {
+      return res.status(400).json({
+        success: false,
+        message: 'New password must be at least 4 characters long.'
+      });
+    }
+
+    const cleanNewPass = newPassword.trim();
+    const admin = await Admin.findById(id);
+
+    if (!admin) {
+      return res.status(404).json({
+        success: false,
+        message: 'Administrator account not found.'
+      });
+    }
+
+    // Verify current password if provided
+    if (currentPassword && currentPassword.trim()) {
+      const cleanCurrent = currentPassword.trim();
+      if (admin.password && admin.password !== cleanCurrent && cleanCurrent !== EXPECTED_PASS) {
+        return res.status(401).json({
+          success: false,
+          message: 'Current password does not match.'
+        });
+      }
+    }
+
+    admin.password = cleanNewPass;
+    admin.updatedAt = new Date();
+    await admin.save();
+
+    return res.json({
+      success: true,
+      message: `Password for ${admin.name} updated successfully! Use your new password on next login.`
+    });
+  } catch (error) {
+    console.error('Update password error:', error);
+    return res.status(500).json({ success: false, message: 'Failed to update administrator password.' });
+  }
+});
+
+// POST /api/auth/update-password - Direct email or username password update
+authRouter.post('/update-password', async (req, res) => {
+  try {
+    const { email, username, currentPassword, newPassword } = req.body;
+
+    if (!newPassword || newPassword.trim().length < 4) {
+      return res.status(400).json({
+        success: false,
+        message: 'New password must be at least 4 characters long.'
+      });
+    }
+
+    const cleanNewPass = newPassword.trim();
+    const target = (email || username || '').trim().toLowerCase();
+
+    if (!target) {
+      return res.status(400).json({
+        success: false,
+        message: 'Administrator email or username is required.'
+      });
+    }
+
+    const admin = await Admin.findOne({
+      $or: [
+        { email: target },
+        { username: target }
+      ]
+    });
+
+    if (!admin) {
+      return res.status(404).json({
+        success: false,
+        message: `Administrator (${target}) not found.`
+      });
+    }
+
+    if (currentPassword && currentPassword.trim()) {
+      const cleanCurrent = currentPassword.trim();
+      if (admin.password && admin.password !== cleanCurrent && cleanCurrent !== EXPECTED_PASS) {
+        return res.status(401).json({
+          success: false,
+          message: 'Current password does not match.'
+        });
+      }
+    }
+
+    admin.password = cleanNewPass;
+    admin.updatedAt = new Date();
+    await admin.save();
+
+    return res.json({
+      success: true,
+      message: `Password for ${admin.name} updated successfully! You can now log in with your new password.`
+    });
+  } catch (error) {
+    console.error('Direct update password error:', error);
+    return res.status(500).json({ success: false, message: 'Failed to update password.' });
+  }
+});
+
+// PUT /api/auth/admins/:id - Update administrator details (Name, Email)
+authRouter.put('/admins/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, email, role } = req.body;
+
+    const admin = await Admin.findById(id);
+    if (!admin) {
+      return res.status(404).json({
+        success: false,
+        message: 'Administrator account not found.'
+      });
+    }
+
+    if (name && name.trim()) admin.name = name.trim();
+    if (email && email.trim()) admin.email = email.trim().toLowerCase();
+    if (role && role.trim()) admin.role = role.trim();
+
+    admin.updatedAt = new Date();
+    await admin.save();
+
+    return res.json({
+      success: true,
+      message: `Administrator details for ${admin.name} updated successfully.`,
+      admin: {
+        id: admin._id,
+        _id: admin._id,
+        name: admin.name,
+        email: admin.email,
+        username: admin.username,
+        role: admin.role,
+        lastLogin: admin.lastLogin,
+        createdAt: admin.createdAt
+      }
+    });
+  } catch (error) {
+    console.error('Update admin error:', error);
+    return res.status(500).json({ success: false, message: 'Failed to update administrator details.' });
+  }
+});
+
 // DELETE /api/auth/admins/:id - Revoke administrator access
 authRouter.delete('/admins/:id', async (req, res) => {
   try {
@@ -488,5 +647,6 @@ authRouter.delete('/admins/:id', async (req, res) => {
     return res.status(500).json({ success: false, message: 'Failed to revoke admin access.' });
   }
 });
+
 
 

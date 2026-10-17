@@ -42,7 +42,8 @@ import {
   Settings,
   UserPlus,
   User,
-  Lock
+  Lock,
+  Key
 } from 'lucide-react';
 import { SITE_CONFIG } from '../data/siteData';
 import { useData } from '../context/DataContext';
@@ -198,11 +199,22 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
   const [admins, setAdmins] = useState([]);
   const [loadingAdmins, setLoadingAdmins] = useState(false);
   const [grantingAdmin, setGrantingAdmin] = useState(false);
+  const [adminPanelMode, setAdminPanelMode] = useState('add'); // 'add' | 'updatePassword'
   const [newAdminForm, setNewAdminForm] = useState({
     email: '',
     name: '',
     password: ''
   });
+  const [passwordUpdateForm, setPasswordUpdateForm] = useState({
+    email: '',
+    adminId: '',
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
+  const [updatingPassword, setUpdatingPassword] = useState(false);
+  const [editingAdminModal, setEditingAdminModal] = useState(null); // { id, name, email, role }
+  const [updatingAdminDetails, setUpdatingAdminDetails] = useState(false);
 
   const currentUser = (() => {
     try {
@@ -266,6 +278,97 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
       notify('Network error granting administrator access.', 'error');
     } finally {
       setGrantingAdmin(false);
+    }
+  };
+
+  const handleUpdatePassword = async (e) => {
+    e.preventDefault();
+    const targetEmail = (passwordUpdateForm.email || '').trim().toLowerCase();
+    const targetPass = (passwordUpdateForm.newPassword || '').trim();
+
+    if (!targetEmail || !targetPass) {
+      notify('Please specify administrator email and new password.', 'error');
+      return;
+    }
+
+    if (targetPass.length < 4) {
+      notify('New password must be at least 4 characters long.', 'error');
+      return;
+    }
+
+    if (passwordUpdateForm.confirmPassword && targetPass !== passwordUpdateForm.confirmPassword.trim()) {
+      notify('New password and confirmation do not match.', 'error');
+      return;
+    }
+
+    try {
+      setUpdatingPassword(true);
+      const url = passwordUpdateForm.adminId 
+        ? `${API_BASE_URL}/auth/admins/${passwordUpdateForm.adminId}/password`
+        : `${API_BASE_URL}/auth/update-password`;
+
+      const res = await fetch(url, {
+        method: passwordUpdateForm.adminId ? 'PUT' : 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: targetEmail,
+          currentPassword: passwordUpdateForm.currentPassword.trim(),
+          newPassword: targetPass
+        })
+      });
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        notify(data.message || 'Administrator password updated successfully!');
+        setPasswordUpdateForm({
+          email: '',
+          adminId: '',
+          currentPassword: '',
+          newPassword: '',
+          confirmPassword: ''
+        });
+        fetchAdmins();
+      } else {
+        notify(data.message || 'Failed to update password.', 'error');
+      }
+    } catch (err) {
+      notify('Network error updating password.', 'error');
+    } finally {
+      setUpdatingPassword(false);
+    }
+  };
+
+  const handleSaveAdminDetails = async (e) => {
+    e.preventDefault();
+    if (!editingAdminModal || !editingAdminModal.name || !editingAdminModal.email) {
+      notify('Please provide valid name and email.', 'error');
+      return;
+    }
+
+    try {
+      setUpdatingAdminDetails(true);
+      const res = await fetch(`${API_BASE_URL}/auth/admins/${editingAdminModal.id || editingAdminModal._id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: editingAdminModal.name,
+          email: editingAdminModal.email,
+          role: editingAdminModal.role
+        })
+      });
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        notify(`Administrator details updated for ${editingAdminModal.name}!`);
+        setEditingAdminModal(null);
+        fetchAdmins();
+      } else {
+        notify(data.message || 'Failed to update administrator details.', 'error');
+      }
+    } catch (err) {
+      notify('Network error updating administrator details.', 'error');
+    } finally {
+      setUpdatingAdminDetails(false);
     }
   };
 
@@ -1828,87 +1931,240 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
             {/* Two-column layout matching screenshot */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               
-              {/* Left Column: Add New Admin */}
+              {/* Left Column: Add New Admin & Update Password Mode */}
               <div className="lg:col-span-5 bg-white rounded-3xl p-6 sm:p-8 shadow-[0_4px_25px_rgba(0,0,0,0.04)] border border-slate-100 relative overflow-hidden">
                 {/* Top dark notch decoration */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-1.5 bg-[#0d1527] rounded-b-full"></div>
 
-                <div className="flex items-center gap-3 mb-6 pt-1">
-                  <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-800">
-                    <UserPlus className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
-                    Add New Admin
-                  </h3>
+                {/* Mode Selector Pill Buttons */}
+                <div className="flex items-center gap-1.5 p-1 bg-slate-100/90 rounded-2xl mb-6 mt-1">
+                  <button
+                    type="button"
+                    onClick={() => setAdminPanelMode('add')}
+                    className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                      adminPanelMode === 'add'
+                        ? 'bg-white text-slate-900 shadow-sm'
+                        : 'text-slate-500 hover:text-slate-900'
+                    }`}
+                  >
+                    <UserPlus className="w-3.5 h-3.5" />
+                    <span>Add New Admin</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAdminPanelMode('updatePassword');
+                      if (!passwordUpdateForm.email && admins.length > 0) {
+                        const target = currentUser ? admins.find(a => a.email === currentUser.email) || admins[0] : admins[0];
+                        setPasswordUpdateForm(prev => ({
+                          ...prev,
+                          email: target.email,
+                          adminId: target.id || target._id
+                        }));
+                      }
+                    }}
+                    className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                      adminPanelMode === 'updatePassword'
+                        ? 'bg-white text-slate-900 shadow-sm'
+                        : 'text-slate-500 hover:text-slate-900'
+                    }`}
+                  >
+                    <Key className="w-3.5 h-3.5 text-amber-500" />
+                    <span>Update Password</span>
+                  </button>
                 </div>
 
-                <form onSubmit={handleGrantAdmin} className="space-y-5">
-                  <div>
-                    <label className="block text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-2">
-                      EMAIL ADDRESS
-                    </label>
-                    <div className="relative">
-                      <Mail className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
-                      <input
-                        type="email"
-                        required
-                        value={newAdminForm.email}
-                        onChange={(e) => setNewAdminForm({ ...newAdminForm, email: e.target.value })}
-                        placeholder="admin@company.com"
-                        className="w-full bg-[#f8fafc] border border-slate-200/80 rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-800 focus:bg-white transition-all"
-                      />
+                {adminPanelMode === 'add' ? (
+                  <>
+                    <div className="flex items-center gap-3 mb-6 pt-1">
+                      <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-800">
+                        <UserPlus className="w-5 h-5" />
+                      </div>
+                      <h3 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+                        Add New Admin
+                      </h3>
                     </div>
-                  </div>
 
-                  <div>
-                    <label className="block text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-2">
-                      FULL NAME
-                    </label>
-                    <div className="relative">
-                      <User className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
-                      <input
-                        type="text"
-                        required
-                        value={newAdminForm.name}
-                        onChange={(e) => setNewAdminForm({ ...newAdminForm, name: e.target.value })}
-                        placeholder="Admin Name"
-                        className="w-full bg-[#f8fafc] border border-slate-200/80 rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-800 focus:bg-white transition-all"
-                      />
+                    <form onSubmit={handleGrantAdmin} className="space-y-4">
+                      <div>
+                        <label className="block text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-2">
+                          EMAIL ADDRESS
+                        </label>
+                        <div className="relative">
+                          <Mail className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+                          <input
+                            type="email"
+                            required
+                            value={newAdminForm.email}
+                            onChange={(e) => setNewAdminForm({ ...newAdminForm, email: e.target.value })}
+                            placeholder="admin@company.com"
+                            className="w-full bg-[#f8fafc] border border-slate-200/80 rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-800 focus:bg-white transition-all"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-2">
+                          FULL NAME
+                        </label>
+                        <div className="relative">
+                          <User className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+                          <input
+                            type="text"
+                            required
+                            value={newAdminForm.name}
+                            onChange={(e) => setNewAdminForm({ ...newAdminForm, name: e.target.value })}
+                            placeholder="Admin Name"
+                            className="w-full bg-[#f8fafc] border border-slate-200/80 rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-800 focus:bg-white transition-all"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-2">
+                          TEMPORARY PASSWORD
+                        </label>
+                        <div className="relative">
+                          <Lock className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+                          <input
+                            type="password"
+                            required
+                            value={newAdminForm.password}
+                            onChange={(e) => setNewAdminForm({ ...newAdminForm, password: e.target.value })}
+                            placeholder="••••••••"
+                            className="w-full bg-[#f8fafc] border border-slate-200/80 rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-800 focus:bg-white transition-all font-mono"
+                          />
+                        </div>
+                      </div>
+
+                      <button
+                        type="submit"
+                        disabled={grantingAdmin}
+                        className="w-full mt-2 bg-[#0d1527] hover:bg-black text-white py-3.5 px-6 rounded-2xl text-xs font-bold tracking-wider uppercase shadow-md hover:shadow-lg transition-all cursor-pointer disabled:opacity-60 flex items-center justify-center gap-2"
+                      >
+                        {grantingAdmin ? (
+                          <>
+                            <RefreshCw className="w-4 h-4 animate-spin" />
+                            <span>GRANTING ACCESS...</span>
+                          </>
+                        ) : (
+                          <span>GRANT ADMIN ACCESS</span>
+                        )}
+                      </button>
+                    </form>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-center gap-3 mb-6 pt-1">
+                      <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600">
+                        <Key className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h3 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+                          Update Admin Password
+                        </h3>
+                        <p className="text-[11px] text-slate-400">Change password credentials for any administrator</p>
+                      </div>
                     </div>
-                  </div>
 
-                  <div>
-                    <label className="block text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-2">
-                      TEMPORARY PASSWORD
-                    </label>
-                    <div className="relative">
-                      <Lock className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
-                      <input
-                        type="password"
-                        required
-                        value={newAdminForm.password}
-                        onChange={(e) => setNewAdminForm({ ...newAdminForm, password: e.target.value })}
-                        placeholder="••••••••"
-                        className="w-full bg-[#f8fafc] border border-slate-200/80 rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-800 focus:bg-white transition-all font-mono"
-                      />
-                    </div>
-                  </div>
+                    <form onSubmit={handleUpdatePassword} className="space-y-4">
+                      <div>
+                        <label className="block text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-2">
+                          SELECT ADMINISTRATOR
+                        </label>
+                        <div className="relative">
+                          <Mail className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
+                          <select
+                            value={passwordUpdateForm.email}
+                            onChange={(e) => {
+                              const found = admins.find(a => a.email === e.target.value);
+                              setPasswordUpdateForm({
+                                ...passwordUpdateForm,
+                                email: e.target.value,
+                                adminId: found ? (found.id || found._id) : ''
+                              });
+                            }}
+                            className="w-full bg-[#f8fafc] border border-slate-200/80 rounded-2xl pl-11 pr-8 py-3 text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-slate-800 focus:bg-white transition-all cursor-pointer"
+                          >
+                            {admins.map(a => (
+                              <option key={a.id || a._id} value={a.email}>
+                                {a.name} ({a.email}) {a.role === 'superadmin' ? '★ Super Admin' : ''}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
 
-                  <button
-                    type="submit"
-                    disabled={grantingAdmin}
-                    className="w-full mt-2 bg-[#0d1527] hover:bg-black text-white py-3.5 px-6 rounded-2xl text-xs font-bold tracking-wider uppercase shadow-md hover:shadow-lg transition-all cursor-pointer disabled:opacity-60 flex items-center justify-center gap-2"
-                  >
-                    {grantingAdmin ? (
-                      <>
-                        <RefreshCw className="w-4 h-4 animate-spin" />
-                        <span>GRANTING ACCESS...</span>
-                      </>
-                    ) : (
-                      <span>GRANT ADMIN ACCESS</span>
-                    )}
-                  </button>
-                </form>
+                      <div>
+                        <label className="block text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-2">
+                          CURRENT PASSWORD (OPTIONAL / VERIFY)
+                        </label>
+                        <div className="relative">
+                          <Lock className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+                          <input
+                            type="password"
+                            value={passwordUpdateForm.currentPassword}
+                            onChange={(e) => setPasswordUpdateForm({ ...passwordUpdateForm, currentPassword: e.target.value })}
+                            placeholder="Current password (leave blank if resetting)"
+                            className="w-full bg-[#f8fafc] border border-slate-200/80 rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-800 focus:bg-white transition-all font-mono"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-2">
+                          NEW PASSWORD *
+                        </label>
+                        <div className="relative">
+                          <Key className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+                          <input
+                            type="password"
+                            required
+                            value={passwordUpdateForm.newPassword}
+                            onChange={(e) => setPasswordUpdateForm({ ...passwordUpdateForm, newPassword: e.target.value })}
+                            placeholder="Enter new strong password"
+                            className="w-full bg-[#f8fafc] border border-slate-200/80 rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-800 focus:bg-white transition-all font-mono"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-2">
+                          CONFIRM NEW PASSWORD *
+                        </label>
+                        <div className="relative">
+                          <Check className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+                          <input
+                            type="password"
+                            required
+                            value={passwordUpdateForm.confirmPassword}
+                            onChange={(e) => setPasswordUpdateForm({ ...passwordUpdateForm, confirmPassword: e.target.value })}
+                            placeholder="Confirm new password"
+                            className="w-full bg-[#f8fafc] border border-slate-200/80 rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-800 focus:bg-white transition-all font-mono"
+                          />
+                        </div>
+                      </div>
+
+                      <button
+                        type="submit"
+                        disabled={updatingPassword}
+                        className="w-full mt-2 bg-[#0d1527] hover:bg-black text-white py-3.5 px-6 rounded-2xl text-xs font-bold tracking-wider uppercase shadow-md hover:shadow-lg transition-all cursor-pointer disabled:opacity-60 flex items-center justify-center gap-2"
+                      >
+                        {updatingPassword ? (
+                          <>
+                            <RefreshCw className="w-4 h-4 animate-spin" />
+                            <span>UPDATING PASSWORD...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Key className="w-4 h-4 text-amber-400" />
+                            <span>UPDATE ADMIN PASSWORD</span>
+                          </>
+                        )}
+                      </button>
+                    </form>
+                  </>
+                )}
               </div>
 
               {/* Right Column: Active Administrators */}
@@ -1930,9 +2186,10 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                 ) : (
                   <div className="divide-y divide-slate-100">
                     {admins.map((adm) => {
+                      const isSuper = adm.role === 'superadmin' || adm.username === 'dooroomi';
                       const isCurrent = currentUser?.email === adm.email || 
-                                        (currentUser?.name && currentUser.name.toLowerCase() === adm.name.toLowerCase()) ||
-                                        (!currentUser && adm.email === 'gumansingh.oditechglobal@gmail.com');
+                                        (currentUser?.username && currentUser.username === adm.username) ||
+                                        (!currentUser && adm.username === 'dooroomi');
                       const initial = (adm.name || 'A').trim().charAt(0).toUpperCase();
 
                       // Format date as DD/MM/YYYY
@@ -1950,16 +2207,23 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                       })();
 
                       return (
-                        <div key={adm.id || adm._id} className="py-4.5 first:pt-2 last:pb-2 flex items-center justify-between gap-4">
+                        <div key={adm.id || adm._id} className="py-4.5 first:pt-2 last:pb-2 flex items-center justify-between gap-4 group/row hover:bg-slate-50/60 rounded-xl px-2.5 transition-colors">
                           <div className="flex items-center gap-3.5 min-w-0">
-                            <div className="w-11 h-11 rounded-full bg-[#f1f5f9] text-slate-700 font-bold text-sm flex items-center justify-center shrink-0">
+                            <div className={`w-11 h-11 rounded-full text-slate-700 font-bold text-sm flex items-center justify-center shrink-0 ${
+                              isSuper ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-[#f1f5f9]'
+                            }`}>
                               {initial}
                             </div>
                             <div className="min-w-0">
-                              <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-2 flex-wrap">
                                 <span className="text-sm font-bold text-slate-900 truncate">
                                   {adm.name}
                                 </span>
+                                {isSuper && (
+                                  <span className="px-2 py-0.5 rounded text-[10px] font-extrabold bg-amber-100 text-amber-800 tracking-wide border border-amber-200">
+                                    SUPER ADMIN
+                                  </span>
+                                )}
                                 {isCurrent && (
                                   <span className="px-2 py-0.5 rounded text-[10px] font-extrabold bg-emerald-100 text-emerald-700 tracking-wide">
                                     YOU
@@ -1972,8 +2236,8 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                             </div>
                           </div>
 
-                          <div className="flex items-center gap-4 sm:gap-6 shrink-0">
-                            <div className="text-right">
+                          <div className="flex items-center gap-3 sm:gap-5 shrink-0">
+                            <div className="text-right hidden sm:block">
                               <div className="text-[10px] font-bold tracking-wider text-slate-400 uppercase">
                                 LAST ACTIVITY
                               </div>
@@ -1982,18 +2246,58 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                               </div>
                             </div>
 
-                            {!isCurrent && adm.username !== 'dooroomi' ? (
+                            <div className="flex items-center gap-1">
+                              {/* Edit Admin details button */}
                               <button
                                 type="button"
-                                onClick={() => handleDeleteAdmin(adm.id || adm._id, adm.name)}
-                                className="p-1.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
-                                title={`Revoke access for ${adm.name}`}
+                                onClick={() => setEditingAdminModal({
+                                  id: adm.id || adm._id,
+                                  name: adm.name,
+                                  email: adm.email,
+                                  role: adm.role || 'admin'
+                                })}
+                                className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors cursor-pointer"
+                                title={`Edit Name or Email for ${adm.name}`}
                               >
-                                <Trash2 className="w-4 h-4" />
+                                <Edit3 className="w-4 h-4" />
                               </button>
-                            ) : (
-                              <div className="w-7 h-7"></div>
-                            )}
+
+                              {/* Update Password button */}
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setAdminPanelMode('updatePassword');
+                                  setPasswordUpdateForm({
+                                    email: adm.email,
+                                    adminId: adm.id || adm._id,
+                                    currentPassword: '',
+                                    newPassword: '',
+                                    confirmPassword: ''
+                                  });
+                                  notify(`Password update form loaded for ${adm.name}`, 'info');
+                                }}
+                                className="p-1.5 text-slate-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-colors cursor-pointer"
+                                title={`Update Password for ${adm.name}`}
+                              >
+                                <Key className="w-4 h-4" />
+                              </button>
+
+                              {/* Revoke / Delete access button */}
+                              {adm.username !== 'dooroomi' && !isCurrent ? (
+                                <button
+                                  type="button"
+                                  onClick={() => handleDeleteAdmin(adm.id || adm._id, adm.name)}
+                                  className="p-1.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                                  title={`Revoke access for ${adm.name}`}
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              ) : (
+                                <div className="w-7 h-7 flex items-center justify-center">
+                                  <span className="text-[10px] text-slate-300 font-mono font-bold" title="Protected Root Account">🔒</span>
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </div>
                       );
@@ -2002,6 +2306,84 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                 )}
               </div>
 
+            </div>
+          </div>
+        )}
+
+        {/* MODAL: EDIT ADMIN DETAILS */}
+        {editingAdminModal && (
+          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className="bg-white text-slate-900 rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-slate-100 animate-in fade-in zoom-in-95 duration-150">
+              <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                    <Edit3 className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-slate-900">Edit Administrator</h3>
+                    <p className="text-[11px] text-slate-400">Update official contact details</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setEditingAdminModal(null)}
+                  className="w-8 h-8 rounded-full bg-slate-100 text-slate-400 hover:text-slate-800 flex items-center justify-center transition-colors cursor-pointer"
+                >
+                  ✕
+                </button>
+              </div>
+
+              <form onSubmit={handleSaveAdminDetails} className="space-y-4">
+                <div>
+                  <label className="block text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-2">
+                    FULL NAME
+                  </label>
+                  <div className="relative">
+                    <User className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="text"
+                      required
+                      value={editingAdminModal.name}
+                      onChange={(e) => setEditingAdminModal({ ...editingAdminModal, name: e.target.value })}
+                      className="w-full bg-[#f8fafc] border border-slate-200/80 rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-slate-800 focus:bg-white transition-all"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-2">
+                    EMAIL ADDRESS
+                  </label>
+                  <div className="relative">
+                    <Mail className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="email"
+                      required
+                      value={editingAdminModal.email}
+                      onChange={(e) => setEditingAdminModal({ ...editingAdminModal, email: e.target.value })}
+                      className="w-full bg-[#f8fafc] border border-slate-200/80 rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-slate-800 focus:bg-white transition-all"
+                    />
+                  </div>
+                </div>
+
+                <div className="pt-2 flex items-center justify-end gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setEditingAdminModal(null)}
+                    className="px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={updatingAdminDetails}
+                    className="px-6 py-2.5 rounded-xl bg-[#0d1527] hover:bg-black text-white text-xs font-bold tracking-wider uppercase transition-colors cursor-pointer disabled:opacity-60 flex items-center gap-2"
+                  >
+                    {updatingAdminDetails ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : null}
+                    <span>Save Changes</span>
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         )}
