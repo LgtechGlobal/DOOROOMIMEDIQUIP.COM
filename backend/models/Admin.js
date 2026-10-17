@@ -8,6 +8,12 @@ const adminSchema = new mongoose.Schema({
     trim: true,
     default: 'dooroomi'
   },
+  email: {
+    type: String,
+    trim: true,
+    lowercase: true,
+    sparse: true
+  },
   password: {
     type: String,
     required: true

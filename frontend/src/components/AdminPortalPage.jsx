@@ -38,7 +38,11 @@ import {
   Edit3,
   Handshake,
   UploadCloud,
-  Cloud
+  Cloud,
+  Settings,
+  UserPlus,
+  User,
+  Lock
 } from 'lucide-react';
 import { SITE_CONFIG } from '../data/siteData';
 import { useData } from '../context/DataContext';
@@ -190,9 +194,102 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
     }
   };
 
+  // Administrator Access Control State
+  const [admins, setAdmins] = useState([]);
+  const [loadingAdmins, setLoadingAdmins] = useState(false);
+  const [grantingAdmin, setGrantingAdmin] = useState(false);
+  const [newAdminForm, setNewAdminForm] = useState({
+    email: '',
+    name: '',
+    password: ''
+  });
+
+  const currentUser = (() => {
+    try {
+      const raw = sessionStorage.getItem('dooroomi_user');
+      return raw ? JSON.parse(raw) : null;
+    } catch (_) {
+      return null;
+    }
+  })();
+
+  const fetchAdmins = async () => {
+    try {
+      setLoadingAdmins(true);
+      const res = await fetch(`${API_BASE_URL}/auth/admins`);
+      const data = await res.json();
+      if (res.ok && data.success && Array.isArray(data.admins)) {
+        setAdmins(data.admins);
+      }
+    } catch (err) {
+      console.warn('Admins fetch notice:', err.message);
+    } finally {
+      setLoadingAdmins(false);
+    }
+  };
+
   useEffect(() => {
     fetchInquiries();
+    fetchAdmins();
   }, []);
+
+  useEffect(() => {
+    if (activeTab === 'settings') {
+      fetchAdmins();
+    }
+  }, [activeTab]);
+
+  const handleGrantAdmin = async (e) => {
+    e.preventDefault();
+    if (!newAdminForm.email || !newAdminForm.name || !newAdminForm.password) {
+      notify('Please fill out all fields: Email, Name, and Temporary Password', 'error');
+      return;
+    }
+
+    try {
+      setGrantingAdmin(true);
+      const res = await fetch(`${API_BASE_URL}/auth/admins`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newAdminForm)
+      });
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        notify(`Administrator access granted to ${newAdminForm.name}!`);
+        setNewAdminForm({ email: '', name: '', password: '' });
+        fetchAdmins();
+      } else {
+        notify(data.message || 'Failed to grant admin access.', 'error');
+      }
+    } catch (err) {
+      notify('Network error granting administrator access.', 'error');
+    } finally {
+      setGrantingAdmin(false);
+    }
+  };
+
+  const handleDeleteAdmin = async (adminId, adminName) => {
+    if (!window.confirm(`Are you sure you want to revoke administrator access for ${adminName}?`)) {
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_BASE_URL}/auth/admins/${adminId}`, {
+        method: 'DELETE'
+      });
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        notify(`Administrator access for ${adminName} has been revoked.`);
+        setAdmins(prev => prev.filter(a => (a.id || a._id) !== adminId));
+      } else {
+        notify(data.message || 'Failed to revoke administrator access.', 'error');
+      }
+    } catch (err) {
+      notify('Network error revoking administrator access.', 'error');
+    }
+  };
 
   // Update Inquiry Status in MongoDB
   const handleUpdateStatus = async (id, newStatus) => {
@@ -596,6 +693,19 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
             </button>
 
             <button
+              onClick={() => { setActiveTab('settings'); setSearchQuery(''); }}
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-semibold transition-colors cursor-pointer shrink-0 ${
+                activeTab === 'settings'
+                  ? 'bg-amber-500/20 border-amber-500 text-amber-300 shadow-sm'
+                  : 'bg-emerald-900/60 border-emerald-700/60 hover:bg-emerald-800 text-emerald-100'
+              }`}
+              title="Administrator Access Control"
+            >
+              <Settings className="w-3.5 h-3.5 text-amber-400" />
+              <span>Settings</span>
+            </button>
+
+            <button
               onClick={onLogout}
               className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-950/80 border border-red-800/80 hover:bg-red-900 text-xs font-semibold text-red-200 transition-colors cursor-pointer shrink-0"
             >
@@ -781,6 +891,18 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
             >
               <Database className="w-3.5 h-3.5 text-emerald-400" />
               <span>MongoDB Cloud</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab('settings'); setSearchQuery(''); }}
+              className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                activeTab === 'settings'
+                  ? 'bg-gradient-to-r from-amber-600 to-amber-500 text-black shadow-md'
+                  : 'text-neutral-300 hover:text-white hover:bg-emerald-950/60'
+              }`}
+            >
+              <Settings className="w-3.5 h-3.5" />
+              <span>Settings & Access ({admins.length})</span>
             </button>
           </div>
 
@@ -1681,6 +1803,205 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                 <span className="text-[11px] text-neutral-400">Dooroomi Co., Ltd. (주식회사 두루미)</span>
                 <span className="text-[11px] text-emerald-500 font-medium">Korea CGMP & ISO 22716</span>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* TAB 6: ADMINISTRATOR ACCESS CONTROL SETTINGS */}
+        {activeTab === 'settings' && (
+          <div className="bg-[#f8fafc] text-slate-900 rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-200/80 animate-in fade-in duration-200">
+            {/* Header matching screenshot */}
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-12 h-12 rounded-2xl bg-[#0d1527] text-white flex items-center justify-center shadow-md shrink-0">
+                <ShieldCheck className="w-6 h-6 text-white stroke-[2.2]" />
+              </div>
+              <div>
+                <h2 className="text-xl sm:text-2xl font-black tracking-wide text-slate-900 font-sans uppercase">
+                  ADMINISTRATOR ACCESS CONTROL
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-500 font-medium">
+                  Manage users with full administrative privileges.
+                </p>
+              </div>
+            </div>
+
+            {/* Two-column layout matching screenshot */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              
+              {/* Left Column: Add New Admin */}
+              <div className="lg:col-span-5 bg-white rounded-3xl p-6 sm:p-8 shadow-[0_4px_25px_rgba(0,0,0,0.04)] border border-slate-100 relative overflow-hidden">
+                {/* Top dark notch decoration */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-1.5 bg-[#0d1527] rounded-b-full"></div>
+
+                <div className="flex items-center gap-3 mb-6 pt-1">
+                  <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-800">
+                    <UserPlus className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+                    Add New Admin
+                  </h3>
+                </div>
+
+                <form onSubmit={handleGrantAdmin} className="space-y-5">
+                  <div>
+                    <label className="block text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-2">
+                      EMAIL ADDRESS
+                    </label>
+                    <div className="relative">
+                      <Mail className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+                      <input
+                        type="email"
+                        required
+                        value={newAdminForm.email}
+                        onChange={(e) => setNewAdminForm({ ...newAdminForm, email: e.target.value })}
+                        placeholder="admin@company.com"
+                        className="w-full bg-[#f8fafc] border border-slate-200/80 rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-800 focus:bg-white transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-2">
+                      FULL NAME
+                    </label>
+                    <div className="relative">
+                      <User className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+                      <input
+                        type="text"
+                        required
+                        value={newAdminForm.name}
+                        onChange={(e) => setNewAdminForm({ ...newAdminForm, name: e.target.value })}
+                        placeholder="Admin Name"
+                        className="w-full bg-[#f8fafc] border border-slate-200/80 rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-800 focus:bg-white transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] font-bold tracking-wider text-slate-400 uppercase mb-2">
+                      TEMPORARY PASSWORD
+                    </label>
+                    <div className="relative">
+                      <Lock className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 -translate-y-1/2" />
+                      <input
+                        type="password"
+                        required
+                        value={newAdminForm.password}
+                        onChange={(e) => setNewAdminForm({ ...newAdminForm, password: e.target.value })}
+                        placeholder="••••••••"
+                        className="w-full bg-[#f8fafc] border border-slate-200/80 rounded-2xl pl-11 pr-4 py-3 text-xs sm:text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-slate-800 focus:bg-white transition-all font-mono"
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={grantingAdmin}
+                    className="w-full mt-2 bg-[#0d1527] hover:bg-black text-white py-3.5 px-6 rounded-2xl text-xs font-bold tracking-wider uppercase shadow-md hover:shadow-lg transition-all cursor-pointer disabled:opacity-60 flex items-center justify-center gap-2"
+                  >
+                    {grantingAdmin ? (
+                      <>
+                        <RefreshCw className="w-4 h-4 animate-spin" />
+                        <span>GRANTING ACCESS...</span>
+                      </>
+                    ) : (
+                      <span>GRANT ADMIN ACCESS</span>
+                    )}
+                  </button>
+                </form>
+              </div>
+
+              {/* Right Column: Active Administrators */}
+              <div className="lg:col-span-7 bg-white rounded-3xl p-6 sm:p-8 shadow-[0_4px_25px_rgba(0,0,0,0.04)] border border-slate-100">
+                <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
+                  <h3 className="text-xs sm:text-sm font-bold tracking-wider text-slate-800 uppercase">
+                    ACTIVE ADMINISTRATORS
+                  </h3>
+                  <span className="px-3.5 py-1 rounded-full text-[11px] font-bold text-slate-400 bg-slate-100 tracking-wider uppercase">
+                    {admins.length} ACCOUNTS
+                  </span>
+                </div>
+
+                {loadingAdmins ? (
+                  <div className="py-12 flex flex-col items-center justify-center text-slate-400 gap-2">
+                    <RefreshCw className="w-6 h-6 animate-spin" />
+                    <span className="text-xs font-medium">Loading administrator directory...</span>
+                  </div>
+                ) : (
+                  <div className="divide-y divide-slate-100">
+                    {admins.map((adm) => {
+                      const isCurrent = currentUser?.email === adm.email || 
+                                        (currentUser?.name && currentUser.name.toLowerCase() === adm.name.toLowerCase()) ||
+                                        (!currentUser && adm.email === 'gumansingh.oditechglobal@gmail.com');
+                      const initial = (adm.name || 'A').trim().charAt(0).toUpperCase();
+
+                      // Format date as DD/MM/YYYY
+                      const formattedDate = (() => {
+                        try {
+                          const d = new Date(adm.lastLogin);
+                          if (isNaN(d.getTime())) return '17/10/2026';
+                          const day = String(d.getDate()).padStart(2, '0');
+                          const month = String(d.getMonth() + 1).padStart(2, '0');
+                          const year = d.getFullYear();
+                          return `${day}/${month}/${year}`;
+                        } catch (_) {
+                          return '17/10/2026';
+                        }
+                      })();
+
+                      return (
+                        <div key={adm.id || adm._id} className="py-4.5 first:pt-2 last:pb-2 flex items-center justify-between gap-4">
+                          <div className="flex items-center gap-3.5 min-w-0">
+                            <div className="w-11 h-11 rounded-full bg-[#f1f5f9] text-slate-700 font-bold text-sm flex items-center justify-center shrink-0">
+                              {initial}
+                            </div>
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-2">
+                                <span className="text-sm font-bold text-slate-900 truncate">
+                                  {adm.name}
+                                </span>
+                                {isCurrent && (
+                                  <span className="px-2 py-0.5 rounded text-[10px] font-extrabold bg-emerald-100 text-emerald-700 tracking-wide">
+                                    YOU
+                                  </span>
+                                )}
+                              </div>
+                              <p className="text-xs text-slate-400 font-normal truncate mt-0.5">
+                                {adm.email}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-4 sm:gap-6 shrink-0">
+                            <div className="text-right">
+                              <div className="text-[10px] font-bold tracking-wider text-slate-400 uppercase">
+                                LAST ACTIVITY
+                              </div>
+                              <div className="text-xs font-semibold text-slate-700 mt-0.5">
+                                {formattedDate}
+                              </div>
+                            </div>
+
+                            {!isCurrent && adm.username !== 'dooroomi' ? (
+                              <button
+                                type="button"
+                                onClick={() => handleDeleteAdmin(adm.id || adm._id, adm.name)}
+                                className="p-1.5 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
+                                title={`Revoke access for ${adm.name}`}
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            ) : (
+                              <div className="w-7 h-7"></div>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
             </div>
           </div>
         )}
