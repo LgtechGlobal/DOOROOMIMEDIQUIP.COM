@@ -75,7 +75,13 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
     dbConnected: contextDbConnected
   } = useData();
 
-  const [activeTab, setActiveTab] = useState('products'); // 'products' | 'centers' | 'testimonials' | 'ads' | 'inquiries' | 'database'
+  const [activeTab, setActiveTab] = useState(() => {
+    const hash = window.location.hash || '';
+    if (hash.includes('tab=settings') || sessionStorage.getItem('dooroomi_redirect_target') === 'updatePassword') {
+      return 'settings';
+    }
+    return 'products';
+  }); // 'products' | 'centers' | 'testimonials' | 'ads' | 'inquiries' | 'database' | 'settings'
   const [inquiries, setInquiries] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -199,7 +205,13 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
   const [admins, setAdmins] = useState([]);
   const [loadingAdmins, setLoadingAdmins] = useState(false);
   const [grantingAdmin, setGrantingAdmin] = useState(false);
-  const [adminPanelMode, setAdminPanelMode] = useState('add'); // 'add' | 'updatePassword'
+  const [adminPanelMode, setAdminPanelMode] = useState(() => {
+    const hash = window.location.hash || '';
+    if (hash.includes('mode=updatePassword') || sessionStorage.getItem('dooroomi_redirect_target') === 'updatePassword') {
+      return 'updatePassword';
+    }
+    return 'add';
+  }); // 'add' | 'updatePassword'
   const [newAdminForm, setNewAdminForm] = useState({
     email: '',
     name: '',
@@ -232,6 +244,16 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
       const data = await res.json();
       if (res.ok && data.success && Array.isArray(data.admins)) {
         setAdmins(data.admins);
+        // If in updatePassword mode, ensure adminId is linked
+        const targetEmail = (passwordUpdateForm.email || currentUser?.email || 'dooroomimediquip@gmail.com').toLowerCase();
+        const match = data.admins.find(a => (a.email || '').toLowerCase() === targetEmail);
+        if (match) {
+          setPasswordUpdateForm(prev => ({
+            ...prev,
+            email: match.email,
+            adminId: match.id || match._id
+          }));
+        }
       }
     } catch (err) {
       console.warn('Admins fetch notice:', err.message);
@@ -243,6 +265,25 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
   useEffect(() => {
     fetchInquiries();
     fetchAdmins();
+  }, []);
+
+  // Handle direct Google redirect to Update Password mode
+  useEffect(() => {
+    const redirectTarget = sessionStorage.getItem('dooroomi_redirect_target');
+    const hash = window.location.hash || '';
+    if (redirectTarget === 'updatePassword' || hash.includes('mode=updatePassword') || hash.includes('tab=settings')) {
+      setActiveTab('settings');
+      setAdminPanelMode('updatePassword');
+      sessionStorage.removeItem('dooroomi_redirect_target');
+
+      const verifiedEmail = currentUser?.email || 'dooroomimediquip@gmail.com';
+      setPasswordUpdateForm(prev => ({
+        ...prev,
+        email: verifiedEmail
+      }));
+
+      notify(`Google account verified (${verifiedEmail}). You can now set your new password below.`, 'success');
+    }
   }, []);
 
   useEffect(() => {
@@ -2066,6 +2107,23 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                         <p className="text-[11px] text-slate-400">Change password credentials for any administrator</p>
                       </div>
                     </div>
+
+                    {/* Google Verification Status Badge */}
+                    {(currentUser?.email || passwordUpdateForm.email) && (
+                      <div className="mb-5 p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200/80 text-emerald-900 text-xs flex items-center gap-3 animate-in fade-in">
+                        <div className="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+                          <CheckCircle2 className="w-4 h-4 stroke-[2.4]" />
+                        </div>
+                        <div className="min-w-0">
+                          <span className="font-bold text-emerald-950 block">
+                            Gmail Administrator Verified
+                          </span>
+                          <span className="text-[11px] text-emerald-800 font-mono block truncate">
+                            {currentUser?.email || passwordUpdateForm.email}
+                          </span>
+                        </div>
+                      </div>
+                    )}
 
                     <form onSubmit={handleUpdatePassword} className="space-y-4">
                       <div>

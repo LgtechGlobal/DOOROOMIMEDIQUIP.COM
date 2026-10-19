@@ -26,8 +26,9 @@ import { FranchiseModal } from './components/FranchiseModal';
 import { API_BASE_URL } from './config/api';
 import { AdvertisementModal } from './components/AdvertisementModal';
 import { AdminPortalPage } from './components/AdminPortalPage';
+import { GoogleAuthPage } from './components/GoogleAuthPage';
 
-const DEDICATED_ROUTES = ['about', 'certificates', 'principle', 'therapy', 'services', 'gallery', 'products', 'admin'];
+const DEDICATED_ROUTES = ['about', 'certificates', 'principle', 'therapy', 'services', 'gallery', 'products', 'admin', 'google-auth'];
 
 const parseHash = () => {
   const hash = window.location.hash || '';
@@ -72,14 +73,38 @@ export function App() {
     return sessionStorage.getItem('dooroomi_admin') === 'true';
   });
 
-  const handleLoginSuccess = () => {
+  const handleLoginSuccess = (user = null, redirectTarget = null) => {
     setIsAdminAuthenticated(true);
     setIsLoginOpen(false);
-    window.location.hash = '/admin';
-    setCurrentRoute({ view: 'admin', productId: null });
-    setActiveSection('admin');
+    const target = redirectTarget || sessionStorage.getItem('dooroomi_redirect_target');
+    if (target === 'updatePassword' || target === 'settings') {
+      window.location.hash = '/admin?tab=settings&mode=updatePassword';
+      setCurrentRoute({ view: 'admin', productId: null });
+      setActiveSection('admin');
+    } else {
+      window.location.hash = '/admin';
+      setCurrentRoute({ view: 'admin', productId: null });
+      setActiveSection('admin');
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  // Listen for Google Auth verification messages from child popup window
+  useEffect(() => {
+    const handlePopupAuthMessage = (event) => {
+      if (event.data && event.data.type === 'DOOROOMI_GOOGLE_AUTH_SUCCESS') {
+        const { user, token, redirectTarget } = event.data;
+        if (token) sessionStorage.setItem('dooroomi_admin_token', token);
+        if (user) sessionStorage.setItem('dooroomi_user', JSON.stringify(user));
+        sessionStorage.setItem('dooroomi_admin', 'true');
+        sessionStorage.setItem('dooroomi_redirect_target', redirectTarget || 'updatePassword');
+        handleLoginSuccess(user, redirectTarget || 'updatePassword');
+      }
+    };
+
+    window.addEventListener('message', handlePopupAuthMessage);
+    return () => window.removeEventListener('message', handlePopupAuthMessage);
+  }, []);
 
   const handleLogout = () => {
     sessionStorage.removeItem('dooroomi_admin');
@@ -238,6 +263,15 @@ export function App() {
       executeScroll('contact');
     }
   };
+
+  if (currentRoute.view === 'google-auth') {
+    return (
+      <GoogleAuthPage
+        isEmbedded={false}
+        onAuthSuccess={(user, target) => handleLoginSuccess(user, target || 'updatePassword')}
+      />
+    );
+  }
 
   return (
     <SmoothScroll>
