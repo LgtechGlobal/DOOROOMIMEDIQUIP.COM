@@ -20,38 +20,6 @@ async function run() {
       role: 'superadmin',
       password: 'dooroomi@123',
       lastLogin: new Date()
-    },
-    {
-      username: 'manas_gumansingh',
-      email: 'gumansingh.oditechglobal@gmail.com',
-      name: 'Manas Kumar Gumansingh',
-      role: 'admin',
-      password: 'dooroomi@123',
-      lastLogin: new Date()
-    },
-    {
-      username: 'dooroomi_executive',
-      email: 'admin@dooroomimediquip.com',
-      name: 'Dooroomi Executive Operations',
-      role: 'admin',
-      password: 'dooroomi@123',
-      lastLogin: new Date()
-    },
-    {
-      username: 'lgtech_admin',
-      email: 'lgtechglobal@gmail.com',
-      name: 'LG Tech Global Admin',
-      role: 'admin',
-      password: 'dooroomi@123',
-      lastLogin: new Date()
-    },
-    {
-      username: 'debendra_rao',
-      email: 'ceo@oditechglobal.com',
-      name: 'Debendra Rao',
-      role: 'admin',
-      password: 'dooroomi@123',
-      lastLogin: new Date()
     }
   ];
 

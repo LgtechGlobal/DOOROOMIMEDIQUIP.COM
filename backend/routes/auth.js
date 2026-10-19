@@ -148,9 +148,7 @@ authRouter.post('/google', async (req, res) => {
     const officialReceiver = (process.env.EMAIL_RECEIVER || 'dooroomimediquip@gmail.com').toLowerCase();
     const authorizedEmails = [
       officialReceiver,
-      'dooroomimediquip@gmail.com',
-      'lgtechglobal@gmail.com',
-      'admin@dooroomimediquip.com'
+      'dooroomimediquip@gmail.com'
     ];
 
     const isAuthorized = authorizedEmails.includes(cleanEmail) || 
@@ -338,38 +336,6 @@ const SEED_ADMINS = [
     username: 'dooroomi',
     password: process.env.ADMIN_PASSWORD || 'dooroomi@123',
     role: 'superadmin',
-    lastLogin: new Date()
-  },
-  {
-    name: 'Manas Kumar Gumansingh',
-    email: 'gumansingh.oditechglobal@gmail.com',
-    username: 'manas_gumansingh',
-    password: 'dooroomi@123',
-    role: 'admin',
-    lastLogin: new Date()
-  },
-  {
-    name: 'Debendra Rao',
-    email: 'ceo@oditechglobal.com',
-    username: 'debendra_rao',
-    password: 'dooroomi@123',
-    role: 'admin',
-    lastLogin: new Date()
-  },
-  {
-    name: 'Dooroomi Executive Operations',
-    email: 'admin@dooroomimediquip.com',
-    username: 'dooroomi_executive',
-    password: 'dooroomi@123',
-    role: 'admin',
-    lastLogin: new Date()
-  },
-  {
-    name: 'LG Tech Global Admin',
-    email: 'lgtechglobal@gmail.com',
-    username: 'lgtech_admin',
-    password: 'dooroomi@123',
-    role: 'admin',
     lastLogin: new Date()
   }
 ];
