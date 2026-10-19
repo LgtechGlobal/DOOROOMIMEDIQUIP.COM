@@ -29,6 +29,23 @@ export const SITE_CONFIG = {
   ],
   leadership: [
     {
+      id: "matthew-seong",
+      role: "CEO, SKS International & Global Tech Partner",
+      titleHeader: "Message from Global Technology Partner",
+      name: "Matthew Seong",
+      nameKo: "성 매튜 대표",
+      base: "Goyang-Si, Gyeonggi-do, Korea",
+      photo: "./assets/ceo/ceo-portrait.jpeg",
+      bio: "Leads medical device manufacturing and precision engineering partnership with Dooroomi Mediquip for global exports.",
+      credentials: ["CEO, SKS International", "Strategic Tech Partner", "UL Safety & CE MDR Standards", "Goyang-Si Cleanroom Facility"],
+      fullMessage: [
+        "As the Chief Executive Officer of SKS International and strategic manufacturing partner to Dooroomi Mediquip, it is our solemn responsibility to deliver precision engineering, clinical safety, and uncompromising Korean manufacturing standards.",
+        "Our state-of-the-art cleanroom manufacturing and robotic testing facilities in Gyeonggi-do ensure that every single thermal acupressure mattress, bio-stimulation projector, and negative ion therapy system operates with absolute electrical safety (UL certified), medical grade biocompatibility (ISO 22716 & CGMP), and international efficacy (FDA & CE compliant).",
+        "We stand shoulder to shoulder with Dooroomi Mediquip to empower community wellness, ensuring that healthcare centers in India and across 51 nations receive the most reliable, durable, and healing technology known to modern natural medicine.",
+        "Thank you for your enduring trust in Korean medical engineering excellence."
+      ]
+    },
+    {
       id: "mahi-singh",
       role: "Honourable India CEO & Managing Director",
       titleHeader: "Message from our India CEO",
@@ -45,23 +62,6 @@ export const SITE_CONFIG = {
         "In this time of technology development, making a definite report of quality certifications like CE, FDA, and obtaining ISO, GMP types of product Certifications is very much helpful for supplying good quality products to customers along with dictionaries with unknown information and also doing the best after sales service.",
         "With all your support we are able to setup corporate office and factory in November 2019 at Nawada, New Delhi . Though Dooroomi Medical has been running for 2 years, there is a rapid expansion of 100% Free daily therapy centers across multiple Indian states, bringing genuine care and wellness to thousands every day.",
         "Warm regards and gratitude to all our patrons."
-      ]
-    },
-    {
-      id: "matthew-seong",
-      role: "CEO, SKS International & Global Tech Partner",
-      titleHeader: "Message from Global Technology Partner",
-      name: "Matthew Seong",
-      nameKo: "성 매튜 대표",
-      base: "Goyang-Si, Gyeonggi-do, Korea",
-      photo: "./assets/ceo/ceo-portrait.jpeg",
-      bio: "Leads medical device manufacturing and precision engineering partnership with Dooroomi Mediquip for global exports.",
-      credentials: ["CEO, SKS International", "Strategic Tech Partner", "UL Safety & CE MDR Standards", "Goyang-Si Cleanroom Facility"],
-      fullMessage: [
-        "As the Chief Executive Officer of SKS International and strategic manufacturing partner to Dooroomi Mediquip, it is our solemn responsibility to deliver precision engineering, clinical safety, and uncompromising Korean manufacturing standards.",
-        "Our state-of-the-art cleanroom manufacturing and robotic testing facilities in Gyeonggi-do ensure that every single thermal acupressure mattress, bio-stimulation projector, and negative ion therapy system operates with absolute electrical safety (UL certified), medical grade biocompatibility (ISO 22716 & CGMP), and international efficacy (FDA & CE compliant).",
-        "We stand shoulder to shoulder with Dooroomi Mediquip to empower community wellness, ensuring that healthcare centers in India and across 51 nations receive the most reliable, durable, and healing technology known to modern natural medicine.",
-        "Thank you for your enduring trust in Korean medical engineering excellence."
       ]
     }
   ],

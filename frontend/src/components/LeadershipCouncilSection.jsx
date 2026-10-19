@@ -58,64 +58,91 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
           </p>
         </div>
 
-        {/* Executive Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        {/* Executive Cards Grid (Expanded Width & Grand Luxury Styling) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 max-w-6xl mx-auto">
           {leadershipTeam.map((leader, idx) => (
             <div
               key={idx}
               onClick={() => setSelectedLeader(leader)}
-              className="group relative p-6 sm:p-7 rounded-3xl bg-white border border-hanbit-border/80 hover:border-hanbit-gold shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col justify-between cursor-pointer hover:-translate-y-1.5"
+              className="group relative p-8 sm:p-9 rounded-3xl bg-gradient-to-br from-white via-[#fafbfa] to-amber-50/30 border-2 border-hanbit-border/80 hover:border-amber-500/80 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between cursor-pointer hover:-translate-y-2 overflow-hidden"
             >
-              <div className="space-y-4">
-                {/* Executive Portrait with Badge */}
-                <div className="flex items-center justify-between">
+              {/* Subtle Ambient Glow behind card on hover */}
+              <div className="absolute -top-24 -right-24 w-48 h-48 bg-amber-400/10 rounded-full blur-2xl group-hover:bg-amber-400/20 transition-all pointer-events-none" />
+
+              <div className="space-y-6 relative z-10">
+                {/* Executive Portrait Header Row */}
+                <div className="flex items-start justify-between gap-4">
                   <div className="relative">
-                    <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden ring-2 ring-hanbit-gold/40 group-hover:ring-hanbit-gold transition-all shadow-md bg-stone-50 flex items-center justify-center">
+                    <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden ring-4 ring-amber-400/30 group-hover:ring-amber-500 transition-all duration-300 shadow-lg bg-stone-100 flex items-center justify-center">
                       <img
                         src={leader.photo}
                         alt={leader.name}
                         loading="lazy"
-                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                       />
                     </div>
                     <span 
-                      className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-emerald-600 border-2 border-white flex items-center justify-center text-white shadow-xs" 
+                      className="absolute -bottom-1.5 -right-1.5 w-7 h-7 rounded-full bg-emerald-600 border-2 border-white flex items-center justify-center text-white shadow-md" 
                       title="Verified Authorized Executive"
                     >
-                      <Check className="w-3.5 h-3.5 stroke-[3]" />
+                      <Check className="w-4 h-4 stroke-[3]" />
                     </span>
                   </div>
 
-                  <span className="px-2.5 py-1 rounded-full bg-hanbit-ivory border border-hanbit-border text-[10px] font-mono font-bold text-hanbit-forest/80 group-hover:bg-hanbit-gold/20 group-hover:text-hanbit-forest transition-colors">
-                    Official
-                  </span>
+                  <div className="flex flex-col items-end gap-2">
+                    <span className="px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-xs font-mono font-bold text-amber-800 tracking-wide flex items-center gap-1.5 shadow-2xs">
+                      <ShieldCheck className="w-3.5 h-3.5 text-amber-600" />
+                      <span>Official Council</span>
+                    </span>
+                    <span className="text-[11px] font-mono text-neutral-400 font-semibold">
+                      {leader.id === 'matthew-seong' ? '🇰🇷 South Korea' : '🇮🇳 India'}
+                    </span>
+                  </div>
                 </div>
 
+                {/* Role & Name */}
                 <div>
-                  <span className="text-[10px] font-mono uppercase font-bold text-hanbit-gold tracking-wider block">
+                  <span className="text-xs font-mono uppercase font-extrabold text-amber-700 tracking-wider block">
                     {leader.role}
                   </span>
-                  <h3 className="text-lg font-bold text-hanbit-forest font-serif mt-0.5 group-hover:text-hanbit-gold transition-colors">
+                  <h3 className="text-2xl sm:text-3xl font-extrabold text-[#0d221b] font-serif mt-1 tracking-tight group-hover:text-amber-700 transition-colors">
                     {leader.name}
                   </h3>
-                  <span className="text-[11px] text-gray-400 block font-mono mt-0.5">
+                  <span className="text-xs sm:text-sm text-neutral-500 block font-mono mt-1">
                     {leader.nameKo} · {leader.base}
                   </span>
                 </div>
 
-                <p className="text-xs text-hanbit-muted leading-relaxed font-light line-clamp-3">
+                {/* Bio Narrative */}
+                <p className="text-sm sm:text-base text-neutral-600 leading-relaxed font-light">
                   {leader.bio}
                 </p>
+
+                {/* Verified Credentials Pills */}
+                {leader.credentials && leader.credentials.length > 0 && (
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    {leader.credentials.slice(0, 3).map((cred, cIdx) => (
+                      <span 
+                        key={cIdx}
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-stone-100/90 border border-stone-200 text-xs font-medium text-neutral-700"
+                      >
+                        <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0" />
+                        <span>{cred}</span>
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
 
-              <div className="pt-4 mt-3 border-t border-hanbit-border/50 flex items-center justify-between text-xs">
-                <div className="text-[11px] text-hanbit-forest font-semibold flex items-center gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-hanbit-gold" />
+              {/* Card Footer Button */}
+              <div className="pt-6 mt-6 border-t border-neutral-200/80 flex items-center justify-between relative z-10">
+                <div className="text-xs text-neutral-600 font-semibold flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4 text-amber-600" />
                   <span>Authorized Executive</span>
                 </div>
-                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-hanbit-gold group-hover:translate-x-0.5 transition-transform">
-                  <span>Read Message</span>
-                  <ArrowRight className="w-3 h-3" />
+                <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-amber-500/10 group-hover:bg-amber-500 text-xs font-bold text-amber-900 group-hover:text-white transition-all shadow-2xs">
+                  <span>Read Full Message</span>
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </span>
               </div>
             </div>
