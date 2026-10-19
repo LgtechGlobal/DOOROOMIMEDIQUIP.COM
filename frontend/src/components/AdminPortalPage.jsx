@@ -1897,7 +1897,7 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                     <span className="text-neutral-500">Privileges:</span> <strong className="text-emerald-400">Full Website Add/Delete CMS Access</strong>
                   </div>
                   <div className="text-neutral-300">
-                    <span className="text-neutral-500">Headquarters:</span> <strong className="text-white">Gangnam-gu, Seoul · Nawada, New Delhi</strong>
+                    <span className="text-neutral-500">Headquarters:</span> <strong className="text-white">Palasuni Square, Bhubaneswar 751010 · Seoul</strong>
                   </div>
                 </div>
               </div>

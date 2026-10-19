@@ -8,10 +8,10 @@ const INITIAL_CENTERS = [
   {
     id: "tc-1",
     city: "Bhubaneswar",
-    area: "Khandagiri Center",
+    area: "Palasuni Center (Corporate Office)",
     state: "Odisha",
-    address: "Plot No. 124/A, Near Khandagiri Square, Jagamara Road, Bhubaneswar",
-    phone: "+91 94371 88200",
+    address: "Plot no 3557, 1st floor, palasuni square, bhubaneswar 751010",
+    phone: "0674 291 6680",
     timing: "Mon–Sat: 8:00 AM – 5:00 PM",
     status: "Active · 100% Free Daily Therapy",
     dailyCapacity: "180+ Patients/Day"

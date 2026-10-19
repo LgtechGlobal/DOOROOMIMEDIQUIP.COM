@@ -135,11 +135,25 @@ export const ContactSection = ({
 
                 <div className="flex items-start gap-3.5">
                   <div className="w-9 h-9 rounded-xl bg-white border border-hanbit-border flex items-center justify-center text-hanbit-gold shrink-0 shadow-sm">
+                    <Building2 className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="font-bold text-hanbit-muted uppercase tracking-wider block text-[10px]">
+                      India Corporate Headquarters
+                    </span>
+                    <p className="font-semibold text-xs text-hanbit-forest leading-snug">
+                      {SITE_CONFIG.indiaHq}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3.5">
+                  <div className="w-9 h-9 rounded-xl bg-white border border-hanbit-border flex items-center justify-center text-hanbit-gold shrink-0 shadow-sm">
                     <MapPin className="w-4 h-4" />
                   </div>
                   <div>
                     <span className="font-bold text-hanbit-muted uppercase tracking-wider block text-[10px]">
-                      R&D Center & Headquarters
+                      Korea R&D Center & Global HQ
                     </span>
                     <p className="font-semibold text-xs text-hanbit-forest leading-snug">
                       {SITE_CONFIG.addressEn}

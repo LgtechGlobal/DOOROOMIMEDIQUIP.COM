@@ -253,16 +253,19 @@ export const Footer = ({ onNavigate, onSelectCategory }) => {
                   <span>{SITE_CONFIG.email}</span>
                 </a>
                 <a 
-                  href={`https://maps.google.com/?q=${encodeURIComponent(SITE_CONFIG.addressEn)}`}
+                  href={`https://maps.google.com/?q=${encodeURIComponent(SITE_CONFIG.indiaHq)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-start gap-2 text-emerald-100/60 hover:text-white transition-colors leading-snug group cursor-pointer"
-                  title="Open Headquarters Location in Google Maps"
+                  className="flex items-start gap-2 text-emerald-100/80 hover:text-white transition-colors leading-snug group cursor-pointer"
+                  title="Open India Corporate Office in Google Maps"
                 >
                   <MapPin className="w-3.5 h-3.5 text-hanbit-gold shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
-                  <span>{SITE_CONFIG.addressEn}</span>
+                  <span>{SITE_CONFIG.indiaHq}</span>
                 </a>
                 <p className="text-[11px] text-emerald-300/80 pt-1">
+                  Global HQ: {SITE_CONFIG.addressEn}
+                </p>
+                <p className="text-[11px] text-emerald-300/70">
                   Hours: {SITE_CONFIG.hours}
                 </p>
               </div>

@@ -247,7 +247,7 @@ export const FreeTherapyMissionSection = ({ onContactClick, onNavigateAbout, onN
             <div className="flex items-center gap-2.5">
               <MapPin className="w-5 h-5 text-emerald-700 shrink-0" />
               <span>
-                <strong>Authorized Centers Active In:</strong> New Delhi, Bhubaneswar (Khandagiri & Cuttack), and expanding across major Indian states.
+                <strong>Authorized Centers Active In:</strong> Bhubaneswar (Palasuni Square & Cuttack), New Delhi, and expanding across major Indian states.
               </span>
             </div>
 
