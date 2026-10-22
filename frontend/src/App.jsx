@@ -15,7 +15,6 @@ import { ServicesPage } from './components/ServicesPage';
 import { ProductsGalleryPage } from './components/ProductsGalleryPage';
 import { SingleProductPage } from './components/SingleProductPage';
 import { ContactSection } from './components/ContactSection';
-import { CeoSection } from './components/CeoSection';
 import { FreeTherapyMissionSection } from './components/FreeTherapyMissionSection';
 import { PatientTestimonialsRowSection } from './components/PatientTestimonialsRowSection';
 import { Footer } from './components/Footer';
@@ -393,11 +392,6 @@ export function App() {
                 onNavigateAbout={() => scrollToSection('about')}
               />
 
-              {/* CEO Leadership & Vision Section with 2 Executive Photos */}
-              <CeoSection
-                onNavigateAbout={() => scrollToSection('about')}
-                onContactClick={() => scrollToSection('contact')}
-              />
 
               {/* 100% Free Daily Therapy Public Health Mission Section */}
               <FreeTherapyMissionSection
