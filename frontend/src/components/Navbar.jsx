@@ -176,8 +176,8 @@ export const Navbar = ({
       <header 
         className={`sticky top-0 z-40 transition-all duration-300 ${
           isScrolled 
-            ? 'bg-gradient-to-r from-white/95 via-[#bfe3fd]/98 to-[#8ecbfe]/98 backdrop-blur-md shadow-md py-2.5 border-b border-[#72bbf8]' 
-            : 'bg-gradient-to-r from-white/95 via-[#c7e7fe]/95 to-[#9bd3fe]/95 backdrop-blur-sm py-3.5 border-b border-[#7fc2fa] shadow-sm'
+            ? 'bg-[#b8142a] shadow-md py-1.5 border-b border-[#990d20]' 
+            : 'bg-[#c8102e] shadow-sm py-2 border-b border-[#b00d27]'
         }`}
       >
         <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16 flex items-center justify-between">
@@ -186,7 +186,7 @@ export const Navbar = ({
             onClick={() => handleNavClick('hero')}
             className="flex items-center gap-3.5 text-left group shrink-0"
           >
-            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full p-0.5 bg-gradient-to-tr from-hanbit-gold via-hanbit-cyan to-amber-300 shadow-md flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform">
+            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full p-0.5 bg-gradient-to-tr from-amber-300 via-white to-amber-400 shadow-sm flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform">
               <img 
                 src="./assets/img/brand-logo.jpg" 
                 alt="Dooroomi 두루미 Logo" 
@@ -195,10 +195,10 @@ export const Navbar = ({
             </div>
             <div>
               {/* Silky-smooth cross-fade transition alternating every 5s without layout jitter */}
-              <div className="inline-grid grid-cols-1 grid-rows-1 items-center min-w-[110px] sm:min-w-[125px] h-7 sm:h-8">
+              <div className="inline-grid grid-cols-1 grid-rows-1 items-center min-w-[100px] sm:min-w-[115px] h-6 sm:h-7">
                 {/* English: Dooroomi */}
                 <span 
-                  className={`col-start-1 row-start-1 font-extrabold text-xl sm:text-2xl text-hanbit-forest tracking-tight font-serif transition-all duration-700 ease-in-out select-none ${
+                  className={`col-start-1 row-start-1 font-extrabold text-lg sm:text-xl text-white tracking-tight font-serif transition-all duration-700 ease-in-out select-none ${
                     !isKoreanBrand
                       ? 'opacity-100 translate-y-0 filter-none'
                       : 'opacity-0 -translate-y-2 blur-[0.5px] pointer-events-none'
@@ -209,7 +209,7 @@ export const Navbar = ({
 
                 {/* Korean: 두루미 */}
                 <span 
-                  className={`col-start-1 row-start-1 font-extrabold text-xl sm:text-2xl text-hanbit-forest tracking-tight font-serif transition-all duration-700 ease-in-out select-none ${
+                  className={`col-start-1 row-start-1 font-extrabold text-lg sm:text-xl text-white tracking-tight font-serif transition-all duration-700 ease-in-out select-none ${
                     isKoreanBrand
                       ? 'opacity-100 translate-y-0 filter-none'
                       : 'opacity-0 translate-y-2 blur-[0.5px] pointer-events-none'
@@ -231,15 +231,15 @@ export const Navbar = ({
                 <button
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
-                  className={`px-3.5 xl:px-4 py-2 text-sm xl:text-[14.5px] font-semibold rounded-xl inline-flex items-center gap-1.5 transition-all duration-200 relative whitespace-nowrap cursor-pointer ${
+                  className={`px-3 xl:px-3.5 py-1.5 text-[13px] xl:text-[14px] font-semibold rounded-xl inline-flex items-center gap-1.5 transition-all duration-200 relative whitespace-nowrap cursor-pointer ${
                     isActive 
-                      ? 'text-[#06172d] bg-white shadow-sm border border-sky-300 font-extrabold' 
-                      : 'text-[#081e39] hover:text-[#003875] hover:bg-white/85 hover:shadow-2xs active:scale-[0.98]'
+                      ? 'text-[#c8102e] bg-white shadow-sm font-extrabold' 
+                      : 'text-white/90 hover:text-white hover:bg-white/15 active:scale-[0.98]'
                   }`}
                 >
                   <span>{item.label}</span>
                   {isActive && (
-                    <span className="absolute bottom-0 left-3.5 right-3.5 h-[2.5px] bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-400 rounded-full shadow-xs" />
+                    <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-amber-400 rounded-full shadow-xs" />
                   )}
                 </button>
               );
@@ -250,7 +250,7 @@ export const Navbar = ({
           <div className="hidden lg:flex items-center gap-3 shrink-0">
             <button
               onClick={() => onOpenFranchise && onOpenFranchise()}
-              className="relative overflow-hidden px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-stone-950 text-xs xl:text-sm font-extrabold shadow-lg shadow-amber-500/30 hover:shadow-xl hover:shadow-amber-500/40 hover:scale-[1.03] active:scale-[0.98] border border-amber-300/80 transition-all duration-300 inline-flex items-center gap-2 group cursor-pointer"
+              className="relative overflow-hidden px-4.5 py-2 rounded-full bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-300 hover:from-white hover:to-amber-200 text-stone-950 text-xs xl:text-[13px] font-extrabold shadow-md hover:scale-[1.02] active:scale-[0.98] border border-amber-200/90 transition-all duration-200 inline-flex items-center gap-1.5 group cursor-pointer"
             >
               <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 ease-in-out pointer-events-none" />
               <Handshake className="w-4 h-4 text-stone-950 group-hover:scale-110 group-hover:rotate-6 transition-transform shrink-0" />
@@ -263,7 +263,7 @@ export const Navbar = ({
           <div className="lg:hidden flex items-center gap-2">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-xl text-[#0a213d] hover:bg-white/70 transition-colors cursor-pointer"
+              className="p-1.5 rounded-xl text-white hover:bg-white/15 transition-colors cursor-pointer"
               aria-label="Toggle Navigation Menu"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -273,17 +273,17 @@ export const Navbar = ({
 
         {/* Mobile menu dropdown */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden bg-gradient-to-b from-white via-[#c7e7fe] to-[#a3d7fe] border-b border-sky-300 px-4 pt-3 pb-6 space-y-1 shadow-xl animate-in slide-in-from-top duration-200">
+          <div className="lg:hidden bg-[#b8142a] border-b border-[#990d20] px-4 pt-3 pb-6 space-y-1 shadow-2xl animate-in slide-in-from-top duration-200">
             {navItems.map((item) => {
               const isActive = checkIsActive(item.id);
               return (
                 <button
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
-                  className={`w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-semibold flex items-center justify-between transition-colors ${
+                  className={`w-full text-left px-3.5 py-2 rounded-xl text-sm font-semibold flex items-center justify-between transition-colors ${
                     isActive
-                      ? 'text-[#06172d] bg-white shadow-sm border border-sky-300 font-extrabold'
-                      : 'text-[#081e39] hover:text-[#003875] hover:bg-white/80'
+                      ? 'text-[#c8102e] bg-white shadow-sm font-extrabold'
+                      : 'text-white hover:bg-white/15'
                   }`}
                 >
                   <span>{item.label}</span>
