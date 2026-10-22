@@ -223,7 +223,7 @@ export const Navbar = ({
           </button>
 
           {/* Stretched Desktop Navigation */}
-          <nav className="hidden lg:flex items-center justify-center flex-1 mx-4 xl:mx-8 space-x-1 xl:space-x-2.5 2xl:space-x-4">
+          <nav className="hidden lg:flex items-center justify-center flex-1 mx-4 xl:mx-8 space-x-1 xl:space-x-3 2xl:space-x-5">
             {navItems.map((item) => {
               const isActive = checkIsActive(item.id);
 
@@ -231,16 +231,13 @@ export const Navbar = ({
                 <button
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
-                  className={`px-2.5 xl:px-3 py-1 text-xs xl:text-[13px] font-semibold rounded-lg inline-flex items-center gap-1 transition-all duration-200 relative whitespace-nowrap cursor-pointer ${
+                  className={`px-2 xl:px-2.5 py-1 text-xs xl:text-[13px] transition-colors whitespace-nowrap cursor-pointer ${
                     isActive 
-                      ? 'text-[#c8102e] bg-white shadow-sm font-extrabold' 
-                      : 'text-white/90 hover:text-white hover:bg-white/15 active:scale-[0.98]'
+                      ? 'text-white font-bold' 
+                      : 'text-white/80 hover:text-white font-normal'
                   }`}
                 >
-                  <span>{item.label}</span>
-                  {isActive && (
-                    <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-amber-400 rounded-full shadow-xs" />
-                  )}
+                  {item.label}
                 </button>
               );
             })}
@@ -280,13 +277,13 @@ export const Navbar = ({
                 <button
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
-                  className={`w-full text-left px-3.5 py-2 rounded-xl text-sm font-semibold flex items-center justify-between transition-colors ${
+                  className={`w-full text-left px-3 py-2 text-sm transition-colors ${
                     isActive
-                      ? 'text-[#c8102e] bg-white shadow-sm font-extrabold'
-                      : 'text-white hover:bg-white/15'
+                      ? 'text-white font-bold'
+                      : 'text-white/80 hover:text-white font-normal'
                   }`}
                 >
-                  <span>{item.label}</span>
+                  {item.label}
                 </button>
               );
             })}
