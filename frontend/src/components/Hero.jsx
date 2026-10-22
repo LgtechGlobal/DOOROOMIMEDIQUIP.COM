@@ -34,7 +34,7 @@ export const Hero = ({ onExploreProducts, onRequestQuote }) => {
   };
 
   return (
-    <section className="relative bg-gradient-to-b from-[#fcfdfd] via-[#f7faf8] to-[#edf4f0] text-slate-900 py-6 sm:py-20 lg:py-28 overflow-hidden border-b border-emerald-900/10">
+    <section className="relative bg-gradient-to-b from-[#fcfdfd] via-[#f7faf8] to-[#edf4f0] text-slate-900 pt-4 sm:pt-6 lg:pt-8 pb-12 sm:pb-16 lg:pb-20 overflow-hidden border-b border-emerald-900/10">
       {/* Ambient background glows & subtle grid pattern (100% CSS, No Images) */}
       <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(#059669_1px,transparent_1px)] [background-size:24px_24px]" />
       <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] sm:w-[900px] h-[350px] bg-gradient-to-b from-emerald-100/60 via-amber-100/40 to-transparent blur-3xl pointer-events-none" />
@@ -45,7 +45,7 @@ export const Hero = ({ onExploreProducts, onRequestQuote }) => {
       <div className="relative w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 z-10 flex flex-col items-center text-center">
         
         {/* Eyebrow Badge - Centered */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 border border-emerald-800/20 shadow-xs mb-6 backdrop-blur-sm animate-in fade-in duration-500">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 border border-emerald-800/20 shadow-xs mb-3 sm:mb-4 backdrop-blur-sm animate-in fade-in duration-500">
           <span className="w-2.5 h-2.5 rounded-full bg-[#c8102e] animate-pulse" />
           <span className="text-[11px] sm:text-xs font-bold tracking-wider uppercase text-emerald-950 font-mono">
             South Korea · Humanitarian Public Health Initiative · 사랑 · 봉사 · 친절
