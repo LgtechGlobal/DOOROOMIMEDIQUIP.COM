@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SmoothScroll } from './components/SmoothScroll';
 import { ScrollProgress } from './components/ScrollProgress';
+import { PageLoader } from './components/PageLoader';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { AllProductsRowSection } from './components/AllProductsRowSection';
@@ -275,6 +276,9 @@ export function App() {
 
   return (
     <SmoothScroll>
+      {/* Initial Page Loading Animation */}
+      <PageLoader />
+
       <div className={`min-h-screen flex flex-col font-sans selection:bg-hanbit-gold selection:text-white w-full max-w-full overflow-x-hidden ${
         currentRoute.view === 'admin' ? 'bg-[#07130f] text-neutral-100' : 'bg-hanbit-ivory text-hanbit-ink'
       }`}>
