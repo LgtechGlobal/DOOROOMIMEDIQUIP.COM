@@ -5,6 +5,7 @@ import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { AllProductsRowSection } from './components/AllProductsRowSection';
 import { LeadershipCouncilSection } from './components/LeadershipCouncilSection';
+import { DooroomiFreeTherapySection } from './components/DooroomiFreeTherapySection';
 import { DooroomiGroupsSection } from './components/DooroomiGroupsSection';
 import { TestimonialVideoSection } from './components/TestimonialVideoSection';
 import { AboutUsPage } from './components/AboutUsPage';
@@ -390,6 +391,13 @@ export function App() {
               {/* Dooroomi Global Leadership Council */}
               <LeadershipCouncilSection
                 onNavigateAbout={() => scrollToSection('about')}
+              />
+
+              {/* Dooroomi 100% Free Daily Therapy Centers & Equipment */}
+              <DooroomiFreeTherapySection
+                onContactClick={() => scrollToSection('contact')}
+                onNavigateAbout={() => scrollToSection('about')}
+                onNavigateTherapy={() => scrollToSection('therapy')}
               />
 
 
