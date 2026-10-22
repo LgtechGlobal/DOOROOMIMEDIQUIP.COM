@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { 
   ChevronsLeft, 
   ChevronsRight, 
+  ChevronLeft,
+  ChevronRight,
   ArrowRight, 
   Play, 
   Pause, 
@@ -81,11 +83,6 @@ export const AllProductsRowSection = ({ onSelectProduct, onSelectForQuote, onNav
   const currentList = filteredProducts.length > 0 ? filteredProducts : productsList;
   const count = currentList.length;
   const safeIndex = selectedIndex < count ? selectedIndex : 0;
-  const nextIndex1 = count > 1 ? (safeIndex + 1) % count : 0;
-  const nextIndex2 = count > 2 ? (safeIndex + 2) % count : (count > 1 ? 1 : 0);
-  const product1 = currentList[safeIndex] || currentList[0];
-  const product2 = currentList[nextIndex1] || currentList[0];
-  const product3 = currentList[nextIndex2] || currentList[0];
 
   const handleNext = useCallback(() => {
     setSelectedIndex((prev) => (prev + 1) % currentList.length);
@@ -95,16 +92,16 @@ export const AllProductsRowSection = ({ onSelectProduct, onSelectForQuote, onNav
     setSelectedIndex((prev) => (prev - 1 + currentList.length) % currentList.length);
   }, [currentList.length]);
 
-  // Smooth auto-slide: automatic continuous cycling every 4.5s
+  // Smooth auto-slide: automatic continuous cycling every 3.8s (paused when hovered)
   useEffect(() => {
-    if (!isPlaying) return;
+    if (!isPlaying || isHovered) return;
 
     const timer = setInterval(() => {
       handleNext();
-    }, 4500);
+    }, 3800);
 
     return () => clearInterval(timer);
-  }, [isPlaying, handleNext]);
+  }, [isPlaying, isHovered, handleNext]);
 
   // Smoothly center the active card in the horizontal strip
   useEffect(() => {
@@ -129,24 +126,6 @@ export const AllProductsRowSection = ({ onSelectProduct, onSelectForQuote, onNav
     });
   };
 
-  // Helper to get 4 key features for the active hero product
-  const getProductFeatures = (prod) => {
-    if (!prod) return [];
-    if (Array.isArray(prod.keyActives) && prod.keyActives.length >= 3) {
-      return prod.keyActives.slice(0, 4);
-    }
-    if (typeof prod.keyActives === 'string' && prod.keyActives.length > 5) {
-      const parts = prod.keyActives.split(',').map(s => s.trim()).filter(Boolean);
-      if (parts.length >= 3) return parts.slice(0, 4);
-    }
-    return [
-      'Full-Spine Far-Infrared Therapy',
-      'Korea MFDS & ISO 22716 Certified',
-      'Taeyangsuk Mineral Sintered Matrix',
-      '100% Pure Electromagnetic Shielding'
-    ];
-  };
-
   return (
     <section 
       id="all-products-showroom" 
@@ -155,7 +134,7 @@ export const AllProductsRowSection = ({ onSelectProduct, onSelectForQuote, onNav
       <div className="w-full max-w-[1720px] mx-auto px-4 sm:px-8 lg:px-12 relative z-10 flex flex-col">
         
         {/* ============================================================== */}
-        {/* TOP SECTION: HEADER & 2 BIG SIZE PRODUCT SHOWCASE CARDS        */}
+        {/* TOP SECTION: HEADER & ONE BIG PRODUCT IMAGE SHOWCASE CAROUSEL */}
         {/* ============================================================== */}
         
         {/* Header Bar: Heading, Subtitle, Badges & Auto-Slide Indicator */}
@@ -205,7 +184,7 @@ export const AllProductsRowSection = ({ onSelectProduct, onSelectForQuote, onNav
               <button
                 onClick={() => setIsPlaying(!isPlaying)}
                 className="inline-flex items-center gap-1.5 text-[11px] font-mono font-medium text-neutral-700 hover:text-sky-600 transition-colors cursor-pointer"
-                title={isPlaying ? "Click to pause automatic slide" : "Click to resume automatic slide"}
+                title={isPlaying ? 'Click to pause automatic slide' : 'Click to resume automatic slide'}
               >
                 {isPlaying ? (
                   <>
@@ -231,41 +210,98 @@ export const AllProductsRowSection = ({ onSelectProduct, onSelectForQuote, onNav
           </div>
         </div>
 
-        {/* 3 Product Images Showcase (Clean & Compact) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 mb-8 sm:mb-12">
-          {[product1, product2, product3].map((prod, cardIdx) => {
-            if (!prod) return null;
-            return (
-              <div
-                key={`${prod.id}-${cardIdx}`}
-                onClick={() => onSelectProduct && onSelectProduct(prod.id)}
-                className="relative bg-gradient-to-br from-sky-50/50 via-white to-blue-50/30 rounded-3xl p-5 sm:p-6 border border-sky-100/90 shadow-sm shadow-sky-950/5 hover:shadow-xl hover:border-sky-300 transition-all duration-300 flex items-center justify-center min-h-[195px] sm:min-h-[215px] lg:min-h-[235px] group cursor-pointer overflow-hidden"
-              >
-                {/* Soft 3D Glow & Floor Circular Pedestal */}
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <div className="w-44 h-44 sm:w-52 sm:h-52 rounded-full bg-gradient-to-b from-sky-100/70 via-blue-50/40 to-transparent blur-2xl group-hover:scale-110 transition-transform duration-500" />
-                  <div className="absolute bottom-3 w-36 sm:w-44 h-6 bg-sky-950/10 blur-md rounded-[100%]" />
-                </div>
+        {/* ONE BIG PRODUCT IMAGE SHOWCASE WITH BUTTERY-SMOOTH AUTO SLIDE */}
+        <div 
+          className="relative w-full mb-8 sm:mb-12 group"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <div className="relative bg-gradient-to-br from-sky-50/50 via-white to-blue-50/30 rounded-3xl sm:rounded-[36px] p-6 sm:p-10 lg:p-12 border border-sky-100/90 shadow-sm shadow-sky-950/5 hover:shadow-2xl hover:border-sky-300 transition-all duration-500 overflow-hidden flex items-center justify-center min-h-[380px] sm:min-h-[460px] lg:min-h-[520px]">
+            
+            {/* Soft Ambient Glow & Circular Floor Pedestal */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-80 sm:w-[500px] lg:w-[650px] h-80 sm:h-[500px] lg:h-[650px] rounded-full bg-gradient-to-b from-sky-100/50 via-blue-50/30 to-transparent blur-3xl group-hover:scale-105 transition-transform duration-700" />
+              <div className="absolute bottom-6 w-64 sm:w-[420px] lg:w-[560px] h-9 bg-sky-950/10 blur-xl rounded-[100%]" />
+            </div>
 
-                {/* Refined Size Product Image */}
-                <img
-                  key={prod.id}
-                  src={getOptimizedImageUrl(prod.imgUrl, { width: 800 })}
-                  alt={prod.name}
-                  className="relative z-10 max-h-[150px] sm:max-h-[175px] lg:max-h-[195px] w-auto max-w-[85%] object-contain mix-blend-multiply group-hover:scale-108 transition-transform duration-300 drop-shadow-sm select-none"
+            {/* Sliding Carousel Track (Buttery Smooth 700ms Deceleration) */}
+            <div 
+              className="w-full flex transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]"
+              style={{ transform: `translateX(-${safeIndex * 100}%)` }}
+            >
+              {currentList.map((prod, idx) => {
+                const isActive = idx === safeIndex;
+                return (
+                  <div
+                    key={prod.id || idx}
+                    className="w-full shrink-0 flex items-center justify-center cursor-pointer select-none"
+                    onClick={() => onSelectProduct && onSelectProduct(prod.id)}
+                    title={`Click to view ${prod.name}`}
+                  >
+                    <img
+                      src={getOptimizedImageUrl(prod.imgUrl, { width: 1400 })}
+                      alt={prod.name}
+                      loading={idx === 0 ? 'eager' : 'lazy'}
+                      className={`relative z-10 max-h-[300px] sm:max-h-[390px] lg:max-h-[460px] w-auto max-w-[92%] sm:max-w-[85%] object-contain mix-blend-multiply drop-shadow-md select-none transition-all duration-500 ${
+                        isActive ? 'scale-100 opacity-100' : 'scale-95 opacity-40 blur-[0.5px]'
+                      }`}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Floating Navigation Arrows */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePrev();
+              }}
+              aria-label="Previous Product Image"
+              className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-white/90 hover:bg-white text-neutral-700 hover:text-sky-600 border border-neutral-200/90 shadow-lg flex items-center justify-center transition-all opacity-80 sm:opacity-0 group-hover:opacity-100 hover:scale-110 cursor-pointer backdrop-blur-sm"
+            >
+              <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+            </button>
+
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleNext();
+              }}
+              aria-label="Next Product Image"
+              className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-white/90 hover:bg-white text-neutral-700 hover:text-sky-600 border border-neutral-200/90 shadow-lg flex items-center justify-center transition-all opacity-80 sm:opacity-0 group-hover:opacity-100 hover:scale-110 cursor-pointer backdrop-blur-sm"
+            >
+              <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+            </button>
+
+            {/* Smooth Pagination Dots Indicator */}
+            <div className="absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 bg-white/85 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-sky-100 shadow-sm">
+              {currentList.map((_, dotIdx) => (
+                <button
+                  key={dotIdx}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedIndex(dotIdx);
+                  }}
+                  className={`transition-all duration-300 rounded-full cursor-pointer ${
+                    dotIdx === safeIndex
+                      ? 'w-7 h-2 bg-sky-600 shadow-xs'
+                      : 'w-2 h-2 bg-neutral-300 hover:bg-sky-400'
+                  }`}
+                  aria-label={`Go to product image ${dotIdx + 1}`}
                 />
-              </div>
-            );
-          })}
-        </div>
+              ))}
+            </div>
 
+          </div>
+        </div>
 
         {/* ============================================================== */}
         {/* BOTTOM SECTION: CATEGORY TABS & HORIZONTAL PRODUCT CARDS ROW   */}
         {/* ============================================================== */}
         <div className="relative pt-6 border-t border-neutral-200">
           
-          {/* Header Bar: "• Our Products" + Category Filter Pills */}
+          {/* Header Bar: '• Our Products' + Category Filter Pills */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4">
             
             {/* Title with Blue Dot */}
@@ -362,7 +398,7 @@ export const AllProductsRowSection = ({ onSelectProduct, onSelectForQuote, onNav
                       </p>
                     </div>
 
-                    {/* Bottom "View Details →" Action */}
+                    {/* Bottom 'View Details →' Action */}
                     <div 
                       onClick={(e) => {
                         e.stopPropagation();
