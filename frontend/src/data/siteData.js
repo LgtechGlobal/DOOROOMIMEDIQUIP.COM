@@ -32,7 +32,7 @@ export const SITE_CONFIG = {
       id: "matthew-seong",
       role: "CEO, SKS International & Global Tech Partner",
       titleHeader: "Message from Global Technology Partner",
-      name: "Matthew Seong",
+      name: "Seong Kyeong Soo-Matthew Seong",
       nameKo: "성 매튜 대표",
       base: "Goyang-Si, Gyeonggi-do, Korea",
       photo: "./assets/ceo/ceo-portrait.jpeg",
@@ -66,7 +66,7 @@ export const SITE_CONFIG = {
     }
   ],
   ceo: {
-    name: "Matthew Seong",
+    name: "Seong Kyeong Soo-Matthew Seong",
     nameKo: "성 매튜",
     title: "Chief Executive Officer",
     company: "SKS International Co., Ltd.",
