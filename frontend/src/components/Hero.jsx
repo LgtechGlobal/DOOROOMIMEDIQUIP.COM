@@ -1,299 +1,191 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play, Shield, Sparkles, Award } from 'lucide-react';
+import React from 'react';
+import { 
+  HeartHandshake, 
+  Sparkles, 
+  ShieldCheck, 
+  ArrowRight, 
+  Award, 
+  MapPin, 
+  PhoneCall, 
+  Activity, 
+  Flame, 
+  CheckCircle2,
+  Users
+} from 'lucide-react';
+import { SITE_CONFIG } from '../data/siteData';
 
 export const Hero = ({ onExploreProducts, onRequestQuote }) => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
-
-  const slides = [
-    {
-      id: 1,
-      eyebrow: "Flagship Medical System · South Korea",
-      title: "BEDRO Smart-1 Thermal Spinal Traction System.",
-      subtitle: "Automatic spinal thermal massage bed with internal heated jade rollers (40°C–70°C), vertebral decompression traction, and external multi-ball projector.",
-      badge: "FDA & CE Approved Class II",
-      heroImage: "/assets/products/bedro-smart-1-traction.png",
-      tag: "Flagship Spinal Traction Bed",
-    },
-    {
-      id: 2,
-      eyebrow: "Bio-Mineralogy & Whole-Body FIR Therapy",
-      title: "TAEYANGSUK 7-Mineral Tourmaline Bio-Mat.",
-      subtitle: "Sintered hexagonal Korean jade and tourmaline ceramic discs emitting deep far-infrared heat, 12,000 Gauss alternating magnetism, and negative ions.",
-      badge: "12,000 Gauss Magnetic Induction",
-      heroImage: "/assets/products/taeyangsuk-mineral-mat-real.png",
-      tag: "Hexagonal Bio-Mineral Mat",
-    },
-    {
-      id: 3,
-      eyebrow: "Intelligent Bio-Frequency & Remote Control",
-      title: "BEDRO Smart Digital Therapeutic Controller.",
-      subtitle: "Intelligent medical frequency control unit with 500Hz therapeutic stimulation, high-contrast backlit LED display, and precise countdown timer.",
-      badge: "500Hz Smart Remote",
-      heroImage: "/assets/products/bedro-smart-remote-controller.png",
-      tag: "500Hz Digital Smart Controller",
-    },
-    {
-      id: 4,
-      eyebrow: "Orthopedic Lumbar & Sacroiliac Support",
-      title: "DOOROOMI Champion Lumbar Support Belt.",
-      subtitle: "Ergonomic sacroiliac stabilization with integrated tourmaline discs for targeted disc decompression, nerve relief, and active micro-circulation.",
-      badge: "ISO 13485 Medical Device",
-      heroImage: "/assets/therapy/therapy-champion-belt-page12.png",
-      tag: "Targeted Lumbar Spinal Belt",
-    },
-  ];
-
-  const nextSlide = useCallback(() => {
-    setCurrentSlide((prev) => (prev + 1) % slides.length);
-  }, [slides.length]);
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  const handleScrollToFreeTherapy = () => {
+    const freeTherapyEl = document.getElementById('dooroomi-free-therapy') || document.getElementById('free-therapy');
+    if (freeTherapyEl) {
+      freeTherapyEl.scrollIntoView({ behavior: 'smooth' });
+    } else if (onRequestQuote) {
+      onRequestQuote();
+    }
   };
 
-  useEffect(() => {
-    if (!isPlaying) return;
-    const timer = setInterval(() => {
-      nextSlide();
-    }, 6500);
-    return () => clearInterval(timer);
-  }, [isPlaying, nextSlide]);
+  const handleScrollToContact = () => {
+    const contactEl = document.getElementById('contact');
+    if (contactEl) {
+      contactEl.scrollIntoView({ behavior: 'smooth' });
+    } else if (onRequestQuote) {
+      onRequestQuote();
+    }
+  };
 
   return (
-    <section className="relative bg-gradient-to-b from-[#f8fafc] via-[#e2e8f0] to-[#cbd5e1] text-slate-900 overflow-hidden min-h-[640px] lg:min-h-[760px] flex items-center border-b border-slate-300/80">
-      {/* Ambient background glow & grid */}
-      <div className="absolute inset-0 pointer-events-none opacity-25 bg-[radial-gradient(#94a3b8_1px,transparent_1px)] [background-size:28px_28px]" />
-      <div className="absolute -top-32 -right-32 w-96 h-96 bg-white/80 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-32 -left-32 w-96 h-96 bg-slate-300/60 rounded-full blur-3xl pointer-events-none" />
+    <section className="relative bg-gradient-to-b from-[#fcfdfd] via-[#f7faf8] to-[#edf4f0] text-slate-900 py-16 sm:py-20 lg:py-28 overflow-hidden border-b border-emerald-900/10">
+      {/* Ambient background glows & subtle grid pattern (100% CSS, No Images) */}
+      <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(#059669_1px,transparent_1px)] [background-size:24px_24px]" />
+      <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] sm:w-[900px] h-[350px] bg-gradient-to-b from-emerald-100/60 via-amber-100/40 to-transparent blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-red-100/30 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-emerald-200/30 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Main Slide Carousel Track */}
-      <div className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      {/* Main Centered Container */}
+      <div className="relative w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 z-10 flex flex-col items-center text-center">
+        
+        {/* Eyebrow Badge - Centered */}
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/95 border border-emerald-800/20 shadow-xs mb-6 backdrop-blur-sm animate-in fade-in duration-500">
+          <span className="w-2.5 h-2.5 rounded-full bg-[#c8102e] animate-pulse" />
+          <span className="text-[11px] sm:text-xs font-bold tracking-wider uppercase text-emerald-950 font-mono">
+            South Korea · Humanitarian Public Health Initiative · 사랑 · 봉사 · 친절
+          </span>
+        </div>
+
+        {/* What is Dooroomi & Free Therapy Main Headline - Centered */}
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-950 font-serif leading-[1.18] sm:leading-[1.15] max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-3 duration-500">
+          What is Dooroomi? <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#c8102e] via-red-700 to-amber-600">
+            A Mission of 100% Free Daily Therapy
+          </span> <br className="hidden sm:inline" />
+          For Every Family & Patient.
+        </h1>
+
+        {/* Narrative Description / Subtitle - Centered */}
+        <p className="mt-6 text-base sm:text-lg lg:text-xl text-slate-700 max-w-3xl mx-auto leading-relaxed font-normal animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
+          Established in South Korea in 1991 under our timeless corporate motto <strong className="text-slate-900 font-semibold">“Love, Service, and Kindness”</strong>, <strong className="text-slate-900 font-semibold">Dooroomi (두루미)</strong> is a certified medical technology organization dedicated to public wellness. We open our authorized therapy centers every day to provide <strong className="text-[#c8102e] font-bold">100% Free Hospital-Grade Therapy</strong> with zero fees, zero obligation, and zero financial burden.
+        </p>
+
+        {/* Centered Action Buttons (CTAs) */}
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-3.5 sm:gap-4 animate-in fade-in slide-in-from-bottom-5 duration-500 delay-150">
+          <button
+            onClick={handleScrollToFreeTherapy}
+            className="px-7 py-3.5 rounded-full bg-gradient-to-r from-[#c8102e] via-red-700 to-[#b00d27] hover:from-red-700 hover:to-red-800 text-white font-bold text-sm sm:text-base shadow-lg shadow-red-700/25 transform hover:-translate-y-0.5 active:scale-98 transition-all inline-flex items-center gap-2 cursor-pointer"
+          >
+            <HeartHandshake className="w-5 h-5 text-amber-300" />
+            <span>Experience Free Therapy Today</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
+
+          <button
+            onClick={onExploreProducts}
+            className="px-6 py-3.5 rounded-full bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-semibold text-sm sm:text-base shadow-xs hover:shadow transition-all inline-flex items-center gap-2 cursor-pointer"
+          >
+            <Activity className="w-4 h-4 text-emerald-700" />
+            <span>Explore Medical Equipment</span>
+          </button>
+
+          <button
+            onClick={handleScrollToContact}
+            className="px-5 py-3.5 rounded-full bg-emerald-900/10 hover:bg-emerald-900/20 text-emerald-950 font-semibold text-sm sm:text-base border border-emerald-800/20 transition-all inline-flex items-center gap-2 cursor-pointer"
+          >
+            <PhoneCall className="w-4 h-4 text-[#c8102e]" />
+            <span>Helpline: {SITE_CONFIG.phone}</span>
+          </button>
+        </div>
+
+        {/* 4 Pillars of Dooroomi Free Therapy - Centered Grid (No Images, Pure Visual Cards) */}
+        <div className="mt-12 sm:mt-14 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
           
-          {/* Left Text Column */}
-          <div className="lg:col-span-7 space-y-6">
-            {/* Slide Tag / Eyebrow */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-slate-300 text-xs font-semibold text-slate-800 shadow-2xs">
-              <Sparkles className="w-3.5 h-3.5 text-red-600" />
-              <span className="font-semibold tracking-wide uppercase text-[11px]">
-                {slides[currentSlide].eyebrow}
-              </span>
+          {/* Card 1 */}
+          <div className="p-5 rounded-2xl bg-white/90 border border-emerald-800/15 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
+            <div className="w-12 h-12 rounded-full bg-red-50 border border-red-200 flex items-center justify-center text-[#c8102e] mb-3">
+              <HeartHandshake className="w-6 h-6" />
             </div>
-
-            {/* Title with smooth key animation */}
-            <h1 
-              key={`title-${currentSlide}`}
-              className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-slate-900 font-serif leading-[1.15] animate-in fade-in slide-in-from-bottom-4 duration-500"
-            >
-              {slides[currentSlide].title}
-            </h1>
-
-            {/* Subtitle */}
-            <p 
-              key={`sub-${currentSlide}`}
-              className="text-base sm:text-lg text-slate-700 max-w-2xl leading-relaxed font-normal animate-in fade-in slide-in-from-bottom-3 duration-500 delay-100"
-            >
-              {slides[currentSlide].subtitle}
+            <h3 className="font-bold text-slate-900 text-base">100% Free Daily Care</h3>
+            <p className="mt-1.5 text-xs sm:text-[13px] text-slate-600 leading-normal">
+              Zero registration fees, zero treatment charges, and no obligation to buy. Come every day with your entire family.
             </p>
-
-            {/* CTAs */}
-            <div className="pt-2 flex flex-wrap items-center gap-4">
-              <button
-                onClick={onExploreProducts}
-                className="px-7 py-3.5 rounded-full bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white font-bold text-sm shadow-lg shadow-red-700/25 transform hover:-translate-y-0.5 transition-all inline-flex items-center gap-2 cursor-pointer"
-              >
-                <span>Explore Medical Equipment</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-
-              <button
-                onClick={onRequestQuote}
-                className="px-6 py-3.5 rounded-full bg-white/90 hover:bg-white backdrop-blur-md border border-slate-300 text-slate-800 font-semibold text-sm shadow-sm hover:shadow transition-all inline-flex items-center gap-2 cursor-pointer"
-              >
-                <span>Experience Free Therapy</span>
-              </button>
-            </div>
-
-            {/* Quality Seals banner */}
-            <div className="pt-6 border-t border-slate-300 flex flex-wrap items-center gap-6 text-xs text-slate-700 font-medium">
-              <span className="inline-flex items-center gap-1.5">
-                <Shield className="w-4 h-4 text-red-600" />
-                <span>ISO 13485 & CGMP Certified</span>
-              </span>
-              <span className="inline-flex items-center gap-1.5">
-                <Award className="w-4 h-4 text-red-600" />
-                <span>15+ Free Therapy Centers in India</span>
-              </span>
-            </div>
           </div>
 
-          {/* Right Visual Image Column with 3 Floating Cards & 3D Stack */}
-          <div className="lg:col-span-5 relative mt-8 lg:mt-0">
-            {/* 3D Stacked Background Card Layer 2 */}
-            <div className="absolute inset-0 rounded-3xl bg-white/50 border border-slate-200 shadow-md transform -rotate-3 scale-[0.92] translate-y-5 pointer-events-none z-0" />
-            
-            {/* 3D Stacked Background Card Layer 1 */}
-            <div className="absolute inset-0 rounded-3xl bg-white/70 border border-slate-200 shadow-lg transform rotate-2 scale-[0.96] translate-y-2.5 pointer-events-none z-0" />
-
-            {/* Floating Card 1 (Top-Right / Side) */}
-            {(() => {
-              const other1 = slides[(currentSlide + 1) % slides.length];
-              return (
-                <div
-                  onClick={() => setCurrentSlide((currentSlide + 1) % slides.length)}
-                  className="absolute -top-7 -right-3 sm:-right-7 z-30 animate-float-slow cursor-pointer group/float1"
-                  title={`Switch to ${other1.tag}`}
-                >
-                  <div className="px-3.5 py-2.5 rounded-2xl bg-white/95 backdrop-blur-xl border border-slate-300 shadow-xl hover:shadow-2xl hover:scale-105 transition-all flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-xl bg-slate-100 border border-slate-200 p-1 flex items-center justify-center shrink-0 overflow-hidden">
-                      <img
-                        src={other1.heroImage}
-                        alt={other1.tag}
-                        className="w-full h-full object-contain filter drop-shadow-sm group-hover/float1:scale-110 transition-transform"
-                      />
-                    </div>
-                    <div className="text-left pr-1">
-                      <div className="flex items-center gap-1 text-[10px] text-red-600 font-bold uppercase tracking-wider">
-                        <Sparkles className="w-2.5 h-2.5 text-hanbit-gold" />
-                        <span>{other1.badge}</span>
-                      </div>
-                      <p className="text-xs font-bold text-slate-900 line-clamp-1 mt-0.5">
-                        {other1.tag.split('·')[1]?.trim() || other1.tag}
-                      </p>
-                      <span className="text-[10px] text-slate-500 font-medium">Click to switch</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })()}
-
-            {/* Floating Card 2 (Bottom-Left / Side) */}
-            {(() => {
-              const other2 = slides[(currentSlide + 2) % slides.length];
-              return (
-                <div
-                  onClick={() => setCurrentSlide((currentSlide + 2) % slides.length)}
-                  className="absolute -bottom-7 -left-3 sm:-left-7 z-30 animate-float-reverse cursor-pointer group/float2"
-                  title={`Switch to ${other2.tag}`}
-                >
-                  <div className="px-3.5 py-2.5 rounded-2xl bg-white/95 backdrop-blur-xl border border-slate-300 shadow-xl hover:shadow-2xl hover:scale-105 transition-all flex items-center gap-3">
-                    <div className="w-11 h-11 rounded-xl bg-white/10 border border-white/10 p-1 flex items-center justify-center shrink-0 overflow-hidden">
-                      <img
-                        src={other2.heroImage}
-                        alt={other2.tag}
-                        className="w-full h-full object-contain filter drop-shadow-sm group-hover/float2:scale-110 transition-transform"
-                      />
-                    </div>
-                    <div className="text-left pr-1">
-                      <div className="flex items-center gap-1 text-[10px] text-red-600 font-bold uppercase tracking-wider">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                        <span>{other2.badge}</span>
-                      </div>
-                      <p className="text-xs font-bold text-white line-clamp-1 mt-0.5">
-                        {other2.tag.split('·')[1]?.trim() || other2.tag}
-                      </p>
-                      <span className="text-[10px] text-emerald-300/80 font-medium">Click to switch</span>
-                    </div>
-                  </div>
-                </div>
-              );
-            })()}
-
-            {/* Floating Card 3 (Middle-Right / Side Guarantee Seal) */}
-            <div 
-              className="absolute top-1/2 -right-4 sm:-right-8 -translate-y-1/2 z-20 hidden md:flex animate-float-slow pointer-events-none" 
-              style={{ animationDelay: '2s' }}
-            >
-              <div className="px-3 py-2 rounded-xl bg-white/95 backdrop-blur-md border border-slate-300 shadow-xl flex items-center gap-2">
-                <div className="w-7 h-7 rounded-lg bg-hanbit-gold/20 flex items-center justify-center text-hanbit-gold">
-                  <Award className="w-4 h-4" />
-                </div>
-                <div className="text-left pr-1">
-                  <span className="text-[9px] text-amber-700 font-bold uppercase tracking-wider block">Korea CGMP</span>
-                  <span className="text-[11px] font-bold text-slate-900 block leading-none">100% Verified</span>
-                </div>
-              </div>
+          {/* Card 2 */}
+          <div className="p-5 rounded-2xl bg-white/90 border border-emerald-800/15 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
+            <div className="w-12 h-12 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 mb-3">
+              <Flame className="w-6 h-6" />
             </div>
+            <h3 className="font-bold text-slate-900 text-base">Spinal Traction & FIR</h3>
+            <p className="mt-1.5 text-xs sm:text-[13px] text-slate-600 leading-normal">
+              Heated natural Korean jade rollers, vertebra decompression, far-infrared thermotherapy, and acupressure.
+            </p>
+          </div>
 
-            {/* Main Active Card */}
-            <div 
-              key={`img-${currentSlide}`}
-              className="relative z-10 mx-auto max-w-md lg:max-w-none rounded-3xl overflow-hidden bg-white/95 border border-slate-300 shadow-2xl p-6 lg:p-8 backdrop-blur-md animate-in fade-in zoom-in-95 duration-500"
-            >
-              {/* Product Badge Pill */}
-              <div className="absolute top-4 left-4 z-20 px-3 py-1 rounded-full bg-slate-900/90 backdrop-blur-md border border-slate-700 text-[11px] font-bold text-amber-300 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span>{slides[currentSlide].badge}</span>
-              </div>
-
-              {/* Main Illustration Image */}
-              <div className="relative aspect-[4/3] w-full flex items-center justify-center overflow-hidden rounded-2xl bg-gradient-to-b from-slate-100 to-slate-200/70 border border-slate-200/80">
-                <img 
-                  src={slides[currentSlide].heroImage} 
-                  alt={slides[currentSlide].title}
-                  className="w-full h-full object-contain filter drop-shadow-2xl transition-transform duration-700 hover:scale-105"
-                />
-              </div>
-
-              {/* Bottom Card Annotation */}
-              <div className="mt-4 p-3 rounded-xl bg-slate-100 border border-slate-200/80 flex items-center justify-between text-xs">
-                <span className="text-slate-800 font-semibold">
-                  {slides[currentSlide].tag}
-                </span>
-                <span className="text-red-700 font-bold text-[11px]">
-                  0{currentSlide + 1} / 0{slides.length}
-                </span>
-              </div>
+          {/* Card 3 */}
+          <div className="p-5 rounded-2xl bg-white/90 border border-emerald-800/15 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
+            <div className="w-12 h-12 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700 mb-3">
+              <Activity className="w-6 h-6" />
             </div>
+            <h3 className="font-bold text-slate-900 text-base">Chronic Pain Recovery</h3>
+            <p className="mt-1.5 text-xs sm:text-[13px] text-slate-600 leading-normal">
+              Clinically trusted for slip disc, cervical spondylosis, sciatica, arthritis, knee pain, and post-stroke rehabilitation.
+            </p>
+          </div>
+
+          {/* Card 4 */}
+          <div className="p-5 rounded-2xl bg-white/90 border border-emerald-800/15 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
+            <div className="w-12 h-12 rounded-full bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-700 mb-3">
+              <MapPin className="w-6 h-6" />
+            </div>
+            <h3 className="font-bold text-slate-900 text-base">15+ Centers in India</h3>
+            <p className="mt-1.5 text-xs sm:text-[13px] text-slate-600 leading-normal">
+              Serving thousands of daily visitors across Odisha, Delhi NCR, and nationwide with compassionate staff.
+            </p>
           </div>
 
         </div>
 
-        {/* Carousel controls bar at bottom */}
-        <div className="mt-12 pt-6 border-t border-slate-300 flex items-center justify-between">
-          {/* Slide dots with progress animation */}
-          <div className="flex items-center space-x-3">
-            {slides.map((slide, idx) => (
-              <button
-                key={slide.id}
-                onClick={() => setCurrentSlide(idx)}
-                className={`group relative h-2.5 rounded-full transition-all duration-300 ${
-                  currentSlide === idx ? 'w-10 bg-red-600' : 'w-2.5 bg-slate-400 hover:bg-slate-600'
-                }`}
-                aria-label={`Go to slide ${idx + 1}`}
-              >
-                {currentSlide === idx && isPlaying && (
-                  <span className="absolute inset-0 rounded-full bg-amber-200 animate-pulse" />
-                )}
-              </button>
-            ))}
+        {/* Centered Key Stats Bar */}
+        <div className="mt-10 pt-8 border-t border-slate-300/70 w-full flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-center">
+          <div className="flex flex-col items-center">
+            <span className="text-2xl sm:text-3xl font-extrabold text-[#c8102e] font-serif">100%</span>
+            <span className="text-xs text-slate-600 font-semibold uppercase tracking-wider mt-0.5">Free Daily Therapy</span>
           </div>
 
-          {/* Navigation buttons */}
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={() => setIsPlaying(!isPlaying)}
-              className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors border border-white/15"
-              aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
-            >
-              {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-            </button>
-            <button
-              onClick={prevSlide}
-              className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors border border-white/15"
-              aria-label="Previous slide"
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <button
-              onClick={nextSlide}
-              className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors border border-white/15"
-              aria-label="Next slide"
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
+          <div className="h-8 w-px bg-slate-300 hidden sm:block" />
+
+          <div className="flex flex-col items-center">
+            <span className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-serif">15+</span>
+            <span className="text-xs text-slate-600 font-semibold uppercase tracking-wider mt-0.5">Therapy Centers in India</span>
           </div>
+
+          <div className="h-8 w-px bg-slate-300 hidden sm:block" />
+
+          <div className="flex flex-col items-center">
+            <span className="text-2xl sm:text-3xl font-extrabold text-emerald-800 font-serif">500,000+</span>
+            <span className="text-xs text-slate-600 font-semibold uppercase tracking-wider mt-0.5">Relieved Patients</span>
+          </div>
+
+          <div className="h-8 w-px bg-slate-300 hidden sm:block" />
+
+          <div className="flex flex-col items-center">
+            <span className="text-2xl sm:text-3xl font-extrabold text-amber-700 font-serif">1991</span>
+            <span className="text-xs text-slate-600 font-semibold uppercase tracking-wider mt-0.5">Est. in South Korea</span>
+          </div>
+        </div>
+
+        {/* Centered Quality & Accreditation Badges */}
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs text-slate-700 font-medium">
+          <span className="inline-flex items-center gap-1.5 bg-white px-3 py-1 rounded-full border border-slate-200 shadow-2xs">
+            <ShieldCheck className="w-4 h-4 text-emerald-600" />
+            <span>ISO 13485 & CGMP Certified</span>
+          </span>
+          <span className="inline-flex items-center gap-1.5 bg-white px-3 py-1 rounded-full border border-slate-200 shadow-2xs">
+            <Award className="w-4 h-4 text-amber-600" />
+            <span>Korea Medical Device Manufacturing Standard</span>
+          </span>
+          <span className="inline-flex items-center gap-1.5 bg-white px-3 py-1 rounded-full border border-slate-200 shadow-2xs">
+            <CheckCircle2 className="w-4 h-4 text-[#c8102e]" />
+            <span>Zero Treatment Fees · Open to All</span>
+          </span>
         </div>
 
       </div>
