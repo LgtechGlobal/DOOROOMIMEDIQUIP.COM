@@ -34,7 +34,7 @@ export const Hero = ({ onExploreProducts, onRequestQuote }) => {
   };
 
   return (
-    <section className="relative bg-gradient-to-b from-[#fcfdfd] via-[#f7faf8] to-[#edf4f0] text-slate-900 py-16 sm:py-20 lg:py-28 overflow-hidden border-b border-emerald-900/10">
+    <section className="relative bg-gradient-to-b from-[#fcfdfd] via-[#f7faf8] to-[#edf4f0] text-slate-900 py-6 sm:py-20 lg:py-28 overflow-hidden border-b border-emerald-900/10">
       {/* Ambient background glows & subtle grid pattern (100% CSS, No Images) */}
       <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(#059669_1px,transparent_1px)] [background-size:24px_24px]" />
       <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] sm:w-[900px] h-[350px] bg-gradient-to-b from-emerald-100/60 via-amber-100/40 to-transparent blur-3xl pointer-events-none" />
