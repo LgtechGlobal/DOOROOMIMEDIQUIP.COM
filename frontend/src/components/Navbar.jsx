@@ -37,9 +37,9 @@ export const Navbar = ({
     { id: 'hero', label: 'Home' },
     { id: 'about', label: 'About Us' },
     { id: 'certificates', label: 'Certificates' },
-    { id: 'gallery', label: 'Products' },
-    { id: 'principle', label: 'Principle' },
-    { id: 'therapy', label: 'Therapy' },
+    { id: 'products', label: 'Products' },
+    { id: 'gallery', label: 'Gallery' },
+    { id: 'therapy', label: 'Therapy Principle' },
     { id: 'services', label: 'Services' },
     { id: 'contact', label: 'Contact Us' },
   ];
@@ -53,6 +53,7 @@ export const Navbar = ({
     if (activeSection === itemId) return true;
     if (itemId === 'hero' && activeSection === 'home') return true;
     if (itemId === 'certificates' && activeSection === 'quality') return true;
+    if (itemId === 'therapy' && (activeSection === 'therapy' || activeSection === 'principle')) return true;
     return false;
   };
 
@@ -175,8 +176,8 @@ export const Navbar = ({
       <header 
         className={`sticky top-0 z-40 transition-all duration-300 ${
           isScrolled 
-            ? 'bg-gradient-to-r from-white/98 via-[#e3f1fc]/98 to-[#c8e5fb]/98 backdrop-blur-md shadow-md py-2.5 border-b border-sky-300/70' 
-            : 'bg-gradient-to-r from-white via-[#e8f4fd]/95 to-[#cee7fa]/95 backdrop-blur-sm py-3.5 border-b border-sky-200/70 shadow-xs'
+            ? 'bg-gradient-to-r from-white/95 via-[#bfe3fd]/98 to-[#8ecbfe]/98 backdrop-blur-md shadow-md py-2.5 border-b border-[#72bbf8]' 
+            : 'bg-gradient-to-r from-white/95 via-[#c7e7fe]/95 to-[#9bd3fe]/95 backdrop-blur-sm py-3.5 border-b border-[#7fc2fa] shadow-sm'
         }`}
       >
         <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16 flex items-center justify-between">
@@ -217,9 +218,7 @@ export const Navbar = ({
                   두루미
                 </span>
               </div>
-              <p className="text-[10px] tracking-wider uppercase text-slate-500 font-medium">
-                Korea Bio-Cosmetics & Mediquip · Est. 1998
-              </p>
+
             </div>
           </button>
 
@@ -234,8 +233,8 @@ export const Navbar = ({
                   onClick={() => handleNavClick(item.id)}
                   className={`px-3.5 xl:px-4 py-2 text-sm xl:text-[14.5px] font-semibold rounded-xl inline-flex items-center gap-1.5 transition-all duration-200 relative whitespace-nowrap cursor-pointer ${
                     isActive 
-                      ? 'text-[#091f38] bg-white shadow-xs border border-sky-300/80 font-bold' 
-                      : 'text-[#112d4e] hover:text-[#0055b3] hover:bg-white/80 hover:shadow-2xs active:scale-[0.98]'
+                      ? 'text-[#06172d] bg-white shadow-sm border border-sky-300 font-extrabold' 
+                      : 'text-[#081e39] hover:text-[#003875] hover:bg-white/85 hover:shadow-2xs active:scale-[0.98]'
                   }`}
                 >
                   <span>{item.label}</span>
@@ -274,7 +273,7 @@ export const Navbar = ({
 
         {/* Mobile menu dropdown */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden bg-gradient-to-b from-white via-[#f4f9fd] to-[#e8f3fc] border-b border-sky-200/70 px-4 pt-3 pb-6 space-y-1 shadow-xl animate-in slide-in-from-top duration-200">
+          <div className="lg:hidden bg-gradient-to-b from-white via-[#c7e7fe] to-[#a3d7fe] border-b border-sky-300 px-4 pt-3 pb-6 space-y-1 shadow-xl animate-in slide-in-from-top duration-200">
             {navItems.map((item) => {
               const isActive = checkIsActive(item.id);
               return (
@@ -283,8 +282,8 @@ export const Navbar = ({
                   onClick={() => handleNavClick(item.id)}
                   className={`w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-semibold flex items-center justify-between transition-colors ${
                     isActive
-                      ? 'text-[#0a213d] bg-white shadow-xs border border-sky-200/80 font-bold'
-                      : 'text-[#0f2744] hover:text-[#0066cc] hover:bg-white/60'
+                      ? 'text-[#06172d] bg-white shadow-sm border border-sky-300 font-extrabold'
+                      : 'text-[#081e39] hover:text-[#003875] hover:bg-white/80'
                   }`}
                 >
                   <span>{item.label}</span>

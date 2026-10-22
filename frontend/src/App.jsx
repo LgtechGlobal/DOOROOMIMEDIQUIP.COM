@@ -185,6 +185,7 @@ export function App() {
     setActiveSection(sectionId);
     let targetId = sectionId;
     if (sectionId === 'home') targetId = 'hero';
+    if (sectionId === 'products') targetId = 'all-products-showroom';
 
     const element = document.getElementById(targetId) || document.getElementById(sectionId);
     if (element) {
@@ -203,11 +204,10 @@ export function App() {
   };
 
   const scrollToSection = (sectionId) => {
-    const targetSection = sectionId === 'products' ? 'gallery' : sectionId;
-    if (DEDICATED_ROUTES.includes(targetSection)) {
-      window.location.hash = `/${targetSection}`;
-      setCurrentRoute({ view: targetSection, productId: null });
-      setActiveSection(targetSection);
+    if (DEDICATED_ROUTES.includes(sectionId)) {
+      window.location.hash = `/${sectionId}`;
+      setCurrentRoute({ view: sectionId, productId: null });
+      setActiveSection(sectionId);
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
