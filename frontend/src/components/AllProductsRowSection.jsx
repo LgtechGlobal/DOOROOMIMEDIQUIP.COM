@@ -42,18 +42,21 @@ export const AllProductsRowSection = ({ onSelectProduct, onSelectForQuote, onNav
     if (activeCategory === 'all') return productsList;
     if (activeCategory === 'flagship') {
       return productsList.filter(p => 
+        p.cat === 'flagship' || 
         p.cat === 'series-c' || 
+        p.model?.includes('BST') ||
         p.model?.includes('MED') || 
-        p.model?.includes('C') || 
         p.name?.toLowerCase().includes('bedro') || 
         p.badge?.toLowerCase().includes('flagship')
       );
     }
     if (activeCategory === 'biominerals') {
       return productsList.filter(p => 
+        p.cat === 'biominerals' || 
         p.cat === 'series-b' || 
-        p.model?.includes('B') || 
+        p.model?.includes('TSK') || 
         p.name?.toLowerCase().includes('mineral') || 
+        p.name?.toLowerCase().includes('taeyangsuk') ||
         p.name?.toLowerCase().includes('mat')
       );
     }
@@ -61,19 +64,19 @@ export const AllProductsRowSection = ({ onSelectProduct, onSelectForQuote, onNav
       return productsList.filter(p => 
         p.name?.toLowerCase().includes('projector') || 
         p.name?.toLowerCase().includes('thermal') || 
-        p.name?.toLowerCase().includes('wave') || 
+        p.name?.toLowerCase().includes('9-ball') || 
         p.desc?.toLowerCase().includes('projector') ||
         p.desc?.toLowerCase().includes('thermal')
       );
     }
     if (activeCategory === 'accessories') {
       return productsList.filter(p => 
-        p.cat === 'series-a' || 
-        p.model?.includes('A') || 
-        p.name?.toLowerCase().includes('toner') || 
-        p.name?.toLowerCase().includes('dispenser') || 
-        p.name?.toLowerCase().includes('flacon') ||
-        p.name?.toLowerCase().includes('cream')
+        p.cat === 'accessories' || 
+        p.name?.toLowerCase().includes('controller') || 
+        p.name?.toLowerCase().includes('belt') || 
+        p.name?.toLowerCase().includes('remote') ||
+        p.model?.includes('RC') ||
+        p.model?.includes('CH')
       );
     }
     return productsList;
