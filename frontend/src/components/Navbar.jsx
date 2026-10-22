@@ -175,8 +175,8 @@ export const Navbar = ({
       <header 
         className={`sticky top-0 z-40 transition-all duration-300 ${
           isScrolled 
-            ? 'bg-gradient-to-r from-white/98 via-[#f0f7fd]/98 to-[#e3f0fb]/98 backdrop-blur-md shadow-md py-2.5 border-b border-sky-200/70' 
-            : 'bg-gradient-to-r from-white via-[#f2f8fd]/95 to-[#e6f2fb]/95 backdrop-blur-sm py-3.5 border-b border-sky-100/90 shadow-xs'
+            ? 'bg-gradient-to-r from-white/98 via-[#e3f1fc]/98 to-[#c8e5fb]/98 backdrop-blur-md shadow-md py-2.5 border-b border-sky-300/70' 
+            : 'bg-gradient-to-r from-white via-[#e8f4fd]/95 to-[#cee7fa]/95 backdrop-blur-sm py-3.5 border-b border-sky-200/70 shadow-xs'
         }`}
       >
         <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16 flex items-center justify-between">
@@ -217,9 +217,9 @@ export const Navbar = ({
                   두루미
                 </span>
               </div>
-              {/* <p className="text-[10px] tracking-wider uppercase text-slate-500 font-medium">
+              <p className="text-[10px] tracking-wider uppercase text-slate-500 font-medium">
                 Korea Bio-Cosmetics & Mediquip · Est. 1998
-              </p> */}
+              </p>
             </div>
           </button>
 
@@ -234,8 +234,8 @@ export const Navbar = ({
                   onClick={() => handleNavClick(item.id)}
                   className={`px-3.5 xl:px-4 py-2 text-sm xl:text-[14.5px] font-semibold rounded-xl inline-flex items-center gap-1.5 transition-all duration-200 relative whitespace-nowrap cursor-pointer ${
                     isActive 
-                      ? 'text-[#0a213d] bg-white/95 shadow-xs border border-sky-200/80 font-bold' 
-                      : 'text-[#0f2744] hover:text-[#0066cc] hover:bg-white/70 hover:shadow-2xs active:scale-[0.98]'
+                      ? 'text-[#091f38] bg-white shadow-xs border border-sky-300/80 font-bold' 
+                      : 'text-[#112d4e] hover:text-[#0055b3] hover:bg-white/80 hover:shadow-2xs active:scale-[0.98]'
                   }`}
                 >
                   <span>{item.label}</span>
