@@ -175,8 +175,8 @@ export const Navbar = ({
       <header 
         className={`sticky top-0 z-40 transition-all duration-300 ${
           isScrolled 
-            ? 'bg-white/95 backdrop-blur-md shadow-md py-2.5 border-b border-hanbit-border' 
-            : 'bg-hanbit-ivory/95 backdrop-blur-sm py-3.5 border-b border-hanbit-border/60'
+            ? 'bg-gradient-to-r from-white/98 via-[#f0f7fd]/98 to-[#e3f0fb]/98 backdrop-blur-md shadow-md py-2.5 border-b border-sky-200/70' 
+            : 'bg-gradient-to-r from-white via-[#f2f8fd]/95 to-[#e6f2fb]/95 backdrop-blur-sm py-3.5 border-b border-sky-100/90 shadow-xs'
         }`}
       >
         <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16 flex items-center justify-between">
@@ -217,9 +217,9 @@ export const Navbar = ({
                   두루미
                 </span>
               </div>
-              <p className="text-[10px] tracking-wider uppercase text-hanbit-muted font-medium">
+              {/* <p className="text-[10px] tracking-wider uppercase text-slate-500 font-medium">
                 Korea Bio-Cosmetics & Mediquip · Est. 1998
-              </p>
+              </p> */}
             </div>
           </button>
 
@@ -232,15 +232,15 @@ export const Navbar = ({
                 <button
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
-                  className={`px-3.5 xl:px-4 py-2 text-sm xl:text-[14.5px] font-medium rounded-lg inline-flex items-center gap-1.5 transition-all relative whitespace-nowrap ${
+                  className={`px-3.5 xl:px-4 py-2 text-sm xl:text-[14.5px] font-semibold rounded-xl inline-flex items-center gap-1.5 transition-all duration-200 relative whitespace-nowrap cursor-pointer ${
                     isActive 
-                      ? 'text-hanbit-forest bg-hanbit-sage-light/60 font-semibold shadow-xs' 
-                      : 'text-hanbit-ink/80 hover:text-hanbit-forest hover:bg-hanbit-sage-light/30'
+                      ? 'text-[#0a213d] bg-white/95 shadow-xs border border-sky-200/80 font-bold' 
+                      : 'text-[#0f2744] hover:text-[#0066cc] hover:bg-white/70 hover:shadow-2xs active:scale-[0.98]'
                   }`}
                 >
                   <span>{item.label}</span>
                   {isActive && (
-                    <span className="absolute bottom-0 left-3 right-3 h-[2px] bg-hanbit-gold rounded-full" />
+                    <span className="absolute bottom-0 left-3.5 right-3.5 h-[2.5px] bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-400 rounded-full shadow-xs" />
                   )}
                 </button>
               );
@@ -264,7 +264,7 @@ export const Navbar = ({
           <div className="lg:hidden flex items-center gap-2">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-lg text-hanbit-forest hover:bg-hanbit-sage-light/50 transition-colors"
+              className="p-2 rounded-xl text-[#0a213d] hover:bg-white/70 transition-colors cursor-pointer"
               aria-label="Toggle Navigation Menu"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -274,17 +274,17 @@ export const Navbar = ({
 
         {/* Mobile menu dropdown */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden bg-white border-b border-hanbit-border px-4 pt-3 pb-6 space-y-1 shadow-xl animate-in slide-in-from-top duration-200">
+          <div className="lg:hidden bg-gradient-to-b from-white via-[#f4f9fd] to-[#e8f3fc] border-b border-sky-200/70 px-4 pt-3 pb-6 space-y-1 shadow-xl animate-in slide-in-from-top duration-200">
             {navItems.map((item) => {
               const isActive = checkIsActive(item.id);
               return (
                 <button
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
-                  className={`w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium flex items-center justify-between ${
+                  className={`w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-semibold flex items-center justify-between transition-colors ${
                     isActive
-                      ? 'text-hanbit-forest bg-hanbit-sage-light/60 font-semibold'
-                      : 'text-hanbit-ink hover:bg-hanbit-ivory'
+                      ? 'text-[#0a213d] bg-white shadow-xs border border-sky-200/80 font-bold'
+                      : 'text-[#0f2744] hover:text-[#0066cc] hover:bg-white/60'
                   }`}
                 >
                   <span>{item.label}</span>
