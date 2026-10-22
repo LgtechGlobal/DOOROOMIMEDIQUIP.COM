@@ -176,8 +176,8 @@ export const Navbar = ({
       <header 
         className={`sticky top-0 z-40 transition-all duration-300 ${
           isScrolled 
-            ? 'bg-[#b8142a] shadow-md py-1.5 border-b border-[#990d20]' 
-            : 'bg-[#c8102e] shadow-sm py-2 border-b border-[#b00d27]'
+            ? 'bg-[#b8142a] shadow-md py-0.5 border-b border-[#990d20]' 
+            : 'bg-[#c8102e] shadow-sm py-1 border-b border-[#b00d27]'
         }`}
       >
         <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16 flex items-center justify-between">
@@ -186,7 +186,7 @@ export const Navbar = ({
             onClick={() => handleNavClick('hero')}
             className="flex items-center gap-3.5 text-left group shrink-0"
           >
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full p-0.5 bg-gradient-to-tr from-amber-300 via-white to-amber-400 shadow-sm flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform">
+            <div className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full p-0.5 bg-gradient-to-tr from-amber-300 via-white to-amber-400 shadow-2xs flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform">
               <img 
                 src="./assets/img/brand-logo.jpg" 
                 alt="Dooroomi 두루미 Logo" 
@@ -195,10 +195,10 @@ export const Navbar = ({
             </div>
             <div>
               {/* Silky-smooth cross-fade transition alternating every 5s without layout jitter */}
-              <div className="inline-grid grid-cols-1 grid-rows-1 items-center min-w-[100px] sm:min-w-[115px] h-6 sm:h-7">
+              <div className="inline-grid grid-cols-1 grid-rows-1 items-center min-w-[95px] sm:min-w-[105px] h-5 sm:h-6">
                 {/* English: Dooroomi */}
                 <span 
-                  className={`col-start-1 row-start-1 font-extrabold text-lg sm:text-xl text-white tracking-tight font-serif transition-all duration-700 ease-in-out select-none ${
+                  className={`col-start-1 row-start-1 font-extrabold text-base sm:text-lg text-white tracking-tight font-serif transition-all duration-700 ease-in-out select-none ${
                     !isKoreanBrand
                       ? 'opacity-100 translate-y-0 filter-none'
                       : 'opacity-0 -translate-y-2 blur-[0.5px] pointer-events-none'
@@ -231,7 +231,7 @@ export const Navbar = ({
                 <button
                   key={item.id}
                   onClick={() => handleNavClick(item.id)}
-                  className={`px-3 xl:px-3.5 py-1.5 text-[13px] xl:text-[14px] font-semibold rounded-xl inline-flex items-center gap-1.5 transition-all duration-200 relative whitespace-nowrap cursor-pointer ${
+                  className={`px-2.5 xl:px-3 py-1 text-xs xl:text-[13px] font-semibold rounded-lg inline-flex items-center gap-1 transition-all duration-200 relative whitespace-nowrap cursor-pointer ${
                     isActive 
                       ? 'text-[#c8102e] bg-white shadow-sm font-extrabold' 
                       : 'text-white/90 hover:text-white hover:bg-white/15 active:scale-[0.98]'
@@ -250,7 +250,7 @@ export const Navbar = ({
           <div className="hidden lg:flex items-center gap-3 shrink-0">
             <button
               onClick={() => onOpenFranchise && onOpenFranchise()}
-              className="relative overflow-hidden px-4.5 py-2 rounded-full bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-300 hover:from-white hover:to-amber-200 text-stone-950 text-xs xl:text-[13px] font-extrabold shadow-md hover:scale-[1.02] active:scale-[0.98] border border-amber-200/90 transition-all duration-200 inline-flex items-center gap-1.5 group cursor-pointer"
+              className="relative overflow-hidden px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-300 hover:from-white hover:to-amber-200 text-stone-950 text-[11px] xl:text-xs font-extrabold shadow-sm hover:scale-[1.02] active:scale-[0.98] border border-amber-200/90 transition-all duration-200 inline-flex items-center gap-1.5 group cursor-pointer"
             >
               <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 ease-in-out pointer-events-none" />
               <Handshake className="w-4 h-4 text-stone-950 group-hover:scale-110 group-hover:rotate-6 transition-transform shrink-0" />

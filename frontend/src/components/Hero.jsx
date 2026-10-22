@@ -8,30 +8,30 @@ export const Hero = ({ onExploreProducts, onRequestQuote }) => {
   const slides = [
     {
       id: 1,
-      eyebrow: "Bio-Fermentation & Active Extraction",
-      title: "Precision Bio-Formulation, Proven by Rigorous Testing.",
-      subtitle: "Pioneering cellular-level Korean skincare since 1998. Every botanical essence and peptide formulation is verified through our 5-stage clinical testing pipeline.",
-      badge: "ISO 22716 & CGMP Certified",
-      heroImage: "./assets/products/product-real-01.jpeg",
-      tag: "Series A · Botanical Bio-Actives",
+      eyebrow: "Flagship Medical System · South Korea",
+      title: "BEDRO Smart-1 Thermal Acupressure System.",
+      subtitle: "Automatic spinal thermal massage bed with internal ergonomic acupressure projectors, far-infrared moxibustion (40°C–70°C), and vertebral disc traction.",
+      badge: "FDA & CE Approved Class II",
+      heroImage: "/assets/therapy/therapy-bedro-smart1-page10.png",
+      tag: "Flagship Spinal Acupressure Bed",
     },
     {
       id: 2,
-      eyebrow: "Cellular Longevity & Clinical Actives",
-      title: "Crafted in Korea with Scientific Rigor & Pure Care.",
-      subtitle: "Patented ultrasonic liposomal encapsulation delivers high-purity PDRN, NAD+ precursors, and triple-retinoids deep into the cutaneous dermal matrix.",
-      badge: "Dermatest® 5-Star Excellent",
-      heroImage: "./assets/products/product-real-06.jpeg",
-      tag: "Series B · Cellular Longevity",
+      eyebrow: "Bio-Mineralogy & Whole-Body FIR Therapy",
+      title: "TAEYANGSUK PLUS Bio-Mineral Thermal Mat.",
+      subtitle: "Dense 7-mineral ceramic matrix emitting deep far-infrared heat, 12,000 Gauss alternating magnetism (50–60Hz), and Bio-Wave pain-relief neuromodulation.",
+      badge: "12,000 Gauss Magnetic Induction",
+      heroImage: "/assets/therapy/therapy-taeyangsuk-mat-page11.png",
+      tag: "Whole-Body Bio-Mineral Mat",
     },
     {
       id: 3,
-      eyebrow: "Full Traceability & Cleanroom Production",
-      title: "Documented from Cleanroom Reactor to Global Delivery.",
-      subtitle: "Complete lot traceability, 30-day accelerated climate stress evaluation, and full export compliance for US MoCRA and European CPNP standards.",
-      badge: "Global Export · 36 Nations",
-      heroImage: "./assets/products/product-real-13.jpeg",
-      tag: "Series C · Eco-Precision Packaging",
+      eyebrow: "Orthopedic Lumbar & Blood Induction",
+      title: "DOOROOMI Champion Lumbar Support Belt.",
+      subtitle: "Ergonomic sacroiliac stabilization with integrated tourmaline discs for targeted disc decompression, nerve relief, and active micro-circulation.",
+      badge: "ISO 13485 Medical Device",
+      heroImage: "/assets/therapy/therapy-champion-belt-page12.png",
+      tag: "Targeted Lumbar Spinal Belt",
     },
   ];
 
@@ -94,7 +94,7 @@ export const Hero = ({ onExploreProducts, onRequestQuote }) => {
                 onClick={onExploreProducts}
                 className="px-7 py-3.5 rounded-full bg-gradient-to-r from-hanbit-gold to-amber-500 text-hanbit-dark font-bold text-sm hover:from-amber-400 hover:to-amber-500 shadow-lg shadow-hanbit-gold/25 hover:shadow-hanbit-gold/40 transform hover:-translate-y-0.5 transition-all inline-flex items-center gap-2"
               >
-                <span>Explore Formulations</span>
+                <span>Explore Medical Equipment</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
@@ -102,7 +102,7 @@ export const Hero = ({ onExploreProducts, onRequestQuote }) => {
                 onClick={onRequestQuote}
                 className="px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/15 backdrop-blur-md border border-white/20 text-white font-medium text-sm hover:border-white/40 transition-all inline-flex items-center gap-2"
               >
-                <span>Request Clinical Dossier</span>
+                <span>Experience Free Therapy</span>
               </button>
             </div>
 
@@ -110,11 +110,11 @@ export const Hero = ({ onExploreProducts, onRequestQuote }) => {
             <div className="pt-6 border-t border-white/10 flex flex-wrap items-center gap-6 text-xs text-emerald-200/70">
               <span className="inline-flex items-center gap-1.5">
                 <Shield className="w-4 h-4 text-hanbit-gold" />
-                <span>CGMP Verified Batch Safety</span>
+                <span>ISO 13485 & CGMP Certified</span>
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <Award className="w-4 h-4 text-hanbit-gold" />
-                <span>30-Day Accelerated Testing Standard</span>
+                <span>15+ Free Therapy Centers in India</span>
               </span>
             </div>
           </div>
