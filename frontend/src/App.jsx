@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { SmoothScroll } from './components/SmoothScroll';
 import { ScrollProgress } from './components/ScrollProgress';
 import { PageLoader } from './components/PageLoader';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
-import { AllProductsRowSection } from './components/AllProductsRowSection';
+import { HeroProductSlider } from './components/HeroProductSlider';
 import { LeadershipCouncilSection } from './components/LeadershipCouncilSection';
 import { DooroomiFreeTherapySection } from './components/DooroomiFreeTherapySection';
 import { DooroomiGroupsSection } from './components/DooroomiGroupsSection';
@@ -15,6 +15,7 @@ import { PrinciplePage } from './components/PrinciplePage';
 import { TherapyPage } from './components/TherapyPage';
 import { ServicesPage } from './components/ServicesPage';
 import { ProductsGalleryPage } from './components/ProductsGalleryPage';
+import { GalleryPage } from './components/GalleryPage';
 import { SingleProductPage } from './components/SingleProductPage';
 import { ContactSection } from './components/ContactSection';
 import { FreeTherapyMissionSection } from './components/FreeTherapyMissionSection';
@@ -33,8 +34,9 @@ const DEDICATED_ROUTES = ['about', 'certificates', 'principle', 'therapy', 'serv
 
 const parseHash = () => {
   const hash = window.location.hash || '';
+  // #/products -> Products Gallery (medical equipment listing)
   if (hash === '#/products' || hash.startsWith('#/products?')) {
-    return { view: 'gallery', productId: null };
+    return { view: 'products', productId: null };
   }
   if (hash.startsWith('#/products/')) {
     const rawId = hash.replace('#/products/', '').split('?')[0];
@@ -42,15 +44,19 @@ const parseHash = () => {
       return { view: 'single-product', productId: rawId };
     }
   }
-  for (const route of DEDICATED_ROUTES) {
-    if (hash === `#/${route}` || hash.startsWith(`#/${route}?`)) {
-      return { view: route === 'products' ? 'gallery' : route, productId: null };
-    }
+  // #/gallery -> Media Gallery (images & videos)
+  if (hash === '#/gallery' || hash.startsWith('#/gallery?')) {
+    return { view: 'gallery', productId: null };
   }
   if (hash.startsWith('#/gallery/')) {
     const rawId = hash.replace('#/gallery/', '').split('?')[0];
     if (rawId) {
       return { view: 'single-product', productId: rawId };
+    }
+  }
+  for (const route of DEDICATED_ROUTES) {
+    if (hash === `#/${route}` || hash.startsWith(`#/${route}?`)) {
+      return { view: route, productId: null };
     }
   }
   return { view: 'home', productId: null };
@@ -61,7 +67,7 @@ export function App() {
   const [activeSection, setActiveSection] = useState(() => {
     const initial = parseHash();
     if (DEDICATED_ROUTES.includes(initial.view)) return initial.view;
-    if (initial.view === 'single-product') return 'gallery';
+    if (initial.view === 'single-product') return 'products';
     return 'hero';
   });
   const [quickViewProduct, setQuickViewProduct] = useState(null);
@@ -167,7 +173,7 @@ export function App() {
         setActiveSection(route.view);
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else if (route.view === 'single-product') {
-        setActiveSection('gallery');
+        setActiveSection('products');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } else {
         const hash = window.location.hash.replace('#', '');
@@ -227,14 +233,14 @@ export function App() {
   };
 
   const handleSelectProduct = (productId) => {
-    window.location.hash = `/gallery/${productId}`;
+    window.location.hash = `/products/${productId}`;
     setCurrentRoute({ view: 'single-product', productId });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleBackToGallery = () => {
-    window.location.hash = '/gallery';
-    setCurrentRoute({ view: 'gallery', productId: null });
+    window.location.hash = '/products';
+    setCurrentRoute({ view: 'products', productId: null });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -357,13 +363,19 @@ export function App() {
               onNavigateGallery={() => scrollToSection('gallery')}
               onContactClick={() => scrollToSection('contact')}
             />
-          ) : currentRoute.view === 'gallery' ? (
+          ) : currentRoute.view === 'products' ? (
             <ProductsGalleryPage
               onSelectProduct={handleSelectProduct}
               onNavigateHome={scrollToSection}
               onSelectForQuote={handleSelectForQuote}
               comparedProducts={comparedProducts}
               onToggleCompare={handleToggleCompare}
+            />
+          ) : currentRoute.view === 'gallery' ? (
+            <GalleryPage
+              onNavigateHome={scrollToSection}
+              onNavigateProducts={() => scrollToSection('products')}
+              onContactClick={() => scrollToSection('contact')}
             />
           ) : currentRoute.view === 'single-product' ? (
             <SingleProductPage
@@ -380,16 +392,16 @@ export function App() {
               {/* Hero Section Carousel */}
               <div id="hero">
                 <Hero
-                  onExploreProducts={() => scrollToSection('gallery')}
+                  onExploreProducts={() => scrollToSection('products')}
                   onRequestQuote={() => scrollToSection('contact')}
                 />
               </div>
 
-              {/* All Products Single Row with Side Scroll */}
-              <AllProductsRowSection
+              {/* Split Layout Infinite Auto-Slide Product Showcase */}
+              <HeroProductSlider
                 onSelectProduct={handleSelectProduct}
                 onSelectForQuote={handleSelectForQuote}
-                onNavigateGallery={() => scrollToSection('gallery')}
+                onExploreAll={() => scrollToSection('products')}
               />
 
               {/* Dooroomi Global Leadership Council */}

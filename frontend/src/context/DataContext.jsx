@@ -315,6 +315,7 @@ export const DataProvider = ({ children }) => {
   const [centers, setCenters] = useState(INITIAL_CENTERS);
   const [testimonials, setTestimonials] = useState(INITIAL_TESTIMONIALS);
   const [ads, setAds] = useState(INITIAL_ADS);
+  const [galleryItems, setGalleryItems] = useState([]);
 
   const activeAd = ads.find(a => a.isEnabled) || null;
 
@@ -358,6 +359,15 @@ export const DataProvider = ({ children }) => {
         const aData = await aRes.json();
         if (aData.success && aData.ads && aData.ads.length > 0) {
           setAds(aData.ads);
+        }
+      }
+
+      // 5. Fetch gallery items (images & videos) from MongoDB
+      const gRes = await fetch(`${BACKEND_URL}/gallery`);
+      if (gRes.ok) {
+        const gData = await gRes.json();
+        if (gData.success && Array.isArray(gData.items)) {
+          setGalleryItems(gData.items);
         }
       }
 
@@ -742,6 +752,67 @@ export const DataProvider = ({ children }) => {
     }
   };
 
+  // --- GALLERY (IMAGES & VIDEOS) CRUD (Direct to MongoDB) ---
+  const addGalleryItem = async (newItem) => {
+    try {
+      const res = await fetch(`${BACKEND_URL}/gallery`, {
+        method: 'POST',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(newItem)
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.message || `Failed to add media to MongoDB (Status ${res.status})`);
+      }
+      if (data.item) {
+        setGalleryItems((prev) => [data.item, ...prev]);
+      } else {
+        await syncWithBackend();
+      }
+      return data;
+    } catch (err) {
+      console.error('MongoDB addGalleryItem failed:', err.message);
+      throw err;
+    }
+  };
+
+  const updateGalleryItem = async (itemId, updatedFields) => {
+    try {
+      const res = await fetch(`${BACKEND_URL}/gallery/${itemId}`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(updatedFields)
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.message || `Failed to update media in MongoDB (Status ${res.status})`);
+      }
+      setGalleryItems((prev) => prev.map(item => (item.id === itemId || item._id === itemId) ? { ...item, ...updatedFields } : item));
+      return data;
+    } catch (err) {
+      console.error('MongoDB updateGalleryItem failed:', err.message);
+      throw err;
+    }
+  };
+
+  const deleteGalleryItem = async (itemId) => {
+    try {
+      const res = await fetch(`${BACKEND_URL}/gallery/${itemId}`, {
+        method: 'DELETE',
+        headers: getAuthHeaders()
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.message || `Failed to delete media from MongoDB (Status ${res.status})`);
+      }
+      setGalleryItems((prev) => prev.filter(item => item.id !== itemId && item._id !== itemId));
+      return data;
+    } catch (err) {
+      console.error('MongoDB deleteGalleryItem failed:', err.message);
+      throw err;
+    }
+  };
+
   // Factory reset: re-sync from MongoDB
   const resetToDefaults = () => {
     setProducts(INITIAL_PRODUCTS);
@@ -759,6 +830,10 @@ export const DataProvider = ({ children }) => {
         testimonials,
         ads,
         activeAd,
+        galleryItems,
+        addGalleryItem,
+        updateGalleryItem,
+        deleteGalleryItem,
         isSyncing,
         dbConnected,
         addProduct,

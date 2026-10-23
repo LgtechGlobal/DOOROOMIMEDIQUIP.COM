@@ -1,16 +1,9 @@
 import React from 'react';
 import { 
   HeartHandshake, 
-  Sparkles, 
-  ShieldCheck, 
   ArrowRight, 
-  Award, 
-  MapPin, 
   PhoneCall, 
-  Activity, 
-  Flame, 
-  CheckCircle2,
-  Users
+  Activity 
 } from 'lucide-react';
 import { SITE_CONFIG } from '../data/siteData';
 
@@ -92,100 +85,6 @@ export const Hero = ({ onExploreProducts, onRequestQuote }) => {
             <PhoneCall className="w-4 h-4 text-[#c8102e]" />
             <span>Helpline: {SITE_CONFIG.phone}</span>
           </button>
-        </div>
-
-        {/* 4 Pillars of Dooroomi Free Therapy - Centered Grid (No Images, Pure Visual Cards) */}
-        <div className="mt-12 sm:mt-14 w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
-          
-          {/* Card 1 */}
-          <div className="p-5 rounded-2xl bg-white/90 border border-emerald-800/15 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
-            <div className="w-12 h-12 rounded-full bg-red-50 border border-red-200 flex items-center justify-center text-[#c8102e] mb-3">
-              <HeartHandshake className="w-6 h-6" />
-            </div>
-            <h3 className="font-bold text-slate-900 text-base">100% Free Daily Care</h3>
-            <p className="mt-1.5 text-xs sm:text-[13px] text-slate-600 leading-normal">
-              Zero registration fees, zero treatment charges, and no obligation to buy. Come every day with your entire family.
-            </p>
-          </div>
-
-          {/* Card 2 */}
-          <div className="p-5 rounded-2xl bg-white/90 border border-emerald-800/15 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
-            <div className="w-12 h-12 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 mb-3">
-              <Flame className="w-6 h-6" />
-            </div>
-            <h3 className="font-bold text-slate-900 text-base">Spinal Traction & FIR</h3>
-            <p className="mt-1.5 text-xs sm:text-[13px] text-slate-600 leading-normal">
-              Heated natural Korean jade rollers, vertebra decompression, far-infrared thermotherapy, and acupressure.
-            </p>
-          </div>
-
-          {/* Card 3 */}
-          <div className="p-5 rounded-2xl bg-white/90 border border-emerald-800/15 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
-            <div className="w-12 h-12 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700 mb-3">
-              <Activity className="w-6 h-6" />
-            </div>
-            <h3 className="font-bold text-slate-900 text-base">Chronic Pain Recovery</h3>
-            <p className="mt-1.5 text-xs sm:text-[13px] text-slate-600 leading-normal">
-              Clinically trusted for slip disc, cervical spondylosis, sciatica, arthritis, knee pain, and post-stroke rehabilitation.
-            </p>
-          </div>
-
-          {/* Card 4 */}
-          <div className="p-5 rounded-2xl bg-white/90 border border-emerald-800/15 shadow-sm hover:shadow-md transition-shadow flex flex-col items-center text-center">
-            <div className="w-12 h-12 rounded-full bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-700 mb-3">
-              <MapPin className="w-6 h-6" />
-            </div>
-            <h3 className="font-bold text-slate-900 text-base">15+ Centers in India</h3>
-            <p className="mt-1.5 text-xs sm:text-[13px] text-slate-600 leading-normal">
-              Serving thousands of daily visitors across Odisha, Delhi NCR, and nationwide with compassionate staff.
-            </p>
-          </div>
-
-        </div>
-
-        {/* Centered Key Stats Bar */}
-        <div className="mt-10 pt-8 border-t border-slate-300/70 w-full flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-center">
-          <div className="flex flex-col items-center">
-            <span className="text-2xl sm:text-3xl font-extrabold text-[#c8102e] font-serif">100%</span>
-            <span className="text-xs text-slate-600 font-semibold uppercase tracking-wider mt-0.5">Free Daily Therapy</span>
-          </div>
-
-          <div className="h-8 w-px bg-slate-300 hidden sm:block" />
-
-          <div className="flex flex-col items-center">
-            <span className="text-2xl sm:text-3xl font-extrabold text-slate-900 font-serif">15+</span>
-            <span className="text-xs text-slate-600 font-semibold uppercase tracking-wider mt-0.5">Therapy Centers in India</span>
-          </div>
-
-          <div className="h-8 w-px bg-slate-300 hidden sm:block" />
-
-          <div className="flex flex-col items-center">
-            <span className="text-2xl sm:text-3xl font-extrabold text-emerald-800 font-serif">500,000+</span>
-            <span className="text-xs text-slate-600 font-semibold uppercase tracking-wider mt-0.5">Relieved Patients</span>
-          </div>
-
-          <div className="h-8 w-px bg-slate-300 hidden sm:block" />
-
-          <div className="flex flex-col items-center">
-            <span className="text-2xl sm:text-3xl font-extrabold text-amber-700 font-serif">1991</span>
-            <span className="text-xs text-slate-600 font-semibold uppercase tracking-wider mt-0.5">Est. in South Korea</span>
-          </div>
-        </div>
-
-        {/* Centered Quality & Accreditation Badges */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-4 sm:gap-8 text-xs text-slate-700 font-medium">
-          <span className="inline-flex items-center gap-1.5 bg-white px-3 py-1 rounded-full border border-slate-200 shadow-2xs">
-            <ShieldCheck className="w-4 h-4 text-emerald-600" />
-            <span>ISO 13485 & CGMP Certified</span>
-          </span>
-          <span className="inline-flex items-center gap-1.5 bg-white px-3 py-1 rounded-full border border-slate-200 shadow-2xs">
-            <Award className="w-4 h-4 text-amber-600" />
-            <span>Korea Medical Device Manufacturing Standard</span>
-          </span>
-          <span className="inline-flex items-center gap-1.5 bg-white px-3 py-1 rounded-full border border-slate-200 shadow-2xs">
-            <CheckCircle2 className="w-4 h-4 text-[#c8102e]" />
-            <span>Zero Treatment Fees · Open to All</span>
-          </span>
         </div>
 
       </div>

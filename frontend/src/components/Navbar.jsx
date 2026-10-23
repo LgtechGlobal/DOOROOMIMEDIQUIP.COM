@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import { Phone, Mail, Menu, X, ArrowRight, ShieldCheck, User, Globe, Handshake } from 'lucide-react';
 import { SITE_CONFIG } from '../data/siteData';
 

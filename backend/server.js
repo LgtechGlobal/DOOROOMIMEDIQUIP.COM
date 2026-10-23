@@ -10,12 +10,14 @@ import { productsRouter } from './routes/products.js';
 import { centersRouter } from './routes/centers.js';
 import { testimonialsRouter } from './routes/testimonials.js';
 import { adsRouter } from './routes/ads.js';
+import { galleryRouter } from './routes/gallery.js';
 import { uploadRouter } from './routes/upload.js';
 import { Inquiry } from './models/Inquiry.js';
 import { Product } from './models/Product.js';
 import { Center } from './models/Center.js';
 import { Testimonial } from './models/Testimonial.js';
 import { Ad } from './models/Ad.js';
+import { GalleryItem } from './models/GalleryItem.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -76,6 +78,7 @@ app.use('/api/products', productsRouter);
 app.use('/api/centers', centersRouter);
 app.use('/api/testimonials', testimonialsRouter);
 app.use('/api/ads', adsRouter);
+app.use('/api/gallery', galleryRouter);
 app.use('/api/upload', uploadRouter);
 
 // Health check endpoint
@@ -99,6 +102,9 @@ app.get('/api/admin/stats', async (req, res) => {
     const totalProducts = await Product.countDocuments().catch(() => 0);
     const totalCenters = await Center.countDocuments().catch(() => 0);
     const totalTestimonials = await Testimonial.countDocuments().catch(() => 0);
+    const totalGalleryItems = await GalleryItem.countDocuments().catch(() => 0);
+    const totalGalleryImages = await GalleryItem.countDocuments({ type: 'image' }).catch(() => 0);
+    const totalGalleryVideos = await GalleryItem.countDocuments({ type: 'video' }).catch(() => 0);
     
     res.json({
       success: true,
@@ -109,6 +115,9 @@ app.get('/api/admin/stats', async (req, res) => {
         completedInquiries,
         totalProducts,
         totalTestimonials,
+        totalGalleryItems,
+        totalGalleryImages,
+        totalGalleryVideos,
         activeDevices: ['BEDRO Smart-1', 'Super TAEYANGSUK Mat', 'Dooroomi Champion Belt', '9-Sphere Projector'],
         globalCountries: 51,
         satisfactionRate: '98.6%',

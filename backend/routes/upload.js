@@ -14,11 +14,11 @@ const __dirname = path.dirname(__filename);
 
 export const uploadRouter = express.Router();
 
-// Configure Multer for in-memory storage (max 25MB)
+// Configure Multer for in-memory storage (up to 100MB for media/video)
 const storage = multer.memoryStorage();
 const upload = multer({
   storage,
-  limits: { fileSize: 25 * 1024 * 1024 }
+  limits: { fileSize: 100 * 1024 * 1024 }
 });
 
 // Helper: optimize image buffer with sharp if larger than 2MB or high-res
@@ -43,7 +43,7 @@ const optimizeBufferIfNeeded = async (buffer) => {
     }
     return buffer;
   } catch (err) {
-    // If sharp fails to process (e.g. svg or non-image), return original buffer
+    // If sharp fails to process (e.g. svg, video, or non-image), return original buffer
     return buffer;
   }
 };
@@ -85,14 +85,28 @@ uploadRouter.get('/status', async (req, res) => {
   }
 });
 
-// POST /api/upload - Upload an image file or base64 string to Cloudinary
-uploadRouter.post('/', upload.single('image'), async (req, res) => {
+// POST /api/upload - Upload an image or video file or remote URL to Cloudinary
+uploadRouter.post('/', upload.any(), async (req, res) => {
   try {
+    const uploadedFile = (req.files && req.files.length > 0) ? req.files[0] : req.file;
+
     // 1. Direct file upload from multipart form-data
-    if (req.file) {
-      const optimized = await optimizeBufferIfNeeded(req.file.buffer);
-      const result = await uploadBufferToCloudinary(optimized, {
-        public_id: `img_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`
+    if (uploadedFile) {
+      const isVideo = uploadedFile.mimetype && uploadedFile.mimetype.startsWith('video/');
+      let bufferToUpload = uploadedFile.buffer;
+
+      if (!isVideo) {
+        bufferToUpload = await optimizeBufferIfNeeded(uploadedFile.buffer);
+      }
+
+      const prefix = isVideo ? 'vid' : 'img';
+      const fileOpts = isVideo
+        ? { resource_type: 'video', folder: 'dooroomi_mediquip/videos' }
+        : { resource_type: 'image', folder: 'dooroomi_mediquip' };
+
+      const result = await uploadBufferToCloudinary(bufferToUpload, {
+        public_id: `${prefix}_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+        ...fileOpts
       });
 
       return res.json({
@@ -102,28 +116,30 @@ uploadRouter.post('/', upload.single('image'), async (req, res) => {
         format: result.format,
         width: result.width,
         height: result.height,
-        bytes: result.bytes
+        bytes: result.bytes,
+        resource_type: isVideo ? 'video' : 'image'
       });
     }
 
     // 2. Base64 data string or remote URL in JSON body
-    const { image, url } = req.body;
-    const target = image || url;
+    const { image, video, url } = req.body;
+    const target = image || video || url;
 
     if (!target) {
       return res.status(400).json({
         success: false,
-        error: 'No image file or image data provided'
+        error: 'No file or media URL provided'
       });
     }
 
-    // If base64 data URI
+    // If base64 data URI (image)
     if (typeof target === 'string' && target.startsWith('data:image/')) {
       const base64Data = target.split(';base64,').pop();
       const rawBuffer = Buffer.from(base64Data, 'base64');
       const optimized = await optimizeBufferIfNeeded(rawBuffer);
       const result = await uploadBufferToCloudinary(optimized, {
-        public_id: `img_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`
+        public_id: `img_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+        resource_type: 'image'
       });
 
       return res.json({
@@ -133,7 +149,8 @@ uploadRouter.post('/', upload.single('image'), async (req, res) => {
         format: result.format,
         width: result.width,
         height: result.height,
-        bytes: result.bytes
+        bytes: result.bytes,
+        resource_type: 'image'
       });
     }
 
@@ -150,13 +167,14 @@ uploadRouter.post('/', upload.single('image'), async (req, res) => {
       format: result.format,
       width: result.width,
       height: result.height,
-      bytes: result.bytes
+      bytes: result.bytes,
+      resource_type: result.resource_type || 'image'
     });
   } catch (err) {
     console.error('Cloudinary upload error:', err);
     res.status(500).json({
       success: false,
-      error: err.message || 'Image upload to Cloudinary failed'
+      error: err.message || 'Media upload to Cloudinary failed'
     });
   }
 });
