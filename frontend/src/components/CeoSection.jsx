@@ -78,7 +78,7 @@ export const CeoSection = ({ onNavigateAbout, onContactClick }) => {
           </h2>
 
           <p className="mt-3 text-sm sm:text-base text-emerald-100/80 font-light leading-relaxed max-w-2xl mx-auto">
-            Meet <b>{ceo.name}</b>, Honourable Global CEO and Founder of Dooroomi Co., Ltd., pioneering hospital-grade thermal recovery devices since 1991 exported to 51+ countries worldwide.
+            Meet <b>{ceo.name}</b>, Chief Executive Officer of SKS International and global technology partner of Dooroomi Mediquip, pioneering medical wellness systems across Korea and worldwide.
           </p>
         </div>
 
@@ -242,7 +242,7 @@ export const CeoSection = ({ onNavigateAbout, onContactClick }) => {
                 </div>
                 {/* Official Korean Red Seal Stamp */}
                 <div className="px-3 py-1 rounded-md border-2 border-rose-500/80 bg-rose-950/40 text-rose-300 font-serif text-[11px] font-bold tracking-widest text-center shadow-inner">
-                  김완겸 代表
+                  성 매튜 代表
                 </div>
               </div>
             </div>
