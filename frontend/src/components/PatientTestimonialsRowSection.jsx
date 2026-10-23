@@ -200,7 +200,7 @@ export const PatientTestimonialsRowSection = () => {
   }, [isPaused, selectedStory, selectedScan]);
 
   return (
-    <section id="patient-testimonials" className="relative py-16 sm:py-24 bg-gradient-to-b from-[#fbfbfa] via-white to-[#f4f7f4] border-t border-b border-hanbit-border/60 overflow-hidden">
+    <section id="patient-testimonials" className="relative py-16 sm:py-24 bg-gradient-to-b from-[#edf5f0] via-[#e2efe8] to-[#d6e8dd] border-t border-b border-[#c2d7cb] overflow-hidden">
       
       {/* Decorative Background Lighting */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-400/5 rounded-full blur-3xl pointer-events-none" />

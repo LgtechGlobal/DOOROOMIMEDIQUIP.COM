@@ -38,7 +38,7 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
   }, [selectedLeader]);
 
   return (
-    <section className="py-16 sm:py-24 bg-white relative overflow-hidden border-t border-b border-hanbit-border/60">
+    <section className="py-16 sm:py-24 bg-gradient-to-b from-[#edf4f0] via-[#e4ede7] to-[#dae7de] relative overflow-hidden border-t border-b border-[#c8d9ce]">
       {/* Background Subtle Ambience */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-amber-50/50 rounded-full blur-3xl pointer-events-none -mr-32 -mt-32" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-emerald-50/40 rounded-full blur-3xl pointer-events-none -ml-32 -mb-32" />
@@ -64,7 +64,7 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
             <div
               key={idx}
               onClick={() => setSelectedLeader(leader)}
-              className="group relative p-8 sm:p-9 rounded-3xl bg-gradient-to-br from-white via-[#fafbfa] to-amber-50/30 border-2 border-hanbit-border/80 hover:border-amber-500/80 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between cursor-pointer hover:-translate-y-2 overflow-hidden"
+              className="group relative p-8 sm:p-9 rounded-3xl bg-white/95 backdrop-blur-md border-2 border-[#cfe0d5] hover:border-amber-500/80 shadow-md hover:shadow-2xl transition-all duration-300 flex flex-col justify-between cursor-pointer hover:-translate-y-2 overflow-hidden"
             >
               {/* Subtle Ambient Glow behind card on hover */}
               <div className="absolute -top-24 -right-24 w-48 h-48 bg-amber-400/10 rounded-full blur-2xl group-hover:bg-amber-400/20 transition-all pointer-events-none" />

@@ -113,13 +113,13 @@ export const HeroProductSlider = ({
     <section
       id="featured-showcase"
       aria-label="Featured Medical Equipment Showcase"
-      className="py-8 sm:py-12 lg:py-14 bg-[#fbfbfa] border-b border-stone-200/80 relative overflow-hidden select-none w-full"
+      className="py-8 sm:py-12 lg:py-14 bg-gradient-to-b from-[#f8f6f0] via-[#f3efe4] to-[#ede7d8] border-b border-[#ded7c4]/80 relative overflow-hidden select-none w-full"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Subtle ambient lighting decoration */}
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/3 right-1/4 -translate-y-1/2 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/3 right-1/4 -translate-y-1/2 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* FULL WIDTH CONTAINER */}
       <div className="w-full px-3 sm:px-6 lg:px-10 2xl:px-14 relative z-10">

@@ -76,7 +76,7 @@ export const ContactSection = ({
   };
 
   return (
-    <section id="contact" className="py-20 lg:py-28 bg-white border-t border-hanbit-border">
+    <section id="contact" className="py-20 lg:py-28 bg-gradient-to-b from-[#faf7f2] via-[#f4eee4] to-[#ebe1d0] border-t border-[#dfd4c0]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -97,7 +97,7 @@ export const ContactSection = ({
           
           {/* Left Column: Direct Contact & Facility Details */}
           <div className="lg:col-span-5 space-y-8">
-            <div className="p-8 rounded-3xl bg-hanbit-ivory border border-hanbit-border space-y-6">
+            <div className="p-8 rounded-3xl bg-white/95 backdrop-blur-md border border-[#ded5c2] shadow-md space-y-6">
               <h3 className="text-xl font-extrabold text-hanbit-forest">
                 Direct Contact Channels
               </h3>
@@ -199,7 +199,7 @@ export const ContactSection = ({
           </div>
 
           {/* Right Column: Interactive Quotation Form */}
-          <div className="lg:col-span-7 p-8 sm:p-10 rounded-3xl bg-hanbit-ivory border border-hanbit-border shadow-lg">
+          <div className="lg:col-span-7 p-8 sm:p-10 rounded-3xl bg-white/95 backdrop-blur-md border border-[#ded5c2] shadow-xl">
             <h3 className="text-xl font-extrabold text-hanbit-forest">
               Submit Therapy Inquiry & Consultation
             </h3>

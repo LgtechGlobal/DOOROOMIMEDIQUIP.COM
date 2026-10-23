@@ -60,7 +60,7 @@ export const FreeTherapyMissionSection = ({ onContactClick, onNavigateAbout, onN
   ];
 
   return (
-    <section id="free-therapy" className="relative py-20 lg:py-28 bg-gradient-to-b from-[#f7f9f7] via-white to-[#f4f7f4] overflow-hidden border-t border-b border-hanbit-border/60">
+    <section id="free-therapy" className="relative py-20 lg:py-28 bg-gradient-to-b from-[#fdfbf7] via-[#f8f2e6] to-[#f2e7d3] overflow-hidden border-t border-b border-[#dfd4be]">
       
       {/* Decorative Background Radiance */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-gradient-to-b from-hanbit-gold/10 via-hanbit-sage-light/20 to-transparent blur-3xl pointer-events-none" />

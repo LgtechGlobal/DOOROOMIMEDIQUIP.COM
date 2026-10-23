@@ -231,7 +231,7 @@ export const TestimonialVideoSection = () => {
   };
 
   return (
-    <section id="testimonials-video" className="py-16 sm:py-24 bg-[#fbfbfa] border-b border-hanbit-border relative overflow-hidden select-none">
+    <section id="testimonials-video" className="py-16 sm:py-24 bg-gradient-to-b from-[#091b15] via-[#0d251c] to-[#071510] border-t border-b border-emerald-900/60 relative overflow-hidden select-none">
       {/* Soft Ambient Lights */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-hanbit-gold/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-hanbit-forest/5 rounded-full blur-3xl pointer-events-none" />
@@ -241,25 +241,25 @@ export const TestimonialVideoSection = () => {
         {/* Section Header with Side Navigation Controls */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-12">
           <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-hanbit-gold/30 text-xs font-semibold text-hanbit-forest shadow-2xs mb-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-amber-400/30 text-xs font-semibold text-amber-300 shadow-sm mb-3">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="font-mono text-hanbit-gold font-bold">실제 고객 & 치료 센터 영상 후기</span>
-              <span className="text-hanbit-border">|</span>
-              <span className="tracking-wider uppercase text-[11px]">Real Patient & Customer Video Stories</span>
+              <span className="font-mono text-amber-300 font-bold">실제 고객 & 치료 센터 영상 후기</span>
+              <span className="text-white/30">|</span>
+              <span className="tracking-wider uppercase text-[11px] text-stone-200">Real Patient & Customer Video Stories</span>
             </div>
 
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-hanbit-forest tracking-tight font-serif leading-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight font-serif leading-tight">
               Real Experiences from Our Daily Therapy Center Members.
             </h2>
 
-            <p className="mt-2 text-xs sm:text-sm text-hanbit-muted font-light leading-relaxed max-w-2xl">
+            <p className="mt-2 text-xs sm:text-sm text-stone-300 font-light leading-relaxed max-w-2xl">
               Watch genuine healing and mobility recovery stories from regular people who visit our Dooroomi free treatment centers every day.
             </p>
           </div>
 
           {/* Right Header Navigation & Counter */}
           <div className="flex items-center gap-4 shrink-0">
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/60 text-emerald-800 text-xs font-medium">
+            <div className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-amber-200 text-xs font-medium backdrop-blur-sm">
               <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500" />
               <span>{testimonials.length} Patient Stories</span>
             </div>
@@ -267,14 +267,14 @@ export const TestimonialVideoSection = () => {
             <div className="flex items-center gap-2">
               <button
                 onClick={() => scroll('left')}
-                className="w-10 h-10 rounded-full bg-white hover:bg-hanbit-forest hover:text-white border border-hanbit-border/80 shadow-xs flex items-center justify-center text-hanbit-forest transition-all cursor-pointer hover:scale-105 active:scale-95"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-amber-500 hover:text-stone-900 border border-white/20 shadow-xs flex items-center justify-center text-white transition-all cursor-pointer hover:scale-105 active:scale-95"
                 aria-label="Scroll left"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
               <button
                 onClick={() => scroll('right')}
-                className="w-10 h-10 rounded-full bg-white hover:bg-hanbit-forest hover:text-white border border-hanbit-border/80 shadow-xs flex items-center justify-center text-hanbit-forest transition-all cursor-pointer hover:scale-105 active:scale-95"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-amber-500 hover:text-stone-900 border border-white/20 shadow-xs flex items-center justify-center text-white transition-all cursor-pointer hover:scale-105 active:scale-95"
                 aria-label="Scroll right"
               >
                 <ChevronRight className="w-5 h-5" />
