@@ -29,6 +29,23 @@ export const SITE_CONFIG = {
   ],
   leadership: [
     {
+      id: "wan-gyeom-kim",
+      role: "Honourable Global CEO & Founder",
+      titleHeader: "Message from Honourable Global CEO",
+      name: "Mr. Wan Gyeom Kim",
+      nameKo: "김완겸 대표이사",
+      base: "Seoul, Republic of Korea",
+      photo: "./assets/ceo/leader-wan-gyeom-kim.png",
+      bio: "Founder and Global CEO who incorporated Dooroomi in 1991, pioneering hospital-grade thermal treatment devices exported to 51+ countries worldwide.",
+      credentials: ["Honourable Global CEO", "Incorporated 1991 (Seoul)", "51+ Export Nations", "Korean CGMP & ISO 13485"],
+      fullMessage: [
+        "Dooroomi was incorporated in Year 1991. Since then, we have been developing and manufacturing various types of thermal treatment devices for home uses, other medical and skin care devices, as well as health care devices and professional medical devices for hospital environment, which are now being exported to more than 51 countries in the world. What contributed to our fast growth since our foundation was our spirits for sharing health, love, and service with the entire world which were the basis of our mindset when we developed and manufactured our products.",
+        "With our corporate mission, “To contribute to the human health by providing the best service with our best technology and love,” we, Dooroomi has been manufacturing and providing our customers with quality products with world class competitiveness. According to the establishment of the R&D group within Dooroomi, we are determined to secure our leadership position in terms of development of the next generation medical devices, as well as training talented minds, innovation, and strengthening our capabilities for knowledge based on management of our company.",
+        "We will lead the way to make the society a better place for us all with our commitment for compliance, environmental awareness, and sharing with our neighbors. As we step up to the leadership in the medical device industry of the world, we would like to welcome you to join us in our journey to the new future!",
+        "Thank you very much for your attention."
+      ]
+    },
+    {
       id: "matthew-seong",
       role: "CEO, SKS International & Global Tech Partner",
       titleHeader: "Message from Global Technology Partner",
@@ -66,20 +83,27 @@ export const SITE_CONFIG = {
     }
   ],
   ceo: {
-    name: "Matthew Seong",
-    nameKo: "성 매튜",
-    title: "Chief Executive Officer",
-    company: "SKS International Co., Ltd.",
-    partnership: "Global Head of Technology & Manufacturing, Dooroomi Mediquip",
-    mobile: "+82 10 5212 6180",
-    email: "sks21@sks-int.com",
-    website: "www.sks-int.com",
-    address: "RM 306-2(3F), 45, Eunbit-ro, Deogyang-gu, Goyang-Si, Gyeonggi-do, Republic of Korea",
+    name: "Mr. Wan Gyeom Kim",
+    nameKo: "김완겸",
+    title: "Honourable Global CEO & Founder",
+    company: "Dooroomi Co., Ltd. (주식회사 두루미)",
+    partnership: "Founder & Honourable Global CEO, Dooroomi Medical Since 1991",
+    mobile: "+82 2 555 1991 / India: 0674 291 6680",
+    email: "dooroomimediquip@gmail.com",
+    website: "www.dooroomimediquip.com",
+    address: "88 Bio-Venture Valley, Gangnam-daero, Gangnam-gu, Seoul, Republic of Korea",
     photos: {
-      portrait: "./assets/ceo/ceo-portrait.jpeg",
+      portrait: "./assets/ceo/leader-wan-gyeom-kim.png",
       leadership: "./assets/ceo/ceo-leadership.jpeg",
       card: "./assets/ceo/ceo-business-card.jpeg"
-    }
+    },
+    quote: "Dooroomi was incorporated in Year 1991. Since then, we have been developing and manufacturing various types of thermal treatment devices for home uses, other medical and skin care devices, as well as health care devices and professional medical devices for hospital environment, which are now being exported to more than 51 countries in the world. What contributed to our fast growth since our foundation was our spirits for sharing health, love, and service with the entire world which were the basis of our mindset when we developed and manufactured our products.",
+    explanation: [
+      "Dooroomi was incorporated in Year 1991. Since then, we have been developing and manufacturing various types of thermal treatment devices for home uses, other medical and skin care devices, as well as health care devices and professional medical devices for hospital environment, which are now being exported to more than 51 countries in the world. What contributed to our fast growth since our foundation was our spirits for sharing health, love, and service with the entire world which were the basis of our mindset when we developed and manufactured our products.",
+      "With our corporate mission, “To contribute to the human health by providing the best service with our best technology and love,” we, Dooroomi has been manufacturing and providing our customers with quality products with world class competitiveness. According to the establishment of the R&D group within Dooroomi, we are determined to secure our leadership position in terms of development of the next generation medical devices, as well as training talented minds, innovation, and strengthening our capabilities for knowledge based on management of our company.",
+      "We will lead the way to make the society a better place for us all with our commitment for compliance, environmental awareness, and sharing with our neighbors. As we step up to the leadership in the medical device industry of the world, we would like to welcome you to join us in our journey to the new future!",
+      "Thank you very much for your attention."
+    ]
   }
 };
 

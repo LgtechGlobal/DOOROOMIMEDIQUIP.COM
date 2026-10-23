@@ -59,7 +59,7 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
         </div>
 
         {/* Executive Cards Grid (Expanded Width & Grand Luxury Styling) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-7xl mx-auto">
           {leadershipTeam.map((leader, idx) => (
             <div
               key={idx}
@@ -95,7 +95,7 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
                       <span>Official Council</span>
                     </span>
                     <span className="text-[11px] font-mono text-neutral-400 font-semibold">
-                      {leader.id === 'matthew-seong' ? '🇰🇷 South Korea' : '🇮🇳 India'}
+                      {leader.id === 'mahi-singh' ? '🇮🇳 India' : '🇰🇷 South Korea'}
                     </span>
                   </div>
                 </div>
