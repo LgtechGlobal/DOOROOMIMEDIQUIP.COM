@@ -172,7 +172,7 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
     badge: 'SPECIAL ANNOUNCEMENT',
     subtitle: '',
     description: '',
-    imageUrl: '/assets/products/product-real-01.jpeg',
+    imageUrl: '/assets/products/bedro-smart-1-traction-bed.png',
     buttonText: 'Inquire for Franchise',
     buttonLink: '#/therapy',
     buttonActionType: 'franchise',
@@ -528,7 +528,7 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
       desc: '',
       badge: 'Medical Grade',
       volume: 'Clinical System',
-      imgUrl: './assets/products/product-real-07.jpeg',
+      imgUrl: '/assets/products/dooroomi-champion-lumbar-belt.png',
       keyActives: 'PDRN (Salmon DNA) 30,000 ppm, 9-Sphere Ergonomic Projector',
       spec1Label: 'Model Identifier',
       spec1Value: 'DM-B107',
@@ -601,7 +601,7 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
       badge: 'SPECIAL ANNOUNCEMENT',
       subtitle: '',
       description: '',
-      imageUrl: '/assets/products/product-real-01.jpeg',
+      imageUrl: '/assets/products/bedro-smart-1-traction-bed.png',
       buttonText: 'Inquire for Franchise',
       buttonLink: '#/therapy',
       buttonActionType: 'franchise',
@@ -1664,11 +1664,11 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                       {/* Image Thumbnail with Overlay Badges */}
                       <div className="relative w-full h-44 bg-neutral-900 overflow-hidden group">
                         <img 
-                          src={ad.imageUrl || '/assets/products/product-real-01.jpeg'} 
+                          src={ad.imageUrl || '/assets/products/bedro-smart-1-traction-bed.png'} 
                           alt={ad.title} 
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           onError={(e) => {
-                            e.target.src = '/assets/products/product-real-01.jpeg';
+                            e.target.src = '/assets/products/bedro-smart-1-traction-bed.png';
                           }}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0b1c16] via-transparent to-transparent" />

@@ -139,7 +139,7 @@ export const AdvertisementModal = ({ onOpenFranchise, forceOpen = false, preview
               loading="lazy"
               className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 brightness-90"
               onError={(e) => {
-                e.target.src = '/assets/products/product-real-01.jpeg';
+                e.target.src = '/assets/products/bedro-smart-1-traction-bed.png';
               }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0b1c16] via-[#0b1c16]/30 to-transparent" />

@@ -172,7 +172,7 @@ export const CloudinaryImageUploader = ({
             src={value}
             alt="Preview"
             onError={(e) => {
-              e.target.src = '/assets/products/product-real-01.jpeg';
+              e.target.src = '/assets/products/bedro-smart-1-traction-bed.png';
             }}
             className="w-11 h-11 rounded-lg object-cover border border-emerald-700/60 shadow shrink-0"
           />

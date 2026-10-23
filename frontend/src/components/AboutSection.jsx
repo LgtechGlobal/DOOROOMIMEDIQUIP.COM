@@ -80,7 +80,7 @@ export const AboutSection = ({ onContactClick }) => {
               {/* Main Facility & Device Stage */}
               <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden bg-gradient-to-tr from-emerald-950 via-hanbit-forest to-hanbit-dark flex items-center justify-center p-6">
                 <img
-                  src="./assets/products/product-real-01.jpeg"
+                  src="/assets/products/bedro-smart-1-traction-bed.png" onError={(e) => { e.target.onerror = null; e.target.src = "/assets/products/bedro-smart-1-traction-bed.png"; }}
                   alt="Dooroomi Medical Equipment and Bio-Formulation Facility"
                   className="max-h-[85%] w-auto object-contain filter drop-shadow-2xl hover:scale-105 transition-transform duration-500"
                 />

@@ -5,7 +5,7 @@
 
 export const getOptimizedImageUrl = (url, { width = 800, quality = 'auto' } = {}) => {
   if (!url || typeof url !== 'string') {
-    return '/assets/products/product-real-01.jpeg';
+    return '/assets/products/bedro-smart-1-traction-bed.png';
   }
 
   // If already a Cloudinary URL, inject dynamic auto-format and auto-quality transformation
