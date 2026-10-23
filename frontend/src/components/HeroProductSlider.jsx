@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import {
   ChevronLeft,
   ChevronRight,
@@ -11,13 +11,15 @@ import {
   Award,
   Eye,
   MessageSquare,
-  Activity
+  Activity,
+  Zap
 } from 'lucide-react';
 import { useData } from '../context/DataContext';
 import { PRODUCTS as FALLBACK_PRODUCTS } from '../data/siteData';
 import { getOptimizedImageUrl } from '../utils/imageUrl';
 
-const AUTO_SLIDE_INTERVAL = 4500; // 4.5 seconds per slide
+// Brisk auto-slide interval (2.4s per slide)
+const AUTO_SLIDE_INTERVAL = 2400; 
 
 export const HeroProductSlider = ({
   onSelectProduct,
@@ -25,7 +27,12 @@ export const HeroProductSlider = ({
   onExploreAll
 }) => {
   const { products: dynamicProducts } = useData();
-  const products = (dynamicProducts && dynamicProducts.length > 0) ? dynamicProducts : FALLBACK_PRODUCTS;
+  const rawProducts = (dynamicProducts && dynamicProducts.length > 0) ? dynamicProducts : FALLBACK_PRODUCTS;
+  
+  // Reverse the product sequence per user requirement
+  const products = useMemo(() => {
+    return [...rawProducts].reverse();
+  }, [rawProducts]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
@@ -47,7 +54,7 @@ export const HeroProductSlider = ({
         return (next % products.length + products.length) % products.length;
       });
       setIsFading(false);
-    }, 150);
+    }, 120);
   }, [products.length]);
 
   const handleNext = useCallback(() => {
@@ -64,7 +71,7 @@ export const HeroProductSlider = ({
     }
   }, [changeSlide, validIndex]);
 
-  // Infinite loop auto-slide timer
+  // Faster infinite loop auto-slide timer
   useEffect(() => {
     if (products.length <= 1 || isHovered || isManualPaused) return;
 
@@ -87,8 +94,8 @@ export const HeroProductSlider = ({
   const handleTouchEnd = () => {
     if (!touchStartX || !touchEndX) return;
     const distance = touchStartX - touchEndX;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
+    const isLeftSwipe = distance > 40;
+    const isRightSwipe = distance < -40;
 
     if (isLeftSwipe) {
       handleNext();
@@ -106,7 +113,7 @@ export const HeroProductSlider = ({
     <section
       id="featured-showcase"
       aria-label="Featured Medical Equipment Showcase"
-      className="py-12 lg:py-16 bg-[#fbfbfa] border-b border-stone-200/80 relative overflow-hidden select-none"
+      className="py-8 sm:py-12 lg:py-14 bg-[#fbfbfa] border-b border-stone-200/80 relative overflow-hidden select-none w-full"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -114,27 +121,32 @@ export const HeroProductSlider = ({
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/3 right-1/4 -translate-y-1/2 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      {/* FULL WIDTH CONTAINER */}
+      <div className="w-full px-3 sm:px-6 lg:px-10 2xl:px-14 relative z-10">
         
-        {/* Top Header Row with Title and View All Link */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        {/* Top Header Row with Title and Controls */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 sm:mb-8 gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-xs font-semibold tracking-wide uppercase shadow-xs mb-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-xs font-semibold tracking-wide uppercase shadow-xs mb-2">
               <Sparkles className="w-3.5 h-3.5 text-emerald-600 animate-pulse" />
               <span>South Korean Medical Therapy Innovations</span>
+              <span className="hidden sm:inline-block text-emerald-400">•</span>
+              <span className="hidden sm:inline-flex items-center gap-1 text-[11px] text-emerald-700">
+                <Zap className="w-3 h-3 text-amber-500" /> Fast Auto-Cycle
+              </span>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-hanbit-forest tracking-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl font-serif font-bold text-hanbit-forest tracking-tight">
               Featured Therapeutic Equipment & Bio-Minerals
             </h2>
-            <p className="text-stone-600 text-sm sm:text-base mt-1 max-w-2xl">
+            <p className="text-stone-600 text-xs sm:text-sm lg:text-base mt-1 max-w-3xl">
               Authentic Korean spinal traction beds, far-infrared tourmaline bio-mats, and targeted thermal therapy systems.
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
             <button
               onClick={() => setIsManualPaused(!isManualPaused)}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-stone-200 bg-white text-xs font-medium text-stone-600 hover:text-stone-900 hover:border-stone-300 transition shadow-xs cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-stone-200 bg-white text-xs font-medium text-stone-600 hover:text-stone-900 hover:border-stone-300 transition shadow-xs cursor-pointer"
               title={isManualPaused ? "Resume Autoplay" : "Pause Autoplay"}
             >
               {isManualPaused ? (
@@ -153,7 +165,7 @@ export const HeroProductSlider = ({
             {onExploreAll && (
               <button
                 onClick={onExploreAll}
-                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-semibold transition shadow-xs cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-semibold transition shadow-xs hover:shadow-md cursor-pointer"
               >
                 <span>View All ({products.length})</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -162,17 +174,25 @@ export const HeroProductSlider = ({
           </div>
         </div>
 
-        {/* Main Showcase Split Card Container */}
+        {/* FULL WIDTH Showcase Split Card Container */}
         <div
-          className="bg-white rounded-3xl border border-stone-200/90 shadow-xl overflow-hidden relative transition-all duration-300"
+          className="w-full bg-white rounded-2xl lg:rounded-3xl border border-stone-200/90 shadow-xl overflow-hidden relative transition-all duration-300"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
         >
-          <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch min-h-[480px]">
+          {/* Top dynamic slide progress line */}
+          <div className="w-full h-1 bg-stone-100 overflow-hidden">
+            <div 
+              key={validIndex}
+              className={`h-full bg-gradient-to-r from-emerald-600 to-amber-500 transition-all ${(!isHovered && !isManualPaused) ? 'w-full duration-[2400ms] ease-linear' : 'w-full duration-0'}`}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch min-h-[460px] lg:min-h-[500px]">
 
             {/* LEFT COLUMN: Product Details */}
-            <div className={`lg:col-span-6 p-6 sm:p-10 lg:p-12 flex flex-col justify-between transition-opacity duration-200 ${isFading ? 'opacity-40' : 'opacity-100'}`}>
+            <div className={`lg:col-span-7 xl:col-span-7 p-6 sm:p-8 lg:p-10 xl:p-14 flex flex-col justify-between transition-opacity duration-150 ${isFading ? 'opacity-30' : 'opacity-100'}`}>
               <div>
                 {/* Category & Model Pill Tags */}
                 <div className="flex flex-wrap items-center gap-2 mb-3">
@@ -180,31 +200,31 @@ export const HeroProductSlider = ({
                     {currentProduct.badge || currentProduct.catLabel || 'Korean Therapy'}
                   </span>
                   {currentProduct.model && (
-                    <span className="px-2.5 py-0.5 rounded-md text-xs font-mono font-medium bg-stone-100 text-stone-700 border border-stone-200">
+                    <span className="px-2.5 py-1 rounded-md text-xs font-mono font-medium bg-stone-100 text-stone-700 border border-stone-200">
                       Model: {currentProduct.model}
                     </span>
                   )}
-                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200/70">
-                    <ShieldCheck className="w-3 h-3 text-amber-700" />
+                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-800 bg-amber-50 px-2.5 py-1 rounded border border-amber-200/70">
+                    <ShieldCheck className="w-3.5 h-3.5 text-amber-700" />
                     MFDS Class II / ISO 13485
                   </span>
                 </div>
 
                 {/* Product Title in English */}
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-hanbit-forest tracking-tight leading-tight">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-serif font-bold text-hanbit-forest tracking-tight leading-tight">
                   {currentProduct.name}
                 </h3>
 
                 {/* Korean Hangul Name */}
                 {currentProduct.nameKo && (
-                  <p className="text-amber-800 font-serif font-semibold text-sm sm:text-base mt-1 flex items-center gap-2">
+                  <p className="text-amber-800 font-serif font-semibold text-sm sm:text-base mt-1.5 flex items-center gap-2">
                     <span>{currentProduct.nameKo}</span>
                     <span className="text-[11px] text-stone-400 font-sans font-normal">• Authentic Korean Medical Device</span>
                   </p>
                 )}
 
                 {/* Product Short Description */}
-                <p className="text-stone-600 text-sm sm:text-base leading-relaxed mt-4">
+                <p className="text-stone-600 text-sm sm:text-base lg:text-lg leading-relaxed mt-4 max-w-3xl">
                   {currentProduct.short || currentProduct.desc}
                 </p>
 
@@ -215,10 +235,10 @@ export const HeroProductSlider = ({
                       <Activity className="w-3.5 h-3.5 text-emerald-600" />
                       Key Therapeutic Capabilities
                     </p>
-                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-2">
                       {currentProduct.keyActives.slice(0, 4).map((feature, idx) => (
-                        <li key={idx} className="flex items-start gap-2 text-xs text-stone-700">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                        <li key={idx} className="flex items-start gap-2 text-xs sm:text-sm text-stone-700">
+                          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
                           <span className="line-clamp-2">{feature}</span>
                         </li>
                       ))}
@@ -228,11 +248,11 @@ export const HeroProductSlider = ({
               </div>
 
               {/* Bottom Actions & Slide Counter */}
-              <div className="pt-8 mt-6 border-t border-stone-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+              <div className="pt-6 mt-6 border-t border-stone-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
                 <div className="flex flex-wrap items-center gap-3">
                   <button
                     onClick={() => onSelectProduct && onSelectProduct(currentProduct.id)}
-                    className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 cursor-pointer"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 cursor-pointer"
                   >
                     <span>View Clinical Specs</span>
                     <ArrowRight className="w-4 h-4" />
@@ -240,7 +260,7 @@ export const HeroProductSlider = ({
 
                   <button
                     onClick={() => onSelectForQuote && onSelectForQuote(currentProduct)}
-                    className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white hover:bg-emerald-50 border border-emerald-300 text-emerald-900 font-semibold text-sm shadow-xs transition cursor-pointer"
+                    className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-emerald-50 border border-emerald-300 text-emerald-900 font-semibold text-sm shadow-xs transition cursor-pointer"
                   >
                     <MessageSquare className="w-4 h-4 text-emerald-700" />
                     <span>Request Quote</span>
@@ -249,13 +269,13 @@ export const HeroProductSlider = ({
 
                 {/* Slide index & indicator */}
                 <div className="flex items-center gap-2 text-xs font-mono text-stone-400">
-                  <span className="font-bold text-emerald-800 text-sm">
+                  <span className="font-bold text-emerald-800 text-base">
                     {String(validIndex + 1).padStart(2, '0')}
                   </span>
                   <span>/</span>
                   <span>{String(products.length).padStart(2, '0')}</span>
                   {isHovered && (
-                    <span className="text-[10px] text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">
+                    <span className="text-[10px] text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 font-sans font-medium">
                       Hover Paused
                     </span>
                   )}
@@ -264,14 +284,14 @@ export const HeroProductSlider = ({
             </div>
 
             {/* RIGHT COLUMN: Product Image Showcase with Side Arrows and Bottom Dot Indicator */}
-            <div className="lg:col-span-6 bg-gradient-to-br from-stone-50 via-white to-emerald-50/20 p-6 sm:p-10 flex flex-col items-center justify-center relative border-t lg:border-t-0 lg:border-l border-stone-200/70 min-h-[380px] sm:min-h-[440px] lg:min-h-[500px]">
+            <div className="lg:col-span-5 xl:col-span-5 bg-gradient-to-br from-stone-50 via-white to-emerald-50/20 p-6 sm:p-8 lg:p-10 flex flex-col items-center justify-center relative border-t lg:border-t-0 lg:border-l border-stone-200/70 min-h-[380px] sm:min-h-[440px] lg:min-h-[500px]">
 
               {/* Floating Previous Button on the Left Edge of Product Image */}
               <button
                 type="button"
                 onClick={handlePrev}
                 aria-label="Previous Product"
-                className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/95 backdrop-blur shadow-lg border border-stone-200/90 text-stone-700 hover:text-emerald-700 hover:bg-emerald-50 hover:border-emerald-300 hover:scale-105 active:scale-95 transition-all flex items-center justify-center cursor-pointer z-20 group"
+                className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/95 backdrop-blur shadow-lg border border-stone-200/90 text-stone-700 hover:text-emerald-700 hover:bg-emerald-50 hover:border-emerald-300 hover:scale-105 active:scale-95 transition-all flex items-center justify-center cursor-pointer z-20 group"
               >
                 <ChevronLeft className="w-6 h-6 group-hover:-translate-x-0.5 transition-transform" />
               </button>
@@ -281,21 +301,21 @@ export const HeroProductSlider = ({
                 type="button"
                 onClick={handleNext}
                 aria-label="Next Product"
-                className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/95 backdrop-blur shadow-lg border border-stone-200/90 text-stone-700 hover:text-emerald-700 hover:bg-emerald-50 hover:border-emerald-300 hover:scale-105 active:scale-95 transition-all flex items-center justify-center cursor-pointer z-20 group"
+                className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/95 backdrop-blur shadow-lg border border-stone-200/90 text-stone-700 hover:text-emerald-700 hover:bg-emerald-50 hover:border-emerald-300 hover:scale-105 active:scale-95 transition-all flex items-center justify-center cursor-pointer z-20 group"
               >
                 <ChevronRight className="w-6 h-6 group-hover:translate-x-0.5 transition-transform" />
               </button>
 
               {/* Centered High-Resolution Product Image with subtle zoom and click handler */}
               <div 
-                className={`w-full max-w-md flex flex-col items-center justify-center cursor-pointer group transition-opacity duration-200 ${isFading ? 'opacity-30' : 'opacity-100'}`}
+                className={`w-full max-w-lg flex flex-col items-center justify-center cursor-pointer group transition-opacity duration-150 ${isFading ? 'opacity-30' : 'opacity-100'}`}
                 onClick={() => onSelectProduct && onSelectProduct(currentProduct.id)}
               >
-                <div className="relative w-full flex items-center justify-center py-4 px-2">
+                <div className="relative w-full flex items-center justify-center py-4 px-4 min-h-[260px] sm:min-h-[320px] lg:min-h-[360px]">
                   <img
                     src={getOptimizedImageUrl(currentProduct.imgUrl)}
                     alt={currentProduct.name}
-                    className="max-h-[280px] sm:max-h-[340px] lg:max-h-[380px] w-auto max-w-full object-contain filter drop-shadow-2xl transition-transform duration-500 group-hover:scale-105"
+                    className="max-h-[300px] sm:max-h-[360px] lg:max-h-[420px] w-auto max-w-full object-contain filter drop-shadow-2xl transition-transform duration-500 group-hover:scale-105"
                     onError={(e) => {
                       e.target.onerror = null;
                       e.target.src = '/assets/products/bedro-smart-1-traction-bed.png';
@@ -304,7 +324,7 @@ export const HeroProductSlider = ({
                 </div>
 
                 {/* Subtitle click-to-view tag matching user reference style */}
-                <div className="mt-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-stone-900/80 backdrop-blur text-white text-[11px] font-medium opacity-90 group-hover:opacity-100 transition shadow-sm">
+                <div className="mt-4 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-stone-900/80 backdrop-blur text-white text-[11px] sm:text-xs font-medium opacity-90 group-hover:opacity-100 transition shadow-sm">
                   <Eye className="w-3.5 h-3.5 text-emerald-400" />
                   <span>Click to view {currentProduct.name}</span>
                 </div>
