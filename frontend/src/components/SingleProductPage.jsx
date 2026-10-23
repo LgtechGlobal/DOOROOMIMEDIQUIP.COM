@@ -241,7 +241,7 @@ export const SingleProductPage = ({
                 onClick={() => onSelectForQuote(product)}
                 className="flex-1 py-4 px-7 rounded-2xl bg-gradient-to-r from-hanbit-forest to-hanbit-dark hover:from-hanbit-dark hover:to-emerald-950 text-white font-bold text-sm shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
-                <span>Request Sample Batch Quote</span>
+                <span>Inquire / Contact Us ({product.price || "Get Quote"})</span>
                 <ArrowRight className="w-4 h-4 text-hanbit-gold" />
               </button>
 

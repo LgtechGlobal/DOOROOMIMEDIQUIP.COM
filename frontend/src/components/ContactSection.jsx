@@ -255,7 +255,31 @@ export const ContactSection = ({
                 </div>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
+              
+              <>
+            {preselectedProduct && (
+              <div className="mb-4 p-4 rounded-2xl bg-emerald-50 border border-emerald-300 flex items-center justify-between gap-3 text-xs shadow-xs animate-in fade-in">
+                <div className="flex items-center gap-2.5">
+                  <Sparkles className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <div>
+                    <span className="font-bold text-emerald-950 block text-xs sm:text-sm">{preselectedProduct.name}</span>
+                    <span className="text-[11px] text-emerald-700 font-mono">
+                      Model: {preselectedProduct.model} {preselectedProduct.price && <b>• Authorized Price: {preselectedProduct.price}</b>}
+                    </span>
+                  </div>
+                </div>
+                {onClearPreselected && (
+                  <button
+                    type="button"
+                    onClick={onClearPreselected}
+                    className="px-2.5 py-1 rounded-lg bg-white border border-emerald-200 text-[11px] text-emerald-800 hover:bg-emerald-100 transition cursor-pointer"
+                  >
+                    Clear
+                  </button>
+                )}
+              </div>
+            )}
+            <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-bold text-hanbit-forest mb-1">
@@ -381,6 +405,7 @@ export const ContactSection = ({
                   </button>
                 </div>
               </form>
+              </>
             )}
           </div>
 

@@ -114,6 +114,10 @@ export const PRODUCTS = [
     ],
     "specs": [
       [
+        "Authorized Price (INR)",
+        "₹2,60,000"
+      ],
+      [
         "Model Identifier",
         "BEDRO SMART-1 (DM-BST1)"
       ],
@@ -149,7 +153,9 @@ export const PRODUCTS = [
         "Target Indications",
         "Herniated Disc, Sciatica, Spondylosis, Scoliosis, Chronic Back Pain"
       ]
-    ]
+    ],
+    "price": "₹2,60,000",
+    "priceNumber": 260000
   },
   {
     "id": "p-taeyangsuk-plus",
@@ -174,6 +180,10 @@ export const PRODUCTS = [
     ],
     "specs": [
       [
+        "Authorized Price (INR)",
+        "₹1,50,000"
+      ],
+      [
         "Model Identifier",
         "TAEYANGSUK PLUS (DM-TSKP)"
       ],
@@ -193,7 +203,9 @@ export const PRODUCTS = [
         "EMF Safety",
         "99.9% Electromagnetic Field Attenuation"
       ]
-    ]
+    ],
+    "price": "₹1,50,000",
+    "priceNumber": 150000
   },
   {
     "id": "p-taeyangsuk-mini",
@@ -218,6 +230,10 @@ export const PRODUCTS = [
     ],
     "specs": [
       [
+        "Authorized Price (INR)",
+        "₹50,000"
+      ],
+      [
         "Model Identifier",
         "TAEYANGSUK MINI (DM-TSKM)"
       ],
@@ -237,12 +253,14 @@ export const PRODUCTS = [
         "Application",
         "Lumbar, Abdomen, Knees, Office & Home Seating"
       ]
-    ]
+    ],
+    "price": "₹50,000",
+    "priceNumber": 50000
   },
   {
     "id": "p-bedro-controller",
     "slug": "bedro-smart-digital-controller",
-    "name": "BEDRO Smart Digital Therapeutic Controller",
+    "name": "BEDRO Smart Digital Laser & Frequency Controller",
     "nameKo": "스마트 디지털 주파수 치료 리모컨",
     "cat": "accessories",
     "catLabel": "Controllers & Belts",
@@ -251,7 +269,7 @@ export const PRODUCTS = [
     "desc": "The BEDRO Smart Digital Therapeutic Controller delivers customized electro-stimulation and thermal management for Dooroomi medical treatment systems. Featuring a high-contrast backlit LED interface, it displays output frequency (up to 500 Hz), cycle progress, and high-precision therapy countdown timers. Ergonomically shaped with one-touch power, intensity adjustment (+/-), and cycling mode switches, it allows patients and therapists to fine-tune spinal decompression protocols safely and effortlessly.",
     "volume": "Handheld Frequency & Thermal Controller",
     "texture": "Medical Grade Antibacterial ABS & Backlit High-Contrast LED",
-    "badge": "Smart Controller",
+    "badge": "Smart Laser & Controller",
     "imgUrl": "/assets/products/bedro-digital-controller.png",
     "keyActives": [
       "Up to 500 Hz Bio-Frequency Pulse Wave Generation",
@@ -262,6 +280,10 @@ export const PRODUCTS = [
       "Integrated Safety Overload & Thermal Cutoff Protection"
     ],
     "specs": [
+      [
+        "Authorized Price (INR)",
+        "₹42,500"
+      ],
       [
         "Model Identifier",
         "BEDRO SMART-RC (DM-SRC500)"
@@ -286,7 +308,9 @@ export const PRODUCTS = [
         "Compatibility",
         "BEDRO Smart-1, Bio-Thermal Arrays, Champion Series"
       ]
-    ]
+    ],
+    "price": "₹42,500",
+    "priceNumber": 42500
   },
   {
     "id": "p-champion-belt",
@@ -311,6 +335,10 @@ export const PRODUCTS = [
     ],
     "specs": [
       [
+        "Authorized Price (INR)",
+        "₹37,500"
+      ],
+      [
         "Model Identifier",
         "CHAMPION-L1 (DM-CH1)"
       ],
@@ -326,12 +354,14 @@ export const PRODUCTS = [
         "Closure",
         "Dual High-Grade Velcro Tension Bands"
       ]
-    ]
+    ],
+    "price": "₹37,500",
+    "priceNumber": 37500
   },
   {
     "id": "p-knee-joint-wrap",
     "slug": "dooroomi-thermal-knee-joint-therapy-wrap",
-    "name": "DOOROOMI Thermal Knee & Joint Therapy Wrap",
+    "name": "DOOROOMI Joint King Knee & Joint Therapy Wrap",
     "nameKo": "두루미 관절 및 무릎 온열 치료 랩",
     "cat": "accessories",
     "catLabel": "Controllers & Belts",
@@ -340,7 +370,7 @@ export const PRODUCTS = [
     "desc": "Designed specifically for knee osteoarthritis, meniscus recovery, patellar stiffness, and ligament rehabilitation. The DOOROOMI Thermal Knee Wrap combines a dense embedded matrix of far-infrared ceramic stones with an ergonomic multi-strap wrap that contours closely to the knee, elbow, or shoulder. Includes a dedicated electronic thermostat controller to adjust deep therapeutic warmth.",
     "volume": "Targeted Joint Therapy Wrap System",
     "texture": "Anatomical Neoprene Harness, Ceramic Mineral Matrix & Digital Thermostat",
-    "badge": "Joint Mobility",
+    "badge": "Joint King Therapy",
     "imgUrl": "/assets/products/dooroomi-knee-joint-therapy-wrap.png",
     "keyActives": [
       "Targeted 360° Joint & Patella Thermal Decompression",
@@ -350,6 +380,10 @@ export const PRODUCTS = [
       "Accelerates Synovial Fluid Circulation & Cartilage Ease"
     ],
     "specs": [
+      [
+        "Authorized Price (INR)",
+        "₹26,500"
+      ],
       [
         "Model Identifier",
         "KNEE-THERAPY-K1 (DM-KW1)"
@@ -370,7 +404,9 @@ export const PRODUCTS = [
         "Indications",
         "Osteoarthritis, Knee Stiffness, Ligament Strain, Joint Pain"
       ]
-    ]
+    ],
+    "price": "₹26,500",
+    "priceNumber": 26500
   },
   {
     "id": "p-jade-bracelet",
@@ -395,6 +431,10 @@ export const PRODUCTS = [
     ],
     "specs": [
       [
+        "Authorized Price (INR)",
+        "₹6,000"
+      ],
+      [
         "Model Identifier",
         "JADE-BRACELET-B1 (DM-JB1)"
       ],
@@ -410,7 +450,9 @@ export const PRODUCTS = [
         "Fit",
         "Stretch-Expandable Ergonomic Wrist Band"
       ]
-    ]
+    ],
+    "price": "₹6,000",
+    "priceNumber": 6000
   },
   {
     "id": "p-jade-necklace",
@@ -435,6 +477,10 @@ export const PRODUCTS = [
     ],
     "specs": [
       [
+        "Authorized Price (INR)",
+        "₹8,000"
+      ],
+      [
         "Model Identifier",
         "JADE-NECKLACE-N1 (DM-JN1)"
       ],
@@ -450,7 +496,9 @@ export const PRODUCTS = [
         "Safety",
         "Hypoallergenic & Lead-Free Certified"
       ]
-    ]
+    ],
+    "price": "₹8,000",
+    "priceNumber": 8000
   }
 ];
 

@@ -140,10 +140,11 @@ export const ProductCard = ({
           {/* Sample Quote CTA Button */}
           <button
             onClick={() => onSelectForQuote(product)}
-            className="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-hanbit-forest to-hanbit-dark hover:from-hanbit-dark hover:to-emerald-950 text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm hover:shadow group/btn cursor-pointer"
+            className="px-3.5 py-1.5 rounded-lg bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm hover:shadow group/btn cursor-pointer"
+            title={`Inquire / Contact Us for ${product.name} at ${product.price || 'Quote'}`}
           >
-            <span>Quote</span>
-            <ArrowRight className="w-3 h-3 text-hanbit-gold group-hover/btn:translate-x-0.5 transition-transform" />
+            <span className="font-extrabold text-amber-300 font-mono tracking-tight">{product.price || 'Quote'}</span>
+            <ArrowRight className="w-3 h-3 text-white/80 group-hover/btn:translate-x-0.5 transition-transform" />
           </button>
         </div>
 

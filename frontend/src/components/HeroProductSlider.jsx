@@ -204,6 +204,11 @@ export const HeroProductSlider = ({
                       Model: {currentProduct.model}
                     </span>
                   )}
+                  {currentProduct.price && (
+                    <span className="px-3 py-1 rounded-full text-xs font-mono font-extrabold bg-amber-100 text-amber-900 border border-amber-300 shadow-xs">
+                      Price: {currentProduct.price}
+                    </span>
+                  )}
                   <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-800 bg-amber-50 px-2.5 py-1 rounded border border-amber-200/70">
                     <ShieldCheck className="w-3.5 h-3.5 text-amber-700" />
                     MFDS Class II / ISO 13485
@@ -263,7 +268,7 @@ export const HeroProductSlider = ({
                     className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-emerald-50 border border-emerald-300 text-emerald-900 font-semibold text-sm shadow-xs transition cursor-pointer"
                   >
                     <MessageSquare className="w-4 h-4 text-emerald-700" />
-                    <span>Request Quote</span>
+                    <span>Inquire ({currentProduct.price || 'Quote'})</span>
                   </button>
                 </div>
 

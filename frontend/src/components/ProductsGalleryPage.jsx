@@ -260,9 +260,13 @@ export const ProductsGalleryPage = ({
                           e.stopPropagation();
                           onSelectForQuote(product);
                         }}
-                        className="px-3 py-1.5 rounded-lg bg-hanbit-ivory hover:bg-hanbit-forest hover:text-white border border-hanbit-border text-hanbit-forest text-xs font-bold transition-all cursor-pointer"
+                        className="px-3.5 py-1.5 rounded-lg bg-emerald-800 hover:bg-emerald-900 text-white border border-emerald-700 text-xs font-bold transition-all cursor-pointer shadow-xs flex items-center gap-1.5 hover:shadow-md active:scale-95 group/btn"
+                        title={`Inquire / Contact Us for ${product.name} at ${product.price || 'Quote'}`}
                       >
-                        Quote
+                        <span className="font-extrabold text-amber-300 font-mono tracking-tight text-xs sm:text-sm">
+                          {product.price || 'Get Quote'}
+                        </span>
+                        <ArrowRight className="w-3.5 h-3.5 text-white/80 group-hover/btn:translate-x-0.5 transition-transform" />
                       </button>
                     </div>
                   </div>
