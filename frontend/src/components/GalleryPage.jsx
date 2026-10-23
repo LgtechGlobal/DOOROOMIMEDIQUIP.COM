@@ -17,9 +17,11 @@ import {
   Volume2
 } from 'lucide-react';
 import { useData } from '../context/DataContext';
+import { INITIAL_GALLERY_ITEMS } from '../data/galleryData';
 
 export const GalleryPage = ({ onNavigateHome, onNavigateProducts, onContactClick }) => {
-  const { galleryItems = [] } = useData();
+  const { galleryItems: dynamicItems = [] } = useData();
+  const galleryItems = (dynamicItems && dynamicItems.length > 0) ? dynamicItems : INITIAL_GALLERY_ITEMS;
 
   const [activeTab, setActiveTab] = useState('all'); // 'all', 'images', 'videos'
   const [selectedCategory, setSelectedCategory] = useState('All');

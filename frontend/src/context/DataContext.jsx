@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { PRODUCTS as INITIAL_PRODUCTS } from '../data/siteData';
+import { INITIAL_GALLERY_ITEMS } from '../data/galleryData';
 import { API_BASE_URL as BACKEND_URL } from '../config/api';
 
 const DataContext = createContext(null);
@@ -315,7 +316,7 @@ export const DataProvider = ({ children }) => {
   const [centers, setCenters] = useState(INITIAL_CENTERS);
   const [testimonials, setTestimonials] = useState(INITIAL_TESTIMONIALS);
   const [ads, setAds] = useState(INITIAL_ADS);
-  const [galleryItems, setGalleryItems] = useState([]);
+  const [galleryItems, setGalleryItems] = useState(INITIAL_GALLERY_ITEMS);
 
   const activeAd = ads.find(a => a.isEnabled) || null;
 
@@ -366,7 +367,7 @@ export const DataProvider = ({ children }) => {
       const gRes = await fetch(`${BACKEND_URL}/gallery`);
       if (gRes.ok) {
         const gData = await gRes.json();
-        if (gData.success && Array.isArray(gData.items)) {
+        if (gData.success && Array.isArray(gData.items) && gData.items.length > 0) {
           setGalleryItems(gData.items);
         }
       }
@@ -819,6 +820,7 @@ export const DataProvider = ({ children }) => {
     setCenters(INITIAL_CENTERS);
     setTestimonials(INITIAL_TESTIMONIALS);
     setAds(INITIAL_ADS);
+    setGalleryItems(INITIAL_GALLERY_ITEMS);
     syncWithBackend();
   };
 
