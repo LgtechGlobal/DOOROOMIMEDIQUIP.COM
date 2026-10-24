@@ -100,17 +100,10 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
                   </div>
                 </div>
 
-                {/* Role & Name */}
                 <div>
-                  <span className="text-xs font-mono uppercase font-extrabold text-amber-700 tracking-wider block">
-                    {leader.role}
-                  </span>
                   <h3 className="text-2xl sm:text-3xl font-extrabold text-[#0d221b] font-serif mt-1 tracking-tight group-hover:text-amber-700 transition-colors">
                     {leader.name}
                   </h3>
-                  <span className="text-xs sm:text-sm text-neutral-500 block font-mono mt-1">
-                    {leader.nameKo} · {leader.base}
-                  </span>
                 </div>
 
                 {/* Bio Narrative */}
@@ -118,20 +111,7 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
                   {leader.bio}
                 </p>
 
-                {/* Verified Credentials Pills */}
-                {leader.credentials && leader.credentials.length > 0 && (
-                  <div className="flex flex-wrap gap-2 pt-1">
-                    {leader.credentials.slice(0, 3).map((cred, cIdx) => (
-                      <span 
-                        key={cIdx}
-                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-stone-100/90 border border-stone-200 text-xs font-medium text-neutral-700"
-                      >
-                        <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0" />
-                        <span>{cred}</span>
-                      </span>
-                    ))}
-                  </div>
-                )}
+
               </div>
 
               {/* Card Footer Button */}
@@ -217,9 +197,7 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
                     <span className="text-xs sm:text-sm font-bold text-[#2b6cb0] block mt-0.5">
                       {selectedLeader.role}
                     </span>
-                    <span className="text-xs text-gray-500 font-mono block mt-0.5">
-                      {selectedLeader.nameKo} · {selectedLeader.base}
-                    </span>
+
                   </div>
                 </div>
 
@@ -235,18 +213,7 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
                     “To contribute to the human health by providing the best service with our best technology and love.” (사랑 · 봉사 · 친절)
                   </div>
 
-                  {/* Credentials Pills */}
-                  <div className="flex flex-wrap gap-2 pt-1">
-                    {(selectedLeader.credentials || []).map((cred, cIdx) => (
-                      <span
-                        key={cIdx}
-                        className="px-3 py-1.5 rounded-xl bg-stone-100 border border-stone-200 text-stone-700 text-[11px] font-mono font-medium flex items-center gap-1.5"
-                      >
-                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                        <span>{cred}</span>
-                      </span>
-                    ))}
-                  </div>
+
                 </div>
               </div>
 
