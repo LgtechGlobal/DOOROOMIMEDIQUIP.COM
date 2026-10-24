@@ -108,7 +108,7 @@ export const Hero = ({ onExploreProducts, onRequestQuote }) => {
 
         {/* Main Headline - High Legibility on Video Background */}
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white font-serif leading-[1.18] sm:leading-[1.15] max-w-4xl mx-auto drop-shadow-md animate-in fade-in slide-in-from-bottom-3 duration-500">
-          What is Dooroomi? <br />
+          Experience Free Therapy At Dooroomi <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-amber-300 to-emerald-300">
             A Mission of 100% Free Daily Therapy
           </span> <br className="hidden sm:inline" />
@@ -117,7 +117,7 @@ export const Hero = ({ onExploreProducts, onRequestQuote }) => {
 
         {/* Narrative Description / Subtitle */}
         <p className="mt-6 text-base sm:text-lg lg:text-xl text-emerald-100/90 max-w-3xl mx-auto leading-relaxed font-normal drop-shadow-sm animate-in fade-in slide-in-from-bottom-4 duration-500 delay-100">
-          Established in South Korea in 1991 under our timeless corporate motto <strong className="text-white font-semibold">“Love, Service, and Kindness”</strong>, <strong className="text-white font-semibold">Dooroomi (두루미)</strong> is a certified medical technology organization dedicated to public wellness. We open our authorized therapy centers every day to provide <strong className="text-amber-300 font-bold">100% Free Hospital-Grade Therapy</strong> with zero fees, zero obligation, and zero financial burden.
+          Established in South Korea in 1991 under our timeless corporate motto <strong className="text-white font-semibold">“Love, Service, and Kindness”</strong>, <strong className="text-white font-semibold">Dooroomi (두루미)</strong> is a certified organization dedicated to public wellness. We open our authorized therapy centers every day to provide <strong className="text-amber-300 font-bold">100% Free Therapy</strong> with zero fees, zero obligation, and zero financial burden.
         </p>
 
         {/* Centered Action Buttons (CTAs) */}
@@ -136,7 +136,7 @@ export const Hero = ({ onExploreProducts, onRequestQuote }) => {
             className="px-6 py-3.5 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/25 text-white font-semibold text-sm sm:text-base shadow-md transition-all inline-flex items-center gap-2 cursor-pointer"
           >
             <Activity className="w-4 h-4 text-emerald-400" />
-            <span>Explore Medical Equipment</span>
+            <span>Explore Equipment</span>
           </button>
 
           <button
