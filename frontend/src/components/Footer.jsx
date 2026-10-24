@@ -79,9 +79,7 @@ export const Footer = ({ onNavigate, onSelectCategory }) => {
                       두루미
                     </span>
                   </div>
-                  <p className="text-[11px] font-medium text-emerald-200/70 tracking-wide group-hover:text-emerald-100 transition-colors">
-                    Korea Bio-Cosmetics & Mediquip
-                  </p>
+
                 </div>
               </button>
 

@@ -105,13 +105,6 @@ export const Hero = ({ onExploreProducts, onRequestQuote }) => {
       {/* Main Centered Content Container */}
       <div className="relative w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 z-10 flex flex-col items-center text-center">
         
-        {/* Eyebrow Badge - Centered */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-black/40 border border-emerald-400/30 shadow-lg mb-4 sm:mb-5 backdrop-blur-md animate-in fade-in duration-500">
-          <span className="w-2.5 h-2.5 rounded-full bg-[#ff3355] animate-pulse" />
-          <span className="text-[11px] sm:text-xs font-bold tracking-wider uppercase text-emerald-200 font-mono">
-            South Korea · Humanitarian Public Health Initiative · 사랑 · 봉사 · 친절
-          </span>
-        </div>
 
         {/* Main Headline - High Legibility on Video Background */}
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white font-serif leading-[1.18] sm:leading-[1.15] max-w-4xl mx-auto drop-shadow-md animate-in fade-in slide-in-from-bottom-3 duration-500">

@@ -194,27 +194,6 @@ export const HeroProductSlider = ({
             {/* LEFT COLUMN: Product Details */}
             <div className={`lg:col-span-7 xl:col-span-7 p-6 sm:p-8 lg:p-10 xl:p-14 flex flex-col justify-between transition-opacity duration-150 ${isFading ? 'opacity-30' : 'opacity-100'}`}>
               <div>
-                {/* Category & Model Pill Tags */}
-                <div className="flex flex-wrap items-center gap-2 mb-3">
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-900 border border-emerald-200">
-                    {currentProduct.badge || currentProduct.catLabel || 'Korean Therapy'}
-                  </span>
-                  {currentProduct.model && (
-                    <span className="px-2.5 py-1 rounded-md text-xs font-mono font-medium bg-stone-100 text-stone-700 border border-stone-200">
-                      Model: {currentProduct.model}
-                    </span>
-                  )}
-                  {currentProduct.price && (
-                    <span className="px-3 py-1 rounded-full text-xs font-mono font-extrabold bg-amber-100 text-amber-900 border border-amber-300 shadow-xs">
-                      Price: {currentProduct.price}
-                    </span>
-                  )}
-                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-800 bg-amber-50 px-2.5 py-1 rounded border border-amber-200/70">
-                    <ShieldCheck className="w-3.5 h-3.5 text-amber-700" />
-                    MFDS Class II / ISO 13485
-                  </span>
-                </div>
-
                 {/* Product Title in English */}
                 <h3 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-serif font-bold text-hanbit-forest tracking-tight leading-tight">
                   {currentProduct.name}

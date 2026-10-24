@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Phone, Mail, Menu, X, ArrowRight, ShieldCheck, User, Globe, Handshake } from 'lucide-react';
 import { SITE_CONFIG } from '../data/siteData';
 
@@ -63,11 +63,6 @@ export const Navbar = ({
       <div className="bg-hanbit-dark text-emerald-100/80 text-xs py-2 border-b border-emerald-900/40 relative z-50">
         <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16 flex items-center justify-between">
           <div className="flex items-center space-x-4 sm:space-x-6">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-950/80 border border-emerald-800 text-[11px] text-emerald-200">
-              <Globe className="w-3 h-3 text-hanbit-gold" />
-              <span>Dooroomi Mediquip · Korea</span>
-            </div>
-
             <a 
               href={`tel:${SITE_CONFIG.phoneTel}`}
               className="hidden sm:inline-flex items-center gap-1.5 hover:text-white transition-colors"
