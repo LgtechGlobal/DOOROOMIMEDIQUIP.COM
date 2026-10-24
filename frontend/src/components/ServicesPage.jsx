@@ -126,7 +126,7 @@ export const ServicesPage = ({ onNavigateHome, onNavigateGallery, onContactClick
           </h1>
 
           <p className="mt-4 text-base sm:text-lg text-hanbit-muted font-light leading-relaxed">
-            From bespoke active synthesis in our Gangnam laboratory to high-speed automated aseptic filling at our Songdo Bio-Cluster facility, Dooroomi provides end-to-end OEM, ODM, and OBM solutions for global beauty and medical brands.
+            From bespoke active synthesis in our South Korean laboratories to high-speed automated aseptic filling at our Songdo Bio-Cluster facility, Dooroomi provides end-to-end OEM, ODM, and OBM solutions for global beauty and medical brands.
           </p>
         </div>
 

@@ -13,8 +13,6 @@ export const SITE_CONFIG = {
   email: "dooroomimediquip@gmail.com",
   inquiryEmail: "dooroomimediquip@gmail.com",
   companyProfilePdf: "./assets/ceo/company-profile.pdf",
-  addressEn: "88 Bio-Venture Valley, Gangnam-daero, Gangnam-gu, Seoul, Republic of Korea",
-  addressKo: "서울특별시 강남구 강남대로 88 바이오벤처밸리 R&D 센터",
   plantAddress: "142 Songdo Bio-Cluster, Yeonsu-gu, Incheon, Republic of Korea",
   indiaHq: "Dooroomi Medical Pvt. Ltd., Plot no 3557, 1st floor, palasuni square, bhubaneswar 751010",
   hours: "Mon–Fri 09:00–18:00 KST / India Center Hours: 08:00–17:00 IST",

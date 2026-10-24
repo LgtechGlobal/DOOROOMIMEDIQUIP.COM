@@ -87,11 +87,6 @@ export const Footer = ({ onNavigate, onSelectCategory }) => {
                 Korean precision bio-cosmetics formulation, clinical verification, and automated cleanroom manufacturing. Certified ISO 22716 & CGMP.
               </p>
 
-              <div className="pt-2 text-xs space-y-1 text-emerald-200/60 font-light">
-                <p>• R&D: Gangnam Bio-Venture Valley, Seoul</p>
-                <p>• Cleanroom: Songdo Bio-Cluster, Incheon</p>
-              </div>
-
               {/* Social Channels */}
               <div className="pt-2 flex items-center space-x-2.5">
                 {/* LinkedIn */}
@@ -260,9 +255,6 @@ export const Footer = ({ onNavigate, onSelectCategory }) => {
                   <MapPin className="w-3.5 h-3.5 text-hanbit-gold shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
                   <span>{SITE_CONFIG.indiaHq}</span>
                 </a>
-                <p className="text-[11px] text-emerald-300/80 pt-1">
-                  Global HQ: {SITE_CONFIG.addressEn}
-                </p>
                 <p className="text-[11px] text-emerald-300/70">
                   Hours: {SITE_CONFIG.hours}
                 </p>
@@ -290,10 +282,6 @@ export const Footer = ({ onNavigate, onSelectCategory }) => {
               >
                 Terms & Conditions
               </button>
-              <span className="text-emerald-700">|</span>
-              <span className="text-[11px] text-amber-300 font-mono">
-                Seoul Bio-Venture Cluster
-              </span>
             </div>
           </div>
 

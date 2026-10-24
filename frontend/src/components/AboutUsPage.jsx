@@ -9,7 +9,6 @@ import {
   ArrowRight, 
   CheckCircle2, 
   Layers, 
-  MapPin, 
   Home, 
   ChevronRight, 
   ArrowLeft,
@@ -192,7 +191,7 @@ export const AboutUsPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
 
                 <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm">
                   <Building2 className="w-3.5 h-3.5 text-hanbit-gold" />
-                  <span>Gangnam R&D · Songdo Cleanroom Plant</span>
+                  <span>Korea Cleanroom Manufacturing Plant</span>
                 </div>
 
                 <div className="absolute bottom-4 right-4 px-3 py-1 rounded-full bg-hanbit-gold/90 backdrop-blur-md text-hanbit-dark text-xs font-bold flex items-center gap-1 shadow-sm">
@@ -224,13 +223,6 @@ export const AboutUsPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
               {/* Corporate Registered Addresses */}
               <div className="mt-5 p-5 rounded-2xl bg-white border border-hanbit-border text-xs text-hanbit-muted space-y-2.5">
                 <div className="flex items-start gap-2.5">
-                  <MapPin className="w-4 h-4 text-hanbit-gold shrink-0 mt-0.5" />
-                  <div>
-                    <span className="font-bold text-hanbit-forest block">Global Headquarters (Seoul):</span>
-                    <span>{SITE_CONFIG.addressEn}</span>
-                  </div>
-                </div>
-                <div className="flex items-start gap-2.5 pt-2 border-t border-hanbit-border/50">
                   <Building2 className="w-4 h-4 text-hanbit-gold shrink-0 mt-0.5" />
                   <div>
                     <span className="font-bold text-hanbit-forest block">India Headquarters:</span>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, Mail, MapPin, Clock, Send, CheckCircle2, Building2, Sparkles } from 'lucide-react';
+import { Phone, Mail, Clock, Send, CheckCircle2, Building2, Sparkles } from 'lucide-react';
 import { SITE_CONFIG } from '../data/siteData';
 import { API_BASE_URL } from '../config/api';
 
@@ -147,22 +147,6 @@ export const ContactSection = ({
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3.5">
-                  <div className="w-9 h-9 rounded-xl bg-white border border-hanbit-border flex items-center justify-center text-hanbit-gold shrink-0 shadow-sm">
-                    <MapPin className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="font-bold text-hanbit-muted uppercase tracking-wider block text-[10px]">
-                      Korea R&D Center & Global HQ
-                    </span>
-                    <p className="font-semibold text-xs text-hanbit-forest leading-snug">
-                      {SITE_CONFIG.addressEn}
-                    </p>
-                    <p className="text-[11px] text-hanbit-muted font-sans mt-0.5">
-                      {SITE_CONFIG.addressKo}
-                    </p>
-                  </div>
-                </div>
 
                 <div className="flex items-start gap-3.5">
                   <div className="w-9 h-9 rounded-xl bg-white border border-hanbit-border flex items-center justify-center text-hanbit-gold shrink-0 shadow-sm">

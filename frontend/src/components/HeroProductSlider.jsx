@@ -4,15 +4,13 @@ import {
   ChevronRight,
   ArrowRight,
   CheckCircle2,
-  Sparkles,
   ShieldCheck,
   Play,
   Pause,
   Award,
   Eye,
   MessageSquare,
-  Activity,
-  Zap
+  Activity
 } from 'lucide-react';
 import { useData } from '../context/DataContext';
 import { PRODUCTS as FALLBACK_PRODUCTS } from '../data/siteData';
@@ -127,14 +125,6 @@ export const HeroProductSlider = ({
         {/* Top Header Row with Title and Controls */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 sm:mb-8 gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-xs font-semibold tracking-wide uppercase shadow-xs mb-2">
-              <Sparkles className="w-3.5 h-3.5 text-emerald-600 animate-pulse" />
-              <span>South Korean Medical Therapy Innovations</span>
-              <span className="hidden sm:inline-block text-emerald-400">•</span>
-              <span className="hidden sm:inline-flex items-center gap-1 text-[11px] text-emerald-700">
-                <Zap className="w-3 h-3 text-amber-500" /> Fast Auto-Cycle
-              </span>
-            </div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl font-serif font-bold text-hanbit-forest tracking-tight">
               Featured Therapeutic Equipment & Bio-Minerals
             </h2>

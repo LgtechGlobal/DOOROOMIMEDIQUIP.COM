@@ -8,8 +8,7 @@ import {
   Globe2, 
   ArrowRight, 
   CheckCircle2, 
-  Layers, 
-  MapPin 
+  Layers 
 } from 'lucide-react';
 import { SITE_CONFIG } from '../data/siteData';
 
@@ -17,8 +16,8 @@ export const AboutSection = ({ onContactClick }) => {
   const pillars = [
     {
       icon: FlaskConical,
-      title: "Seoul R&D Bio-Venture Valley",
-      desc: "Our primary laboratory in Gangnam, Seoul specializes in proprietary botanical fermentation, active ginsenoside extraction, and liposomal peptide synthesis."
+      title: "South Korean R&D Innovation",
+      desc: "Our advanced laboratories in South Korea specialize in proprietary bio-mineral thermal technology, natural tourmaline integration, and medical therapeutic equipment."
     },
     {
       icon: ShieldCheck,
@@ -88,7 +87,7 @@ export const AboutSection = ({ onContactClick }) => {
                 {/* Floating Top Badge */}
                 <div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/60 backdrop-blur-md border border-white/20 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm">
                   <Building2 className="w-3.5 h-3.5 text-hanbit-gold" />
-                  <span>Gangnam R&D · Songdo Cleanroom</span>
+                  <span>Korea Cleanroom Manufacturing Plant</span>
                 </div>
               </div>
 
@@ -116,13 +115,6 @@ export const AboutSection = ({ onContactClick }) => {
               {/* Corporate Registered Addresses */}
               <div className="mt-5 p-4 rounded-2xl bg-white border border-hanbit-border text-xs text-hanbit-muted space-y-2">
                 <div className="flex items-start gap-2">
-                  <MapPin className="w-4 h-4 text-hanbit-gold shrink-0 mt-0.5" />
-                  <div>
-                    <span className="font-bold text-hanbit-forest block">Seoul R&D Center:</span>
-                    <span>{SITE_CONFIG.addressEn}</span>
-                  </div>
-                </div>
-                <div className="flex items-start gap-2 pt-1 border-t border-hanbit-border/50">
                   <Building2 className="w-4 h-4 text-hanbit-gold shrink-0 mt-0.5" />
                   <div>
                     <span className="font-bold text-hanbit-forest block">Aseptic Cleanroom Plant:</span>
