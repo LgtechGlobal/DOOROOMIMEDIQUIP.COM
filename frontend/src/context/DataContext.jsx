@@ -272,7 +272,7 @@ const INITIAL_ADS = [
     title: "DOOROOMI Official Franchise & Health Center Partner Program 2026",
     badge: "EXCLUSIVE OPPORTUNITY",
     subtitle: "Expand Korea's Leading Medical Equipment & Free Daily Therapy Centers Across India",
-    description: "Join hands with DOOROOMIMEDIQUIP and SKS International. Open a high-demand, fully certified Korean Medical Therapy Center in your city with complete technical guidance, certified equipment, and brand support.",
+    description: "Join hands with DOOROOMIMEDIQUIP. Open a high-demand, fully certified Korean Therapy Center in your city with complete technical guidance, certified equipment, and brand support.",
     imageUrl: "/assets/products/bedro-smart-1-traction-bed.png",
     buttonText: "Inquire for Franchise",
     buttonLink: "#/therapy",

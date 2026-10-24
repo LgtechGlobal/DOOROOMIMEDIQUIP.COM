@@ -105,7 +105,7 @@ export const AboutUsPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
     { 
       year: "2026", 
       title: "51+ Countries & Tech Partnership",
-      text: "Now operating across over 51 nations with SKS International technology partnership, Bedro Smart-1, Taeyangsuk, and BioWave clinical therapy systems." 
+      text: "Now operating across over 51 nations with advanced technology partnership, Bedro Smart-1, Taeyangsuk, and BioWave clinical therapy systems." 
     }
   ];
 

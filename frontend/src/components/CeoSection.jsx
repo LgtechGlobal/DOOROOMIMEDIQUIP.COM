@@ -78,7 +78,7 @@ export const CeoSection = ({ onNavigateAbout, onContactClick }) => {
           </h2>
 
           <p className="mt-3 text-sm sm:text-base text-emerald-100/80 font-light leading-relaxed max-w-2xl mx-auto">
-            Meet <b>{ceo.name}</b>, Chief Executive Officer of SKS International and global technology partner of Dooroomi Mediquip, pioneering medical wellness systems across Korea and worldwide.
+            Meet <b>{ceo.name}</b>, Chief Executive Officer and global technology partner of Dooroomi Mediquip, pioneering wellness systems across Korea and worldwide.
           </p>
         </div>
 

@@ -30,16 +30,16 @@ export const SITE_CONFIG = {
   leadership: [
     {
       id: "matthew-seong",
-      role: "CEO, SKS International & Global Tech Partner",
+      role: "CEO & Global Tech Partner",
       titleHeader: "Message from Global Technology Partner",
       name: "Matthew Seong",
       nameKo: "성 매튜 대표",
       base: "Goyang-Si, Gyeonggi-do, Korea",
       photo: "./assets/ceo/ceo-portrait.jpeg",
       bio: "Leads medical device manufacturing and precision engineering partnership with Dooroomi Mediquip for global exports.",
-      credentials: ["CEO, SKS International", "Strategic Tech Partner", "UL Safety & CE MDR Standards", "Goyang-Si Cleanroom Facility"],
+      credentials: ["Chief Executive Officer", "Strategic Tech Partner", "UL Safety & CE MDR Standards", "Goyang-Si Cleanroom Facility"],
       fullMessage: [
-        "As the Chief Executive Officer of SKS International and strategic manufacturing partner to Dooroomi Mediquip, it is our solemn responsibility to deliver precision engineering, clinical safety, and uncompromising Korean manufacturing standards.",
+        "As the Chief Executive Officer and strategic manufacturing partner to Dooroomi Mediquip, it is our solemn responsibility to deliver precision engineering, clinical safety, and uncompromising Korean manufacturing standards.",
         "Our state-of-the-art cleanroom manufacturing and robotic testing facilities in Gyeonggi-do ensure that every single thermal acupressure mattress, bio-stimulation projector, and negative ion therapy system operates with absolute electrical safety (UL certified), medical grade biocompatibility (ISO 22716 & CGMP), and international efficacy (FDA & CE compliant).",
         "We stand shoulder to shoulder with Dooroomi Mediquip to empower community wellness, ensuring that healthcare centers in India and across 51 nations receive the most reliable, durable, and healing technology known to modern natural medicine.",
         "Thank you for your enduring trust in Korean medical engineering excellence."
@@ -69,11 +69,11 @@ export const SITE_CONFIG = {
     name: "Matthew Seong",
     nameKo: "성 매튜",
     title: "Chief Executive Officer",
-    company: "SKS International Co., Ltd.",
+    company: "Dooroomi Co., Ltd.",
     partnership: "Global Head of Technology & Manufacturing, Dooroomi Mediquip",
     mobile: "+82 10 5212 6180",
     email: "sks21@sks-int.com",
-    website: "www.sks-int.com",
+    website: "www.dooroomimediquip.com",
     address: "RM 306-2(3F), 45, Eunbit-ro, Deogyang-gu, Goyang-Si, Gyeonggi-do, Republic of Korea",
     photos: {
       portrait: "./assets/ceo/ceo-portrait.jpeg",
