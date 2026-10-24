@@ -60,19 +60,19 @@ export const Navbar = ({
   return (
     <>
       {/* Top utility bar - Stretched across wide screens */}
-      <div className="bg-hanbit-dark text-emerald-100/80 text-xs py-2 border-b border-emerald-900/40 relative z-50">
+      <div className="bg-[#0e6bc1] text-white text-xs py-2 border-b border-[#0a52a0] relative z-50">
         <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16 flex items-center justify-between">
           <div className="flex items-center space-x-4 sm:space-x-6">
             <a 
               href={`tel:${SITE_CONFIG.phoneTel}`}
-              className="hidden sm:inline-flex items-center gap-1.5 hover:text-white transition-colors"
+              className="hidden sm:inline-flex items-center gap-1.5 hover:text-yellow-200 transition-colors"
             >
-              <Phone className="w-3 h-3 text-hanbit-gold" />
+              <Phone className="w-3 h-3 text-yellow-300" />
               <span>Toll-Free: {SITE_CONFIG.phone}</span>
             </a>
-            <span className="hidden md:inline-block text-emerald-700">|</span>
-            <span className="hidden md:inline-flex items-center gap-1.5 text-emerald-300/90 text-[11px]">
-              <ShieldCheck className="w-3.5 h-3.5 text-hanbit-gold" />
+            <span className="hidden md:inline-block text-blue-300/60">|</span>
+            <span className="hidden md:inline-flex items-center gap-1.5 text-blue-100/90 text-[11px]">
+              <ShieldCheck className="w-3.5 h-3.5 text-yellow-300" />
               <span>ISO 22716 & Korea CGMP Certified Manufacturer</span>
             </span>
           </div>
@@ -137,13 +137,13 @@ export const Navbar = ({
               </a>
             </div>
 
-            <span className="hidden sm:inline-block text-emerald-800">|</span>
+            <span className="hidden sm:inline-block text-blue-300/50">|</span>
 
             <a 
               href={`mailto:${SITE_CONFIG.email}`}
-              className="inline-flex items-center gap-1.5 hover:text-white transition-colors"
+              className="inline-flex items-center gap-1.5 hover:text-yellow-200 transition-colors"
             >
-              <Mail className="w-3 h-3 text-hanbit-gold" />
+              <Mail className="w-3 h-3 text-yellow-300" />
               <span className="hidden sm:inline">{SITE_CONFIG.email}</span>
             </a>
             {isAdminAuthenticated ? (
@@ -242,12 +242,12 @@ export const Navbar = ({
           <div className="hidden lg:flex items-center gap-3 shrink-0">
             <button
               onClick={() => onOpenFranchise && onOpenFranchise()}
-              className="relative overflow-hidden px-3.5 py-1.5 rounded-full bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-300 hover:from-white hover:to-amber-200 text-stone-950 text-[11px] xl:text-xs font-extrabold shadow-sm hover:scale-[1.02] active:scale-[0.98] border border-amber-200/90 transition-all duration-200 inline-flex items-center gap-1.5 group cursor-pointer"
+              className="relative overflow-hidden px-3.5 py-1.5 rounded-full bg-gradient-to-r from-[#1565c0] via-[#1976d2] to-[#2196f3] hover:from-[#0d47a1] hover:to-[#1565c0] text-white text-[11px] xl:text-xs font-extrabold shadow-[0_0_12px_rgba(33,150,243,0.7)] hover:shadow-[0_0_20px_rgba(33,150,243,0.9)] animate-[franchise-blink_1.6s_ease-in-out_infinite] hover:scale-[1.04] active:scale-[0.97] border border-blue-300/60 transition-all duration-200 inline-flex items-center gap-1.5 group cursor-pointer"
             >
-              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent transition-transform duration-700 ease-in-out pointer-events-none" />
-              <Handshake className="w-4 h-4 text-stone-950 group-hover:scale-110 group-hover:rotate-6 transition-transform shrink-0" />
+              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 ease-in-out pointer-events-none" />
+              <Handshake className="w-4 h-4 text-white group-hover:scale-110 group-hover:rotate-6 transition-transform shrink-0" />
               <span className="tracking-tight whitespace-nowrap">Contact for Franchise</span>
-              <ArrowRight className="w-3.5 h-3.5 text-stone-950 group-hover:translate-x-1 transition-transform shrink-0" />
+              <ArrowRight className="w-3.5 h-3.5 text-white group-hover:translate-x-1 transition-transform shrink-0" />
             </button>
           </div>
 

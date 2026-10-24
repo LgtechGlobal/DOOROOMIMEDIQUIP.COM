@@ -93,6 +93,18 @@
   animation: floatReverse 6s ease-in-out infinite;
 }
 
+/* Franchise button blink glow animation */
+@keyframes franchise-blink {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(33, 150, 243, 0.5), 0 0 20px rgba(33, 150, 243, 0.2);
+    opacity: 1;
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(33, 150, 243, 0.95), 0 0 40px rgba(33, 150, 243, 0.5), 0 0 60px rgba(33, 150, 243, 0.2);
+    opacity: 0.88;
+  }
+}
+
 /* Lenis smooth scroll */
 html.lenis, html.lenis body {
   height: auto;
