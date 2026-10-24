@@ -60,19 +60,19 @@ export const Navbar = ({
   return (
     <>
       {/* Top utility bar - Stretched across wide screens */}
-      <div className="bg-[#0ea5e9] text-white text-xs py-2 border-b border-[#0284c7] relative z-50">
+      <div className="bg-[#0ea5e9]/30 text-[#0c2461] text-xs py-2 border-b border-[#0ea5e9]/40 relative z-50">
         <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16 flex items-center justify-between">
           <div className="flex items-center space-x-4 sm:space-x-6">
             <a 
               href={`tel:${SITE_CONFIG.phoneTel}`}
-              className="hidden sm:inline-flex items-center gap-1.5 hover:text-yellow-200 transition-colors"
+              className="hidden sm:inline-flex items-center gap-1.5 hover:text-[#1565c0] transition-colors font-medium"
             >
-              <Phone className="w-3 h-3 text-yellow-300" />
+              <Phone className="w-3 h-3 text-[#0369a1]" />
               <span>Toll-Free: {SITE_CONFIG.phone}</span>
             </a>
-            <span className="hidden md:inline-block text-blue-300/60">|</span>
-            <span className="hidden md:inline-flex items-center gap-1.5 text-blue-100/90 text-[11px]">
-              <ShieldCheck className="w-3.5 h-3.5 text-yellow-300" />
+            <span className="hidden md:inline-block text-[#0369a1]/50">|</span>
+            <span className="hidden md:inline-flex items-center gap-1.5 text-[#0c2461]/80 text-[11px]">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#0369a1]" />
               <span>ISO 22716 & Korea CGMP Certified Manufacturer</span>
             </span>
           </div>
@@ -137,13 +137,13 @@ export const Navbar = ({
               </a>
             </div>
 
-            <span className="hidden sm:inline-block text-blue-300/50">|</span>
+            <span className="hidden sm:inline-block text-[#0369a1]/50">|</span>
 
             <a 
               href={`mailto:${SITE_CONFIG.email}`}
-              className="inline-flex items-center gap-1.5 hover:text-yellow-200 transition-colors"
+              className="inline-flex items-center gap-1.5 hover:text-[#1565c0] transition-colors font-medium"
             >
-              <Mail className="w-3 h-3 text-yellow-300" />
+              <Mail className="w-3 h-3 text-[#0369a1]" />
               <span className="hidden sm:inline">{SITE_CONFIG.email}</span>
             </a>
             {isAdminAuthenticated ? (
@@ -157,7 +157,7 @@ export const Navbar = ({
             ) : (
               <button
                 onClick={onOpenLogin}
-                className="inline-flex items-center gap-1.5 px-3.5 py-0.5 rounded bg-hanbit-forest/80 border border-emerald-800/80 text-amber-200 hover:bg-hanbit-gold hover:text-hanbit-dark transition-all text-xs font-medium cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3.5 py-0.5 rounded bg-[#0c2461]/10 border border-[#0c2461]/30 text-[#0c2461] hover:bg-[#0c2461] hover:text-white transition-all text-xs font-semibold cursor-pointer"
               >
                 <User className="w-3 h-3" />
                 <span>B2B Portal</span>
