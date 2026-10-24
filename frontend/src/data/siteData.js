@@ -15,7 +15,7 @@ export const SITE_CONFIG = {
   companyProfilePdf: "./assets/ceo/company-profile.pdf",
   plantAddress: "142 Songdo Bio-Cluster, Yeonsu-gu, Incheon, Republic of Korea",
   indiaHq: "Dooroomi Medical Pvt. Ltd., Plot no 3557, 1st floor, palasuni square, bhubaneswar 751010",
-  hours: "Mon–Fri 09:00–18:00 KST / India Center Hours: 08:00–17:00 IST",
+  hours: "Mon–Fri 09:00–18:00 IST / India Center Hours: 08:00–17:00 IST",
   tagline: "Love, Service, Kindness — Clinically Proven Thermal & Bio-Therapy.",
   subtagline: "South Korean World-Class Medical Equipment & Natural Bio-Therapeutics Since 1991",
   year: "2026",
