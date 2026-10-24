@@ -191,9 +191,8 @@ export const HeroProductSlider = ({
 
                 {/* Korean Hangul Name */}
                 {currentProduct.nameKo && (
-                  <p className="text-amber-800 font-serif font-semibold text-sm sm:text-base mt-1.5 flex items-center gap-2">
+                  <p className="text-amber-800 font-serif font-semibold text-sm sm:text-base mt-1.5">
                     <span>{currentProduct.nameKo}</span>
-                    <span className="text-[11px] text-stone-400 font-sans font-normal">• Authentic Korean Medical Device</span>
                   </p>
                 )}
 

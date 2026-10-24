@@ -65,9 +65,9 @@ export const Hero = ({ onExploreProducts, onRequestQuote }) => {
           preload="auto"
           className="w-full h-full object-cover object-center scale-105 filter brightness-[0.75] contrast-[1.1] transition-opacity duration-700"
         >
-          <source src="/assets/videos/sample-1.mp4" type="video/mp4" />
-          <source src="./assets/videos/sample-1.mp4" type="video/mp4" />
-          <source src="/assets/videos/testimonial-1.mp4" type="video/mp4" />
+          <source src="/assets/videos/hero-therapy.mp4" type="video/mp4" />
+          <source src="./assets/videos/hero-therapy.mp4" type="video/mp4" />
+          <source src="/assets/videos/hero-bg.mp4" type="video/mp4" />
         </video>
 
         {/* Cinematic Luxury Dark Emerald / Medical Gradient Overlays */}
