@@ -25,7 +25,8 @@ export const ProductsGalleryPage = ({
   onToggleCompare
 }) => {
   const { products: dynamicProducts } = useData();
-  const productsList = dynamicProducts && dynamicProducts.length > 0 ? dynamicProducts : FALLBACK_PRODUCTS;
+  const rawProducts = dynamicProducts && dynamicProducts.length > 0 ? dynamicProducts : FALLBACK_PRODUCTS;
+  const productsList = useMemo(() => [...rawProducts].reverse(), [rawProducts]);
 
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');

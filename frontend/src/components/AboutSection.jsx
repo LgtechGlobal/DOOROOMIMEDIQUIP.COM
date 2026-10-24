@@ -37,7 +37,7 @@ export const AboutSection = ({ onContactClick }) => {
   ];
 
   const milestones = [
-    { year: "1998", text: "Founded in Seoul as a pioneer in Korean cellular bio-cosmetics and medical equipment." },
+    { year: "1991", text: "Founded in Seoul as a pioneer in Korean cellular bio-cosmetics and medical equipment." },
     { year: "2010", text: "Established Songdo Bio-Cluster automated cleanroom plant; achieved ISO 22716 & CGMP certifications." },
     { year: "2018", text: "Launched Bedro Smart therapeutic medical bed series with integrated infrared thermal acupressure." },
     { year: "2026", text: "Expanded global clinical exports to 36 nations with 45+ proprietary patented bio-active formulations." }
@@ -65,7 +65,7 @@ export const AboutSection = ({ onContactClick }) => {
           </h2>
 
           <p className="mt-4 text-base sm:text-lg text-hanbit-muted font-light leading-relaxed">
-            Founded in 1998, <b>Dooroomi (두루미)</b> has spent nearly three decades advancing clinical health engineering, certified cleanroom manufacturing, and bioactive Korean skincare.
+            Founded in 1991, <b>Dooroomi (두루미)</b> has spent nearly three decades advancing clinical health engineering, certified cleanroom manufacturing, and bioactive Korean skincare.
           </p>
         </div>
 

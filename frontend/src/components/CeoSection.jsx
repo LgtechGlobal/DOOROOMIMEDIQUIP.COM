@@ -36,7 +36,7 @@ export const CeoSection = ({ onNavigateAbout, onContactClick }) => {
 
   const leadershipHighlights = [
     {
-      year: "1998",
+      year: "1991",
       title: "Founding Philosophy",
       desc: "Pioneered clinical thermal therapy and natural Korean bio-formulations with zero compromise on raw purity."
     },

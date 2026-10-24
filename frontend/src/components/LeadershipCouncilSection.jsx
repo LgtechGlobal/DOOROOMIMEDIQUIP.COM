@@ -92,7 +92,7 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
                   <div className="flex flex-col items-end gap-2">
                     <span className="px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-xs font-mono font-bold text-amber-800 tracking-wide flex items-center gap-1.5 shadow-2xs">
                       <ShieldCheck className="w-3.5 h-3.5 text-amber-600" />
-                      <span>Official Council</span>
+                      <span>{leader.id === 'matthew-seong' ? 'Global CEO' : 'India CEO'}</span>
                     </span>
                     <span className="text-[11px] font-mono text-neutral-400 font-semibold">
                       {leader.id === 'matthew-seong' ? '🇰🇷 South Korea' : '🇮🇳 India'}
@@ -282,18 +282,7 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
               </span>
 
               <div className="flex items-center gap-3">
-                {onOpenPdfModal && (
-                  <button
-                    onClick={() => {
-                      setSelectedLeader(null);
-                      onOpenPdfModal();
-                    }}
-                    className="text-hanbit-forest hover:text-hanbit-gold font-bold flex items-center gap-1 cursor-pointer transition-colors"
-                  >
-                    <FileText className="w-3.5 h-3.5 text-hanbit-gold" />
-                    <span>View Full 15-Page PDF</span>
-                  </button>
-                )}
+
                 <button
                   onClick={() => setSelectedLeader(null)}
                   className="px-4 py-1.5 rounded-xl bg-stone-200 hover:bg-stone-300 text-stone-800 font-bold transition-colors cursor-pointer"

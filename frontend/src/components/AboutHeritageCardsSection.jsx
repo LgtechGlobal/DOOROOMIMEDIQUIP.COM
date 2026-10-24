@@ -353,18 +353,7 @@ export const AboutHeritageCardsSection = ({ onContactClick, onOpenPdfModal }) =>
               </span>
 
               <div className="flex items-center gap-3">
-                {onOpenPdfModal && (
-                  <button
-                    onClick={() => {
-                      setActiveModalCard(null);
-                      onOpenPdfModal();
-                    }}
-                    className="text-hanbit-forest hover:text-hanbit-gold font-bold flex items-center gap-1 cursor-pointer transition-colors"
-                  >
-                    <FileText className="w-3.5 h-3.5 text-hanbit-gold" />
-                    <span>View Complete 15-Page PDF</span>
-                  </button>
-                )}
+
                 <button
                   onClick={() => setActiveModalCard(null)}
                   className="px-4 py-1.5 rounded-xl bg-stone-200 hover:bg-stone-300 text-stone-800 font-bold transition-colors cursor-pointer"

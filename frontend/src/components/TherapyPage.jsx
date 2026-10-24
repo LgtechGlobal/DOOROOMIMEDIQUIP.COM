@@ -539,13 +539,7 @@ export const TherapyPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
                         <BadgeCheck className="w-3.5 h-3.5" />
                         <span>Clinical Principle</span>
                       </span>
-                      <button
-                        onClick={() => setSelectedBrochurePage(principle.num <= '03' ? brochurePages[0] : brochurePages[1])}
-                        className="text-xs font-bold text-hanbit-forest hover:text-hanbit-gold inline-flex items-center gap-1 cursor-pointer"
-                      >
-                        <span>View Brochure</span>
-                        <ChevronRight className="w-3.5 h-3.5" />
-                      </button>
+
                     </div>
                   </div>
                 );

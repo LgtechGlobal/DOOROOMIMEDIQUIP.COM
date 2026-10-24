@@ -27,7 +27,8 @@ const CATEGORIES = [
 
 export const AllProductsRowSection = ({ onSelectProduct, onSelectForQuote, onNavigateGallery }) => {
   const { products: dynamicProducts } = useData();
-  const productsList = dynamicProducts && dynamicProducts.length > 0 ? dynamicProducts : FALLBACK_PRODUCTS;
+  const rawProducts = dynamicProducts && dynamicProducts.length > 0 ? dynamicProducts : FALLBACK_PRODUCTS;
+  const productsList = React.useMemo(() => [...rawProducts].reverse(), [rawProducts]);
 
   const [activeCategory, setActiveCategory] = useState('all');
   const [selectedIndex, setSelectedIndex] = useState(0);

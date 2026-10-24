@@ -155,25 +155,6 @@ export const AboutUsPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
           <p className="text-base sm:text-xl text-hanbit-muted font-light leading-relaxed max-w-3xl mx-auto">
             Founded on the guiding ethos of <strong className="text-hanbit-forest font-semibold">“Love, Service, and Kindness”</strong> (사랑 · 봉사 · 친절). For over 35 years, Dooroomi has brought restorative Korean thermal acupressure and bio-mineral healing to over 51 nations worldwide.
           </p>
-
-          <div className="pt-2 flex flex-wrap justify-center gap-3">
-            <button
-              onClick={() => setShowPdfModal(true)}
-              className="px-6 py-3 rounded-2xl bg-gradient-to-r from-hanbit-forest to-emerald-950 text-white text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer"
-            >
-              <FileText className="w-4 h-4 text-hanbit-gold" />
-              <span>View Official 15-Page Profile PDF</span>
-            </button>
-
-            <a
-              href={SITE_CONFIG.companyProfilePdf}
-              download="Dooroomi-Company-Profile.pdf"
-              className="px-6 py-3 rounded-2xl bg-white border border-hanbit-border hover:border-hanbit-gold text-hanbit-forest text-xs sm:text-sm font-bold transition-all flex items-center gap-2"
-            >
-              <Download className="w-4 h-4 text-hanbit-gold" />
-              <span>Download PDF</span>
-            </a>
-          </div>
         </div>
 
         {/* 2-Column Corporate Showcase: Facility Stage & Narrative */}
@@ -389,43 +370,6 @@ export const AboutUsPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
                 <p className="text-xs text-hanbit-muted leading-relaxed font-light">{m.text}</p>
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* Official PDF Document Viewer Card */}
-        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-hanbit-forest via-emerald-950 to-hanbit-dark text-white border border-hanbit-gold/40 shadow-xl relative overflow-hidden">
-          <div className="max-w-3xl space-y-4 relative z-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-hanbit-gold text-xs font-mono">
-              <FileText className="w-3.5 h-3.5" />
-              <span>Full Corporate Archive Document</span>
-            </div>
-
-            <h3 className="text-2xl sm:text-3xl font-extrabold font-serif">
-              Inspect the Official Dooroomi Company Profile PDF
-            </h3>
-
-            <p className="text-xs sm:text-sm text-gray-200 font-light leading-relaxed">
-              Explore the authentic 15-page corporate document detailing Dooroomi's corporate history from November 1991, international certificates, technical specifications for Bedro Smart-1 and Taeyangsuk, customer feedback records, and worldwide branch contacts.
-            </p>
-
-            <div className="pt-2 flex flex-wrap items-center gap-4">
-              <button
-                onClick={() => setShowPdfModal(true)}
-                className="px-6 py-3 rounded-xl bg-hanbit-gold hover:bg-yellow-500 text-hanbit-dark font-bold text-xs sm:text-sm shadow-md transition-all flex items-center gap-2 cursor-pointer"
-              >
-                <FileText className="w-4 h-4" />
-                <span>Open Interactive PDF Viewer</span>
-              </button>
-
-              <a
-                href={SITE_CONFIG.companyProfilePdf}
-                download="Dooroomi-Company-Profile.pdf"
-                className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs sm:text-sm transition-all flex items-center gap-2"
-              >
-                <Download className="w-4 h-4 text-hanbit-gold" />
-                <span>Download PDF (15 Pages)</span>
-              </a>
-            </div>
           </div>
         </div>
 
