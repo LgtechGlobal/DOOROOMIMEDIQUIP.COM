@@ -29,7 +29,7 @@ export const SITE_CONFIG = {
     {
       id: "matthew-seong",
       role: "CEO & Global Tech Partner",
-      titleHeader: "Message from Global Technology Partner",
+      titleHeader: "Message from our Global CEO",
       name: "Matthew Seong",
       nameKo: "성 매튜 대표",
       base: "Goyang-Si, Gyeonggi-do, Korea",
@@ -37,10 +37,10 @@ export const SITE_CONFIG = {
       bio: "Leads medical device manufacturing and precision engineering partnership with Dooroomi Mediquip for global exports.",
       credentials: ["Chief Executive Officer", "Strategic Tech Partner", "UL Safety & CE MDR Standards", "Goyang-Si Cleanroom Facility"],
       fullMessage: [
-        "As the Chief Executive Officer and strategic manufacturing partner to Dooroomi Mediquip, it is our solemn responsibility to deliver precision engineering, clinical safety, and uncompromising Korean manufacturing standards.",
-        "Our state-of-the-art cleanroom manufacturing and robotic testing facilities in Gyeonggi-do ensure that every single thermal acupressure mattress, bio-stimulation projector, and negative ion therapy system operates with absolute electrical safety (UL certified), medical grade biocompatibility (ISO 22716 & CGMP), and international efficacy (FDA & CE compliant).",
-        "We stand shoulder to shoulder with Dooroomi Mediquip to empower community wellness, ensuring that healthcare centers in India and across 51 nations receive the most reliable, durable, and healing technology known to modern natural medicine.",
-        "Thank you for your enduring trust in Korean medical engineering excellence."
+        "Dooroomi was incorporated in Year 1991. Since then, we have been developing and manufacturing various types of thermal treatment devices for home uses, other medical and skin care devices, as well as health care devices and professional medical devices for hospital environment, which are now being exported to more than 51 countries in the world. What contributed to our fast growth since our foundation was our spirits for sharing health, love, and service with the entire world which were the basis of our mindset when we developed and manufactured our products.",
+        "With our corporate mission, \"To contribute to the human health by providing the best service with our best technology and love,\" we, Dooroomi has been manufacturing and providing our customers with quality products with world class competitiveness. According to the establishment of the R&D group within Dooroomi, we are determined to secure our leadership position in terms of development of the next generation medical devices, as well as training talented minds, innovation, and strengthening our capabilities for knowledge based on management of our company.",
+        "We will lead the way to make the society a better place for us all with our commitment for compliance, environmental awareness, and sharing with our neighbors. As we step up to the leadership in the medical device industry of the world, we would like to welcome you to join us in our journey to the new future!",
+        "Thank you very much for your attention."
       ]
     },
     {
