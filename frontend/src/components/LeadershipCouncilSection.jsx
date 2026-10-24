@@ -194,19 +194,14 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
                     <h4 className="font-extrabold text-[#1a365d] text-base sm:text-lg tracking-tight">
                       {selectedLeader.name.toUpperCase()}
                     </h4>
-                    <span className="text-xs sm:text-sm font-bold text-[#2b6cb0] block mt-0.5">
-                      {selectedLeader.role}
-                    </span>
+
 
                   </div>
                 </div>
 
                 {/* Quick Meta Badges & Mission */}
                 <div className="flex-1 space-y-4">
-                  <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-hanbit-ivory border border-hanbit-border text-xs font-semibold text-hanbit-forest">
-                    <ShieldCheck className="w-4 h-4 text-hanbit-gold" />
-                    <span>Dooroomi Co., Ltd. Official Executive Profile</span>
-                  </div>
+
 
                   <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/70 border border-amber-200/60 text-xs sm:text-sm text-amber-950 font-serif italic leading-relaxed shadow-2xs">
                     <Quote className="w-5 h-5 text-hanbit-gold inline-block mr-2 -mt-1" />
