@@ -60,7 +60,7 @@ export const Navbar = ({
   return (
     <>
       {/* Top utility bar - Stretched across wide screens */}
-      <div className="bg-[#0e6bc1] text-white text-xs py-2 border-b border-[#0a52a0] relative z-50">
+      <div className="bg-[#0ea5e9] text-white text-xs py-2 border-b border-[#0284c7] relative z-50">
         <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16 flex items-center justify-between">
           <div className="flex items-center space-x-4 sm:space-x-6">
             <a 
