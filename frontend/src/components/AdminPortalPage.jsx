@@ -13,6 +13,7 @@ import {
   Check, 
   Search, 
   Plus, 
+  Download, 
   FileText, 
   Globe, 
   PhoneCall, 
@@ -49,6 +50,7 @@ import {
 } from 'lucide-react';
 import { SITE_CONFIG } from '../data/siteData';
 import { useData } from '../context/DataContext';
+import { downloadScannerPoster } from '../utils/qrGenerator';
 import { AdvertisementModal } from './AdvertisementModal';
 import { CloudinaryImageUploader } from './CloudinaryImageUploader';
 import { AdminGalleryManager } from './AdminGalleryManager';

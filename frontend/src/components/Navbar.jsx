@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, Mail, Menu, X, ArrowRight, ShieldCheck, User, Globe, Handshake } from 'lucide-react';
+import { Phone, Mail, QrCode, Menu, X, ArrowRight, ShieldCheck, User, Globe, Handshake } from 'lucide-react';
 import { SITE_CONFIG } from '../data/siteData';
 
 export const Navbar = ({
@@ -7,6 +7,7 @@ export const Navbar = ({
   onNavigate,
   onOpenLogin,
   onOpenFranchise,
+  onOpenScanner,
   isAdminAuthenticated,
   onOpenAdmin
 }) => {
@@ -303,6 +304,17 @@ export const Navbar = ({
                 <span className="tracking-tight font-bold">Contact for Franchise</span>
                 <ArrowRight className="w-3.5 h-3.5 text-white group-hover:translate-x-1 transition-transform" />
               </button>
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  if (onOpenScanner) onOpenScanner();
+                }}
+                className="w-full py-2.5 rounded-xl bg-amber-500/20 border border-amber-400/40 text-amber-200 hover:bg-amber-500 hover:text-stone-950 font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer"
+              >
+                <QrCode className="w-3.5 h-3.5" />
+                <span>Rate Us (QR Scanner)</span>
+              </button>
+
               <button
                 onClick={() => {
                   setIsMobileMenuOpen(false);

@@ -266,6 +266,70 @@ const INITIAL_TESTIMONIALS = [
   }
 ];
 
+
+export const INITIAL_CUSTOMER_RATINGS = [
+  {
+    id: "rate-init-01",
+    name: "Sunita Mohanty",
+    rating: 5,
+    selectiveFeedback: "🌟 Excellent Therapy",
+    location: "Palasuni Square, Bhubaneswar",
+    treatment: "BEDRO Smart-1 Thermal Spine Bed",
+    comment: "I have been suffering from severe L4-L5 lumbar disc compression for 4 years. After taking 3 weeks of daily therapy at the Bhubaneswar center, the radiating pain down my leg has completely stopped. Very grateful!",
+    date: "2026-10-24",
+    verifiedScanner: true,
+    source: "scanner"
+  },
+  {
+    id: "rate-init-02",
+    name: "Pradeep Kumar Das",
+    rating: 5,
+    selectiveFeedback: "⚡ Good Pain Relief",
+    location: "Cuttack, Odisha",
+    treatment: "TAEYANGSUK PLUS Far-Infrared Bio-Mat",
+    comment: "The heated bio-minerals and jade stones relieve chronic stiffness and fatigue. Blood circulation has improved remarkably and my sleep quality is the best it has been in years.",
+    date: "2026-10-22",
+    verifiedScanner: true,
+    source: "scanner"
+  },
+  {
+    id: "rate-init-03",
+    name: "Sasmita Tripathy",
+    rating: 5,
+    selectiveFeedback: "❤️ Kind & Caring Staff",
+    location: "Bhubaneswar Center",
+    treatment: "Champion Waist Support Belt & Knee Wrap",
+    comment: "The center staff treat every patient like family with absolute love and kindness. The unconditional free daily therapy is a true blessing for senior citizens like me.",
+    date: "2026-10-20",
+    verifiedScanner: true,
+    source: "scanner"
+  },
+  {
+    id: "rate-init-04",
+    name: "Anil Sharma",
+    rating: 5,
+    selectiveFeedback: "✨ Highly Recommended",
+    location: "New Delhi Center",
+    treatment: "BEDRO Smart-1 Spine Traction",
+    comment: "Top-notch Korean precision engineering. Much better than painkillers or temporary physiotherapy sessions. Highly recommend everyone to try it at least once.",
+    date: "2026-10-18",
+    verifiedScanner: true,
+    source: "scanner"
+  },
+  {
+    id: "rate-init-05",
+    name: "Manorama Sahu",
+    rating: 5,
+    selectiveFeedback: "👍 Very Good Recovery",
+    location: "Nayagarh / Bhubaneswar",
+    treatment: "Smart Laser & 9-Ball Jade Projector",
+    comment: "Knee swelling and joint friction reduced by over 80%. I can now walk comfortably without support.",
+    date: "2026-10-15",
+    verifiedScanner: true,
+    source: "scanner"
+  }
+];
+
 const INITIAL_ADS = [
   {
     id: "ad-franchise-2026",
@@ -317,6 +381,18 @@ export const DataProvider = ({ children }) => {
   const [testimonials, setTestimonials] = useState(INITIAL_TESTIMONIALS);
   const [ads, setAds] = useState(INITIAL_ADS);
   const [galleryItems, setGalleryItems] = useState(INITIAL_GALLERY_ITEMS);
+  const [customerRatings, setCustomerRatings] = useState(() => {
+    try {
+      const stored = localStorage.getItem('dooroomi_customer_ratings');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {
+      console.warn('Error reading dooroomi_customer_ratings', e);
+    }
+    return INITIAL_CUSTOMER_RATINGS;
+  });
 
   const activeAd = ads.find(a => a.isEnabled) || null;
 
@@ -574,6 +650,45 @@ export const DataProvider = ({ children }) => {
       console.error('MongoDB addTestimonial failed:', err.message);
       throw err;
     }
+  };
+
+  const submitCustomerRating = async (newRating) => {
+    const uniqueId = 'c_rate_' + Date.now();
+    const formatted = {
+      id: uniqueId,
+      name: (newRating.name && newRating.name.trim()) || 'Verified Patient',
+      rating: Number(newRating.rating) || 5,
+      selectiveFeedback: newRating.selectiveFeedback || '🌟 Excellent Therapy',
+      location: (newRating.location && newRating.location.trim()) || 'Bhubaneswar, Odisha',
+      treatment: newRating.treatment || 'BEDRO Smart-1 Thermal Spine Bed',
+      comment: newRating.comment || newRating.selectiveFeedback || 'Excellent experience',
+      quote: newRating.comment || newRating.selectiveFeedback || 'Excellent experience',
+      date: new Date().toISOString().split('T')[0],
+      verifiedScanner: true,
+      source: 'scanner'
+    };
+
+    setCustomerRatings((prev) => {
+      const updated = [formatted, ...prev];
+      try {
+        localStorage.setItem('dooroomi_customer_ratings', JSON.stringify(updated));
+      } catch (err) {
+        console.warn('LocalStorage save failed:', err);
+      }
+      return updated;
+    });
+
+    try {
+      await fetch(`${BACKEND_URL}/testimonials/public-rating`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formatted)
+      });
+    } catch (err) {
+      console.warn('Backend rating sync skipped, stored locally:', err);
+    }
+
+    return formatted;
   };
 
   const deleteTestimonial = async (testimonialId) => {

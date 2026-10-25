@@ -29,8 +29,10 @@ import { API_BASE_URL } from './config/api';
 import { AdvertisementModal } from './components/AdvertisementModal';
 import { AdminPortalPage } from './components/AdminPortalPage';
 import { GoogleAuthPage } from './components/GoogleAuthPage';
+import { CustomerRatingPage } from './components/CustomerRatingPage';
+import { QRScannerModal } from './components/QRScannerModal';
 
-const DEDICATED_ROUTES = ['about', 'certificates', 'principle', 'therapy', 'services', 'gallery', 'products', 'admin', 'google-auth'];
+const DEDICATED_ROUTES = ['about', 'certificates', 'principle', 'therapy', 'services', 'gallery', 'products', 'admin', 'google-auth', 'rate'];
 
 const parseHash = () => {
   const hash = window.location.hash || '';
@@ -75,6 +77,7 @@ export function App() {
   const [quoteProduct, setQuoteProduct] = useState(null);
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isFranchiseOpen, setIsFranchiseOpen] = useState(false);
+  const [isScannerOpen, setIsScannerOpen] = useState(false);
   const [selectedCatId, setSelectedCatId] = useState('all');
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(() => {
     return sessionStorage.getItem('dooroomi_admin') === 'true';
@@ -297,6 +300,7 @@ export function App() {
           onNavigate={scrollToSection}
           onOpenLogin={() => setIsLoginOpen(true)}
           onOpenFranchise={() => setIsFranchiseOpen(true)}
+          onOpenScanner={() => setIsScannerOpen(true)}
           onSelectCategory={(catId) => setSelectedCatId(catId)}
           isAdminAuthenticated={isAdminAuthenticated}
           onOpenAdmin={() => {
@@ -425,7 +429,7 @@ export function App() {
               />
 
               {/* Real Patient Recovery Testimonials - Single Row Carousel with 5 Stars & Portraits */}
-              <PatientTestimonialsRowSection />
+              <PatientTestimonialsRowSection onOpenScanner={() => setIsScannerOpen(true)} />
 
               {/* Clinical Video Testimonials */}
               <TestimonialVideoSection />

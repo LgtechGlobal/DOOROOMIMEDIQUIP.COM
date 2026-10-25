@@ -14,7 +14,10 @@ const testimonialSchema = new mongoose.Schema(
     rating: { type: Number, default: 5 },
     docPage: { type: Number, default: 14 },
     quote: { type: String, required: true },
-    fullStory: { type: String, default: '' }
+    fullStory: { type: String, default: '' },
+    source: { type: String, default: 'archive' },
+    selectiveFeedback: { type: String, default: '' },
+    verifiedScanner: { type: Boolean, default: false }
   },
   { timestamps: true }
 );

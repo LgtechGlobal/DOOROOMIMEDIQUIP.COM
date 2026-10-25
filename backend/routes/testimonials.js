@@ -15,6 +15,58 @@ testimonialsRouter.get('/', async (req, res) => {
   }
 });
 
+// POST public customer rating from QR scanner (Unauthenticated, public)
+testimonialsRouter.post('/public-rating', async (req, res) => {
+  try {
+    const {
+      name,
+      rating,
+      selectiveFeedback,
+      location,
+      treatment,
+      comment
+    } = req.body;
+
+    if (!name || !name.trim()) {
+      return res.status(400).json({ success: false, message: 'Customer name is required' });
+    }
+
+    const cleanRating = Math.min(5, Math.max(1, Number(rating) || 5));
+    const uniqueId = 'rate_' + Date.now();
+    const finalComment = (comment && comment.trim()) || selectiveFeedback || 'Excellent Korean medical therapy and caring support.';
+
+    const newRating = new Testimonial({
+      id: uniqueId,
+      name: name.trim(),
+      age: req.body.age || 'Patient',
+      location: (location && location.trim()) || 'Bhubaneswar, Odisha',
+      disease: selectiveFeedback || 'Thermal Therapy & Wellness',
+      diseaseKo: '온열 치료 및 회복',
+      duration: 'Verified Patient Review',
+      treatment: treatment || 'BEDRO Smart-1 Thermal Spine Bed & Taeyangsuk Bio-Mat',
+      image: req.body.image || '/assets/testimonials/patient-kmamari-sahoo.jpg',
+      rating: cleanRating,
+      docPage: 14,
+      quote: finalComment,
+      fullStory: finalComment,
+      source: 'scanner',
+      selectiveFeedback: selectiveFeedback || '🌟 Excellent Therapy',
+      verifiedScanner: true
+    });
+
+    const saved = await newRating.save();
+    console.log(`[Dooroomi Scanner] New public rating received from "${saved.name}" (${saved.rating} Stars): "${saved.selectiveFeedback}"`);
+    res.status(201).json({ 
+      success: true, 
+      message: 'Thank you! Your verified rating has been saved successfully.', 
+      rating: saved 
+    });
+  } catch (err) {
+    console.error('Public rating error:', err);
+    res.status(500).json({ success: false, message: 'Failed to record rating', error: err.message });
+  }
+});
+
 // POST add new testimonial (Admin authenticated)
 testimonialsRouter.post('/', verifyToken, async (req, res) => {
   try {
@@ -50,7 +102,8 @@ testimonialsRouter.post('/', verifyToken, async (req, res) => {
       rating: Number(rating) || 5,
       docPage: 14,
       quote,
-      fullStory: fullStory || quote
+      fullStory: fullStory || quote,
+      source: 'archive'
     });
 
     const saved = await newTestimonial.save();

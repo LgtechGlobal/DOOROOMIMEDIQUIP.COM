@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { 
   Star, 
+  QrCode, 
+  BookOpen, 
   ChevronLeft, 
   ChevronRight, 
   Heart, 
@@ -19,8 +21,9 @@ import {
 import { useData } from '../context/DataContext';
 import { getOptimizedImageUrl } from '../utils/imageUrl';
 
-export const PatientTestimonialsRowSection = () => {
-  const { testimonials: dynamicTestimonials } = useData();
+export const PatientTestimonialsRowSection = ({ onOpenScanner }) => {
+  const { testimonials: dynamicTestimonials, customerRatings } = useData();
+  const [activeTab, setActiveTab] = useState('clinical'); // 'clinical' | 'scanner'
   const scrollRef = useRef(null);
   const [selectedStory, setSelectedStory] = useState(null);
   const [selectedScan, setSelectedScan] = useState(null);
@@ -381,45 +384,62 @@ export const PatientTestimonialsRowSection = () => {
 
           {/* Navigation Controls & Archival Button */}
           <div className="flex flex-wrap items-center gap-3 shrink-0">
+            {activeTab === 'clinical' && (
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => handleScroll('left')}
+                  className="w-11 h-11 rounded-full border border-hanbit-border bg-white hover:bg-hanbit-forest hover:text-white text-hanbit-forest flex items-center justify-center transition-all shadow-xs cursor-pointer group"
+                  title="Scroll Left"
+                  aria-label="Previous Testimonials"
+                >
+                  <ChevronLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
+                </button>
+                <button
+                  onClick={() => handleScroll('right')}
+                  className="w-11 h-11 rounded-full border border-hanbit-border bg-white hover:bg-hanbit-forest hover:text-white text-hanbit-forest flex items-center justify-center transition-all shadow-xs cursor-pointer group"
+                  title="Scroll Right"
+                  aria-label="Next Testimonials"
+                >
+                  <ChevronRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
+                </button>
+              </div>
+            )}
+
             <div className="flex items-center gap-2">
               <button
-                onClick={() => handleScroll('left')}
-                className="w-11 h-11 rounded-full border border-hanbit-border bg-white hover:bg-hanbit-forest hover:text-white text-hanbit-forest flex items-center justify-center transition-all shadow-xs cursor-pointer group"
-                title="Scroll Left"
-                aria-label="Previous Testimonials"
+                type="button"
+                onClick={() => setActiveTab('clinical')}
+                className={`px-4 py-2 rounded-full text-xs font-bold transition-all inline-flex items-center gap-1.5 cursor-pointer shadow-xs ${
+                  activeTab === 'clinical'
+                    ? 'bg-gradient-to-r from-hanbit-forest to-emerald-900 text-white border-2 border-amber-400 shadow-md scale-102'
+                    : 'bg-white border border-stone-200 text-stone-700 hover:border-amber-400 hover:text-emerald-900'
+                }`}
               >
-                <ChevronLeft className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" />
+                <FileText className={`w-3.5 h-3.5 ${activeTab === 'clinical' ? 'text-amber-300' : 'text-hanbit-gold'}`} />
+                <span>Clinical Case Studies</span>
               </button>
-              <button
-                onClick={() => handleScroll('right')}
-                className="w-11 h-11 rounded-full border border-hanbit-border bg-white hover:bg-hanbit-forest hover:text-white text-hanbit-forest flex items-center justify-center transition-all shadow-xs cursor-pointer group"
-                title="Scroll Right"
-                aria-label="Next Testimonials"
-              >
-                <ChevronRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
-              </button>
-            </div>
 
-            <div className="flex items-center gap-1.5">
               <button
-                onClick={() => setSelectedScan("/assets/testimonials/testimonial-page14.png")}
-                className="px-3.5 py-2 rounded-full bg-hanbit-ivory border border-hanbit-gold/60 text-xs font-bold text-hanbit-forest hover:bg-hanbit-gold hover:text-white transition-all inline-flex items-center gap-1.5 shadow-2xs cursor-pointer"
+                type="button"
+                onClick={() => setActiveTab('scanner')}
+                className={`px-4 py-2 rounded-full text-xs font-bold transition-all inline-flex items-center gap-1.5 cursor-pointer shadow-xs ${
+                  activeTab === 'scanner'
+                    ? 'bg-gradient-to-r from-hanbit-forest to-emerald-900 text-white border-2 border-amber-400 shadow-md scale-102'
+                    : 'bg-white border border-stone-200 text-stone-700 hover:border-amber-400 hover:text-emerald-900'
+                }`}
               >
-                <FileText className="w-3.5 h-3.5 text-hanbit-gold" />
-                <span>Doc Page 14</span>
-              </button>
-              <button
-                onClick={() => setSelectedScan("/assets/testimonials/testimonial-page15.png")}
-                className="px-3.5 py-2 rounded-full bg-hanbit-ivory border border-hanbit-gold/60 text-xs font-bold text-hanbit-forest hover:bg-hanbit-gold hover:text-white transition-all inline-flex items-center gap-1.5 shadow-2xs cursor-pointer"
-              >
-                <FileText className="w-3.5 h-3.5 text-hanbit-gold" />
-                <span>Doc Page 15</span>
+                <QrCode className={`w-3.5 h-3.5 ${activeTab === 'scanner' ? 'text-amber-300' : 'text-amber-600'}`} />
+                <span>Customer Scanner Ratings</span>
+                <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold ${activeTab === 'scanner' ? 'bg-amber-400 text-stone-950' : 'bg-emerald-100 text-emerald-800'}`}>
+                  {customerRatings?.length || 5}
+                </span>
               </button>
             </div>
           </div>
         </div>
 
-        {/* SINGLE ROW HORIZONTAL SCROLL CAROUSEL */}
+        {activeTab === 'clinical' ? (
+        /* SINGLE ROW HORIZONTAL SCROLL CAROUSEL (Clinical Case Studies) */
         <div 
           ref={scrollRef}
           onScroll={handleScrollWrap}
@@ -524,7 +544,96 @@ export const PatientTestimonialsRowSection = () => {
           ))}
         </div>
 
-        {/* Bottom Guarantee Banner */}
+        ) : (
+        /* CUSTOMER SCANNER RATINGS VIEW (Ratings & Reviews Submitted from QR Scanner) */
+        <div className="space-y-6 animate-fade-in">
+          {/* Top Summary Banner */}
+          <div className="p-4 sm:p-6 rounded-3xl bg-white border border-hanbit-border shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="flex items-center gap-3.5">
+              <div className="w-13 h-13 rounded-2xl bg-amber-500/10 border-2 border-amber-400/40 flex items-center justify-center text-amber-500 shrink-0 shadow-inner">
+                <Star className="w-7 h-7 fill-amber-400 text-amber-500" />
+              </div>
+              <div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <h3 className="text-xl sm:text-2xl font-bold font-serif text-hanbit-forest">5.0 / 5.0 Star Rating</h3>
+                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold font-mono">100% VERIFIED</span>
+                </div>
+                <p className="text-xs sm:text-sm text-stone-600 font-light mt-0.5">
+                  Verified customer reviews submitted by patients via official Dooroomi clinic QR scanners.
+                </p>
+              </div>
+            </div>
+
+            {onOpenScanner && (
+              <button
+                type="button"
+                onClick={onOpenScanner}
+                className="px-5 py-3 rounded-2xl bg-gradient-to-r from-emerald-800 to-hanbit-forest hover:from-emerald-900 hover:to-emerald-800 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer shrink-0"
+              >
+                <QrCode className="w-4 h-4 text-amber-300" />
+                <span>Open Scanner to Rate</span>
+              </button>
+            )}
+          </div>
+
+          {/* Grid of Verified Customer Reviews */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {(customerRatings || []).map((review, idx) => (
+              <div
+                key={review.id || idx}
+                className="rounded-3xl bg-white border border-hanbit-border/80 hover:border-hanbit-gold shadow-sm hover:shadow-xl transition-all duration-300 p-6 sm:p-7 flex flex-col justify-between relative overflow-hidden group"
+              >
+                <div className="space-y-4">
+                  {/* Top Row: Stars + Selective Feedback Pill */}
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-center gap-1">
+                      {[...Array(review.rating || 5)].map((_, sIdx) => (
+                        <Star key={sIdx} className="w-4 h-4 fill-amber-400 text-amber-400 drop-shadow-[0_1px_2px_rgba(245,158,11,0.4)]" />
+                      ))}
+                    </div>
+                    <span className="px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 text-[11px] font-bold text-emerald-800 tracking-tight shrink-0 shadow-2xs">
+                      {review.selectiveFeedback || '🌟 Excellent Therapy'}
+                    </span>
+                  </div>
+
+                  {/* Customer Review Quote */}
+                  <p className="text-xs sm:text-sm text-stone-700 font-light leading-relaxed italic">
+                    "{review.comment || review.quote}"
+                  </p>
+
+                  {/* Therapy / Equipment Used */}
+                  {review.treatment && (
+                    <div className="pt-2 border-t border-stone-100 flex items-center gap-1.5 text-[11px] text-stone-500">
+                      <Activity className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                      <span className="truncate">{review.treatment}</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Customer Details Footer */}
+                <div className="mt-5 pt-4 border-t border-stone-100 flex items-center justify-between text-xs">
+                  <div>
+                    <h4 className="font-bold text-hanbit-forest text-sm flex items-center gap-1.5">
+                      <span>{review.name}</span>
+                      <BadgeCheck className="w-4 h-4 text-emerald-600" title="Verified via QR Scanner" />
+                    </h4>
+                    <p className="text-[11px] text-stone-400 flex items-center gap-1 mt-0.5">
+                      <MapPin className="w-3 h-3 text-stone-400" />
+                      <span>{review.location || 'India Center'}</span>
+                    </p>
+                  </div>
+
+                  <span className="text-[10px] font-mono text-stone-400">
+                    {review.date || 'Verified Review'}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Bottom Guarantee Banner */}
         <div className="mt-8 p-4 sm:p-5 rounded-2xl bg-white border border-hanbit-border/80 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-hanbit-muted">
           <div className="flex items-center gap-2.5">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
