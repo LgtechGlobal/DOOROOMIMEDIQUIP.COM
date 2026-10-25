@@ -137,7 +137,7 @@ export const CeoSection = ({ onNavigateAbout, onContactClick }) => {
                     <span>{ceoPhotos[activeImageIndex].subtitle}</span>
                   </div>
                   <h3 className="text-xl sm:text-2xl font-bold text-white font-serif tracking-wide leading-tight">
-                    {ceo.name} <span className="text-sm font-sans font-normal text-amber-200">({ceo.nameKo})</span>
+                    {ceo.name}
                   </h3>
                   <p className="text-xs text-emerald-100/80 font-light leading-relaxed">
                     {ceoPhotos[activeImageIndex].caption}
@@ -213,7 +213,7 @@ export const CeoSection = ({ onNavigateAbout, onContactClick }) => {
               </div>
 
               <h3 className="text-3xl sm:text-4xl font-extrabold text-white font-serif tracking-tight">
-                {ceo.name} <span className="text-xl sm:text-2xl font-light text-hanbit-gold">({ceo.nameKo})</span>
+                {ceo.name}
               </h3>
 
               <p className="text-sm sm:text-base text-amber-200 font-medium mt-1">

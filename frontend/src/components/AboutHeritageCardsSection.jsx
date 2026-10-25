@@ -9,9 +9,7 @@ import {
   FileText, 
   Heart, 
   Eye, 
-  Zap, 
-  Maximize2, 
-  X, 
+  Zap, X, 
   Download,
   ExternalLink,
   ChevronRight,
@@ -155,22 +153,7 @@ export const AboutHeritageCardsSection = ({ onContactClick, onOpenPdfModal }) =>
                 </span>
               </div>
 
-              {/* Card Media Preview Area */}
-              <div className="relative aspect-[16/10] bg-stone-50 border-b border-stone-100 overflow-hidden flex items-center justify-center p-3">
-                <img
-                  src={card.imageSrc}
-                  alt={card.title}
-                  className="max-h-full w-auto object-contain group-hover:scale-105 transition-transform duration-500 shadow-sm rounded-lg"
-                />
-                
-                {/* Overlay Click Hint */}
-                <div className="absolute inset-0 bg-hanbit-forest/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-[1px]">
-                  <span className="px-3.5 py-1.5 rounded-full bg-white/95 text-hanbit-forest text-xs font-bold shadow-md flex items-center gap-1.5">
-                    <Maximize2 className="w-3.5 h-3.5 text-hanbit-gold" />
-                    <span>View Official Page</span>
-                  </span>
-                </div>
-              </div>
+              
 
               {/* Text Content */}
               <div className="p-6 space-y-4">

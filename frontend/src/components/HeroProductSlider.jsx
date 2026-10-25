@@ -19,6 +19,74 @@ import { getOptimizedImageUrl } from '../utils/imageUrl';
 // Brisk auto-slide interval (2.4s per slide)
 const AUTO_SLIDE_INTERVAL = 2400; 
 
+// Product-specific ambient color themes matching each product aesthetic
+const PRODUCT_THEMES = {
+  'p-jade-bracelet': {
+    bgGradient: 'from-emerald-100/80 via-teal-50/50 to-emerald-200/60',
+    borderColor: 'border-emerald-300/70',
+    glowColor: 'bg-emerald-400/35',
+    dotActive: 'bg-emerald-700',
+    tagIcon: 'text-emerald-400'
+  },
+  'p-jade-necklace': {
+    bgGradient: 'from-emerald-100/80 via-teal-50/60 to-emerald-200/60',
+    borderColor: 'border-emerald-300/70',
+    glowColor: 'bg-emerald-500/35',
+    dotActive: 'bg-emerald-700',
+    tagIcon: 'text-emerald-400'
+  },
+  'p-knee-joint-wrap': {
+    bgGradient: 'from-cyan-100/80 via-sky-50/60 to-teal-100/60',
+    borderColor: 'border-cyan-300/70',
+    glowColor: 'bg-cyan-400/30',
+    dotActive: 'bg-cyan-700',
+    tagIcon: 'text-cyan-400'
+  },
+  'p-champion-belt': {
+    bgGradient: 'from-amber-100/80 via-orange-50/50 to-amber-200/60',
+    borderColor: 'border-amber-300/70',
+    glowColor: 'bg-amber-400/35',
+    dotActive: 'bg-amber-600',
+    tagIcon: 'text-amber-400'
+  },
+  'p-bedro-controller': {
+    bgGradient: 'from-blue-100/80 via-indigo-50/50 to-sky-100/70',
+    borderColor: 'border-blue-300/70',
+    glowColor: 'bg-blue-400/30',
+    dotActive: 'bg-blue-600',
+    tagIcon: 'text-blue-400'
+  },
+  'p-taeyangsuk-mini': {
+    bgGradient: 'from-emerald-100/70 via-stone-50/60 to-teal-100/60',
+    borderColor: 'border-emerald-300/60',
+    glowColor: 'bg-teal-400/30',
+    dotActive: 'bg-emerald-700',
+    tagIcon: 'text-teal-400'
+  },
+  'p-taeyangsuk-plus': {
+    bgGradient: 'from-amber-100/70 via-emerald-50/50 to-amber-200/60',
+    borderColor: 'border-amber-300/60',
+    glowColor: 'bg-amber-400/30',
+    dotActive: 'bg-amber-600',
+    tagIcon: 'text-amber-400'
+  },
+  'p-bedro-smart-1': {
+    bgGradient: 'from-rose-100/80 via-red-50/50 to-stone-100/70',
+    borderColor: 'border-rose-300/60',
+    glowColor: 'bg-rose-400/30',
+    dotActive: 'bg-rose-700',
+    tagIcon: 'text-rose-400'
+  }
+};
+
+const DEFAULT_THEME = {
+  bgGradient: 'from-stone-50 via-white to-emerald-50/20',
+  borderColor: 'border-stone-200/70',
+  glowColor: 'bg-emerald-400/20',
+  dotActive: 'bg-emerald-700',
+  tagIcon: 'text-emerald-400'
+};
+
 export const HeroProductSlider = ({
   onSelectProduct,
   onSelectForQuote,
@@ -42,6 +110,11 @@ export const HeroProductSlider = ({
   // Safeguard currentIndex within bounds
   const validIndex = products.length > 0 ? (currentIndex % products.length + products.length) % products.length : 0;
   const currentProduct = products[validIndex] || products[0] || {};
+
+  // Safe theme lookup for currently displayed product
+  const currentTheme = useMemo(() => {
+    return PRODUCT_THEMES[currentProduct?.id] || DEFAULT_THEME;
+  }, [currentProduct?.id]);
 
   // Slide transition helper
   const changeSlide = useCallback((newIndexCalculator) => {
@@ -256,8 +329,11 @@ export const HeroProductSlider = ({
               </div>
             </div>
 
-            {/* RIGHT COLUMN: Product Image Showcase with Side Arrows and Bottom Dot Indicator */}
-            <div className="lg:col-span-5 xl:col-span-5 bg-gradient-to-br from-stone-50 via-white to-emerald-50/20 p-6 sm:p-8 lg:p-10 flex flex-col items-center justify-center relative border-t lg:border-t-0 lg:border-l border-stone-200/70 min-h-[380px] sm:min-h-[440px] lg:min-h-[500px]">
+            {/* RIGHT COLUMN: Dynamic Matching Product Theme Showcase */}
+            <div className={`lg:col-span-5 xl:col-span-5 bg-gradient-to-br ${currentTheme.bgGradient} p-6 sm:p-8 lg:p-10 flex flex-col items-center justify-center relative border-t lg:border-t-0 lg:border-l ${currentTheme.borderColor} min-h-[380px] sm:min-h-[440px] lg:min-h-[500px] transition-all duration-700 ease-in-out overflow-hidden`}>
+
+              {/* Dynamic ambient color glow matching product */}
+              <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 sm:w-96 sm:h-96 rounded-full ${currentTheme.glowColor} blur-3xl pointer-events-none transition-all duration-700`} />
 
               {/* Floating Previous Button on the Left Edge of Product Image */}
               <button
@@ -281,7 +357,7 @@ export const HeroProductSlider = ({
 
               {/* Centered High-Resolution Product Image with subtle zoom and click handler */}
               <div 
-                className={`w-full max-w-lg flex flex-col items-center justify-center cursor-pointer group transition-opacity duration-150 ${isFading ? 'opacity-30' : 'opacity-100'}`}
+                className={`w-full max-w-lg flex flex-col items-center justify-center cursor-pointer group transition-opacity duration-150 relative z-10 ${isFading ? 'opacity-30' : 'opacity-100'}`}
                 onClick={() => onSelectProduct && onSelectProduct(currentProduct.id)}
               >
                 <div className="relative w-full flex items-center justify-center py-4 px-4 min-h-[260px] sm:min-h-[320px] lg:min-h-[360px]">
@@ -298,7 +374,7 @@ export const HeroProductSlider = ({
 
                 {/* Subtitle click-to-view tag matching user reference style */}
                 <div className="mt-4 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-stone-900/80 backdrop-blur text-white text-[11px] sm:text-xs font-medium opacity-90 group-hover:opacity-100 transition shadow-sm">
-                  <Eye className="w-3.5 h-3.5 text-emerald-400" />
+                  <Eye className={`w-3.5 h-3.5 ${currentTheme.tagIcon}`} />
                   <span>Click to view {currentProduct.name}</span>
                 </div>
               </div>
@@ -315,7 +391,7 @@ export const HeroProductSlider = ({
                       aria-label={`Go to slide ${idx + 1}: ${p.name}`}
                       className={`transition-all duration-300 cursor-pointer ${
                         isActive
-                          ? 'w-8 h-2.5 bg-emerald-700 rounded-full shadow-sm'
+                          ? `w-8 h-2.5 ${currentTheme.dotActive} rounded-full shadow-sm`
                           : 'w-2.5 h-2.5 bg-stone-300 hover:bg-stone-400 rounded-full'
                       }`}
                     />

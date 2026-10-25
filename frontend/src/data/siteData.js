@@ -31,7 +31,7 @@ export const SITE_CONFIG = {
       role: "CEO & Global Tech Partner",
       titleHeader: "Message from our Global CEO",
       name: "Seong Kyeong So-Matthew Seong",
-      nameKo: "성경소 (Matthew Seong) 대표",
+      nameKo: "성경소 대표",
       base: "Goyang-Si, Gyeonggi-do, Korea",
       photo: "./assets/ceo/ceo-portrait.jpeg",
       bio: "Leads medical device manufacturing and precision engineering partnership with Dooroomi Mediquip for global exports.",
@@ -65,7 +65,7 @@ export const SITE_CONFIG = {
   ],
   ceo: {
     name: "Seong Kyeong So-Matthew Seong",
-    nameKo: "성경소 (Matthew Seong)",
+    nameKo: "성경소",
     title: "Chief Executive Officer",
     company: "Dooroomi Co., Ltd.",
     partnership: "Global Head of Technology & Manufacturing, Dooroomi Mediquip",
