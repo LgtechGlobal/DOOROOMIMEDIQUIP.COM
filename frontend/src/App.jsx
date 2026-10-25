@@ -300,7 +300,6 @@ export function App() {
           onNavigate={scrollToSection}
           onOpenLogin={() => setIsLoginOpen(true)}
           onOpenFranchise={() => setIsFranchiseOpen(true)}
-          onOpenScanner={() => setIsScannerOpen(true)}
           onSelectCategory={(catId) => setSelectedCatId(catId)}
           isAdminAuthenticated={isAdminAuthenticated}
           onOpenAdmin={() => {
@@ -429,7 +428,7 @@ export function App() {
               />
 
               {/* Real Patient Recovery Testimonials - Single Row Carousel with 5 Stars & Portraits */}
-              <PatientTestimonialsRowSection onOpenScanner={() => setIsScannerOpen(true)} />
+              <PatientTestimonialsRowSection />
 
               {/* Clinical Video Testimonials */}
               <TestimonialVideoSection />

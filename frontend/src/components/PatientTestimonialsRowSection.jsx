@@ -21,7 +21,7 @@ import {
 import { useData } from '../context/DataContext';
 import { getOptimizedImageUrl } from '../utils/imageUrl';
 
-export const PatientTestimonialsRowSection = ({ onOpenScanner }) => {
+export const PatientTestimonialsRowSection = () => {
   const { testimonials: dynamicTestimonials, customerRatings } = useData();
   const [activeTab, setActiveTab] = useState('clinical'); // 'clinical' | 'scanner'
   const scrollRef = useRef(null);
@@ -428,8 +428,8 @@ export const PatientTestimonialsRowSection = ({ onOpenScanner }) => {
                     : 'bg-white border border-stone-200 text-stone-700 hover:border-amber-400 hover:text-emerald-900'
                 }`}
               >
-                <QrCode className={`w-3.5 h-3.5 ${activeTab === 'scanner' ? 'text-amber-300' : 'text-amber-600'}`} />
-                <span>Customer Scanner Ratings</span>
+                <Star className={`w-3.5 h-3.5 ${activeTab === 'scanner' ? 'text-amber-300 fill-amber-300' : 'text-amber-500 fill-amber-500'}`} />
+                <span>Customer Ratings</span>
                 <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold ${activeTab === 'scanner' ? 'bg-amber-400 text-stone-950' : 'bg-emerald-100 text-emerald-800'}`}>
                   {customerRatings?.length || 5}
                 </span>
@@ -559,21 +559,22 @@ export const PatientTestimonialsRowSection = ({ onOpenScanner }) => {
                   <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold font-mono">100% VERIFIED</span>
                 </div>
                 <p className="text-xs sm:text-sm text-stone-600 font-light mt-0.5">
-                  Verified customer reviews submitted by patients via official Dooroomi clinic QR scanners.
+                  Verified customer reviews and ratings submitted by patients across India centers.
                 </p>
               </div>
             </div>
 
-            {onOpenScanner && (
-              <button
-                type="button"
-                onClick={onOpenScanner}
-                className="px-5 py-3 rounded-2xl bg-gradient-to-r from-emerald-800 to-hanbit-forest hover:from-emerald-900 hover:to-emerald-800 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer shrink-0"
-              >
-                <QrCode className="w-4 h-4 text-amber-300" />
-                <span>Open Scanner to Rate</span>
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => {
+                window.location.hash = '/rate';
+              }}
+              className="px-5 py-3 rounded-2xl bg-gradient-to-r from-emerald-800 to-hanbit-forest hover:from-emerald-900 hover:to-emerald-800 text-white font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center gap-2 cursor-pointer shrink-0"
+              title="Give your feedback and rating"
+            >
+              <Star className="w-4 h-4 text-amber-300 fill-amber-300" />
+              <span>Rate Your Experience</span>
+            </button>
           </div>
 
           {/* Grid of Verified Customer Reviews */}
