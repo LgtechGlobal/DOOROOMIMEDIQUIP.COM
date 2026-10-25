@@ -101,7 +101,6 @@ export const HeroProductSlider = ({
   }, [rawProducts]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
   const [isManualPaused, setIsManualPaused] = useState(false);
   const [touchStartX, setTouchStartX] = useState(null);
   const [touchEndX, setTouchEndX] = useState(null);
@@ -144,14 +143,14 @@ export const HeroProductSlider = ({
 
   // Faster infinite loop auto-slide timer
   useEffect(() => {
-    if (products.length <= 1 || isHovered || isManualPaused) return;
+    if (products.length <= 1 || isManualPaused) return;
 
     const timer = setInterval(() => {
       handleNext();
     }, AUTO_SLIDE_INTERVAL);
 
     return () => clearInterval(timer);
-  }, [products.length, isHovered, isManualPaused, handleNext]);
+  }, [products.length, isManualPaused, handleNext]);
 
   // Touch swipe support for mobile devices
   const handleTouchStart = (e) => {
@@ -185,8 +184,6 @@ export const HeroProductSlider = ({
       id="featured-showcase"
       aria-label="Featured Medical Equipment Showcase"
       className="py-8 sm:py-12 lg:py-14 bg-gradient-to-b from-[#f8f6f0] via-[#f3efe4] to-[#ede7d8] border-b border-[#ded7c4]/80 relative overflow-hidden select-none w-full"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Subtle ambient lighting decoration */}
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -248,7 +245,7 @@ export const HeroProductSlider = ({
           <div className="w-full h-1 bg-stone-100 overflow-hidden">
             <div 
               key={validIndex}
-              className={`h-full bg-gradient-to-r from-emerald-600 to-amber-500 transition-all ${(!isHovered && !isManualPaused) ? 'w-full duration-[2400ms] ease-linear' : 'w-full duration-0'}`}
+              className={`h-full bg-gradient-to-r from-emerald-600 to-amber-500 transition-all ${!isManualPaused ? 'w-full duration-[2400ms] ease-linear' : 'w-full duration-0'}`}
             />
           </div>
 
@@ -320,9 +317,9 @@ export const HeroProductSlider = ({
                   </span>
                   <span>/</span>
                   <span>{String(products.length).padStart(2, '0')}</span>
-                  {isHovered && (
+                  {isManualPaused && (
                     <span className="text-[10px] text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 font-sans font-medium">
-                      Hover Paused
+                      Paused
                     </span>
                   )}
                 </div>

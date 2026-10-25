@@ -65,7 +65,7 @@ export const Navbar = ({
           <div className="flex items-center space-x-4 sm:space-x-6">
             <a 
               href={`tel:${SITE_CONFIG.phoneTel}`}
-              className="hidden sm:inline-flex items-center gap-1.5 hover:text-[#1565c0] transition-colors font-medium"
+              className="inline-flex items-center gap-1.5 hover:text-[#1565c0] transition-colors font-medium text-[11px] sm:text-xs text-[#0c2461]"
             >
               <Phone className="w-3 h-3 text-[#0369a1]" />
               <span>Toll-Free: {SITE_CONFIG.phone}</span>
@@ -251,8 +251,16 @@ export const Navbar = ({
             </button>
           </div>
 
-          {/* Mobile menu button */}
-          <div className="lg:hidden flex items-center gap-2">
+          {/* Mobile Franchise quick button & menu button */}
+          <div className="lg:hidden flex items-center gap-2 shrink-0">
+            <button
+              onClick={() => onOpenFranchise && onOpenFranchise()}
+              className="relative overflow-hidden px-2.5 py-1 rounded-full bg-gradient-to-r from-[#1565c0] via-[#1976d2] to-[#2196f3] text-white text-[11px] font-extrabold shadow-[0_0_10px_rgba(33,150,243,0.7)] animate-[franchise-blink_1.6s_ease-in-out_infinite] border border-blue-300/60 inline-flex items-center gap-1 cursor-pointer active:scale-95"
+            >
+              <Handshake className="w-3.5 h-3.5 text-white shrink-0" />
+              <span className="tracking-tight whitespace-nowrap">Franchise</span>
+            </button>
+
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="p-1.5 rounded-xl text-white hover:bg-white/15 transition-colors cursor-pointer"
@@ -282,26 +290,28 @@ export const Navbar = ({
                 </button>
               );
             })}
-            <div className="pt-4 border-t border-hanbit-border mt-3 space-y-2">
+            <div className="pt-4 border-t border-white/20 mt-3 space-y-2.5">
               <button
                 onClick={() => {
                   setIsMobileMenuOpen(false);
                   if (onOpenFranchise) onOpenFranchise();
                 }}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 via-amber-400 to-yellow-400 text-stone-950 text-xs font-extrabold shadow-md flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98] transition-all"
+                className="relative overflow-hidden w-full py-3 rounded-xl bg-gradient-to-r from-[#1565c0] via-[#1976d2] to-[#2196f3] hover:from-[#0d47a1] hover:to-[#1565c0] text-white text-xs font-extrabold shadow-[0_0_16px_rgba(33,150,243,0.85)] animate-[franchise-blink_1.6s_ease-in-out_infinite] border border-blue-300/60 flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98] transition-all group"
               >
-                <Handshake className="w-4 h-4 text-stone-950" />
-                <span>Contact for Franchise</span>
-                <ArrowRight className="w-3.5 h-3.5 text-stone-950" />
+                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 ease-in-out pointer-events-none" />
+                <Handshake className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
+                <span className="tracking-tight font-bold">Contact for Franchise</span>
+                <ArrowRight className="w-3.5 h-3.5 text-white group-hover:translate-x-1 transition-transform" />
               </button>
               <button
                 onClick={() => {
                   setIsMobileMenuOpen(false);
                   onOpenLogin();
                 }}
-                className="w-full py-2 rounded-xl border border-hanbit-border text-xs text-hanbit-forest font-medium"
+                className="w-full py-2.5 rounded-xl border border-white/20 text-xs text-white/90 hover:bg-white/10 transition-colors font-medium flex items-center justify-center gap-2"
               >
-                Client Portal Login
+                <User className="w-3.5 h-3.5 text-white/80" />
+                <span>Client Portal Login</span>
               </button>
             </div>
           </div>
