@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, Mail, Menu, X, ArrowRight, ShieldCheck, User, Globe, Handshake } from 'lucide-react';
+import { Phone, Mail, QrCode, Menu, X, ArrowRight, ShieldCheck, User, Globe, Handshake } from 'lucide-react';
 import { SITE_CONFIG } from '../data/siteData';
 
 export const Navbar = ({
@@ -7,6 +7,7 @@ export const Navbar = ({
   onNavigate,
   onOpenLogin,
   onOpenFranchise,
+  onOpenScanner,
   isAdminAuthenticated,
   onOpenAdmin
 }) => {
@@ -146,6 +147,16 @@ export const Navbar = ({
               <Mail className="w-3 h-3 text-[#0369a1]" />
               <span className="hidden sm:inline">{SITE_CONFIG.email}</span>
             </a>
+            {/* Design Scanner Button */}
+            <button
+              onClick={() => onOpenScanner && onOpenScanner()}
+              className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded bg-amber-500/15 border border-amber-500/40 text-amber-900 hover:bg-amber-500 hover:text-white transition-all text-xs font-bold cursor-pointer shadow-2xs group"
+              title="Open Design QR Scanner to rate"
+            >
+              <QrCode className="w-3.5 h-3.5 text-amber-700 group-hover:text-white transition-colors" />
+              <span>QR Scanner</span>
+            </button>
+
             {isAdminAuthenticated ? (
               <button
                 onClick={onOpenAdmin}
@@ -239,7 +250,16 @@ export const Navbar = ({
           </nav>
 
           {/* Right Action Button: Contact for Franchise */}
-          <div className="hidden lg:flex items-center gap-3 shrink-0">
+          <div className="hidden lg:flex items-center gap-2.5 shrink-0">
+            <button
+              onClick={() => onOpenScanner && onOpenScanner()}
+              className="px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white border border-white/30 text-[11px] xl:text-xs font-bold transition-all inline-flex items-center gap-1.5 cursor-pointer shadow-2xs group"
+              title="Open Design QR Scanner to rate"
+            >
+              <QrCode className="w-3.5 h-3.5 text-amber-300 group-hover:rotate-12 transition-transform" />
+              <span>QR Scanner</span>
+            </button>
+
             <button
               onClick={() => onOpenFranchise && onOpenFranchise()}
               className="relative overflow-hidden px-3.5 py-1.5 rounded-full bg-gradient-to-r from-[#1565c0] via-[#1976d2] to-[#2196f3] hover:from-[#0d47a1] hover:to-[#1565c0] text-white text-[11px] xl:text-xs font-extrabold shadow-[0_0_12px_rgba(33,150,243,0.7)] hover:shadow-[0_0_20px_rgba(33,150,243,0.9)] animate-[franchise-blink_1.6s_ease-in-out_infinite] hover:scale-[1.04] active:scale-[0.97] border border-blue-300/60 transition-all duration-200 inline-flex items-center gap-1.5 group cursor-pointer"
@@ -252,7 +272,15 @@ export const Navbar = ({
           </div>
 
           {/* Mobile Franchise quick button & menu button */}
-          <div className="lg:hidden flex items-center gap-2 shrink-0">
+          <div className="lg:hidden flex items-center gap-1.5 shrink-0">
+            <button
+              onClick={() => onOpenScanner && onOpenScanner()}
+              className="p-1.5 rounded-full bg-white/15 text-white hover:bg-white/25 border border-white/30 flex items-center justify-center cursor-pointer active:scale-95"
+              title="Open QR Scanner"
+            >
+              <QrCode className="w-3.5 h-3.5 text-amber-300" />
+            </button>
+
             <button
               onClick={() => onOpenFranchise && onOpenFranchise()}
               className="relative overflow-hidden px-2.5 py-1 rounded-full bg-gradient-to-r from-[#1565c0] via-[#1976d2] to-[#2196f3] text-white text-[11px] font-extrabold shadow-[0_0_10px_rgba(33,150,243,0.7)] animate-[franchise-blink_1.6s_ease-in-out_infinite] border border-blue-300/60 inline-flex items-center gap-1 cursor-pointer active:scale-95"
@@ -302,6 +330,17 @@ export const Navbar = ({
                 <Handshake className="w-4 h-4 text-white group-hover:scale-110 transition-transform" />
                 <span className="tracking-tight font-bold">Contact for Franchise</span>
                 <ArrowRight className="w-3.5 h-3.5 text-white group-hover:translate-x-1 transition-transform" />
+              </button>
+
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  if (onOpenScanner) onOpenScanner();
+                }}
+                className="w-full py-2.5 rounded-xl bg-amber-500/20 border border-amber-400/40 text-amber-200 hover:bg-amber-500 hover:text-stone-950 font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer"
+              >
+                <QrCode className="w-3.5 h-3.5" />
+                <span>Open Design Scanner</span>
               </button>
 
               <button

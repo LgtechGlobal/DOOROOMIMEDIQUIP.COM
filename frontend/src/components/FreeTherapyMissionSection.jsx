@@ -211,19 +211,6 @@ export const FreeTherapyMissionSection = ({ onContactClick, onNavigateAbout, onN
                 Documented in thousands of regular attendees across Dooroomi's Indian therapeutic centers. Daily moxibustion and far-infrared therapy stimulate natural biological self-repair.
               </p>
             </div>
-
-            <div className="flex items-center gap-3 shrink-0">
-              <a
-                href={SITE_CONFIG.companyProfilePdf}
-                target="_blank"
-                rel="noreferrer"
-                download="Dooroomi-Company-Profile.pdf"
-                className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-hanbit-ivory border border-hanbit-border hover:border-hanbit-gold text-xs font-bold text-hanbit-forest transition-colors shadow-xs"
-              >
-                <Download className="w-4 h-4 text-hanbit-gold" />
-                <span>Download Profile PDF (15 Pages)</span>
-              </a>
-            </div>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 pt-8">

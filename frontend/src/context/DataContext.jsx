@@ -426,7 +426,22 @@ export const DataProvider = ({ children }) => {
       if (tRes.ok) {
         const tData = await tRes.json();
         if (tData.success && tData.testimonials && tData.testimonials.length > 0) {
-          setTestimonials(tData.testimonials);
+          const scannerRatings = tData.testimonials.filter(t => t.source === 'scanner' || t.verifiedScanner);
+          const clinicalTestimonials = tData.testimonials.filter(t => t.source !== 'scanner' && !t.verifiedScanner);
+          if (scannerRatings.length > 0) {
+            setCustomerRatings(prev => {
+              const combined = [...scannerRatings];
+              prev.forEach(p => {
+                if (!combined.some(c => c.id === p.id || (c.name === p.name && (c.comment === p.comment || c.quote === p.quote)))) {
+                  combined.push(p);
+                }
+              });
+              return combined;
+            });
+          }
+          if (clinicalTestimonials.length > 0) {
+            setTestimonials(clinicalTestimonials);
+          }
         }
       }
 

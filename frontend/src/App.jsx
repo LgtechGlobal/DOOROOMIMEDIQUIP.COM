@@ -300,6 +300,7 @@ export function App() {
           onNavigate={scrollToSection}
           onOpenLogin={() => setIsLoginOpen(true)}
           onOpenFranchise={() => setIsFranchiseOpen(true)}
+          onOpenScanner={() => setIsScannerOpen(true)}
           onSelectCategory={(catId) => setSelectedCatId(catId)}
           isAdminAuthenticated={isAdminAuthenticated}
           onOpenAdmin={() => {
@@ -390,6 +391,14 @@ export function App() {
               comparedProducts={comparedProducts}
               onToggleCompare={handleToggleCompare}
             />
+          ) : currentRoute.view === 'rate' ? (
+            <CustomerRatingPage
+              onNavigateHome={() => {
+                window.location.hash = '';
+                setCurrentRoute({ view: 'home', productId: null });
+                setActiveSection('hero');
+              }}
+            />
           ) : (
             <>
               {/* Hero Section Carousel */}
@@ -428,7 +437,7 @@ export function App() {
               />
 
               {/* Real Patient Recovery Testimonials - Single Row Carousel with 5 Stars & Portraits */}
-              <PatientTestimonialsRowSection />
+              <PatientTestimonialsRowSection onOpenScanner={() => setIsScannerOpen(true)} />
 
               {/* Clinical Video Testimonials */}
               <TestimonialVideoSection />
@@ -474,6 +483,16 @@ export function App() {
         <FranchiseModal
           isOpen={isFranchiseOpen}
           onClose={() => setIsFranchiseOpen(false)}
+        />
+
+        {/* QR Scanner Modal for Rating & Feedback */}
+        <QRScannerModal
+          isOpen={isScannerOpen}
+          onClose={() => setIsScannerOpen(false)}
+          onOpenRatingPage={() => {
+            setIsScannerOpen(false);
+            window.location.hash = '/rate';
+          }}
         />
 
         {/* Dynamic Admin-Controlled Advertisement / Announcement Modal (User Facing) */}

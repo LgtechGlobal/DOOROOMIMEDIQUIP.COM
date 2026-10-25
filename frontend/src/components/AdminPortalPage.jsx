@@ -1122,13 +1122,32 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
             )}
 
             {activeTab === 'testimonials' && (
-              <button
-                onClick={() => setShowAddTestimonialModal(true)}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black text-xs font-bold shadow-md cursor-pointer transition-all"
-              >
-                <Plus className="w-3.5 h-3.5" />
-                <span>Add Testimonial</span>
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    const origin = typeof window !== 'undefined' ? window.location.origin : 'https://www.dooroomimediquip.com';
+                    const pathname = typeof window !== 'undefined' ? window.location.pathname.replace(/\/$/, '') : '';
+                    downloadScannerPoster({
+                      qrUrl: `${origin}${pathname}/#/rate`,
+                      centerName: "Dooroomi Medical Pvt. Ltd.",
+                      filename: "Dooroomi-Customer-Feedback-Scanner.png"
+                    });
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-emerald-950 border border-emerald-500/60 hover:bg-emerald-900 text-emerald-300 text-xs font-bold shadow-md cursor-pointer transition-all"
+                  title="Download High-Resolution Printable Standee Poster (PNG)"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Download Scanner Poster</span>
+                </button>
+
+                <button
+                  onClick={() => setShowAddTestimonialModal(true)}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black text-xs font-bold shadow-md cursor-pointer transition-all"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>Add Testimonial</span>
+                </button>
+              </div>
             )}
 
             {activeTab === 'ads' && (
