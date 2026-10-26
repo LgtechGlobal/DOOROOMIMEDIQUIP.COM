@@ -600,16 +600,25 @@ export const PatientTestimonialsRowSection = ({ onOpenScanner }) => {
                 className="rounded-3xl bg-white border border-hanbit-border/80 hover:border-hanbit-gold shadow-sm hover:shadow-xl transition-all duration-300 p-6 sm:p-7 flex flex-col justify-between relative overflow-hidden group"
               >
                 <div className="space-y-4">
-                  {/* Top Row: Stars + Selective Feedback Pill */}
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-1">
+                  {/* Top Row: Stars + Selective Feedback Pills (Multiple Tags Supported) */}
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                    <div className="flex items-center gap-1 shrink-0">
                       {[...Array(Number(review.rating) || 5)].map((_, sIdx) => (
                         <Star key={sIdx} className="w-4 h-4 fill-amber-400 text-amber-400 drop-shadow-[0_1px_2px_rgba(245,158,11,0.4)]" />
                       ))}
                     </div>
-                    <span className="px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/80 text-[11px] font-bold text-emerald-800 tracking-tight shrink-0 shadow-2xs">
-                      {review.selectiveFeedback || '🌟 Excellent Therapy'}
-                    </span>
+                    <div className="flex flex-wrap gap-1 items-center justify-end">
+                      {(review.selectiveFeedback || '🌟 Excellent Therapy')
+                        .split('·')
+                        .map(s => s.trim())
+                        .filter(Boolean)
+                        .map((tag, tIdx) => (
+                          <span key={tIdx} className="px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-[10.5px] font-bold text-emerald-800 tracking-tight shadow-2xs">
+                            {tag}
+                          </span>
+                        ))
+                      }
+                    </div>
                   </div>
 
                   {/* Customer Review Quote */}

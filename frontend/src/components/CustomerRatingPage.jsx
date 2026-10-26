@@ -27,7 +27,18 @@ export const CustomerRatingPage = ({ onNavigateHome }) => {
 
   const [rating, setRating] = useState(5);
   const [hoverRating, setHoverRating] = useState(0);
-  const [selectedOption, setSelectedOption] = useState(SELECTIVE_OPTIONS[0].label);
+  const [selectedOptions, setSelectedOptions] = useState([SELECTIVE_OPTIONS[0].label]);
+
+  const toggleOption = (optLabel) => {
+    setSelectedOptions((prev) => {
+      if (prev.includes(optLabel)) {
+        if (prev.length <= 1) return prev; // Keep at least 1 option selected
+        return prev.filter((item) => item !== optLabel);
+      } else {
+        return [...prev, optLabel];
+      }
+    });
+  };
   const [name, setName] = useState('');
   const [location, setLocation] = useState('');
   const [treatment, setTreatment] = useState('BEDRO Smart-1 Thermal Spine Bed');
@@ -56,13 +67,14 @@ export const CustomerRatingPage = ({ onNavigateHome }) => {
     setErrorMsg('');
     setIsSubmitting(true);
 
+    const formattedFeedback = selectedOptions.join(' · ');
     const payload = {
       name: name.trim(),
       rating,
-      selectiveFeedback: selectedOption,
+      selectiveFeedback: formattedFeedback,
       location: location.trim() || 'Bhubaneswar, Odisha',
       treatment,
-      comment: comment.trim() || selectedOption
+      comment: comment.trim() || formattedFeedback
     };
 
     try {
@@ -113,13 +125,19 @@ export const CustomerRatingPage = ({ onNavigateHome }) => {
             </p>
           </div>
 
-          <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-left space-y-1 text-xs">
+          <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-left space-y-2 text-xs">
             <div className="flex items-center gap-1.5 font-bold text-emerald-900">
               <Sparkles className="w-4 h-4 text-emerald-700" />
-              <span>Feedback Highlights:</span>
+              <span>Selected Experience ({selectedOptions.length}):</span>
             </div>
-            <p className="text-emerald-800 font-medium pl-5">{selectedOption}</p>
-            {comment && <p className="text-stone-600 italic pl-5 line-clamp-2">"{comment}"</p>}
+            <div className="flex flex-wrap gap-1.5 pl-2">
+              {selectedOptions.map((opt, i) => (
+                <span key={i} className="px-2.5 py-0.5 rounded-full bg-white border border-emerald-300 text-emerald-800 font-semibold text-[11px] shadow-2xs">
+                  {opt}
+                </span>
+              ))}
+            </div>
+            {comment && <p className="text-stone-600 italic pl-2 pt-1 line-clamp-2">"{comment}"</p>}
           </div>
 
           <div className="space-y-2 pt-2">
@@ -206,30 +224,32 @@ export const CustomerRatingPage = ({ onNavigateHome }) => {
             </p>
           </div>
 
-          {/* 2. Selective Comment 5 Options (As Requested!) */}
+          {/* 2. Selective Comment 5 Options (Multiple Selection Enabled) */}
           <div className="space-y-3 pb-6 border-b border-stone-100">
             <div className="flex items-center justify-between">
               <span className="text-xs font-mono font-bold uppercase tracking-wider text-amber-800">
-                2. Select your experience (5 Options)
+                2. Select your experience (Choose multiple)
               </span>
-              <span className="text-[11px] text-stone-400 font-light">Tap to select</span>
+              <span className="text-[11px] font-semibold text-emerald-800 bg-emerald-100/80 px-2.5 py-0.5 rounded-full border border-emerald-300">
+                {selectedOptions.length} of {SELECTIVE_OPTIONS.length} selected
+              </span>
             </div>
 
             <div className="grid grid-cols-1 gap-2.5">
               {SELECTIVE_OPTIONS.map((opt) => {
-                const isSelected = selectedOption === opt.label;
+                const isSelected = selectedOptions.includes(opt.label);
                 return (
                   <div
                     key={opt.id}
-                    onClick={() => setSelectedOption(opt.label)}
+                    onClick={() => toggleOption(opt.label)}
                     className={`p-3.5 rounded-2xl border-2 transition-all cursor-pointer flex items-center justify-between gap-3 ${
                       isSelected
-                        ? 'border-emerald-600 bg-emerald-50/80 shadow-xs'
+                        ? 'border-emerald-600 bg-emerald-50/90 shadow-xs ring-1 ring-emerald-500/40'
                         : 'border-stone-200/90 bg-stone-50/50 hover:bg-stone-50 hover:border-stone-300'
                     }`}
                   >
                     <div>
-                      <span className={`text-sm font-bold block ${isSelected ? 'text-emerald-950' : 'text-stone-800'}`}>
+                      <span className={`text-sm font-bold block ${isSelected ? 'text-emerald-950 font-extrabold' : 'text-stone-800'}`}>
                         {opt.label}
                       </span>
                       <span className="text-xs text-stone-500 font-light block mt-0.5">
@@ -237,8 +257,8 @@ export const CustomerRatingPage = ({ onNavigateHome }) => {
                       </span>
                     </div>
 
-                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
-                      isSelected ? 'border-emerald-700 bg-emerald-700 text-white' : 'border-stone-300 bg-white'
+                    <div className={`w-5 h-5 rounded-lg border-2 flex items-center justify-center shrink-0 transition-all ${
+                      isSelected ? 'border-emerald-700 bg-emerald-700 text-white shadow-xs' : 'border-stone-300 bg-white'
                     }`}>
                       {isSelected && <CheckCircle2 className="w-3.5 h-3.5" />}
                     </div>
