@@ -32,7 +32,7 @@ export const SITE_CONFIG = {
       id: "matthew-seong",
       role: "CEO & Global Tech Partner",
       titleHeader: "Message from our Global CEO",
-      name: "Seong Kyeong So-Matthew Seong",
+      name: "Seong Kyeong So",
       nameKo: "성경소 대표",
       base: "Goyang-Si, Gyeonggi-do, Korea",
       photo: "./assets/ceo/ceo-portrait.jpeg",
@@ -66,7 +66,7 @@ export const SITE_CONFIG = {
     }
   ],
   ceo: {
-    name: "Seong Kyeong So-Matthew Seong",
+    name: "Seong Kyeong So",
     nameKo: "성경소",
     title: "Chief Executive Officer",
     company: "Dooroomi Co., Ltd.",
