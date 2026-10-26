@@ -430,12 +430,16 @@ export const DataProvider = ({ children }) => {
           const clinicalTestimonials = tData.testimonials.filter(t => t.source !== 'scanner' && !t.verifiedScanner);
           if (scannerRatings.length > 0) {
             setCustomerRatings(prev => {
+              const prevList = Array.isArray(prev) ? prev : [];
               const combined = [...scannerRatings];
-              prev.forEach(p => {
+              prevList.forEach(p => {
                 if (!combined.some(c => c.id === p.id || (c.name === p.name && (c.comment === p.comment || c.quote === p.quote)))) {
                   combined.push(p);
                 }
               });
+              try {
+                localStorage.setItem('dooroomi_customer_ratings', JSON.stringify(combined));
+              } catch (_) {}
               return combined;
             });
           }
@@ -960,6 +964,8 @@ export const DataProvider = ({ children }) => {
         products,
         centers,
         testimonials,
+        customerRatings,
+        submitCustomerRating,
         ads,
         activeAd,
         galleryItems,

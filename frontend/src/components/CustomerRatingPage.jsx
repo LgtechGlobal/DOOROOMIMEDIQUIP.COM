@@ -80,15 +80,17 @@ export const CustomerRatingPage = ({ onNavigateHome }) => {
   };
 
   const handleReturnHome = () => {
+    try {
+      sessionStorage.setItem('dooroomi_active_testimonial_tab', 'scanner');
+    } catch (_) {}
     window.location.hash = '';
     if (onNavigateHome) {
       onNavigateHome();
-    } else {
-      setTimeout(() => {
-        const el = document.getElementById('testimonials');
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
-      }, 300);
     }
+    setTimeout(() => {
+      const el = document.getElementById('testimonials');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 250);
   };
 
   if (isSubmitted) {

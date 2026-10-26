@@ -728,6 +728,86 @@ const seedInitialData = async () => {
       console.log('Initial testimonials seeded into MongoDB Atlas successfully.');
     }
 
+    // Seed default verified scanner ratings if none exist
+    const scannerRatingCount = await Testimonial.countDocuments({
+      $or: [{ source: 'scanner' }, { verifiedScanner: true }]
+    });
+    if (scannerRatingCount === 0) {
+      await Testimonial.insertMany([
+        {
+          id: "rate-init-01",
+          name: "Sunita Mohanty",
+          age: "48 Years",
+          rating: 5,
+          selectiveFeedback: "🌟 Excellent Therapy",
+          location: "Palasuni Square, Bhubaneswar",
+          treatment: "BEDRO Smart-1 Thermal Spine Bed",
+          disease: "L4-L5 Lumbar Disc Recovery",
+          quote: "I have been suffering from severe L4-L5 lumbar disc compression for 4 years. After taking 3 weeks of daily therapy at the Bhubaneswar center, the radiating pain down my leg has completely stopped. Very grateful!",
+          fullStory: "I have been suffering from severe L4-L5 lumbar disc compression for 4 years. After taking 3 weeks of daily therapy at the Bhubaneswar center, the radiating pain down my leg has completely stopped. Very grateful!",
+          source: "scanner",
+          verifiedScanner: true
+        },
+        {
+          id: "rate-init-02",
+          name: "Pradeep Kumar Das",
+          age: "54 Years",
+          rating: 5,
+          selectiveFeedback: "⚡ Good Pain Relief",
+          location: "Cuttack, Odisha",
+          treatment: "TAEYANGSUK PLUS Far-Infrared Bio-Mat",
+          disease: "Chronic Spinal Stiffness & Fatigue",
+          quote: "The heated bio-minerals and jade stones relieve chronic stiffness and fatigue. Blood circulation has improved remarkably and my sleep quality is the best it has been in years.",
+          fullStory: "The heated bio-minerals and jade stones relieve chronic stiffness and fatigue. Blood circulation has improved remarkably and my sleep quality is the best it has been in years.",
+          source: "scanner",
+          verifiedScanner: true
+        },
+        {
+          id: "rate-init-03",
+          name: "Sasmita Tripathy",
+          age: "61 Years",
+          rating: 5,
+          selectiveFeedback: "❤️ Kind & Caring Staff",
+          location: "Bhubaneswar Center",
+          treatment: "Champion Waist Support Belt & Knee Wrap",
+          disease: "Joint Pain & Waist Decompression",
+          quote: "The center staff treat every patient like family with absolute love and kindness. The unconditional free daily therapy is a true blessing for senior citizens like me.",
+          fullStory: "The center staff treat every patient like family with absolute love and kindness. The unconditional free daily therapy is a true blessing for senior citizens like me.",
+          source: "scanner",
+          verifiedScanner: true
+        },
+        {
+          id: "rate-init-04",
+          name: "Anil Sharma",
+          age: "42 Years",
+          rating: 5,
+          selectiveFeedback: "✨ Highly Recommended",
+          location: "New Delhi Center",
+          treatment: "BEDRO Smart-1 Spine Traction",
+          disease: "Spinal Alignment Therapy",
+          quote: "Top-notch Korean precision engineering. Much better than painkillers or temporary physiotherapy sessions. Highly recommend everyone to try it at least once.",
+          fullStory: "Top-notch Korean precision engineering. Much better than painkillers or temporary physiotherapy sessions. Highly recommend everyone to try it at least once.",
+          source: "scanner",
+          verifiedScanner: true
+        },
+        {
+          id: "rate-init-05",
+          name: "Manorama Sahu",
+          age: "57 Years",
+          rating: 5,
+          selectiveFeedback: "👍 Very Good Recovery",
+          location: "Nayagarh / Bhubaneswar",
+          treatment: "Smart Laser & 9-Ball Jade Projector",
+          disease: "Knee Arthritis & Joint Mobility",
+          quote: "Knee swelling and joint friction reduced by over 80%. I can now walk comfortably without support.",
+          fullStory: "Knee swelling and joint friction reduced by over 80%. I can now walk comfortably without support.",
+          source: "scanner",
+          verifiedScanner: true
+        }
+      ]);
+      console.log('Initial customer scanner ratings seeded into MongoDB Atlas successfully.');
+    }
+
     // Seed default advertisement if empty
     const adCount = await Ad.countDocuments();
     if (adCount === 0) {

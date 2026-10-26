@@ -18,12 +18,28 @@ import {
   FileText,
   BadgeCheck
 } from 'lucide-react';
-import { useData } from '../context/DataContext';
+import { useData, INITIAL_CUSTOMER_RATINGS } from '../context/DataContext';
 import { getOptimizedImageUrl } from '../utils/imageUrl';
 
 export const PatientTestimonialsRowSection = ({ onOpenScanner }) => {
   const { testimonials: dynamicTestimonials, customerRatings } = useData();
-  const [activeTab, setActiveTab] = useState('clinical'); // 'clinical' | 'scanner'
+  const [activeTab, setActiveTab] = useState(() => {
+    try {
+      const saved = sessionStorage.getItem('dooroomi_active_testimonial_tab');
+      if (saved) {
+        sessionStorage.removeItem('dooroomi_active_testimonial_tab');
+        return saved;
+      }
+    } catch (_) {}
+    return 'clinical';
+  });
+
+  const displayRatings = useMemo(() => {
+    if (Array.isArray(customerRatings) && customerRatings.length > 0) {
+      return customerRatings;
+    }
+    return INITIAL_CUSTOMER_RATINGS || [];
+  }, [customerRatings]);
   const scrollRef = useRef(null);
   const [selectedStory, setSelectedStory] = useState(null);
   const [selectedScan, setSelectedScan] = useState(null);
@@ -431,7 +447,7 @@ export const PatientTestimonialsRowSection = ({ onOpenScanner }) => {
                 <QrCode className={`w-3.5 h-3.5 ${activeTab === 'scanner' ? 'text-amber-300' : 'text-amber-600'}`} />
                 <span>Customer Scanner Ratings</span>
                 <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold ${activeTab === 'scanner' ? 'bg-amber-400 text-stone-950' : 'bg-emerald-100 text-emerald-800'}`}>
-                  {customerRatings?.length || 5}
+                  {displayRatings.length}
                 </span>
               </button>
             </div>
@@ -578,16 +594,16 @@ export const PatientTestimonialsRowSection = ({ onOpenScanner }) => {
 
           {/* Grid of Verified Customer Reviews */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {(customerRatings || []).map((review, idx) => (
+            {displayRatings.map((review, idx) => (
               <div
-                key={review.id || idx}
+                key={review.id || review._id || idx}
                 className="rounded-3xl bg-white border border-hanbit-border/80 hover:border-hanbit-gold shadow-sm hover:shadow-xl transition-all duration-300 p-6 sm:p-7 flex flex-col justify-between relative overflow-hidden group"
               >
                 <div className="space-y-4">
                   {/* Top Row: Stars + Selective Feedback Pill */}
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-1">
-                      {[...Array(review.rating || 5)].map((_, sIdx) => (
+                      {[...Array(Number(review.rating) || 5)].map((_, sIdx) => (
                         <Star key={sIdx} className="w-4 h-4 fill-amber-400 text-amber-400 drop-shadow-[0_1px_2px_rgba(245,158,11,0.4)]" />
                       ))}
                     </div>
@@ -615,7 +631,7 @@ export const PatientTestimonialsRowSection = ({ onOpenScanner }) => {
                   <div>
                     <h4 className="font-bold text-hanbit-forest text-sm flex items-center gap-1.5">
                       <span>{review.name}</span>
-                      <BadgeCheck className="w-4 h-4 text-emerald-600" title="Verified via QR Scanner" />
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600" title="Verified via QR Scanner" />
                     </h4>
                     <p className="text-[11px] text-stone-400 flex items-center gap-1 mt-0.5">
                       <MapPin className="w-3 h-3 text-stone-400" />
@@ -624,7 +640,7 @@ export const PatientTestimonialsRowSection = ({ onOpenScanner }) => {
                   </div>
 
                   <span className="text-[10px] font-mono text-stone-400">
-                    {review.date || 'Verified Review'}
+                    {review.date || (review.createdAt ? new Date(review.createdAt).toLocaleDateString() : 'Verified Review')}
                   </span>
                 </div>
               </div>

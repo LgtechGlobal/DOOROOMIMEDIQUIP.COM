@@ -15,6 +15,18 @@ testimonialsRouter.get('/', async (req, res) => {
   }
 });
 
+// GET all customer scanner ratings
+testimonialsRouter.get('/customer-ratings', async (req, res) => {
+  try {
+    const ratings = await Testimonial.find({
+      $or: [{ source: 'scanner' }, { verifiedScanner: true }]
+    }).sort({ createdAt: -1 });
+    res.json({ success: true, count: ratings.length, ratings });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Server error', error: err.message });
+  }
+});
+
 // POST public customer rating from QR scanner (Unauthenticated, public)
 testimonialsRouter.post('/public-rating', async (req, res) => {
   try {
