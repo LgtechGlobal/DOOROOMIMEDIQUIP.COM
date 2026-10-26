@@ -140,18 +140,10 @@ export const FreeTherapyMissionSection = ({ onContactClick, onNavigateAbout, onN
                 </span>
               </div>
 
-              <div className="pt-2 flex flex-col sm:flex-row gap-2.5">
-                <button
-                  onClick={() => setShowPdfModal(true)}
-                  className="flex-1 py-3 px-4 rounded-xl bg-hanbit-gold hover:bg-yellow-500 text-hanbit-dark font-bold text-xs shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  <FileText className="w-4 h-4" />
-                  <span>Company Profile PDF</span>
-                </button>
-
+              <div className="pt-2">
                 <button
                   onClick={onContactClick}
-                  className="flex-1 py-3 px-4 rounded-xl bg-white/15 hover:bg-white/25 border border-white/30 text-white font-bold text-xs transition-all flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-3.5 px-6 rounded-xl bg-hanbit-gold hover:bg-yellow-500 text-hanbit-dark font-bold text-xs sm:text-sm shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.98]"
                 >
                   <span>Book Free Visit</span>
                 </button>
