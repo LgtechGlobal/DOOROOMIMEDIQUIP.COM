@@ -10,6 +10,8 @@ export const SITE_CONFIG = {
   tollFree: "0674 291 6680",
   whatsapp: "+91 91536 97636",
   whatsappTel: "919153697636",
+  directCalling: "+91 93489 16882",
+  directCallingTel: "+919348916882",
   email: "dooroomimediquip@gmail.com",
   inquiryEmail: "dooroomimediquip@gmail.com",
   companyProfilePdf: "./assets/ceo/company-profile.pdf",
