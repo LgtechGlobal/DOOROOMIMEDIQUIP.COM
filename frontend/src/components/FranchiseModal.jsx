@@ -134,8 +134,13 @@ ${formData.phone}`;
         className="relative bg-white rounded-3xl max-w-4xl w-full max-h-[94vh] flex flex-col shadow-2xl border border-hanbit-gold/40 overflow-hidden my-auto"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Modal Top Header */}
-        <div className="p-5 sm:p-6 bg-gradient-to-r from-hanbit-dark via-hanbit-forest to-emerald-950 text-white flex items-center justify-between border-b border-hanbit-gold/30 shrink-0">
+        {/* Modal Top Header with Handshake Partnership Background */}
+        <div 
+          className="p-5 sm:p-6 text-white flex items-center justify-between border-b border-hanbit-gold/40 shrink-0 relative overflow-hidden bg-cover bg-center"
+          style={{
+            backgroundImage: "linear-gradient(to right, rgba(13, 34, 27, 0.94), rgba(18, 54, 43, 0.88), rgba(13, 34, 27, 0.94)), url('/assets/img/franchise-partnership-bg.jpg')"
+          }}
+        >
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-2xl bg-hanbit-gold/20 border border-hanbit-gold/40 flex items-center justify-center text-hanbit-gold shrink-0">
               <Building2 className="w-6 h-6" />
@@ -160,11 +165,21 @@ ${formData.phone}`;
           </button>
         </div>
 
-        {/* Modal Scrollable Body */}
-        <div className="overflow-y-auto flex-1 p-5 sm:p-8 space-y-8 bg-[#fdfcfa]">
+        {/* Modal Scrollable Body with Partnership Wallpaper */}
+        <div 
+          className="overflow-y-auto flex-1 p-5 sm:p-8 space-y-8 relative bg-cover bg-center"
+          style={{
+            backgroundImage: "linear-gradient(to bottom, rgba(253, 252, 250, 0.92), rgba(253, 252, 250, 0.96)), url('/assets/img/franchise-partnership-bg.jpg')"
+          }}
+        >
           
-          {/* 1. INTERACTIVE 2-HANDS HANDSHAKE ANIMATION */}
-          <div className="relative rounded-3xl bg-gradient-to-b from-[#0c1e15] to-[#06120c] p-6 sm:p-8 text-white border border-hanbit-gold/30 shadow-inner overflow-hidden text-center">
+          {/* 1. INTERACTIVE 2-HANDS HANDSHAKE ANIMATION WITH BACKGROUND IMAGE */}
+          <div 
+            className="relative rounded-3xl p-6 sm:p-8 text-white border-2 border-amber-400/50 shadow-xl overflow-hidden text-center bg-cover bg-center"
+            style={{
+              backgroundImage: "linear-gradient(to bottom, rgba(12, 30, 21, 0.80), rgba(6, 18, 12, 0.88)), url('/assets/img/franchise-partnership-bg.jpg')"
+            }}
+          >
             
             {/* Background Glow */}
             <div className="absolute inset-0 bg-[radial-gradient(#dfbe7e_1px,transparent_1px)] [background-size:24px_24px] opacity-15 pointer-events-none" />
