@@ -64,18 +64,6 @@ export const INITIAL_GALLERY_ITEMS = [
     "createdAt": "2026-10-23T13:15:51.678Z"
   },
   {
-    "id": "gal-img-006",
-    "type": "image",
-    "title": "Spinal Acupressure & Far-Infrared Heat Session",
-    "description": "Authentic photography from Dooroomi 100% Free Daily Therapy Centers and medical device demonstrations.",
-    "category": "Patient Sessions",
-    "url": "/assets/gallery image/WhatsApp%20Image%202026-10-23%20at%209.07.32%20PM.jpeg",
-    "thumbnailUrl": "/assets/gallery image/WhatsApp%20Image%202026-10-23%20at%209.07.32%20PM.jpeg",
-    "videoType": "file",
-    "sortOrder": 6,
-    "createdAt": "2026-10-23T12:15:51.678Z"
-  },
-  {
     "id": "gal-img-007",
     "type": "image",
     "title": "Dooroomi Senior Patient Recovery & Daily Care",
@@ -586,7 +574,7 @@ export const INITIAL_GALLERY_ITEMS = [
     "description": "Clinical video demonstration and real patient therapy footage recorded at Dooroomi Free Health Centers.",
     "category": "Community Health",
     "url": "/assets/gallery video/WhatsApp%20Video%202026-10-23%20at%209.07.34%20PM.mp4",
-    "thumbnailUrl": "/assets/gallery image/WhatsApp%20Image%202026-10-23%20at%209.07.32%20PM.jpeg",
+    "thumbnailUrl": "/assets/gallery image/WhatsApp%20Image%202026-10-23%20at%209.07.34%20PM.jpeg",
     "videoType": "file",
     "sortOrder": 106,
     "createdAt": "2026-10-23T07:15:51.679Z"
