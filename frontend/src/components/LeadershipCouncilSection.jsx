@@ -53,7 +53,7 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-hanbit-forest font-serif tracking-tight">
             Dooroomi Global Leadership Council
           </h2>
-          <p className="text-sm sm:text-base text-hanbit-muted font-light leading-relaxed">
+          <p className="text-sm sm:text-base text-slate-800 font-normal leading-relaxed">
             Guided by distinguished leaders across South Korea, India, and global manufacturing operations. Click on any leader to view their full portrait and official verbatim message.
           </p>
         </div>
@@ -94,7 +94,7 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
                       <ShieldCheck className="w-3.5 h-3.5 text-amber-600" />
                       <span>{leader.id === 'matthew-seong' ? 'Global CEO' : 'India CEO'}</span>
                     </span>
-                    <span className="text-[11px] font-mono text-neutral-400 font-semibold">
+                    <span className="text-[11px] font-mono text-slate-600 font-bold">
                       {leader.id === 'matthew-seong' ? '🇰🇷 South Korea' : '🇮🇳 India'}
                     </span>
                   </div>
@@ -107,7 +107,7 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
                 </div>
 
                 {/* Bio Narrative */}
-                <p className="text-sm sm:text-base text-neutral-600 leading-relaxed font-light">
+                <p className="text-sm sm:text-base text-slate-800 leading-relaxed font-normal">
                   {leader.bio}
                 </p>
 
@@ -116,7 +116,7 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
 
               {/* Card Footer Button */}
               <div className="pt-6 mt-6 border-t border-neutral-200/80 flex items-center justify-between relative z-10">
-                <div className="text-xs text-neutral-600 font-semibold flex items-center gap-1.5">
+                <div className="text-xs text-slate-800 font-semibold flex items-center gap-1.5">
                   <ShieldCheck className="w-4 h-4 text-amber-600" />
                   <span>Authorized Executive</span>
                 </div>

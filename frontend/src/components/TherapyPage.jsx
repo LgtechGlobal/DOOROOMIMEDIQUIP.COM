@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { 
   HeartPulse, 
   Activity, 
@@ -480,7 +480,7 @@ export const TherapyPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
               <h2 className="text-2xl sm:text-4xl font-extrabold text-hanbit-forest font-serif">
                 The 6 Integrated Pillars of Dooroomi Therapy
               </h2>
-              <p className="mt-2 text-sm text-hanbit-muted font-light leading-relaxed">
+              <p className="mt-2 text-sm text-slate-800 font-normal leading-relaxed">
                 By fusing centuries of verified Asian meridian medicine with Nobel-recognized Western physical therapies, Dooroomi delivers a holistic therapeutic synergy that treats the root cause rather than transient symptoms.
               </p>
             </div>
@@ -499,7 +499,7 @@ export const TherapyPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
                         <span className="text-2xl font-serif font-black text-hanbit-gold/40 group-hover:text-hanbit-gold transition-colors">
                           {principle.num}
                         </span>
-                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-hanbit-forest bg-hanbit-ivory px-3 py-1 rounded-full border border-hanbit-border">
+                        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-900 bg-slate-100 px-3 py-1 rounded-full border border-slate-300">
                           {principle.tag}
                         </span>
                       </div>
@@ -519,15 +519,15 @@ export const TherapyPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
                         </div>
                       </div>
 
-                      <p className="text-xs text-hanbit-forest/80 font-medium italic mt-2 mb-4 bg-hanbit-ivory/60 p-2.5 rounded-xl border border-hanbit-border/40">
+                      <p className="text-xs text-slate-900 font-medium italic mt-2 mb-4 bg-slate-100/90 p-2.5 rounded-xl border border-slate-300">
                         {principle.summary}
                       </p>
 
                       {/* Bulleted Clinical Details */}
                       <ul className="space-y-2 mt-4">
                         {principle.details.map((item, idx) => (
-                          <li key={idx} className="flex items-start gap-2 text-xs text-hanbit-muted leading-relaxed font-light">
-                            <span className="w-1.5 h-1.5 rounded-full bg-hanbit-gold shrink-0 mt-1.5" />
+                          <li key={idx} className="flex items-start gap-2 text-xs text-slate-800 leading-relaxed font-normal">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-600 shrink-0 mt-1.5" />
                             <span>{item}</span>
                           </li>
                         ))}
@@ -616,12 +616,12 @@ export const TherapyPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
                         {min.role}
                       </span>
 
-                      <p className="text-xs text-hanbit-muted leading-relaxed font-light">
+                      <p className="text-xs text-slate-800 leading-relaxed font-normal">
                         {min.desc}
                       </p>
                     </div>
 
-                    <div className="pt-4 mt-4 border-t border-hanbit-border/40 text-[11px] font-mono text-hanbit-muted/80">
+                    <div className="pt-4 mt-4 border-t border-slate-200 text-[11px] font-mono text-slate-700 font-semibold">
                       Standard: 100% High-Purity Natural Ore
                     </div>
                   </div>

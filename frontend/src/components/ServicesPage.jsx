@@ -125,7 +125,7 @@ export const ServicesPage = ({ onNavigateHome, onNavigateGallery, onContactClick
             Comprehensive Formulation, Clinical Testing & Cleanroom Manufacturing.
           </h1>
 
-          <p className="mt-4 text-base sm:text-lg text-hanbit-muted font-light leading-relaxed">
+          <p className="mt-4 text-base sm:text-lg text-slate-800 font-normal leading-relaxed">
             From bespoke active synthesis in our South Korean laboratories to high-speed automated aseptic filling at our Songdo Bio-Cluster facility, Dooroomi provides end-to-end OEM, ODM, and OBM solutions for global beauty and medical brands.
           </p>
         </div>
@@ -146,17 +146,17 @@ export const ServicesPage = ({ onNavigateHome, onNavigateGallery, onContactClick
                   <h3 className="text-base sm:text-lg font-bold text-hanbit-forest leading-snug group-hover:text-hanbit-gold transition-colors">
                     {svc.title}
                   </h3>
-                  <p className="text-xs sm:text-[13px] text-hanbit-muted mt-2 leading-relaxed font-light">
+                  <p className="text-xs sm:text-[13px] text-slate-800 mt-2 leading-relaxed font-medium">
                     {svc.desc}
                   </p>
                 </div>
               </div>
 
-              <div className="pt-5 border-t border-hanbit-border/60 mt-4 flex flex-wrap gap-1.5">
+              <div className="pt-5 border-t border-slate-200 mt-4 flex flex-wrap gap-1.5">
                 {svc.tags.map((tag, tIdx) => (
                   <span
                     key={tIdx}
-                    className="px-2.5 py-1 rounded-md bg-hanbit-ivory border border-hanbit-border/60 text-[10px] text-hanbit-forest font-semibold"
+                    className="px-2.5 py-1 rounded-md bg-slate-100 border border-slate-300 text-[11px] text-slate-900 font-bold shadow-2xs"
                   >
                     {tag}
                   </span>
@@ -184,14 +184,14 @@ export const ServicesPage = ({ onNavigateHome, onNavigateGallery, onContactClick
                   <span className="font-mono text-xs font-extrabold text-hanbit-gold bg-white px-2.5 py-0.5 rounded border border-hanbit-border">
                     STEP {st.step}
                   </span>
-                  <span className="text-[11px] font-semibold text-hanbit-muted">
+                  <span className="text-[11px] font-bold text-slate-700">
                     {st.time}
                   </span>
                 </div>
                 <h4 className="text-base font-bold text-hanbit-forest pt-1">
                   {st.title}
                 </h4>
-                <p className="text-xs text-hanbit-muted leading-relaxed font-light">
+                <p className="text-xs text-slate-800 leading-relaxed font-medium">
                   {st.desc}
                 </p>
               </div>
@@ -228,7 +228,7 @@ export const ServicesPage = ({ onNavigateHome, onNavigateGallery, onContactClick
                       Lead Time: <span className="font-mono text-hanbit-gold">{t.leadTime}</span>
                     </p>
                   </div>
-                  <p className="text-xs text-hanbit-muted leading-relaxed font-light">
+                  <p className="text-xs text-slate-800 leading-relaxed font-medium">
                     {t.bestFor}
                   </p>
                 </div>
@@ -278,7 +278,7 @@ export const ServicesPage = ({ onNavigateHome, onNavigateGallery, onContactClick
                   </button>
 
                   {isOpen && (
-                    <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-hanbit-muted leading-relaxed font-light border-t border-hanbit-border/40 animate-in fade-in duration-200">
+                    <div className="px-5 pb-5 pt-1 text-xs sm:text-sm text-slate-800 leading-relaxed font-normal border-t border-hanbit-border/40 animate-in fade-in duration-200">
                       {faq.a}
                     </div>
                   )}
@@ -294,7 +294,7 @@ export const ServicesPage = ({ onNavigateHome, onNavigateGallery, onContactClick
             <h3 className="text-2xl sm:text-3xl font-bold font-serif">
               Ready to Formulate Your Brand with Korea's Premier Cleanroom?
             </h3>
-            <p className="text-xs sm:text-sm text-emerald-100/70 leading-relaxed font-light">
+            <p className="text-xs sm:text-sm text-emerald-100 font-normal leading-relaxed">
               Receive evaluation samples dispatched via DHL/FedEx Express in 3–5 business days, along with custom formulation feasibility analysis.
             </p>
           </div>
