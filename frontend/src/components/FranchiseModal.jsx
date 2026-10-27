@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { 
   Building2, 
-  Handshake, 
   Sparkles, 
   ShieldCheck, 
   X, 
@@ -16,13 +15,9 @@ import {
   TrendingUp,
   Send
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { SITE_CONFIG } from '../data/siteData';
 
 export const FranchiseModal = ({ isOpen, onClose }) => {
-  // Step 1: Handshake animation stage ('animating' | 'ready')
-  const [stage, setStage] = useState('animating'); // 'animating' -> 'ready'
-  
   // Form fields
   const [formData, setFormData] = useState({
     fullName: '',
@@ -37,17 +32,6 @@ export const FranchiseModal = ({ isOpen, onClose }) => {
   });
 
   const [errors, setErrors] = useState({});
-
-  // Reset animation when opened
-  React.useEffect(() => {
-    if (isOpen) {
-      setStage('animating');
-      const timer = setTimeout(() => {
-        setStage('ready');
-      }, 1600); // 1.6s for hands to meet and shake
-      return () => clearTimeout(timer);
-    }
-  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -173,11 +157,11 @@ ${formData.phone}`;
           }}
         >
           
-          {/* 1. INTERACTIVE 2-HANDS HANDSHAKE ANIMATION WITH BACKGROUND IMAGE */}
+          {/* 1. REAL HUMAN PARTNERSHIP HANDSHAKE SHOWCASE WITH BACKGROUND IMAGE */}
           <div 
             className="relative rounded-3xl p-6 sm:p-8 text-white border-2 border-amber-400/50 shadow-xl overflow-hidden text-center bg-cover bg-center"
             style={{
-              backgroundImage: "linear-gradient(to bottom, rgba(12, 30, 21, 0.80), rgba(6, 18, 12, 0.88)), url('/assets/img/franchise-partnership-bg.jpg')"
+              backgroundImage: "linear-gradient(to bottom, rgba(12, 30, 21, 0.75), rgba(6, 18, 12, 0.85)), url('/assets/img/franchise-partnership-bg.jpg')"
             }}
           >
             
@@ -190,63 +174,25 @@ ${formData.phone}`;
                 Two Hands Coming Together — The Trust of Partnership
               </span>
 
-              {/* Handshake Animation Container */}
-              <div className="h-28 sm:h-32 flex items-center justify-center relative overflow-hidden">
-                <AnimatePresence mode="wait">
-                  {stage === 'animating' ? (
-                    <div className="flex items-center justify-center gap-8 relative w-full max-w-sm">
-                      {/* Left Hand Moving Right */}
-                      <motion.div
-                        initial={{ x: -120, opacity: 0, rotate: -25 }}
-                        animate={{ x: -6, opacity: 1, rotate: -8 }}
-                        transition={{ duration: 0.9, ease: "easeOut" }}
-                        className="text-5xl sm:text-6xl filter drop-shadow-[0_4px_12px_rgba(223,190,126,0.5)] select-none"
-                      >
-                        🫲
-                      </motion.div>
-
-                      {/* Sparkle burst at center */}
-                      <motion.div
-                        initial={{ scale: 0, opacity: 0 }}
-                        animate={{ scale: [0, 1.4, 1], opacity: [0, 1, 0.8] }}
-                        transition={{ delay: 0.7, duration: 0.5 }}
-                        className="absolute text-amber-300"
-                      >
-                        <Sparkles className="w-8 h-8 animate-spin" />
-                      </motion.div>
-
-                      {/* Right Hand Moving Left */}
-                      <motion.div
-                        initial={{ x: 120, opacity: 0, rotate: 25 }}
-                        animate={{ x: 6, opacity: 1, rotate: 8 }}
-                        transition={{ duration: 0.9, ease: "easeOut" }}
-                        className="text-5xl sm:text-6xl filter drop-shadow-[0_4px_12px_rgba(223,190,126,0.5)] select-none"
-                      >
-                        🫱
-                      </motion.div>
-                    </div>
-                  ) : (
-                    /* Final Connected Handshake */
-                    <motion.div
-                      initial={{ scale: 0.85, opacity: 0 }}
-                      animate={{ scale: [1, 1.08, 1], opacity: 1 }}
-                      transition={{ duration: 0.6, ease: "backOut" }}
-                      className="flex flex-col items-center justify-center gap-2"
-                    >
-                      <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-tr from-hanbit-gold via-amber-400 to-amber-200 text-hanbit-dark flex items-center justify-center shadow-[0_0_35px_rgba(223,190,126,0.6)]">
-                        <Handshake className="w-9 h-9 sm:w-11 sm:h-11 text-hanbit-dark" />
-                      </div>
-                      <span className="text-xs sm:text-sm font-semibold text-emerald-200 font-serif">
-                        Dooroomi Medical & Your Enterprise · Joined in Purpose
-                      </span>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
+              {/* Real Human Handshake Showcase */}
+              <div className="flex flex-col items-center justify-center gap-3 py-2">
+                <div className="relative w-48 sm:w-60 h-28 sm:h-36 rounded-2xl overflow-hidden border-2 border-amber-400/80 shadow-[0_0_30px_rgba(223,190,126,0.45)] group">
+                  <img
+                    src="/assets/img/real-human-handshake.jpg"
+                    alt="Two Real Human Business Partners Handshake"
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+                </div>
+                <span className="text-xs sm:text-sm font-bold text-amber-200 font-serif">
+                  Dooroomi Medical &amp; Your Enterprise · Joined in Purpose
+                </span>
               </div>
 
+              {/* Authorised Distributor Inquiry Message */}
               <div className="max-w-xl mx-auto">
-                <p className="text-xs sm:text-sm text-emerald-100/90 font-light leading-relaxed">
-                  Join South Korea's pioneer in natural medical rehabilitation. Over <strong>15+ active free therapy centers</strong> in India and presence across <strong>51+ countries</strong>.
+                <p className="text-xs sm:text-sm text-amber-50 font-medium leading-relaxed bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-amber-400/30 shadow-sm">
+                  "If you are interested in becoming an authorised distributor of Dooroomi Mediquip PVT. LTD., please contact us by filling in the form below. We will get in touch with you shortly."
                 </p>
               </div>
             </div>
