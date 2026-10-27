@@ -16,6 +16,7 @@ import {
 import { PRODUCTS as FALLBACK_PRODUCTS } from '../data/siteData';
 import { useData } from '../context/DataContext';
 import { getOptimizedImageUrl } from '../utils/imageUrl';
+import { getProductTheme } from '../utils/productTheme';
 
 const CATEGORIES = [
   { id: 'all', label: 'All Products' },
@@ -88,6 +89,9 @@ export const AllProductsRowSection = ({ onSelectProduct, onSelectForQuote, onNav
   const count = currentList.length;
   const safeIndex = selectedIndex < count ? selectedIndex : 0;
 
+  const activeProduct = currentList[safeIndex] || currentList[0];
+  const activeTheme = getProductTheme(activeProduct);
+
   const handleNext = useCallback(() => {
     setSelectedIndex((prev) => (prev + 1) % currentList.length);
   }, [currentList.length]);
@@ -157,7 +161,7 @@ export const AllProductsRowSection = ({ onSelectProduct, onSelectForQuote, onNav
             </h2>
 
             {/* Subtitle */}
-            <p className="mt-3 text-xs sm:text-sm text-neutral-500 font-normal leading-relaxed">
+            <p className="mt-3 text-xs sm:text-sm text-slate-700 font-normal leading-relaxed">
               Explore our precision therapeutic devices and clinical bio-active series engineered under ISO 22716 &amp; Korea CGMP standards.
             </p>
           </div>
@@ -214,18 +218,21 @@ export const AllProductsRowSection = ({ onSelectProduct, onSelectForQuote, onNav
           </div>
         </div>
 
-        {/* ONE BIG PRODUCT IMAGE SHOWCASE WITH BUTTERY-SMOOTH AUTO SLIDE */}
+        {/* ONE BIG PRODUCT IMAGE SHOWCASE WITH CUSTOM PRODUCT-AESTHETIC BACKGROUND */}
         <div 
           className="relative w-full mb-8 sm:mb-12 group"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <div className="relative bg-gradient-to-br from-sky-50/50 via-white to-blue-50/30 rounded-3xl sm:rounded-[36px] p-6 sm:p-10 lg:p-12 border border-sky-100/90 shadow-sm shadow-sky-950/5 hover:shadow-2xl hover:border-sky-300 transition-all duration-500 overflow-hidden flex items-center justify-center min-h-[380px] sm:min-h-[460px] lg:min-h-[520px]">
+          <div className={`relative ${activeTheme.stageBg} rounded-3xl sm:rounded-[36px] p-6 sm:p-10 lg:p-12 border ${activeTheme.stageBorder} shadow-sm shadow-sky-950/5 hover:shadow-2xl transition-all duration-700 overflow-hidden flex items-center justify-center min-h-[380px] sm:min-h-[460px] lg:min-h-[520px]`}>
             
-            {/* Soft Ambient Glow & Circular Floor Pedestal */}
+            {/* Soft Ambient Glow & Circular Floor Pedestal matching active product theme */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="w-80 sm:w-[500px] lg:w-[650px] h-80 sm:h-[500px] lg:h-[650px] rounded-full bg-gradient-to-b from-sky-100/50 via-blue-50/30 to-transparent blur-3xl group-hover:scale-105 transition-transform duration-700" />
-              <div className="absolute bottom-6 w-64 sm:w-[420px] lg:w-[560px] h-9 bg-sky-950/10 blur-xl rounded-[100%]" />
+              <div 
+                className="w-80 sm:w-[500px] lg:w-[650px] h-80 sm:h-[500px] lg:h-[650px] rounded-full blur-3xl group-hover:scale-105 transition-all duration-700 opacity-80" 
+                style={{ background: activeTheme.stageGlow }}
+              />
+              <div className="absolute bottom-6 w-64 sm:w-[420px] lg:w-[560px] h-9 bg-neutral-900/10 blur-xl rounded-[100%]" />
             </div>
 
             {/* Sliding Carousel Track (Buttery Smooth 700ms Deceleration) */}
@@ -360,6 +367,7 @@ export const AllProductsRowSection = ({ onSelectProduct, onSelectForQuote, onNav
             >
               {currentList.map((prod, idx) => {
                 const isSelected = idx === safeIndex;
+                const itemTheme = getProductTheme(prod);
                 return (
                   <div
                     key={prod.id || idx}
@@ -367,19 +375,19 @@ export const AllProductsRowSection = ({ onSelectProduct, onSelectForQuote, onNav
                     onClick={() => setSelectedIndex(idx)}
                     className={`shrink-0 w-[210px] sm:w-[225px] bg-white rounded-2xl border p-4 transition-all duration-200 cursor-pointer flex flex-col justify-between group relative select-none ${
                       isSelected
-                        ? 'border-sky-500 shadow-xl shadow-sky-500/10 ring-2 ring-sky-500/30 bg-sky-50/15'
-                        : 'border-neutral-200/90 hover:border-neutral-300 hover:shadow-md'
+                        ? `border-sky-500 shadow-xl shadow-sky-500/10 ring-2 ring-sky-500/30 ${itemTheme.stageBg}`
+                        : `border-neutral-200/90 ${itemTheme.hoverBorder} hover:shadow-md`
                     }`}
                   >
                     {/* Top Badge */}
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-600 group-hover:bg-sky-50 group-hover:text-sky-700 transition-colors">
+                      <span className={`text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${itemTheme.modelBadge} transition-colors`}>
                         {prod.badge || 'MEDICAL GRADE'}
                       </span>
                     </div>
 
-                    {/* Centered Thumbnail Image */}
-                    <div className="h-28 w-full flex items-center justify-center p-2 mb-3 bg-neutral-50/60 rounded-xl group-hover:bg-neutral-50 transition-colors">
+                    {/* Centered Thumbnail Image with custom background according to product */}
+                    <div className={`h-28 w-full flex items-center justify-center p-2 mb-3 ${itemTheme.stageBg} rounded-xl border ${itemTheme.stageBorder} group-hover:scale-105 transition-all duration-200`}>
                       <img
                         src={getOptimizedImageUrl(prod.imgUrl, { width: 320 })}
                         alt={prod.name}

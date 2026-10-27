@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Eye, ArrowRight, Sparkles, Check, FlaskConical, ShieldCheck } from 'lucide-react';
 import { getOptimizedImageUrl } from '../utils/imageUrl';
+import { getProductTheme } from '../utils/productTheme';
 
 export const ProductCard = ({
   product,
@@ -10,6 +11,7 @@ export const ProductCard = ({
   onToggleCompare,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const theme = getProductTheme(product);
 
   // Extract pH or key spec if available
   const phSpec = product.specs?.find(([key]) => key.toLowerCase().includes('ph'))?.[1] || 'Skin Neutral';
@@ -19,12 +21,12 @@ export const ProductCard = ({
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="group relative bg-white rounded-3xl border border-hanbit-border/80 hover:border-hanbit-gold/70 shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col overflow-hidden"
+      className={`group relative bg-white rounded-3xl border border-hanbit-border/80 ${theme.hoverBorder} shadow-sm hover:shadow-2xl transition-all duration-300 flex flex-col overflow-hidden`}
     >
       {/* Top Floating Badges */}
       <div className="absolute top-3.5 left-3.5 right-3.5 z-20 flex items-center justify-between pointer-events-none">
         {/* Model Identifier Pill */}
-        <span className="px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-md border border-hanbit-gold/40 text-[10px] font-mono font-bold text-hanbit-gold shadow-sm">
+        <span className={`px-2.5 py-1 rounded-full backdrop-blur-md border ${theme.modelBadge} text-[10px] font-mono font-bold shadow-sm`}>
           {product.model}
         </span>
 
@@ -35,19 +37,19 @@ export const ProductCard = ({
             <span>{product.badge}</span>
           </span>
         ) : (
-          <span className="px-2 py-0.5 rounded-full bg-white/90 backdrop-blur-md border border-hanbit-border text-[10px] font-medium text-hanbit-muted shadow-xs">
+          <span className="px-2 py-0.5 rounded-full bg-white/90 backdrop-blur-md border border-hanbit-border text-[10px] font-medium text-slate-700 shadow-xs">
             {product.catLabel?.split('·')[0]?.trim()}
           </span>
         )}
       </div>
 
-      {/* Product Image Stage */}
-      <div className="relative aspect-[4/3.8] w-full bg-gradient-to-b from-hanbit-ivory/80 via-white to-hanbit-sage-light/25 overflow-hidden flex items-center justify-center p-6 border-b border-hanbit-border/40">
-        {/* Soft Radial Ambient Aura */}
+      {/* Product Image Stage with custom per-product background color & aura */}
+      <div className={`relative aspect-[4/3.8] w-full ${theme.stageBg} overflow-hidden flex items-center justify-center p-6 border-b ${theme.stageBorder} transition-colors duration-500`}>
+        {/* Soft Radial Ambient Aura matching product color identity */}
         <div 
-          className="absolute inset-0 pointer-events-none opacity-60 transition-opacity duration-500 group-hover:opacity-100"
+          className="absolute inset-0 pointer-events-none opacity-80 transition-opacity duration-500 group-hover:opacity-100"
           style={{
-            background: 'radial-gradient(circle at 50% 55%, rgba(197, 160, 89, 0.15) 0%, rgba(255, 255, 255, 0) 70%)',
+            background: theme.stageGlow,
           }}
         />
 
@@ -60,7 +62,7 @@ export const ProductCard = ({
         />
 
         {/* Floating Net Volume Tag */}
-        <div className="absolute bottom-2.5 left-3.5 px-2.5 py-0.5 rounded-md bg-white/90 backdrop-blur-sm border border-hanbit-border/60 text-[10px] text-hanbit-muted font-medium flex items-center gap-1 shadow-xs">
+        <div className="absolute bottom-2.5 left-3.5 px-2.5 py-0.5 rounded-md bg-white/95 backdrop-blur-sm border border-slate-200 text-[10px] text-slate-700 font-semibold flex items-center gap-1 shadow-xs">
           <FlaskConical className="w-2.5 h-2.5 text-hanbit-gold" />
           <span>{product.volume}</span>
         </div>
@@ -87,7 +89,7 @@ export const ProductCard = ({
           <h3 className="text-base font-bold text-hanbit-forest leading-snug group-hover:text-hanbit-dark transition-colors line-clamp-1">
             {product.name}
           </h3>
-          <p className="text-xs text-hanbit-muted line-clamp-2 leading-relaxed font-light pt-1">
+          <p className="text-xs text-slate-700 line-clamp-2 leading-relaxed font-normal pt-1">
             {product.short}
           </p>
         </div>
@@ -108,12 +110,12 @@ export const ProductCard = ({
         {/* Clinical Parameters Strip */}
         <div className="rounded-xl bg-hanbit-ivory/50 border border-hanbit-border/60 p-2 grid grid-cols-2 gap-2 text-[10px]">
           <div>
-            <span className="text-hanbit-muted block text-[9px] uppercase font-semibold">pH Level</span>
-            <span className="font-bold text-hanbit-forest truncate block">{phSpec}</span>
+            <span className="text-slate-600 block text-[9px] uppercase font-bold">pH Level</span>
+            <span className="font-bold text-slate-900 truncate block">{phSpec}</span>
           </div>
           <div>
-            <span className="text-hanbit-muted block text-[9px] uppercase font-semibold">Indication</span>
-            <span className="font-bold text-hanbit-forest truncate block">{targetSpec}</span>
+            <span className="text-slate-600 block text-[9px] uppercase font-bold">Indication</span>
+            <span className="font-bold text-slate-900 truncate block">{targetSpec}</span>
           </div>
         </div>
 
