@@ -108,11 +108,7 @@ export const Hero = ({ onExploreProducts, onRequestQuote }) => {
 
         {/* Main Headline - High Legibility on Video Background */}
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white font-serif leading-[1.18] sm:leading-[1.15] max-w-4xl mx-auto drop-shadow-md animate-in fade-in slide-in-from-bottom-3 duration-500">
-          Experience Free Therapy At Dooroomi <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-amber-300 to-emerald-300">
-            A Mission of 100% Free Daily Therapy
-          </span> <br className="hidden sm:inline" />
-          For Every Family &amp; Patient.
+          Experience our Free Demo Therapy
         </h1>
 
         {/* Narrative Description / Subtitle */}
