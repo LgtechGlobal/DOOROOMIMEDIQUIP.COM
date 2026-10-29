@@ -185,7 +185,7 @@ ${formData.phone}`;
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
                 </div>
                 <span className="text-xs sm:text-sm font-bold text-amber-200 font-serif">
-                  Dooroomi Medical &amp; Your Enterprise · Joined in Purpose
+                  Dooroomi Mediquip &amp; Your Enterprise · Joined in Purpose
                 </span>
               </div>
 
