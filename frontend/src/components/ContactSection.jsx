@@ -76,19 +76,23 @@ export const ContactSection = ({
   };
 
   return (
-    <section id="contact" className="py-20 lg:py-28 bg-gradient-to-b from-[#faf7f2] via-[#f4eee4] to-[#ebe1d0] border-t border-[#dfd4c0]">
+    <section 
+      id="contact" 
+      style={{ backgroundColor: '#686fb3' }}
+      className="py-20 lg:py-28 bg-[#686fb3] border-t border-[#545a99] text-white"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="max-w-3xl mb-16">
-          <div className="inline-flex items-center gap-2 text-xs font-bold text-hanbit-gold tracking-widest uppercase mb-3">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 text-xs font-mono font-bold text-amber-200 tracking-widest uppercase mb-3 px-3.5 py-1 rounded-full bg-white/15 backdrop-blur-md border border-white/25">
+            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
             <span>Consultation & Direct Quotation</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-hanbit-forest tracking-tight leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight font-serif drop-shadow-sm">
             Schedule Free Daily Therapy & Medical Inquiries with Dooroomi.
           </h2>
-          <p className="mt-4 text-base sm:text-lg text-hanbit-muted font-light leading-relaxed">
+          <p className="mt-4 text-base sm:text-lg text-indigo-50 font-medium leading-relaxed">
             Our medical and clinical therapy care team responds to all therapy center bookings, patient consultations, and equipment inquiries within 24 business hours.
           </p>
         </div>
