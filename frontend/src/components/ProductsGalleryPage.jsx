@@ -212,6 +212,17 @@ export const ProductsGalleryPage = ({
                       }}
                     />
 
+                    {/* Floating Bold & Shine Price Badge */}
+                    {product.price && (
+                      <div className="absolute top-12 right-3.5 z-20 px-3 py-1 rounded-full bg-black/85 backdrop-blur-md border border-amber-400/80 shadow-lg flex items-center gap-1.5 overflow-hidden amount-shine-badge pointer-events-auto">
+                        <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full animate-shimmer pointer-events-none" />
+                        <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse shrink-0" />
+                        <span className="font-black text-amber-300 font-mono text-xs sm:text-sm tracking-tight drop-shadow-[0_0_10px_rgba(251,191,36,0.9)]">
+                          {product.price}
+                        </span>
+                      </div>
+                    )}
+
                     <img
                       src={getOptimizedImageUrl(product.imgUrl, { width: 600 })}
                       alt={product.name}
@@ -260,10 +271,10 @@ export const ProductsGalleryPage = ({
                       ))}
                     </div>
 
-                    {/* Bottom Action Footer */}
+                    {/* Bottom Action Footer with Bold & Shine Price */}
                     <div className="pt-2 border-t border-hanbit-border/60 flex items-center justify-between gap-2">
                       <span className="text-[11px] font-semibold text-hanbit-forest flex items-center gap-1 group-hover:text-hanbit-gold transition-colors">
-                        <span>Open Specification</span>
+                        <span>Open Details</span>
                         <ArrowRight className="w-3.5 h-3.5 text-hanbit-gold group-hover:translate-x-1 transition-transform" />
                       </span>
 
@@ -273,13 +284,15 @@ export const ProductsGalleryPage = ({
                           e.stopPropagation();
                           onSelectForQuote(product);
                         }}
-                        className="px-3.5 py-1.5 rounded-lg bg-emerald-800 hover:bg-emerald-900 text-white border border-emerald-700 text-xs font-bold transition-all cursor-pointer shadow-xs flex items-center gap-1.5 hover:shadow-md active:scale-95 group/btn"
+                        className="relative overflow-hidden px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-800 via-emerald-700 to-emerald-900 hover:from-emerald-700 hover:to-emerald-800 text-white border border-amber-400/40 text-xs font-bold transition-all cursor-pointer shadow-md flex items-center gap-1.5 hover:shadow-lg active:scale-95 group/btn"
                         title={`Inquire / Contact Us for ${product.name} at ${product.price || 'Quote'}`}
                       >
-                        <span className="font-extrabold text-amber-300 font-mono tracking-tight text-xs sm:text-sm">
+                        <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-shimmer pointer-events-none" />
+                        <Sparkles className="w-3 h-3 text-amber-300 animate-pulse shrink-0" />
+                        <span className="font-black text-amber-300 font-mono tracking-tight text-xs sm:text-sm drop-shadow-[0_0_8px_rgba(251,191,36,0.85)]">
                           {product.price || 'Get Quote'}
                         </span>
-                        <ArrowRight className="w-3.5 h-3.5 text-white/80 group-hover/btn:translate-x-0.5 transition-transform" />
+                        <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover/btn:translate-x-0.5 transition-transform" />
                       </button>
                     </div>
                   </div>

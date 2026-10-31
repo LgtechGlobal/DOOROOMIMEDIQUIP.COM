@@ -169,9 +169,23 @@ export const SingleProductPage = ({
                 {product.name}
               </h1>
 
-              <p className="text-lg font-bold text-hanbit-gold">
-                {product.nameKo}
-              </p>
+              <div className="flex flex-wrap items-center justify-between gap-3 pt-1">
+                <p className="text-lg font-bold text-hanbit-gold">
+                  {product.nameKo}
+                </p>
+
+                {/* Bold & Shine Authorized Price Tag */}
+                {product.price && (
+                  <div className="relative inline-flex items-center gap-2 px-4 py-1.5 rounded-2xl bg-gradient-to-r from-emerald-950 via-emerald-900 to-emerald-950 border border-amber-400/80 shadow-xl overflow-hidden amount-shine-badge">
+                    <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/35 to-transparent -translate-x-full animate-shimmer pointer-events-none" />
+                    <span className="text-[11px] font-mono uppercase font-bold text-emerald-200">Price:</span>
+                    <span className="font-black text-amber-300 font-mono text-base sm:text-lg tracking-tight drop-shadow-[0_0_12px_rgba(251,191,36,0.95)]">
+                      {product.price}
+                    </span>
+                    <Sparkles className="w-4 h-4 text-amber-300 animate-pulse ml-0.5" />
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Overview Narrative */}
@@ -258,9 +272,15 @@ export const SingleProductPage = ({
 
               <button
                 onClick={() => onSelectForQuote(product)}
-                className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-bold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer group"
+                className="relative overflow-hidden w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-r from-emerald-800 via-emerald-700 to-emerald-900 hover:from-emerald-700 hover:to-emerald-800 text-white text-xs font-bold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer group border border-amber-400/40"
               >
-                <span>Request Quotation & Samples</span>
+                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-shimmer pointer-events-none" />
+                {product.price && (
+                  <span className="font-black text-amber-300 text-sm font-mono mr-1 drop-shadow-sm">
+                    {product.price} •
+                  </span>
+                )}
+                <span>Request Quotation &amp; Samples</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>

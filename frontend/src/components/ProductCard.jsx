@@ -53,6 +53,17 @@ export const ProductCard = ({
           }}
         />
 
+        {/* Floating Bold & Shine Price Badge */}
+        {product.price && (
+          <div className="absolute top-12 right-3.5 z-20 px-3 py-1 rounded-full bg-black/85 backdrop-blur-md border border-amber-400/80 shadow-lg flex items-center gap-1.5 overflow-hidden amount-shine-badge pointer-events-auto">
+            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full animate-shimmer pointer-events-none" />
+            <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse shrink-0" />
+            <span className="font-black text-amber-300 font-mono text-xs sm:text-sm tracking-tight drop-shadow-[0_0_10px_rgba(251,191,36,0.9)]">
+              {product.price}
+            </span>
+          </div>
+        )}
+
         {/* Product Image with smooth elevation on hover */}
         <img
           src={getOptimizedImageUrl(product.imgUrl, { width: 500 })}
@@ -139,14 +150,20 @@ export const ProductCard = ({
             <span>Compare</span>
           </button>
 
-          {/* Sample Quote CTA Button */}
+          {/* Sample Quote CTA Button with Bold & Shine Price */}
           <button
             onClick={() => onSelectForQuote(product)}
-            className="px-3.5 py-1.5 rounded-lg bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm hover:shadow group/btn cursor-pointer"
+            className="relative overflow-hidden px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-800 via-emerald-700 to-emerald-900 hover:from-emerald-700 hover:to-emerald-800 text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-md hover:shadow-lg group/btn cursor-pointer border border-amber-400/40"
             title={`Inquire / Contact Us for ${product.name} at ${product.price || 'Quote'}`}
           >
-            <span className="font-extrabold text-amber-300 font-mono tracking-tight">{product.price || 'Quote'}</span>
-            <ArrowRight className="w-3 h-3 text-white/80 group-hover/btn:translate-x-0.5 transition-transform" />
+            {/* Shimmer / Shine Light Sweep */}
+            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-shimmer pointer-events-none" />
+            
+            <Sparkles className="w-3 h-3 text-amber-300 animate-pulse shrink-0" />
+            <span className="font-black text-amber-300 font-mono tracking-tight text-xs sm:text-sm drop-shadow-[0_0_8px_rgba(251,191,36,0.85)]">
+              {product.price || 'Quote'}
+            </span>
+            <ArrowRight className="w-3 h-3 text-white/90 group-hover/btn:translate-x-0.5 transition-transform shrink-0" />
           </button>
         </div>
 
