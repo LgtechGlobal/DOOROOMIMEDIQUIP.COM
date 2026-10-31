@@ -161,22 +161,23 @@ export const DooroomiFreeTherapySection = ({ onContactClick, onNavigateTherapy, 
           {steps.map((st, sIdx) => (
             <div 
               key={sIdx}
-              className="p-5 sm:p-6 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 hover:border-amber-400/40 hover:bg-white/10 transition-all duration-300 flex flex-col justify-between group"
+              style={{ backgroundColor: '#fffdd0' }}
+              className="p-5 sm:p-6 rounded-2xl bg-[#fffdd0] border-2 border-[#eeeab8] hover:border-amber-500 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between group"
             >
               <div>
-                <span className="font-mono text-2xl font-black text-amber-400/80 group-hover:text-amber-300 transition-colors">
+                <span className="font-mono text-2xl font-black text-amber-700 block">
                   {st.step}
                 </span>
-                <h4 className="text-base font-bold text-white mt-2 group-hover:text-amber-200 transition-colors">
+                <h4 className="text-base font-black text-[#081b14] mt-2 group-hover:text-amber-800 transition-colors">
                   {st.title}
                 </h4>
-                <p className="text-xs text-emerald-100/70 font-light mt-1.5 leading-relaxed">
+                <p className="text-xs text-slate-900 font-medium mt-1.5 leading-relaxed">
                   {st.desc}
                 </p>
               </div>
-              <div className="mt-4 pt-3 border-t border-white/5 flex items-center text-[11px] text-amber-300/80 font-mono">
+              <div className="mt-4 pt-3 border-t border-[#e2dea8] flex items-center text-[11px] text-amber-800 font-bold font-mono">
                 <span>Free Service</span>
-                <ChevronRight className="w-3.5 h-3.5 ml-auto text-amber-400/60 group-hover:translate-x-1 transition-transform" />
+                <ChevronRight className="w-3.5 h-3.5 ml-auto text-amber-700 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
           ))}
