@@ -280,7 +280,7 @@ export const AboutUsPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
         </div>
 
         {/* Dooroomi Groups: Medical, Textile, Hydrogen Water, Body Care (Featured in About Us) */}
-        <div className="rounded-3xl overflow-hidden border border-hanbit-border/60 bg-white">
+        <div style={{ backgroundColor: '#89966f' }} className="rounded-3xl overflow-hidden border border-white/20 bg-[#89966f] shadow-lg">
           <DooroomiGroupsSection 
             onContactClick={onContactClick}
             onNavigateAbout={() => {}}
@@ -289,7 +289,7 @@ export const AboutUsPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
         </div>
 
         {/* Foundational Medical Science & Corporate Heritage Cards (Spine, Company Intro, Korea History) */}
-        <div className="rounded-3xl overflow-hidden border border-hanbit-border/60 bg-white p-6 sm:p-10 shadow-sm">
+        <div style={{ backgroundColor: '#89966f' }} className="rounded-3xl overflow-hidden border border-white/20 bg-[#89966f] p-6 sm:p-10 shadow-lg text-white">
           <AboutHeritageCardsSection 
             onContactClick={onContactClick}
             onOpenPdfModal={() => setShowPdfModal(true)}
@@ -349,25 +349,25 @@ export const AboutUsPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
         </div>
 
         {/* Milestones Timeline */}
-        <div className="p-8 sm:p-12 rounded-3xl bg-white border border-hanbit-border shadow-sm space-y-8">
+        <div style={{ backgroundColor: '#89966f' }} className="p-8 sm:p-12 rounded-3xl bg-[#89966f] border border-white/20 shadow-lg space-y-8 text-white">
           <div className="max-w-2xl">
-            <span className="text-xs font-bold text-hanbit-gold uppercase tracking-widest block font-mono">
+            <span className="text-xs font-bold text-amber-300 uppercase tracking-widest block font-mono">
               Historical Timeline
             </span>
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-hanbit-forest font-serif mt-1">
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-white font-serif mt-1 drop-shadow-sm">
               Over 35 Years of Medical & Bio-Cosmetic Evolution
             </h3>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
             {milestones.map((m, idx) => (
-              <div key={idx} className="p-6 rounded-2xl bg-hanbit-ivory border border-hanbit-border/70 space-y-2 relative">
+              <div key={idx} className="p-6 rounded-2xl bg-white border border-stone-200/80 shadow-md space-y-2 relative">
                 <div className="flex items-center justify-between">
-                  <span className="text-2xl font-extrabold font-mono text-hanbit-gold">{m.year}</span>
-                  <span className="w-2.5 h-2.5 rounded-full bg-hanbit-forest" />
+                  <span className="text-2xl font-extrabold font-mono text-amber-600">{m.year}</span>
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-800" />
                 </div>
-                <h4 className="text-sm font-bold text-hanbit-forest">{m.title}</h4>
-                <p className="text-xs sm:text-[13px] text-slate-950 font-bold leading-relaxed">{m.text}</p>
+                <h4 className="text-sm font-bold text-slate-950 font-serif">{m.title}</h4>
+                <p className="text-xs sm:text-[13px] text-slate-900 font-bold leading-relaxed">{m.text}</p>
               </div>
             ))}
           </div>

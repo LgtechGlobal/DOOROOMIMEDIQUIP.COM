@@ -196,27 +196,27 @@ export const DooroomiGroupsSection = ({ onContactClick, onNavigateAbout, onNavig
   ];
 
   return (
-    <section id="dooroomi-groups" className="py-16 sm:py-24 bg-[#fbfbfa] border-b border-hanbit-border relative overflow-hidden">
+    <section id="dooroomi-groups" style={{ backgroundColor: '#89966f' }} className="py-16 sm:py-24 bg-[#89966f] border-b border-white/20 relative overflow-hidden text-white">
       {/* Ambient background glows */}
-      <div className="absolute top-1/4 -right-32 w-96 h-96 bg-hanbit-gold/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-1/4 -left-32 w-96 h-96 bg-hanbit-forest/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 -right-32 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-1/4 -left-32 w-96 h-96 bg-black/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16 relative z-10">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-hanbit-gold/30 text-xs font-semibold text-hanbit-forest shadow-2xs mb-4">
-            <span className="w-2 h-2 rounded-full bg-hanbit-gold animate-pulse" />
-            <span className="font-mono text-hanbit-gold font-bold">두루미 그룹 사업 영역</span>
-            <span className="text-hanbit-border">|</span>
-            <span className="tracking-wider uppercase text-[11px]">Global Healthcare Enterprise</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-sm border border-amber-300/50 text-xs font-semibold text-slate-900 shadow-sm mb-4">
+            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+            <span className="font-mono text-amber-700 font-bold">두루미 그룹 사업 영역</span>
+            <span className="text-slate-300">|</span>
+            <span className="tracking-wider uppercase text-[11px] text-slate-700">Global Healthcare Enterprise</span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-hanbit-forest tracking-tight font-serif leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight font-serif leading-tight drop-shadow-sm">
             Dooroomi Groups
           </h2>
 
-          <p className="mt-3 text-sm sm:text-base text-hanbit-muted font-light leading-relaxed max-w-2xl mx-auto">
+          <p className="mt-3 text-sm sm:text-base text-emerald-50 font-medium leading-relaxed max-w-2xl mx-auto">
             Pioneering integrated human health through our four specialized global divisions across advanced medical engineering, smart therapeutic textiles, molecular hydrogen science, and holistic body care. Click on cards to view product catalogs and authentic gallery images.
           </p>
         </div>

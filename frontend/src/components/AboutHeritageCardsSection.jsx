@@ -118,18 +118,18 @@ export const AboutHeritageCardsSection = ({ onContactClick, onOpenPdfModal }) =>
     <section className="space-y-8">
       {/* Section Header */}
       <div className="text-center max-w-3xl mx-auto space-y-3">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-hanbit-gold/40 text-xs font-semibold text-hanbit-forest shadow-xs">
-          <BookOpen className="w-3.5 h-3.5 text-hanbit-gold" />
-          <span className="font-mono text-hanbit-gold font-bold">OFFICIAL PROFILE ARCHIVES</span>
-          <span className="text-hanbit-border">|</span>
-          <span className="text-[11px] uppercase tracking-wider text-hanbit-muted">Verified Company Documentation</span>
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-sm border border-amber-300/50 text-xs font-semibold text-slate-900 shadow-sm">
+          <BookOpen className="w-3.5 h-3.5 text-amber-600" />
+          <span className="font-mono text-amber-700 font-bold">OFFICIAL PROFILE ARCHIVES</span>
+          <span className="text-slate-300">|</span>
+          <span className="text-[11px] uppercase tracking-wider text-slate-700 font-medium">Verified Company Documentation</span>
         </div>
 
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-hanbit-forest font-serif tracking-tight">
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white font-serif tracking-tight drop-shadow-sm">
           Foundational Medical Science & Corporate Heritage
         </h2>
 
-        <p className="text-xs sm:text-sm text-hanbit-muted font-light leading-relaxed max-w-2xl mx-auto">
+        <p className="text-xs sm:text-sm text-emerald-50 font-medium leading-relaxed max-w-2xl mx-auto">
           Key pillars excerpted directly from the official Dooroomi Corporate Documentation (Pages 3, 4 & 6). Click any card to explore full anatomical diagrams and archival documents.
         </p>
       </div>
