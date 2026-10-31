@@ -122,7 +122,7 @@ ${formData.phone}`;
         <div 
           className="p-5 sm:p-6 text-white flex items-center justify-between border-b border-hanbit-gold/40 shrink-0 relative overflow-hidden bg-cover bg-center"
           style={{
-            backgroundImage: "linear-gradient(to right, rgba(13, 34, 27, 0.94), rgba(18, 54, 43, 0.88), rgba(13, 34, 27, 0.94)), url('/assets/img/franchise-partnership-bg.jpg')"
+            backgroundImage: "linear-gradient(to right, rgba(15, 23, 42, 0.96), rgba(30, 41, 59, 0.92), rgba(15, 23, 42, 0.96)), url('/assets/img/franchise-partnership-bg.jpg')"
           }}
         >
           <div className="flex items-center gap-3">
@@ -157,40 +157,45 @@ ${formData.phone}`;
           }}
         >
           
-          {/* 1. REAL HUMAN PARTNERSHIP HANDSHAKE SHOWCASE WITH BACKGROUND IMAGE */}
+          {/* 1. REAL HUMAN PARTNERSHIP SHOWCASE WITH VIDEO & CLEAN BACKGROUND */}
           <div 
-            className="relative rounded-3xl p-6 sm:p-8 text-white border-2 border-amber-400/50 shadow-xl overflow-hidden text-center bg-cover bg-center"
+            className="relative rounded-3xl p-6 sm:p-8 text-white border-2 border-amber-400/50 shadow-xl overflow-hidden bg-cover bg-center"
             style={{
-              backgroundImage: "linear-gradient(to bottom, rgba(12, 30, 21, 0.75), rgba(6, 18, 12, 0.85)), url('/assets/img/franchise-partnership-bg.jpg')"
+              backgroundImage: "linear-gradient(to bottom, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)), url('/assets/img/franchise-partnership-bg.jpg')"
             }}
           >
-            
-            {/* Background Glow */}
+            {/* Background Subtle Pattern */}
             <div className="absolute inset-0 bg-[radial-gradient(#dfbe7e_1px,transparent_1px)] [background-size:24px_24px] opacity-15 pointer-events-none" />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-hanbit-gold/15 rounded-full blur-3xl pointer-events-none" />
 
-            <div className="relative z-10 space-y-4">
+            {/* Video in Top Right Corner */}
+            <div className="sm:absolute sm:top-5 sm:right-6 w-full sm:w-56 md:w-64 aspect-video rounded-2xl overflow-hidden border-2 border-amber-400/80 shadow-[0_10px_30px_rgba(0,0,0,0.6)] z-20 bg-black group mb-4 sm:mb-0">
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                controls
+                className="w-full h-full object-cover"
+                title="Dooroomi Partnership Video"
+              >
+                <source src="/assets/franchise-partnership-video.mp4" type="video/mp4" />
+                <source src="/assets/WhatsApp%20Video%202026-10-31%20at%209.19.20%20PM.mp4" type="video/mp4" />
+                Your browser does not support video playback.
+              </video>
+            </div>
+
+            <div className="relative z-10 space-y-4 sm:pr-64 text-center sm:text-left">
               <span className="text-[11px] font-mono uppercase tracking-widest text-amber-300 font-bold block">
                 Two Hands Coming Together — The Trust of Partnership
               </span>
 
-              {/* Real Human Handshake Showcase */}
-              <div className="flex flex-col items-center justify-center gap-3 py-2">
-                <div className="relative w-48 sm:w-60 h-28 sm:h-36 rounded-2xl overflow-hidden border-2 border-amber-400/80 shadow-[0_0_30px_rgba(223,190,126,0.45)] group">
-                  <img
-                    src="/assets/img/real-human-handshake.jpg"
-                    alt="Two Real Human Business Partners Handshake"
-                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
-                </div>
-                <span className="text-xs sm:text-sm font-bold text-amber-200 font-serif">
-                  Dooroomi Mediquip &amp; Your Enterprise · Joined in Purpose
-                </span>
-              </div>
+              <h3 className="text-base sm:text-lg md:text-xl font-bold text-amber-200 font-serif leading-snug">
+                Dooroomi Mediquip &amp; Your Enterprise · Joined in Purpose
+              </h3>
 
               {/* Authorised Distributor Inquiry Message */}
-              <div className="max-w-xl mx-auto">
+              <div className="max-w-xl mx-auto sm:mx-0">
                 <p className="text-xs sm:text-sm text-amber-50 font-medium leading-relaxed bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-amber-400/30 shadow-sm">
                   "If you are interested in becoming an authorised distributor of Dooroomi Mediquip PVT. LTD., please contact us by filling in the form below. We will get in touch with you shortly."
                 </p>
