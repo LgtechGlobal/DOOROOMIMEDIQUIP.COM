@@ -232,6 +232,7 @@ export const TherapyPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
       subtitle: "Dr. D. D. Palmer Science (Est. 1890)",
       icon: Stethoscope,
       tag: "Vertebral Subluxation Correction",
+      image: "/assets/therapy/chiropractic-spinal-realignment.jpg",
       summary: "Derived from Greek 'Chiro' (hand) and 'Practice' (action), introduced by Dr. D. D. Palmer in 1890.",
       details: [
         "Founded on the principle that the body possesses innate healing capacity when the skeleton is aligned.",
@@ -247,6 +248,7 @@ export const TherapyPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
       subtitle: "50–60 Hz High-Speed Alternating Field",
       icon: Zap,
       tag: "Pioneered Medical Magnetic Wave",
+      image: "/assets/therapy/12000-gauss-electromagnetic.jpg",
       summary: "Dooroomi breakthrough integrating a high-power 12,000 Gauss magnetic system directly into Taeyangsuk Mat.",
       details: [
         "Creates a strong alternating magnetic field when in contact with the precision electric field.",
