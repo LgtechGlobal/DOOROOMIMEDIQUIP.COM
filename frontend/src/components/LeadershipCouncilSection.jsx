@@ -58,33 +58,25 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
           </p>
         </div>
 
-        {/* Executive Cards Grid (Expanded Width & Grand Luxury Styling) */}
+        {/* Executive Cards Grid: Both cards in pristine #8dc6e0 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 max-w-6xl mx-auto">
           {leadershipTeam.map((leader, idx) => {
-            const isCeo = leader.id === 'matthew-seong';
+            const isGlobalCeo = leader.id === 'matthew-seong';
             return (
               <div
                 key={idx}
                 onClick={() => setSelectedLeader(leader)}
-                style={{ backgroundColor: isCeo ? '#8dc6e0' : undefined }}
-                className={`group relative p-8 sm:p-9 rounded-3xl backdrop-blur-md border-2 transition-all duration-300 flex flex-col justify-between cursor-pointer hover:-translate-y-2 overflow-hidden ${
-                  isCeo
-                    ? 'bg-[#8dc6e0] border-[#6eaecb] shadow-xl hover:shadow-2xl hover:border-amber-400'
-                    : 'bg-white/95 border-[#cfe0d5] hover:border-amber-500/80 shadow-md hover:shadow-2xl'
-                }`}
+                style={{ backgroundColor: '#8dc6e0' }}
+                className="group relative p-8 sm:p-9 rounded-3xl backdrop-blur-md border-2 border-[#6eaecb] bg-[#8dc6e0] shadow-xl hover:shadow-2xl hover:border-amber-400 transition-all duration-300 flex flex-col justify-between cursor-pointer hover:-translate-y-2 overflow-hidden"
               >
                 {/* Subtle Ambient Glow behind card on hover */}
-                <div className={`absolute -top-24 -right-24 w-48 h-48 rounded-full blur-2xl transition-all pointer-events-none ${
-                  isCeo ? 'bg-white/30 group-hover:bg-white/40' : 'bg-amber-400/10 group-hover:bg-amber-400/20'
-                }`} />
+                <div className="absolute -top-24 -right-24 w-48 h-48 rounded-full blur-2xl transition-all pointer-events-none bg-white/30 group-hover:bg-white/45" />
 
                 <div className="space-y-6 relative z-10">
                   {/* Executive Portrait Header Row */}
                   <div className="flex items-start justify-between gap-4">
                     <div className="relative">
-                      <div className={`w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden ring-4 transition-all duration-300 shadow-lg flex items-center justify-center ${
-                        isCeo ? 'ring-[#0a2342]/30 group-hover:ring-[#0a2342] bg-white' : 'ring-amber-400/30 group-hover:ring-amber-500 bg-stone-100'
-                      }`}>
+                      <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden ring-4 ring-[#0a2342]/30 group-hover:ring-[#0a2342] bg-white transition-all duration-300 shadow-lg flex items-center justify-center">
                         <img
                           src={leader.photo}
                           alt={leader.name}
@@ -101,52 +93,36 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
                     </div>
 
                     <div className="flex flex-col items-end gap-2">
-                      <span className={`px-3.5 py-1.5 rounded-full text-xs font-mono font-bold tracking-wide flex items-center gap-1.5 shadow-2xs ${
-                        isCeo 
-                          ? 'bg-[#0a2342] text-white border border-[#0a2342]' 
-                          : 'bg-amber-500/10 border border-amber-500/30 text-amber-800'
-                      }`}>
-                        <ShieldCheck className={`w-3.5 h-3.5 ${isCeo ? 'text-amber-300' : 'text-amber-600'}`} />
-                        <span>{isCeo ? 'Global CEO' : 'India CEO'}</span>
+                      <span className="px-3.5 py-1.5 rounded-full text-xs font-mono font-bold tracking-wide flex items-center gap-1.5 shadow-2xs bg-[#0a2342] text-white border border-[#0a2342]">
+                        <ShieldCheck className="w-3.5 h-3.5 text-amber-300" />
+                        <span>{isGlobalCeo ? 'Global CEO' : 'India CEO'}</span>
                       </span>
-                      <span className={`text-[11px] font-mono font-bold ${isCeo ? 'text-slate-900' : 'text-slate-600'}`}>
-                        {isCeo ? '🇰🇷 South Korea' : '🇮🇳 India'}
+                      <span className="text-[11px] font-mono font-bold text-slate-900">
+                        {isGlobalCeo ? '🇰🇷 South Korea' : '🇮🇳 India'}
                       </span>
                     </div>
                   </div>
 
                   <div>
-                    <h3 className={`text-2xl sm:text-3xl font-extrabold font-serif mt-1 tracking-tight transition-colors ${
-                      isCeo ? 'text-[#07192f] group-hover:text-[#040f1d]' : 'text-[#0d221b] group-hover:text-amber-700'
-                    }`}>
+                    <h3 className="text-2xl sm:text-3xl font-extrabold font-serif mt-1 tracking-tight text-[#07192f] group-hover:text-[#040f1d] transition-colors">
                       {leader.name}
                     </h3>
                   </div>
 
                   {/* Bio Narrative */}
-                  <p className={`text-sm sm:text-base leading-relaxed font-normal ${
-                    isCeo ? 'text-slate-950 font-medium' : 'text-slate-800'
-                  }`}>
+                  <p className="text-sm sm:text-base leading-relaxed font-normal text-slate-950 font-medium">
                     {leader.bio}
                   </p>
 
                 </div>
 
                 {/* Card Footer Button */}
-                <div className={`pt-6 mt-6 border-t flex items-center justify-between relative z-10 ${
-                  isCeo ? 'border-sky-800/20' : 'border-neutral-200/80'
-                }`}>
-                  <div className={`text-xs font-semibold flex items-center gap-1.5 ${
-                    isCeo ? 'text-slate-900' : 'text-slate-800'
-                  }`}>
-                    <ShieldCheck className={`w-4 h-4 ${isCeo ? 'text-[#0a2342]' : 'text-amber-600'}`} />
+                <div className="pt-6 mt-6 border-t border-sky-800/20 flex items-center justify-between relative z-10">
+                  <div className="text-xs font-semibold flex items-center gap-1.5 text-slate-900">
+                    <ShieldCheck className="w-4 h-4 text-[#0a2342]" />
                     <span>Authorized Executive</span>
                   </div>
-                  <span className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-2xs ${
-                    isCeo 
-                      ? 'bg-[#0a2342] text-white group-hover:bg-[#153a6b]' 
-                      : 'bg-amber-500/10 group-hover:bg-amber-500 text-amber-900 group-hover:text-white'
-                  }`}>
+                  <span className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-2xs bg-[#0a2342] text-white group-hover:bg-[#153a6b]">
                     <span>Read Full Message</span>
                     <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </span>
@@ -176,25 +152,21 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
             data-lenis-prevent-wheel
             data-lenis-prevent-touch
           >
-            {/* Top Bar matching leadership branding */}
+            {/* Top Bar with #8dc6e0 branding */}
             <div 
-              style={{ backgroundColor: selectedLeader.id === 'matthew-seong' ? '#8dc6e0' : '#93af35' }}
-              className={`px-6 sm:px-8 py-4 flex items-center justify-between shadow-xs shrink-0 ${
-                selectedLeader.id === 'matthew-seong' ? 'text-slate-950 bg-[#8dc6e0]' : 'text-white bg-[#93af35]'
-              }`}
+              style={{ backgroundColor: '#8dc6e0' }}
+              className="px-6 sm:px-8 py-4 flex items-center justify-between shadow-xs shrink-0 text-slate-950 bg-[#8dc6e0]"
             >
               <div className="flex items-center gap-2.5">
-                <BookOpen className={`w-5 h-5 ${selectedLeader.id === 'matthew-seong' ? 'text-slate-950' : 'text-white/90'}`} />
-                <h3 className={`font-sans font-bold text-base sm:text-xl tracking-tight drop-shadow-xs ${
-                  selectedLeader.id === 'matthew-seong' ? 'text-slate-950' : 'text-white'
-                }`}>
+                <BookOpen className="w-5 h-5 text-slate-900" />
+                <h3 className="font-sans font-bold text-base sm:text-xl tracking-tight drop-shadow-xs text-slate-950">
                   {selectedLeader.titleHeader || `Message from ${selectedLeader.role}`}
                 </h3>
               </div>
               
               <button
                 onClick={() => setSelectedLeader(null)}
-                className="w-8 h-8 rounded-full bg-black/20 hover:bg-black/40 text-white flex items-center justify-center transition-colors cursor-pointer text-sm font-bold"
+                className="w-8 h-8 rounded-full bg-black/20 hover:bg-black/40 text-slate-900 flex items-center justify-center transition-colors cursor-pointer text-sm font-bold"
                 aria-label="Close message"
               >
                 ✕
@@ -216,7 +188,7 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
                 
                 {/* Framed Photo matching original corporate profile style */}
                 <div className="shrink-0 text-center sm:text-left">
-                  <div className="w-36 h-40 sm:w-44 sm:h-48 rounded-2xl border-[3px] border-[#c0392b] p-1 bg-white shadow-lg overflow-hidden mx-auto sm:mx-0 flex items-center justify-center">
+                  <div className="w-36 h-40 sm:w-44 sm:h-48 rounded-2xl border-[3px] border-[#0a2342] p-1 bg-white shadow-lg overflow-hidden mx-auto sm:mx-0 flex items-center justify-center">
                     <img
                       src={selectedLeader.photo}
                       alt={selectedLeader.name}
@@ -233,8 +205,8 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
 
                 {/* Quick Meta Badges & Mission */}
                 <div className="flex-1 space-y-4">
-                  <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/70 border border-amber-200/60 text-xs sm:text-sm text-amber-950 font-serif italic leading-relaxed shadow-2xs">
-                    <Quote className="w-5 h-5 text-hanbit-gold inline-block mr-2 -mt-1" />
+                  <div className="p-4 sm:p-5 rounded-2xl bg-sky-50 border border-sky-200/80 text-xs sm:text-sm text-sky-950 font-serif italic leading-relaxed shadow-2xs">
+                    <Quote className="w-5 h-5 text-sky-700 inline-block mr-2 -mt-1" />
                     “To contribute to the human health by providing the best service with our best technology and love.” (사랑 · 봉사 · 친절)
                   </div>
                 </div>
@@ -260,7 +232,7 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
                         onClick={() => setSelectedLeader(lead)}
                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                           lead.id === selectedLeader.id
-                            ? 'bg-hanbit-forest text-hanbit-gold ring-2 ring-hanbit-gold shadow-xs'
+                            ? 'bg-[#0a2342] text-white ring-2 ring-sky-400 shadow-xs'
                             : 'bg-stone-100 text-stone-600 hover:bg-stone-200'
                         }`}
                         title={lead.name}
@@ -293,10 +265,10 @@ export const LeadershipCouncilSection = ({ onOpenPdfModal, onNavigateAbout }) =>
                       const nextIndex = (currentIndex + 1) % leadershipTeam.length;
                       setSelectedLeader(leadershipTeam[nextIndex]);
                     }}
-                    className="px-3.5 py-2 rounded-xl bg-hanbit-forest hover:bg-emerald-950 text-white text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
+                    className="px-3.5 py-2 rounded-xl bg-[#0a2342] hover:bg-[#153a6b] text-white text-xs font-bold transition-colors flex items-center gap-1.5 cursor-pointer shadow-xs"
                   >
                     <span>Next Executive</span>
-                    <ChevronRight className="w-3.5 h-3.5 text-hanbit-gold" />
+                    <ChevronRight className="w-3.5 h-3.5 text-amber-300" />
                   </button>
                 </div>
               </div>
