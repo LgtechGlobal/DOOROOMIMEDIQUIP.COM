@@ -9,6 +9,7 @@ export const ProductCard = ({
   onSelectForQuote,
   isCompared,
   onToggleCompare,
+  onSelectProduct,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const theme = getProductTheme(product);
@@ -150,11 +151,18 @@ export const ProductCard = ({
             <span>Compare</span>
           </button>
 
-          {/* Sample Quote CTA Button with Bold & Shine Price */}
+          {/* Product Details CTA Button with Bold & Shine Price */}
           <button
-            onClick={() => onSelectForQuote(product)}
+            onClick={() => {
+              if (onSelectProduct) {
+                onSelectProduct(product.id);
+              } else {
+                window.location.hash = `/products/${product.id}`;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
             className="relative overflow-hidden px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-800 via-emerald-700 to-emerald-900 hover:from-emerald-700 hover:to-emerald-800 text-white text-xs font-bold transition-all flex items-center gap-1.5 shadow-md hover:shadow-lg group/btn cursor-pointer border border-amber-400/40"
-            title={`Inquire / Contact Us for ${product.name} at ${product.price || 'Quote'}`}
+            title={`View product details for ${product.name}`}
           >
             {/* Shimmer / Shine Light Sweep */}
             <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-shimmer pointer-events-none" />

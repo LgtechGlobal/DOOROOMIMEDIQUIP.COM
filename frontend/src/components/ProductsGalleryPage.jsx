@@ -282,10 +282,15 @@ export const ProductsGalleryPage = ({
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
-                          onSelectForQuote(product);
+                          if (onSelectProduct) {
+                            onSelectProduct(product.id);
+                          } else {
+                            window.location.hash = `/products/${product.id}`;
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }
                         }}
                         className="relative overflow-hidden px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-800 via-emerald-700 to-emerald-900 hover:from-emerald-700 hover:to-emerald-800 text-white border border-amber-400/40 text-xs font-bold transition-all cursor-pointer shadow-md flex items-center gap-1.5 hover:shadow-lg active:scale-95 group/btn"
-                        title={`Inquire / Contact Us for ${product.name} at ${product.price || 'Quote'}`}
+                        title={`View product details for ${product.name}`}
                       >
                         <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full animate-shimmer pointer-events-none" />
                         <Sparkles className="w-3 h-3 text-amber-300 animate-pulse shrink-0" />
