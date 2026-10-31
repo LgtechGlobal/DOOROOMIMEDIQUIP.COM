@@ -91,12 +91,12 @@ export const PrinciplePage = ({ onNavigateHome, onNavigateGallery, onContactClic
   ];
 
   return (
-    <div className="bg-[#fbfbfa] min-h-screen py-10 sm:py-16">
+    <div style={{ backgroundColor: '#d9a05b' }} className="bg-[#d9a05b] min-h-screen py-10 sm:py-16 text-slate-950">
       <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16">
         
         {/* Navigation Breadcrumb */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-hanbit-border">
-          <nav className="flex items-center space-x-2 text-xs text-hanbit-muted font-medium">
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-black/15">
+          <nav className="flex items-center space-x-2 text-xs text-slate-900 font-bold">
             <button 
               onClick={() => onNavigateHome('hero')}
               className="hover:text-hanbit-forest flex items-center gap-1 transition-colors"
@@ -128,11 +128,11 @@ export const PrinciplePage = ({ onNavigateHome, onNavigateGallery, onContactClic
             <span className="tracking-wider uppercase text-[11px]">Translational Bio-Development</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-hanbit-forest tracking-tight leading-tight font-serif">
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-950 tracking-tight leading-tight font-serif drop-shadow-2xs">
             Scientific Principles Behind Verified Bio-Active Formulations.
           </h1>
 
-          <p className="mt-4 text-base sm:text-lg text-hanbit-muted font-light leading-relaxed">
+          <p className="mt-4 text-base sm:text-lg text-slate-950 font-medium leading-relaxed">
             From molecular synthesis in our Seoul laboratory to sterile pilot reactor runs at our Songdo cleanroom plant, discover the scientific principles and rigorous testing protocols powering Korean clinical cosmetics.
           </p>
         </div>

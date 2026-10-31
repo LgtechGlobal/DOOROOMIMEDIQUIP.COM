@@ -271,7 +271,7 @@ export const TherapyPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
   ];
 
   return (
-    <div className="bg-[#fcfdfa] min-h-screen py-8 sm:py-14 text-hanbit-ink">
+    <div style={{ backgroundColor: '#d9a05b' }} className="bg-[#d9a05b] min-h-screen py-8 sm:py-14 text-slate-950">
       
       {/* Lightbox Modal for Archival Brochure Inspection */}
       {selectedBrochurePage && (
@@ -341,8 +341,8 @@ export const TherapyPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
       <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16">
         
         {/* Navigation Breadcrumb */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-hanbit-border">
-          <nav className="flex items-center space-x-2 text-xs text-hanbit-muted font-medium">
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-black/15">
+          <nav className="flex items-center space-x-2 text-xs text-slate-900 font-bold">
             <button 
               onClick={() => onNavigateHome('hero')}
               className="hover:text-hanbit-forest flex items-center gap-1 transition-colors cursor-pointer"
@@ -358,7 +358,7 @@ export const TherapyPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
 
           <button
             onClick={() => onNavigateHome('hero')}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-hanbit-border bg-white text-xs font-semibold text-hanbit-forest hover:bg-hanbit-sage-light/40 transition-colors shadow-2xs cursor-pointer"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl border border-white/40 bg-white/90 text-xs font-bold text-slate-950 hover:bg-white transition-colors shadow-2xs cursor-pointer"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back to Home</span>
@@ -474,13 +474,13 @@ export const TherapyPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
         {(activeTab === 'principles' || activeTab === 'all') && (
           <div className="space-y-8 mb-16 animate-in fade-in duration-300">
             <div className="max-w-3xl">
-              <span className="text-xs font-mono font-bold text-hanbit-gold tracking-widest uppercase block mb-1">
+              <span className="text-xs font-mono font-bold text-amber-950 tracking-widest uppercase block mb-1">
                 Pages 7 & 8 · Medical Science Foundations
               </span>
-              <h2 className="text-2xl sm:text-4xl font-extrabold text-hanbit-forest font-serif">
+              <h2 className="text-2xl sm:text-4xl font-extrabold text-slate-950 font-serif drop-shadow-2xs">
                 The 6 Integrated Pillars of Dooroomi Therapy
               </h2>
-              <p className="mt-2 text-sm text-slate-800 font-normal leading-relaxed">
+              <p className="mt-2 text-sm text-slate-950 font-medium leading-relaxed">
                 By fusing centuries of verified Asian meridian medicine with Nobel-recognized Western physical therapies, Dooroomi delivers a holistic therapeutic synergy that treats the root cause rather than transient symptoms.
               </p>
             </div>
