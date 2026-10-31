@@ -521,11 +521,11 @@ export const TherapyPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
                       </div>
 
                       {principle.image && (
-                        <div className="my-3 rounded-2xl overflow-hidden border border-stone-200 shadow-xs relative aspect-[16/9] max-h-40 bg-stone-100">
+                        <div className="my-4 mx-auto w-full max-w-[340px] rounded-2xl overflow-hidden border border-stone-200/90 shadow-md relative aspect-[16/9] bg-stone-100 group/img flex items-center justify-center">
                           <img 
                             src={principle.image} 
                             alt={principle.title}
-                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                            className="w-full h-full object-cover object-center group-hover/img:scale-105 transition-transform duration-500"
                           />
                         </div>
                       )}
