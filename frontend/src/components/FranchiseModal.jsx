@@ -157,49 +157,52 @@ ${formData.phone}`;
           }}
         >
           
-          {/* 1. REAL HUMAN PARTNERSHIP SHOWCASE WITH VIDEO & CLEAN BACKGROUND */}
+          {/* 1. REAL HUMAN PARTNERSHIP SHOWCASE WITH DOUBLE-WIDTH VIDEO & CLEAR BACKGROUND */}
           <div 
-            className="relative rounded-3xl p-6 sm:p-8 text-white border-2 border-amber-400/50 shadow-xl overflow-hidden bg-cover bg-center"
+            className="relative rounded-3xl p-5 sm:p-7 md:p-8 text-white border-2 border-amber-400/60 shadow-2xl overflow-hidden bg-cover bg-center"
             style={{
-              backgroundImage: "linear-gradient(to bottom, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)), url('/assets/img/franchise-partnership-bg.jpg')"
+              backgroundImage: "linear-gradient(to right, rgba(15, 23, 42, 0.82) 0%, rgba(15, 23, 42, 0.45) 55%, rgba(15, 23, 42, 0.55) 100%), url('/assets/img/franchise-partnership-bg.jpg')"
             }}
           >
-            {/* Background Subtle Pattern */}
-            <div className="absolute inset-0 bg-[radial-gradient(#dfbe7e_1px,transparent_1px)] [background-size:24px_24px] opacity-15 pointer-events-none" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-hanbit-gold/15 rounded-full blur-3xl pointer-events-none" />
+            <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-6">
+              
+              {/* Left Column: Partnership Text & Distributor Inquiry */}
+              <div className="w-full lg:max-w-[48%] space-y-3.5 text-left">
+                <span className="text-[11px] font-mono uppercase tracking-widest text-amber-300 font-bold block drop-shadow-sm">
+                  Two Hands Coming Together — The Trust of Partnership
+                </span>
 
-            {/* Video in Top Right Corner */}
-            <div className="sm:absolute sm:top-5 sm:right-6 w-full sm:w-56 md:w-64 aspect-video rounded-2xl overflow-hidden border-2 border-amber-400/80 shadow-[0_10px_30px_rgba(0,0,0,0.6)] z-20 bg-black group mb-4 sm:mb-0">
-              <video
-                autoPlay
-                loop
-                muted
-                playsInline
-                controls
-                className="w-full h-full object-cover"
-                title="Dooroomi Partnership Video"
-              >
-                <source src="/assets/franchise-partnership-video.mp4" type="video/mp4" />
-                <source src="/assets/WhatsApp%20Video%202026-10-31%20at%209.19.20%20PM.mp4" type="video/mp4" />
-                Your browser does not support video playback.
-              </video>
-            </div>
+                <h3 className="text-base sm:text-lg md:text-xl font-bold text-amber-200 font-serif leading-snug drop-shadow-sm">
+                  Dooroomi Mediquip &amp; Your Enterprise · Joined in Purpose
+                </h3>
 
-            <div className="relative z-10 space-y-4 sm:pr-64 text-center sm:text-left">
-              <span className="text-[11px] font-mono uppercase tracking-widest text-amber-300 font-bold block">
-                Two Hands Coming Together — The Trust of Partnership
-              </span>
-
-              <h3 className="text-base sm:text-lg md:text-xl font-bold text-amber-200 font-serif leading-snug">
-                Dooroomi Mediquip &amp; Your Enterprise · Joined in Purpose
-              </h3>
-
-              {/* Authorised Distributor Inquiry Message */}
-              <div className="max-w-xl mx-auto sm:mx-0">
-                <p className="text-xs sm:text-sm text-amber-50 font-medium leading-relaxed bg-black/40 backdrop-blur-md p-4 rounded-2xl border border-amber-400/30 shadow-sm">
-                  "If you are interested in becoming an authorised distributor of Dooroomi Mediquip PVT. LTD., please contact us by filling in the form below. We will get in touch with you shortly."
-                </p>
+                {/* Authorised Distributor Inquiry Message */}
+                <div className="w-full">
+                  <p className="text-xs sm:text-sm text-amber-50 font-medium leading-relaxed bg-black/55 backdrop-blur-md p-4 rounded-2xl border border-amber-400/35 shadow-md">
+                    "If you are interested in becoming an authorised distributor of Dooroomi Mediquip PVT. LTD., please contact us by filling in the form below. We will get in touch with you shortly."
+                  </p>
+                </div>
               </div>
+
+              {/* Right Column: Double-Width Video Showcase (2x Width) */}
+              <div className="w-full lg:w-[50%] shrink-0">
+                <div className="w-full aspect-video rounded-2xl overflow-hidden border-2 border-amber-400/90 shadow-[0_12px_36px_rgba(0,0,0,0.65)] bg-black group relative">
+                  <video
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    controls
+                    className="w-full h-full object-cover"
+                    title="Dooroomi Partnership Video"
+                  >
+                    <source src="/assets/franchise-partnership-video.mp4" type="video/mp4" />
+                    <source src="/assets/WhatsApp%20Video%202026-10-31%20at%209.19.20%20PM.mp4" type="video/mp4" />
+                    Your browser does not support video playback.
+                  </video>
+                </div>
+              </div>
+
             </div>
           </div>
 
