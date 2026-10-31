@@ -128,28 +128,28 @@ export const CertificatesPage = ({ onNavigateHome, onNavigateGallery, onContactC
     : CERTIFICATES.filter(c => c.category === activeTab || (activeTab === 'Safety & Electrical' && c.category === 'Manufacturing'));
 
   return (
-    <div className="bg-[#fbfbfa] min-h-screen py-10 sm:py-16 select-none">
+    <div style={{ backgroundColor: '#75bfb2' }} className="bg-[#75bfb2] min-h-screen py-10 sm:py-16 select-none text-slate-900">
       <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16">
         
         {/* Navigation Breadcrumb & Back Shortcut */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-hanbit-border">
-          <nav className="flex items-center space-x-2 text-xs text-hanbit-muted font-medium">
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-white/30">
+          <nav className="flex items-center space-x-2 text-xs text-slate-900 font-medium">
             <button 
               onClick={() => onNavigateHome('hero')}
-              className="hover:text-hanbit-forest flex items-center gap-1 transition-colors cursor-pointer"
+              className="hover:text-amber-900 flex items-center gap-1 transition-colors cursor-pointer text-slate-950 font-bold"
             >
-              <Home className="w-3.5 h-3.5 text-hanbit-gold" />
+              <Home className="w-3.5 h-3.5 text-amber-800" />
               <span>Home</span>
             </button>
-            <ChevronRight className="w-3.5 h-3.5 text-hanbit-border" />
-            <span className="text-hanbit-forest font-semibold">Regulatory & Compliance</span>
-            <ChevronRight className="w-3.5 h-3.5 text-hanbit-border" />
-            <span className="text-hanbit-gold font-bold">Certificates & Accreditations</span>
+            <ChevronRight className="w-3.5 h-3.5 text-slate-700" />
+            <span className="text-slate-900 font-semibold">Regulatory & Compliance</span>
+            <ChevronRight className="w-3.5 h-3.5 text-slate-700" />
+            <span className="text-amber-950 font-extrabold">Certificates & Accreditations</span>
           </nav>
 
           <button
             onClick={() => onNavigateHome('hero')}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-hanbit-border bg-white text-xs font-semibold text-hanbit-forest hover:bg-hanbit-sage-light/40 transition-colors shadow-2xs cursor-pointer"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl border border-white/40 bg-white/90 text-xs font-bold text-slate-950 hover:bg-white transition-colors shadow-2xs cursor-pointer"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Back to Home</span>
@@ -158,34 +158,34 @@ export const CertificatesPage = ({ onNavigateHome, onNavigateGallery, onContactC
 
         {/* Page Header Banner */}
         <div className="max-w-4xl mb-10 sm:mb-14">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-hanbit-gold/30 text-xs font-semibold text-hanbit-forest shadow-2xs mb-4">
-            <ShieldCheck className="w-4 h-4 text-hanbit-gold" />
-            <span className="font-mono text-hanbit-gold font-bold">국제 품질 및 정부 인가</span>
-            <span className="text-hanbit-border">|</span>
-            <span className="tracking-wider uppercase text-[11px]">Official Accreditations & Certifications</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-sm border border-emerald-400 text-xs font-semibold text-slate-900 shadow-sm mb-4">
+            <ShieldCheck className="w-4 h-4 text-emerald-700" />
+            <span className="font-mono text-emerald-950 font-bold">국제 품질 및 정부 인가</span>
+            <span className="text-slate-300">|</span>
+            <span className="tracking-wider uppercase text-[11px] text-slate-700 font-medium">Official Accreditations & Certifications</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-hanbit-forest tracking-tight leading-tight font-serif">
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-950 tracking-tight leading-tight font-serif drop-shadow-2xs">
             Class-Leading Accreditations & Official Regulatory Approvals.
           </h1>
 
-          <p className="mt-4 text-base sm:text-lg text-hanbit-muted font-light leading-relaxed">
+          <p className="mt-4 text-base sm:text-lg text-slate-950 font-medium leading-relaxed">
             Dooroomi Mediquip Private Limited operates under validated international safety directives, including CE Conformity, US FDA Facility Registration, UL Electrical Certification, and ISO/GMP Cleanroom standards. Click any certificate to preview and inspect the official document.
           </p>
         </div>
 
         {/* Category Filter Tabs */}
-        <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-10 pb-4 border-b border-hanbit-border/60">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-10 pb-4 border-b border-white/30">
           {categories.map((cat) => {
             const isActive = activeTab === cat.id;
             return (
               <button
                 key={cat.id}
                 onClick={() => setActiveTab(cat.id)}
-                className={`px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                className={`px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 cursor-pointer ${
                   isActive
-                    ? 'bg-hanbit-forest text-white shadow-md'
-                    : 'bg-white text-hanbit-forest/80 border border-hanbit-border/80 hover:border-hanbit-gold hover:text-hanbit-forest'
+                    ? 'bg-slate-950 text-white shadow-md'
+                    : 'bg-white/90 text-slate-950 border border-white/60 hover:bg-white hover:border-amber-400'
                 }`}
               >
                 {cat.label}
@@ -218,27 +218,27 @@ export const CertificatesPage = ({ onNavigateHome, onNavigateGallery, onContactC
 
                 {/* Title & Issuer */}
                 <div>
-                  <span className="text-[10px] font-mono font-bold text-hanbit-gold uppercase tracking-widest block mb-1">
+                  <span className="text-[10px] font-mono font-bold text-amber-700 uppercase tracking-widest block mb-1">
                     {cert.badge}
                   </span>
-                  <h3 className="text-base sm:text-lg font-bold text-hanbit-forest leading-snug group-hover:text-hanbit-forest/90 font-serif">
+                  <h3 className="text-base sm:text-lg font-bold text-slate-950 leading-snug group-hover:text-hanbit-forest font-serif">
                     {cert.name}
                   </h3>
-                  <p className="text-xs text-hanbit-muted mt-1.5">
-                    Issuing Authority: <b className="text-hanbit-ink font-semibold">{cert.issuer}</b>
+                  <p className="text-xs text-slate-600 mt-1.5 font-medium">
+                    Issuing Authority: <b className="text-slate-950 font-bold">{cert.issuer}</b>
                   </p>
                 </div>
 
                 {/* Scope & Doc Ref */}
-                <div className="pt-3 text-xs text-hanbit-ink/80 space-y-2 border-t border-hanbit-border/60">
-                  <p className="leading-relaxed text-[12px] text-neutral-600 font-light">
-                    <span className="font-semibold text-hanbit-forest">Certified Scope:</span> {cert.scope}
+                <div className="pt-3 text-xs space-y-2 border-t border-stone-200">
+                  <p className="leading-relaxed text-[12px] text-slate-800 font-medium">
+                    <span className="font-bold text-slate-950">Certified Scope:</span> {cert.scope}
                   </p>
                   <div className="flex items-center justify-between pt-1">
-                    <span className="font-mono text-[10px] text-hanbit-muted bg-hanbit-ivory px-2.5 py-1 rounded-md border border-hanbit-border/60 inline-block font-semibold">
+                    <span className="font-mono text-[10px] text-slate-700 bg-stone-100 px-2.5 py-1 rounded-md border border-stone-200 inline-block font-bold">
                       Ref: {cert.certNumber}
                     </span>
-                    <span className="text-[11px] font-semibold text-emerald-700 flex items-center gap-1">
+                    <span className="text-[11px] font-bold text-emerald-700 flex items-center gap-1">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                       <span>{cert.validity}</span>
                     </span>
@@ -247,19 +247,19 @@ export const CertificatesPage = ({ onNavigateHome, onNavigateGallery, onContactC
               </div>
 
               {/* Classy Action Buttons */}
-              <div className="pt-5 mt-5 border-t border-hanbit-border/80 flex items-center gap-2.5">
+              <div className="pt-5 mt-5 border-t border-stone-200 flex items-center gap-2.5">
                 <button
                   onClick={() => setSelectedCert(cert)}
-                  className="flex-1 py-2.5 px-4 rounded-xl bg-hanbit-forest hover:bg-hanbit-dark text-white text-xs font-semibold flex items-center justify-center gap-2 shadow-xs transition-all hover:shadow-md cursor-pointer group/btn"
+                  className="flex-1 py-2.5 px-4 rounded-xl bg-slate-950 hover:bg-emerald-900 text-white text-xs font-bold flex items-center justify-center gap-2 shadow-xs transition-all hover:shadow-md cursor-pointer group/btn"
                 >
-                  <Eye className="w-3.5 h-3.5 text-hanbit-gold group-hover/btn:scale-110 transition-transform" />
+                  <Eye className="w-3.5 h-3.5 text-amber-300 group-hover/btn:scale-110 transition-transform" />
                   <span>Preview Certificate</span>
                 </button>
 
                 <a
                   href={cert.pdfUrl}
                   download={cert.fileName}
-                  className="p-2.5 rounded-xl border border-hanbit-border hover:border-hanbit-gold bg-white hover:bg-hanbit-ivory text-hanbit-forest transition-colors shadow-2xs flex items-center justify-center cursor-pointer"
+                  className="p-2.5 rounded-xl border border-stone-200 hover:border-amber-500 bg-white hover:bg-stone-50 text-slate-950 transition-colors shadow-2xs flex items-center justify-center cursor-pointer"
                   title="Download Certificate PDF"
                 >
                   <Download className="w-4 h-4" />
@@ -269,7 +269,7 @@ export const CertificatesPage = ({ onNavigateHome, onNavigateGallery, onContactC
                   href={cert.pdfUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-2.5 rounded-xl border border-hanbit-border hover:border-hanbit-gold bg-white hover:bg-hanbit-ivory text-hanbit-forest transition-colors shadow-2xs flex items-center justify-center cursor-pointer"
+                  className="p-2.5 rounded-xl border border-stone-200 hover:border-amber-500 bg-white hover:bg-stone-50 text-slate-950 transition-colors shadow-2xs flex items-center justify-center cursor-pointer"
                   title="Open in new window"
                 >
                   <ExternalLink className="w-4 h-4" />
@@ -280,26 +280,26 @@ export const CertificatesPage = ({ onNavigateHome, onNavigateGallery, onContactC
         </div>
 
         {/* 3 Quality Pillars */}
-        <div className="mb-16 p-8 sm:p-12 rounded-3xl bg-white border border-hanbit-border shadow-sm">
+        <div className="mb-16 p-8 sm:p-12 rounded-3xl bg-white border border-stone-200 shadow-md">
           <div className="max-w-2xl mb-8">
-            <span className="text-xs font-mono font-bold text-hanbit-gold tracking-widest uppercase block mb-1">
+            <span className="text-xs font-mono font-bold text-amber-600 tracking-widest uppercase block mb-1">
               Quality Assurance Framework
             </span>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-hanbit-forest font-serif">
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-950 font-serif">
               Three Pillars of Medical Equipment Governance
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {pillars.map((pil, idx) => (
-              <div key={idx} className="space-y-3 p-6 rounded-2xl bg-hanbit-ivory border border-hanbit-border/60">
-                <span className="text-xs font-mono font-extrabold text-hanbit-gold tracking-widest block">
+              <div key={idx} className="space-y-3 p-6 rounded-2xl bg-stone-50 border border-stone-200">
+                <span className="text-xs font-mono font-extrabold text-amber-700 tracking-widest block">
                   PILLAR {pil.num}
                 </span>
-                <h4 className="text-base font-bold text-hanbit-forest font-serif">
+                <h4 className="text-base font-bold text-slate-950 font-serif">
                   {pil.title}
                 </h4>
-                <p className="text-xs sm:text-[13px] text-hanbit-muted leading-relaxed font-light">
+                <p className="text-xs sm:text-[13px] text-slate-800 leading-relaxed font-medium">
                   {pil.desc}
                 </p>
               </div>
@@ -309,17 +309,17 @@ export const CertificatesPage = ({ onNavigateHome, onNavigateGallery, onContactC
 
         {/* Audit Log & Compliance Verification Table */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-16">
-          <div className="lg:col-span-8 bg-white rounded-3xl border border-hanbit-border p-6 sm:p-8 shadow-sm">
-            <div className="flex items-center justify-between mb-6 pb-4 border-b border-hanbit-border">
+          <div className="lg:col-span-8 bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 shadow-md">
+            <div className="flex items-center justify-between mb-6 pb-4 border-b border-stone-200">
               <div>
-                <h3 className="text-lg sm:text-xl font-bold text-hanbit-forest font-serif">
+                <h3 className="text-lg sm:text-xl font-bold text-slate-950 font-serif">
                   Official Facility Inspection & Regulatory Audit Log
                 </h3>
-                <p className="text-xs text-hanbit-muted mt-0.5">
+                <p className="text-xs text-slate-600 mt-0.5 font-medium">
                   Audits executed by external accreditation bodies and statutory authorities
                 </p>
               </div>
-              <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-700">
+              <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800">
                 <Lock className="w-3.5 h-3.5" />
                 <span>Zero Deficiencies</span>
               </div>
@@ -327,28 +327,28 @@ export const CertificatesPage = ({ onNavigateHome, onNavigateGallery, onContactC
 
             <div className="space-y-4">
               {auditLogs.map((log, lIdx) => (
-                <div key={lIdx} className="p-4 sm:p-5 rounded-2xl bg-hanbit-ivory border border-hanbit-border/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div key={lIdx} className="p-4 sm:p-5 rounded-2xl bg-stone-50 border border-stone-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2.5">
-                      <span className="font-mono font-bold text-xs text-hanbit-forest bg-white px-2 py-0.5 rounded border border-hanbit-border">
+                      <span className="font-mono font-bold text-xs text-slate-950 bg-white px-2 py-0.5 rounded border border-stone-300">
                         {log.year}
                       </span>
-                      <span className="text-xs font-semibold text-hanbit-gold">
+                      <span className="text-xs font-bold text-amber-700">
                         {log.quarter}
                       </span>
                     </div>
-                    <h4 className="text-sm font-bold text-hanbit-forest">
+                    <h4 className="text-sm font-bold text-slate-950">
                       {log.agency}
                     </h4>
-                    <p className="text-xs text-hanbit-muted">
+                    <p className="text-xs text-slate-700 font-medium">
                       Facility: {log.facility}
                     </p>
-                    <p className="text-xs text-emerald-800 font-medium">
+                    <p className="text-xs text-emerald-800 font-bold">
                       ✓ {log.result}
                     </p>
                   </div>
 
-                  <span className="self-start sm:self-center px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-bold">
+                  <span className="self-start sm:self-center px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 text-[11px] font-bold">
                     {log.badge}
                   </span>
                 </div>
@@ -357,19 +357,19 @@ export const CertificatesPage = ({ onNavigateHome, onNavigateGallery, onContactC
           </div>
 
           {/* Right Checklist Box */}
-          <div className="lg:col-span-4 bg-gradient-to-br from-hanbit-forest to-hanbit-dark text-white rounded-3xl p-6 sm:p-8 shadow-xl">
+          <div className="lg:col-span-4 bg-gradient-to-br from-hanbit-forest to-slate-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-emerald-700/40">
             <div className="flex items-center gap-2 mb-4">
-              <FileCheck2 className="w-5 h-5 text-hanbit-gold" />
+              <FileCheck2 className="w-5 h-5 text-amber-400" />
               <h3 className="text-lg font-bold text-white font-serif">Compliance Assurance</h3>
             </div>
-            <p className="text-xs text-emerald-100/70 mb-6 leading-relaxed">
+            <p className="text-xs text-emerald-100/90 mb-6 leading-relaxed">
               Every medical bed and therapeutic device manufactured and supplied by Dooroomi meets or exceeds these baseline parameters:
             </p>
 
-            <ul className="space-y-3.5 text-xs text-emerald-100/90 font-light">
+            <ul className="space-y-3.5 text-xs text-emerald-100 font-medium">
               {standards.map((std, sIdx) => (
                 <li key={sIdx} className="flex items-start gap-2.5">
-                  <Check className="w-4 h-4 text-hanbit-gold shrink-0 mt-0.5" />
+                  <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                   <span>{std}</span>
                 </li>
               ))}
@@ -378,7 +378,7 @@ export const CertificatesPage = ({ onNavigateHome, onNavigateGallery, onContactC
             <div className="mt-8 pt-6 border-t border-emerald-800/80">
               <button
                 onClick={onContactClick}
-                className="w-full py-3 rounded-full bg-gradient-to-r from-hanbit-gold to-amber-300 text-hanbit-dark text-xs font-bold hover:shadow-lg transition-all text-center flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-3 rounded-full bg-gradient-to-r from-hanbit-gold to-amber-300 text-slate-950 text-xs font-bold hover:shadow-lg transition-all text-center flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>Request Official Audit Dossier</span>
                 <ArrowRight className="w-4 h-4" />
@@ -388,25 +388,25 @@ export const CertificatesPage = ({ onNavigateHome, onNavigateGallery, onContactC
         </div>
 
         {/* Bottom CTA Row */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-hanbit-forest via-emerald-950 to-hanbit-dark text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl">
+        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-hanbit-forest via-emerald-950 to-slate-950 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl border border-white/20">
           <div>
             <h3 className="text-xl sm:text-2xl font-bold font-serif">
               Need Certified Documentation for Tender or Clinic Setup?
             </h3>
-            <p className="text-xs sm:text-sm text-emerald-100/70 mt-1 max-w-xl">
+            <p className="text-xs sm:text-sm text-emerald-100/90 mt-1 max-w-xl">
               We provide authenticated copies of CE certificates, FDA registration, GMP compliance, and ROC incorporation documents for institutional procurement.
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-3">
             <button
               onClick={onNavigateGallery}
-              className="px-5 py-2.5 rounded-full border border-hanbit-gold text-white hover:bg-hanbit-gold hover:text-hanbit-dark text-xs font-semibold transition-all cursor-pointer"
+              className="px-5 py-2.5 rounded-full border border-white/60 text-white hover:bg-white hover:text-slate-900 text-xs font-semibold transition-all cursor-pointer"
             >
               Explore Medical Equipment
             </button>
             <button
               onClick={onContactClick}
-              className="px-6 py-2.5 rounded-full bg-hanbit-gold text-hanbit-dark hover:bg-amber-300 text-xs font-bold shadow-md transition-all cursor-pointer"
+              className="px-6 py-2.5 rounded-full bg-amber-400 text-slate-950 hover:bg-amber-300 text-xs font-bold shadow-md transition-all cursor-pointer"
             >
               Contact Quality Compliance Team
             </button>

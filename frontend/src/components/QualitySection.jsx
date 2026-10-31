@@ -22,20 +22,20 @@ export const QualitySection = ({ onViewTesting }) => {
   ];
 
   return (
-    <section id="quality" className="py-20 lg:py-28 bg-white border-t border-hanbit-border relative">
+    <section id="quality" style={{ backgroundColor: '#75bfb2' }} className="py-20 lg:py-28 bg-[#75bfb2] border-t border-white/20 relative text-slate-900">
       <div id="certificates" className="absolute -top-20" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="max-w-3xl mb-16">
-          <div className="inline-flex items-center gap-2 text-xs font-bold text-hanbit-gold tracking-widest uppercase mb-3">
-            <ShieldCheck className="w-4 h-4" />
+          <div className="inline-flex items-center gap-2 text-xs font-bold text-slate-950 tracking-widest uppercase mb-3 bg-white/90 px-3 py-1 rounded-full border border-white/60">
+            <ShieldCheck className="w-4 h-4 text-emerald-800" />
             <span>Accredited Standards & Approvals</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-hanbit-forest tracking-tight leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-950 tracking-tight leading-tight font-serif drop-shadow-2xs">
             Quality Assurance Certified at Every Node.
           </h2>
-          <p className="mt-4 text-base sm:text-lg text-hanbit-muted font-light leading-relaxed">
+          <p className="mt-4 text-base sm:text-lg text-slate-900 font-medium leading-relaxed">
             Dooroomi operates under strict international CGMP and ISO 22716 guidelines. Every claim is supported by third-party laboratory verification and official government accreditation.
           </p>
         </div>
@@ -45,99 +45,57 @@ export const QualitySection = ({ onViewTesting }) => {
           {CERTIFICATES.map((cert) => (
             <div
               key={cert.id}
-              className="p-6 rounded-2xl bg-hanbit-ivory border border-hanbit-border/80 hover:border-hanbit-gold shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
+              className="p-6 rounded-2xl bg-white border border-stone-200 hover:border-amber-400 shadow-md hover:shadow-xl transition-all flex flex-col justify-between"
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="w-12 h-12 rounded-xl bg-white border border-hanbit-border flex items-center justify-center text-hanbit-gold shadow-sm">
-                    <Award className="w-6 h-6" />
-                  </div>
-                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
-                    {cert.status}
+                  <span className="w-10 h-10 rounded-xl bg-stone-100 flex items-center justify-center text-amber-700">
+                    <Award className="w-5 h-5" />
+                  </span>
+                  <span className="text-[10px] font-mono uppercase bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold">
+                    {cert.badge}
                   </span>
                 </div>
-
-                <div>
-                  <h4 className="text-sm font-bold text-hanbit-forest leading-snug">
-                    {cert.name}
-                  </h4>
-                  <p className="text-[11px] text-hanbit-muted mt-1">
-                    Issuer: <b>{cert.issuer}</b>
-                  </p>
-                </div>
-
-                <div className="pt-2 text-[11px] text-hanbit-ink/80 space-y-1 border-t border-hanbit-border/40">
-                  <p className="line-clamp-2">
-                    Scope: {cert.scope}
-                  </p>
-                  <p className="font-mono text-[10px] text-hanbit-muted">
-                    No: {cert.certNumber}
-                  </p>
-                </div>
+                <h3 className="text-lg font-bold text-slate-950 font-serif">
+                  {cert.name}
+                </h3>
+                <p className="text-xs text-slate-800 leading-relaxed font-medium">
+                  {cert.description}
+                </p>
               </div>
 
-              <div className="pt-4 mt-2 border-t border-hanbit-border/60 text-[10px] font-semibold text-hanbit-forest flex items-center justify-between">
-                <span>{cert.validity}</span>
-                {cert.pdfUrl && (
-                  <a
-                    href={cert.pdfUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-hanbit-gold hover:text-hanbit-forest font-bold transition-colors"
-                  >
-                    <span>View PDF</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
-                )}
+              <div className="pt-6 mt-6 border-t border-stone-100 flex items-center justify-between text-xs">
+                <span className="text-emerald-700 font-bold flex items-center gap-1">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <span>{cert.validity}</span>
+                </span>
+                <a
+                  href="./assets/docs/certificates.pdf"
+                  className="font-bold text-slate-950 hover:text-amber-700 flex items-center gap-1"
+                >
+                  <span>PDF Dossier</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
               </div>
             </div>
           ))}
         </div>
 
-        {/* 3 Quality Pillars */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8 sm:p-10 rounded-3xl bg-hanbit-ivory border border-hanbit-border">
-          {pillars.map((pil, idx) => (
-            <div key={idx} className="space-y-3">
-              <span className="text-xs font-mono font-bold text-hanbit-gold tracking-widest block">
-                PILLAR {pil.num}
+        {/* 3 Pillars */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-8 border-t border-white/20">
+          {pillars.map((pillar) => (
+            <div key={pillar.num} className="space-y-3 p-6 rounded-2xl bg-white border border-stone-200 shadow-sm">
+              <span className="text-xs font-mono font-bold text-amber-700">
+                PILLAR {pillar.num}
               </span>
-              <h4 className="text-base font-bold text-hanbit-forest">
-                {pil.title}
+              <h4 className="text-base font-bold text-slate-950 font-serif">
+                {pillar.title}
               </h4>
-              <p className="text-xs text-hanbit-muted leading-relaxed font-light">
-                {pil.desc}
+              <p className="text-xs text-slate-800 leading-relaxed font-medium">
+                {pillar.desc}
               </p>
             </div>
           ))}
-        </div>
-
-        {/* Bottom Actions */}
-        <div className="mt-12 flex flex-wrap items-center justify-between gap-4 p-6 rounded-2xl bg-gradient-to-r from-hanbit-forest to-hanbit-dark text-white">
-          <div>
-            <h4 className="text-base font-bold text-white">
-              Need Complete Audit Dossiers for Your Brand's Board?
-            </h4>
-            <p className="text-xs text-emerald-100/80 mt-0.5">
-              Download the official ISO 22716 & CGMP Certification Pack including government audit signatures.
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <a
-              href="./assets/docs/certificates.pdf"
-              download
-              className="px-5 py-2.5 rounded-full bg-hanbit-gold text-hanbit-dark text-xs font-bold hover:bg-amber-400 transition-all inline-flex items-center gap-1.5 shadow-md"
-            >
-              <Download className="w-3.5 h-3.5" />
-              <span>Download Cert Pack (PDF)</span>
-            </a>
-            <button
-              onClick={onViewTesting}
-              className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-semibold transition-all inline-flex items-center gap-1.5"
-            >
-              <span>View 5-Stage Testing Route</span>
-              <ArrowRight className="w-3.5 h-3.5 text-hanbit-gold" />
-            </button>
-          </div>
         </div>
 
       </div>
