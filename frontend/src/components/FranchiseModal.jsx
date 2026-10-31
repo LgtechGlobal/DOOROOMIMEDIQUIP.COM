@@ -157,17 +157,17 @@ ${formData.phone}`;
           }}
         >
           
-          {/* 1. REAL HUMAN PARTNERSHIP SHOWCASE - INCREASED CARD SIZE WITH PERFECT BG IMAGE & TOP-CORNER VIDEO */}
+          {/* 1. REAL HUMAN PARTNERSHIP SHOWCASE - INCREASED HEIGHT CARD WITH PERFECT FULL IMAGE & TOP-CORNER VIDEO */}
           <div 
-            className="relative rounded-3xl p-6 sm:p-10 md:p-12 text-white border-2 border-amber-400/60 shadow-2xl overflow-hidden bg-cover bg-center min-h-[380px] sm:min-h-[440px] md:min-h-[480px] flex flex-col justify-between"
+            className="relative rounded-3xl p-6 sm:p-10 md:p-12 lg:p-14 text-white border-2 border-amber-400/60 shadow-2xl overflow-hidden bg-cover bg-center min-h-[500px] sm:min-h-[580px] md:min-h-[640px] lg:min-h-[660px] flex flex-col justify-between"
             style={{
-              backgroundImage: "linear-gradient(to right, rgba(15, 23, 42, 0.78) 0%, rgba(15, 23, 42, 0.35) 45%, rgba(15, 23, 42, 0.45) 100%), url('/assets/img/franchise-partnership-bg.jpg')",
-              backgroundPosition: 'center 35%',
+              backgroundImage: "linear-gradient(to right, rgba(15, 23, 42, 0.78) 0%, rgba(15, 23, 42, 0.30) 45%, rgba(15, 23, 42, 0.40) 100%), url('/assets/img/franchise-partnership-bg.jpg')",
+              backgroundPosition: 'center center',
               backgroundRepeat: 'no-repeat'
             }}
           >
             {/* Infinite Loop Video in Top Right Corner */}
-            <div className="sm:absolute sm:top-6 sm:right-6 w-full sm:w-52 md:w-60 aspect-video rounded-2xl overflow-hidden border-2 border-amber-400/80 shadow-[0_12px_36px_rgba(0,0,0,0.7)] z-20 bg-black group mb-6 sm:mb-0">
+            <div className="sm:absolute sm:top-7 sm:right-7 w-full sm:w-56 md:w-64 aspect-video rounded-2xl overflow-hidden border-2 border-amber-400/80 shadow-[0_14px_40px_rgba(0,0,0,0.75)] z-20 bg-black group mb-6 sm:mb-0">
               <video
                 autoPlay
                 loop
@@ -184,18 +184,18 @@ ${formData.phone}`;
             </div>
 
             {/* Top Area: Title & Subtitle */}
-            <div className="relative z-10 space-y-2 sm:pr-68 text-left">
+            <div className="relative z-10 space-y-2 sm:pr-72 text-left">
               <span className="text-[11px] sm:text-xs font-mono uppercase tracking-widest text-amber-300 font-bold block drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                 Two Hands Coming Together — The Trust of Partnership
               </span>
 
-              <h3 className="text-lg sm:text-2xl md:text-3xl font-bold text-amber-200 font-serif leading-snug drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] max-w-xl">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-amber-200 font-serif leading-snug drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] max-w-xl">
                 Dooroomi Mediquip &amp; Your Enterprise · Joined in Purpose
               </h3>
             </div>
 
             {/* Bottom Area: Authorised Distributor Inquiry Message */}
-            <div className="relative z-10 pt-6 max-w-2xl text-left">
+            <div className="relative z-10 pt-10 max-w-2xl text-left">
               <p className="text-xs sm:text-sm text-amber-50 font-medium leading-relaxed bg-black/60 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-amber-400/35 shadow-xl">
                 "If you are interested in becoming an authorised distributor of Dooroomi Mediquip PVT. LTD., please contact us by filling in the form below. We will get in touch with you shortly."
               </p>
