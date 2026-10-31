@@ -3,12 +3,12 @@ import mongoose from 'mongoose';
 const inquirySchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true,
+    default: 'Visitor (Incomplete Form)',
     trim: true
   },
   email: {
     type: String,
-    required: true,
+    default: '',
     trim: true
   },
   phone: {
@@ -21,7 +21,6 @@ const inquirySchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ['quote', 'therapy_center_visit', 'general', 'b2b_distributor'],
     default: 'general'
   },
   productInterest: {
@@ -34,8 +33,12 @@ const inquirySchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['Pending', 'Contacted', 'In Progress', 'Completed'],
+    enum: ['Pending', 'Contacted', 'In Progress', 'Completed', 'Draft / Abandoned'],
     default: 'Pending'
+  },
+  isDraft: {
+    type: Boolean,
+    default: false
   },
   notes: {
     type: String,

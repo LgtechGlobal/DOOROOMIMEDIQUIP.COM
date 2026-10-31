@@ -958,10 +958,13 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
               <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">Leads & Inquiries</span>
               <Users className="w-4 h-4 text-blue-400" />
             </div>
-            <div className="mt-2 flex items-baseline gap-2">
+            <div className="mt-2 flex items-baseline gap-2 flex-wrap">
               <span className="text-2xl font-bold text-white">{inquiries.length}</span>
               <span className="text-xs text-amber-400">
                 {inquiries.filter(i => i.status === 'Pending').length} Pending
+              </span>
+              <span className="text-[11px] text-rose-400 font-semibold">
+                {inquiries.filter(i => i.isDraft || i.status === 'Draft / Abandoned').length} Unsubmitted
               </span>
             </div>
           </div>
@@ -1452,18 +1455,18 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
               </div>
 
               {/* Status Filter */}
-              <div className="flex items-center space-x-1.5 bg-[#07130f] p-1 rounded-xl border border-emerald-800/60">
-                {['ALL', 'Pending', 'In Progress', 'Completed'].map((st) => (
+              <div className="flex items-center space-x-1.5 bg-[#07130f] p-1 rounded-xl border border-emerald-800/60 flex-wrap">
+                {['ALL', 'Pending', 'In Progress', 'Completed', 'Draft / Abandoned'].map((st) => (
                   <button
                     key={st}
                     onClick={() => setStatusFilter(st)}
                     className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                       statusFilter === st
-                        ? 'bg-emerald-800 text-white'
+                        ? st === 'Draft / Abandoned' ? 'bg-rose-900 text-rose-200' : 'bg-emerald-800 text-white'
                         : 'text-neutral-400 hover:text-white'
                     }`}
                   >
-                    {st}
+                    {st === 'Draft / Abandoned' ? 'Unsubmitted / Drafts' : st}
                   </button>
                 ))}
               </div>
@@ -1487,9 +1490,17 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                     {filteredInquiries.map((inq) => (
                       <tr key={inq._id} className="hover:bg-emerald-950/40 transition-colors">
                         <td className="px-4 py-3.5">
-                          <div className="font-bold text-white">{inq.name}</div>
-                          <div className="text-neutral-400 text-[11px] mt-0.5">{inq.phone}</div>
-                          <div className="text-emerald-400 text-[11px]">{inq.email}</div>
+                          <div className="font-bold text-white flex items-center gap-1.5 flex-wrap">
+                            <span>{inq.name}</span>
+                            {(inq.isDraft || inq.status === 'Draft / Abandoned') && (
+                              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40 uppercase tracking-wider animate-pulse">
+                                <AlertTriangle className="w-2.5 h-2.5 text-rose-400" />
+                                Did Not Submit
+                              </span>
+                            )}
+                          </div>
+                          <div className="text-neutral-400 text-[11px] mt-0.5 font-mono">{inq.phone || 'No phone'}</div>
+                          <div className="text-emerald-400 text-[11px]">{inq.email || 'No email provided'}</div>
                           {inq.company && <div className="text-amber-400/80 text-[10px] mt-0.5">{inq.company}</div>}
                         </td>
                         <td className="px-4 py-3.5">
@@ -1512,9 +1523,12 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                                 ? 'bg-emerald-950 text-emerald-300 border-emerald-600'
                                 : inq.status === 'In Progress'
                                 ? 'bg-blue-950 text-blue-300 border-blue-600'
+                                : inq.status === 'Draft / Abandoned'
+                                ? 'bg-rose-950 text-rose-300 border-rose-600'
                                 : 'bg-amber-950 text-amber-300 border-amber-600'
                             }`}
                           >
+                            <option value="Draft / Abandoned">Draft (Not Submitted)</option>
                             <option value="Pending">Pending</option>
                             <option value="In Progress">In Progress</option>
                             <option value="Completed">Completed</option>
@@ -3808,6 +3822,7 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                     onChange={(e) => setEditingInquiry({ ...editingInquiry, status: e.target.value })}
                     className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-emerald-400 font-semibold"
                   >
+                    <option value="Draft / Abandoned">Draft (Not Submitted)</option>
                     <option value="Pending">Pending</option>
                     <option value="In Progress">In Progress</option>
                     <option value="Completed">Completed</option>

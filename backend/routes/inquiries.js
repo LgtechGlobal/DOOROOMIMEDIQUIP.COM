@@ -41,25 +41,100 @@ const requireAdmin = (req, res, next) => {
   return res.status(401).json({ success: false, message: 'Admin authentication required' });
 };
 
-// POST /api/inquiries (Public - from website contact & quote forms)
+// POST /api/inquiries/draft (Public - live capture when user enters details before submitting)
+inquiriesRouter.post('/draft', async (req, res) => {
+  try {
+    const { draftId, name, email, phone, company, type, productInterest, message } = req.body;
+
+    // Check if at least some contact information was provided
+    const hasContact = (name && name.trim()) || (phone && phone.trim()) || (email && email.trim());
+    if (!hasContact) {
+      return res.status(400).json({ success: false, message: 'At least Name, Phone, or Email is required for draft capture.' });
+    }
+
+    if (draftId) {
+      const existing = await Inquiry.findById(draftId);
+      if (existing) {
+        if (existing.status !== 'Completed') {
+          if (name && name.trim()) existing.name = name.trim();
+          if (email && email.trim()) existing.email = email.trim();
+          if (phone !== undefined) existing.phone = phone;
+          if (company !== undefined) existing.company = company;
+          if (type) existing.type = type;
+          if (productInterest) existing.productInterest = productInterest;
+          if (message !== undefined) existing.message = message;
+          existing.isDraft = true;
+          if (existing.status !== 'In Progress') {
+            existing.status = 'Draft / Abandoned';
+          }
+          await existing.save();
+          return res.json({ success: true, inquiry: existing, draftId: existing._id });
+        }
+      }
+    }
+
+    // Otherwise create new draft lead record
+    const newDraft = await Inquiry.create({
+      name: (name && name.trim()) || 'Visitor (Incomplete Form)',
+      email: (email && email.trim()) || '',
+      phone: phone || '',
+      company: company || '',
+      type: type || 'therapy_consultation',
+      productInterest: productInterest || 'General Inquiry',
+      message: message || '(User entered details in form but did not click submit yet)',
+      status: 'Draft / Abandoned',
+      isDraft: true,
+      notes: 'Captured automatically when user typed details without submitting.'
+    });
+
+    console.log(`[Live Capture] Draft lead captured for "${newDraft.name}" (${newDraft.phone || newDraft.email || newDraft._id})`);
+    return res.status(201).json({ success: true, inquiry: newDraft, draftId: newDraft._id });
+  } catch (err) {
+    console.warn('Draft lead capture error:', err.message);
+    return res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// POST /api/inquiries (Public - final submission from website contact & quote forms)
 inquiriesRouter.post('/', async (req, res) => {
   try {
-    const { name, email, phone, company, type, productInterest, message } = req.body;
+    const { draftId, name, email, phone, company, type, productInterest, message } = req.body;
 
     if (!name || !email) {
       return res.status(400).json({ success: false, message: 'Name and email are required' });
     }
 
-    const inquiry = await Inquiry.create({
-      name,
-      email,
-      phone: phone || '',
-      company: company || '',
-      type: type || 'general',
-      productInterest: productInterest || 'BEDRO Smart-1 / TAEYANGSUK Mat',
-      message: message || '',
-      status: 'Pending'
-    });
+    let inquiry;
+    if (draftId) {
+      inquiry = await Inquiry.findById(draftId);
+    }
+
+    if (inquiry) {
+      inquiry.name = name;
+      inquiry.email = email;
+      inquiry.phone = phone || inquiry.phone || '';
+      inquiry.company = company || inquiry.company || '';
+      inquiry.type = type || inquiry.type || 'general';
+      inquiry.productInterest = productInterest || inquiry.productInterest || 'BEDRO Smart-1 / TAEYANGSUK Mat';
+      inquiry.message = message || inquiry.message || '';
+      inquiry.status = 'Pending';
+      inquiry.isDraft = false;
+      inquiry.notes = 'Form submitted successfully by user';
+      await inquiry.save();
+    } else {
+      inquiry = await Inquiry.create({
+        name,
+        email,
+        phone: phone || '',
+        company: company || '',
+        type: type || 'general',
+        productInterest: productInterest || 'BEDRO Smart-1 / TAEYANGSUK Mat',
+        message: message || '',
+        status: 'Pending',
+        isDraft: false,
+        notes: 'Submitted via website contact form'
+      });
+    }
 
     // Automatically send email notification to admin & patient
     sendInquiryEmail({ name, email, phone, company, type, productInterest, message })

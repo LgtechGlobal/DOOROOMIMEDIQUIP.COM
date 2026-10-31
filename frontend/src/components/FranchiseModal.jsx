@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Building2, 
   Sparkles, 
@@ -16,6 +16,7 @@ import {
   Send
 } from 'lucide-react';
 import { SITE_CONFIG } from '../data/siteData';
+import { API_BASE_URL } from '../config/api';
 
 export const FranchiseModal = ({ isOpen, onClose }) => {
   // Form fields
@@ -32,6 +33,56 @@ export const FranchiseModal = ({ isOpen, onClose }) => {
   });
 
   const [errors, setErrors] = useState({});
+  const [draftId, setDraftId] = useState(() => {
+    try {
+      return sessionStorage.getItem('dooroomi_franchise_draft_id') || null;
+    } catch {
+      return null;
+    }
+  });
+
+  // LIVE DRAFT CAPTURE: Automatically capture unsubmitted franchise applicant details
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const hasContact = (formData.phone && formData.phone.trim().length >= 5) ||
+                       (formData.email && formData.email.includes('@')) ||
+                       (formData.fullName && formData.fullName.trim().length >= 2);
+
+    if (!hasContact) return;
+
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/inquiries/draft`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            draftId,
+            name: formData.fullName,
+            email: formData.email,
+            phone: formData.phone,
+            company: formData.city ? `Location: ${formData.city}, ${formData.state || ''} | Budget: ${formData.investmentCapacity}` : `Budget: ${formData.investmentCapacity}`,
+            type: 'b2b_distributor',
+            productInterest: 'Franchise Center Partnership',
+            message: formData.message || `Applicant ${formData.fullName} started franchise application for ${formData.city || 'unspecified city'}.`
+          })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.draftId && data.draftId !== draftId) {
+            setDraftId(data.draftId);
+            try {
+              sessionStorage.setItem('dooroomi_franchise_draft_id', data.draftId);
+            } catch {}
+          }
+        }
+      } catch (err) {
+        // Background sync
+      }
+    }, 1200);
+
+    return () => clearTimeout(timer);
+  }, [formData, draftId, isOpen]);
 
   if (!isOpen) return null;
 

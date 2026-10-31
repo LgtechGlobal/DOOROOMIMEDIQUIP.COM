@@ -22,6 +22,13 @@ export const ContactSection = ({
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submittedData, setSubmittedData] = useState(null);
+  const [draftId, setDraftId] = useState(() => {
+    try {
+      return sessionStorage.getItem('dooroomi_contact_draft_id') || null;
+    } catch {
+      return null;
+    }
+  });
 
   useEffect(() => {
     if (preselectedProduct) {
@@ -32,6 +39,49 @@ export const ContactSection = ({
       }));
     }
   }, [preselectedProduct]);
+
+  // LIVE DRAFT CAPTURE: Automatically capture unsubmitted details when user types in form
+  useEffect(() => {
+    if (isSuccess || isSubmitting) return;
+
+    const hasContact = (formData.phone && formData.phone.trim().length >= 5) ||
+                       (formData.email && formData.email.includes('@')) ||
+                       (formData.name && formData.name.trim().length >= 2);
+
+    if (!hasContact) return;
+
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/inquiries/draft`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            draftId,
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            company: formData.company,
+            type: 'therapy_consultation',
+            productInterest: formData.product || 'Free Therapy Consultation',
+            message: formData.message
+          })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.draftId && data.draftId !== draftId) {
+            setDraftId(data.draftId);
+            try {
+              sessionStorage.setItem('dooroomi_contact_draft_id', data.draftId);
+            } catch {}
+          }
+        }
+      } catch (err) {
+        // Silently background sync
+      }
+    }, 1200);
+
+    return () => clearTimeout(timer);
+  }, [formData, draftId, isSuccess, isSubmitting]);
 
   const validate = () => {
     const errs = {};
@@ -57,6 +107,7 @@ export const ContactSection = ({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          draftId,
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
@@ -66,6 +117,10 @@ export const ContactSection = ({
           message: formData.message
         })
       });
+      try {
+        sessionStorage.removeItem('dooroomi_contact_draft_id');
+      } catch {}
+      setDraftId(null);
     } catch (err) {
       console.warn('Inquiry background sync:', err.message);
     } finally {
