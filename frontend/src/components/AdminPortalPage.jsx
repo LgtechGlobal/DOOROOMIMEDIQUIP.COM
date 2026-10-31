@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ShieldCheck, 
   Database, 
@@ -46,7 +46,8 @@ import {
   UserPlus,
   User,
   Lock,
-  Key
+  Key,
+  QrCode
 } from 'lucide-react';
 import { SITE_CONFIG } from '../data/siteData';
 import { useData } from '../context/DataContext';
@@ -61,6 +62,9 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
     products,
     centers,
     testimonials,
+    customerRatings = [],
+    updateCustomerRating,
+    deleteCustomerRating,
     ads,
     activeAd,
     addProduct,
@@ -90,11 +94,12 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
       return 'settings';
     }
     return 'products';
-  }); // 'products' | 'centers' | 'testimonials' | 'ads' | 'inquiries' | 'database' | 'settings'
+  }); // 'products' | 'centers' | 'testimonials' | 'ratings' | 'ads' | 'inquiries' | 'database' | 'settings'
   const [inquiries, setInquiries] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
+  const [ratingStarFilter, setRatingStarFilter] = useState('ALL');
   const [notification, setNotification] = useState(null);
 
   // Modals state
@@ -106,6 +111,7 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [editingCenter, setEditingCenter] = useState(null);
   const [editingTestimonial, setEditingTestimonial] = useState(null);
+  const [editingRating, setEditingRating] = useState(null);
   const [editingInquiry, setEditingInquiry] = useState(null);
   const [editingAd, setEditingAd] = useState(null);
   const [previewAdModal, setPreviewAdModal] = useState(null);
@@ -717,6 +723,42 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
     }
   };
 
+  // Submit Edit Patient QR Rating
+  const handleEditRatingSubmit = async (e) => {
+    e.preventDefault();
+    if (!editingRating || !editingRating.name) {
+      alert('Please fill in Patient Name');
+      return;
+    }
+
+    try {
+      const ratingId = editingRating.id || editingRating._id;
+      const finalMsg = (editingRating.comment && editingRating.comment.trim()) || 
+                       (editingRating.quote && editingRating.quote.trim()) || 
+                       editingRating.selectiveFeedback || 
+                       'Excellent experience';
+
+      const payload = {
+        ...editingRating,
+        name: editingRating.name.trim(),
+        rating: Math.min(5, Math.max(1, Number(editingRating.rating) || 5)),
+        location: (editingRating.location && editingRating.location.trim()) || 'Bhubaneswar, Odisha',
+        treatment: editingRating.treatment || 'BEDRO Smart-1 Thermal Spine Bed',
+        selectiveFeedback: editingRating.selectiveFeedback || '🌟 Excellent Therapy',
+        comment: finalMsg,
+        quote: finalMsg,
+        fullStory: finalMsg,
+        disease: editingRating.selectiveFeedback || 'Thermal Therapy & Wellness'
+      };
+
+      await updateCustomerRating(ratingId, payload);
+      notify(`Patient QR rating for "${editingRating.name}" updated successfully in MongoDB Atlas!`);
+      setEditingRating(null);
+    } catch (err) {
+      notify(`Rating update failed: ${err.message}`, 'warning');
+    }
+  };
+
   // Generic Confirm Delete Action
   const handleConfirmDelete = async () => {
     if (!itemToDelete) return;
@@ -732,6 +774,9 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
       } else if (type === 'testimonial') {
         await deleteTestimonial(id);
         notify(`Testimonial from "${name}" successfully deleted from MongoDB Atlas database!`);
+      } else if (type === 'rating') {
+        await deleteCustomerRating(id);
+        notify(`Patient QR rating from "${name}" successfully deleted from MongoDB Atlas database!`);
       } else if (type === 'ad') {
         await deleteAd(id);
         notify(`Advertisement "${name}" successfully deleted from MongoDB Atlas database!`);
@@ -776,6 +821,27 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
   const filteredTestimonials = testimonials.filter(t => {
     const q = searchQuery.toLowerCase();
     return !q || t.name.toLowerCase().includes(q) || t.disease.toLowerCase().includes(q) || t.location.toLowerCase().includes(q);
+  });
+
+  const filteredRatings = (customerRatings || []).filter(r => {
+    const q = searchQuery.toLowerCase();
+    const matchesSearch =
+      !q ||
+      (r.name && r.name.toLowerCase().includes(q)) ||
+      (r.comment && r.comment.toLowerCase().includes(q)) ||
+      (r.quote && r.quote.toLowerCase().includes(q)) ||
+      (r.location && r.location.toLowerCase().includes(q)) ||
+      (r.selectiveFeedback && r.selectiveFeedback.toLowerCase().includes(q)) ||
+      (r.treatment && r.treatment.toLowerCase().includes(q));
+
+    if (!matchesSearch) return false;
+    const ratingNum = Number(r.rating) || 5;
+    if (ratingStarFilter === 'ALL') return true;
+    if (ratingStarFilter === '5') return ratingNum === 5;
+    if (ratingStarFilter === '4') return ratingNum === 4;
+    if (ratingStarFilter === '3') return ratingNum === 3;
+    if (ratingStarFilter === 'LOW') return ratingNum <= 2;
+    return true;
   });
 
   const filteredAds = (ads || []).filter(a => {
@@ -873,8 +939,8 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
       {/* Main CMS Container */}
       <div className="flex-1 w-full max-w-[1780px] mx-auto px-4 sm:px-8 py-6 flex flex-col gap-6">
 
-        {/* 5 Interactive KPI Counters */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+        {/* 7 Interactive KPI Counters */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-3.5">
           <div 
             onClick={() => setActiveTab('products')} 
             className={`p-4 rounded-xl border transition-all cursor-pointer ${
@@ -920,6 +986,24 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
             <div className="mt-2 flex items-baseline gap-2">
               <span className="text-2xl font-bold text-white">{testimonials.length}</span>
               <span className="text-xs text-emerald-400">5-Star Recoveries</span>
+            </div>
+          </div>
+
+          <div 
+            onClick={() => setActiveTab('ratings')} 
+            className={`p-4 rounded-xl border transition-all cursor-pointer ${
+              activeTab === 'ratings' ? 'bg-emerald-950/90 border-amber-500/80 shadow-lg' : 'bg-[#0b1c16] border-emerald-900/40 hover:border-emerald-700'
+            }`}
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-neutral-400 uppercase tracking-wider">QR Ratings</span>
+              <QrCode className="w-4 h-4 text-amber-400" />
+            </div>
+            <div className="mt-2 flex items-baseline gap-2">
+              <span className="text-2xl font-bold text-white">{customerRatings?.length || 0}</span>
+              <span className="text-xs text-emerald-400">
+                {customerRatings?.filter(r => (Number(r.rating) || 5) === 5).length || 0} 5-Star Reviews
+              </span>
             </div>
           </div>
 
@@ -1025,6 +1109,18 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
             >
               <Star className="w-3.5 h-3.5" />
               <span>Patient Reviews ({testimonials.length})</span>
+            </button>
+
+            <button
+              onClick={() => { setActiveTab('ratings'); setSearchQuery(''); }}
+              className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                activeTab === 'ratings'
+                  ? 'bg-gradient-to-r from-amber-600 to-amber-500 text-black shadow-md'
+                  : 'text-neutral-300 hover:text-white hover:bg-emerald-950/60'
+              }`}
+            >
+              <QrCode className="w-3.5 h-3.5" />
+              <span>QR Ratings ({customerRatings?.length || 0})</span>
             </button>
 
             <button
@@ -1150,6 +1246,38 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                   <Plus className="w-3.5 h-3.5" />
                   <span>Add Testimonial</span>
                 </button>
+              </div>
+            )}
+
+            {activeTab === 'ratings' && (
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => {
+                    const origin = typeof window !== 'undefined' ? window.location.origin : 'https://www.dooroomimediquip.com';
+                    const pathname = typeof window !== 'undefined' ? window.location.pathname.replace(/\/$/, '') : '';
+                    downloadScannerPoster({
+                      qrUrl: `${origin}${pathname}/#/rate`,
+                      centerName: "Dooroomi Medical Pvt. Ltd.",
+                      filename: "Dooroomi-Customer-Feedback-Scanner.png"
+                    });
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black text-xs font-bold shadow-md cursor-pointer transition-all"
+                  title="Download High-Resolution Printable Standee Poster (PNG)"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Download QR Poster</span>
+                </button>
+
+                <a
+                  href="#/rate"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-950 border border-emerald-500/60 hover:bg-emerald-900 text-emerald-300 text-xs font-bold shadow-md cursor-pointer transition-all"
+                  title="Open live patient feedback scanner form in a new tab"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Test Scanner</span>
+                </a>
               </div>
             )}
 
@@ -1438,6 +1566,283 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                 </div>
               ))}
             </div>
+          </div>
+        )}
+
+        {/* TAB: PATIENT QR SCANNER RATINGS & FEEDBACK MANAGEMENT */}
+        {activeTab === 'ratings' && (
+          <div className="flex flex-col gap-4">
+            
+            {/* Header & Quick Action Buttons */}
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h2 className="text-base font-bold text-white flex items-center gap-2">
+                  <QrCode className="w-5 h-5 text-amber-400" />
+                  <span>Patient QR Scanner Ratings & Direct Reviews</span>
+                  <span className="text-xs font-normal text-neutral-400">
+                    ({filteredRatings.length} of {customerRatings?.length || 0} in MongoDB)
+                  </span>
+                </h2>
+                <p className="text-xs text-neutral-400 mt-0.5">
+                  Live ratings and feedback submitted by patients scanning the therapy center QR poster. Admin can edit any rating, change messages, or remove spam.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  onClick={() => {
+                    const origin = typeof window !== 'undefined' ? window.location.origin : 'https://www.dooroomimediquip.com';
+                    const pathname = typeof window !== 'undefined' ? window.location.pathname.replace(/\/$/, '') : '';
+                    downloadScannerPoster({
+                      qrUrl: `${origin}${pathname}/#/rate`,
+                      centerName: "Dooroomi Medical Pvt. Ltd.",
+                      filename: "Dooroomi-Customer-Feedback-Scanner.png"
+                    });
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black text-xs font-bold shadow-md cursor-pointer transition-all"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Download Standee Poster</span>
+                </button>
+
+                <a
+                  href="#/rate"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-950 border border-emerald-500/60 hover:bg-emerald-900 text-emerald-300 text-xs font-semibold cursor-pointer transition-all"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Preview Rating Form</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Quick Star Filter Tabs & Metrics Bar */}
+            <div className="bg-[#0b1c16] rounded-2xl border border-emerald-900/50 p-3 flex flex-wrap items-center justify-between gap-3">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span className="text-xs font-semibold text-neutral-400 mr-1">Filter by Score:</span>
+                
+                <button
+                  onClick={() => setRatingStarFilter('ALL')}
+                  className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    ratingStarFilter === 'ALL'
+                      ? 'bg-amber-500 text-black shadow'
+                      : 'bg-[#07130f] text-neutral-300 hover:text-white border border-emerald-900/60'
+                  }`}
+                >
+                  All ({customerRatings?.length || 0})
+                </button>
+
+                <button
+                  onClick={() => setRatingStarFilter('5')}
+                  className={`inline-flex items-center gap-1 px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    ratingStarFilter === '5'
+                      ? 'bg-amber-500 text-black shadow'
+                      : 'bg-[#07130f] text-neutral-300 hover:text-white border border-emerald-900/60'
+                  }`}
+                >
+                  <span>⭐⭐⭐⭐⭐ 5 Stars</span>
+                  <span className="text-[10px] opacity-80">
+                    ({customerRatings?.filter(r => (Number(r.rating) || 5) === 5).length || 0})
+                  </span>
+                </button>
+
+                <button
+                  onClick={() => setRatingStarFilter('4')}
+                  className={`inline-flex items-center gap-1 px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    ratingStarFilter === '4'
+                      ? 'bg-amber-500 text-black shadow'
+                      : 'bg-[#07130f] text-neutral-300 hover:text-white border border-emerald-900/60'
+                  }`}
+                >
+                  <span>⭐⭐⭐⭐ 4 Stars</span>
+                  <span className="text-[10px] opacity-80">
+                    ({customerRatings?.filter(r => (Number(r.rating) || 5) === 4).length || 0})
+                  </span>
+                </button>
+
+                <button
+                  onClick={() => setRatingStarFilter('3')}
+                  className={`inline-flex items-center gap-1 px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    ratingStarFilter === '3'
+                      ? 'bg-amber-500 text-black shadow'
+                      : 'bg-[#07130f] text-neutral-300 hover:text-white border border-emerald-900/60'
+                  }`}
+                >
+                  <span>⭐⭐⭐ 3 Stars</span>
+                  <span className="text-[10px] opacity-80">
+                    ({customerRatings?.filter(r => (Number(r.rating) || 5) === 3).length || 0})
+                  </span>
+                </button>
+
+                <button
+                  onClick={() => setRatingStarFilter('LOW')}
+                  className={`inline-flex items-center gap-1 px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    ratingStarFilter === 'LOW'
+                      ? 'bg-amber-500 text-black shadow'
+                      : 'bg-[#07130f] text-neutral-300 hover:text-white border border-emerald-900/60'
+                  }`}
+                >
+                  <span>⭐ 1-2 Stars</span>
+                  <span className="text-[10px] opacity-80">
+                    ({customerRatings?.filter(r => (Number(r.rating) || 5) <= 2).length || 0})
+                  </span>
+                </button>
+              </div>
+
+              {/* Average score badge */}
+              <div className="flex items-center gap-2 text-xs">
+                <span className="text-neutral-400">Average Rating:</span>
+                <span className="px-2.5 py-1 rounded-lg bg-amber-500/20 border border-amber-500/50 text-amber-300 font-bold flex items-center gap-1">
+                  <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+                  {customerRatings && customerRatings.length > 0
+                    ? (customerRatings.reduce((sum, r) => sum + (Number(r.rating) || 5), 0) / customerRatings.length).toFixed(1)
+                    : '5.0'} / 5.0
+                </span>
+              </div>
+            </div>
+
+            {/* Ratings Table */}
+            <div className="bg-[#0b1c16] rounded-2xl border border-emerald-900/50 overflow-hidden shadow-xl">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left text-xs text-neutral-300 border-collapse">
+                  <thead className="bg-[#07130f] text-neutral-400 uppercase text-[10px] font-bold border-b border-emerald-900/60 tracking-wider">
+                    <tr>
+                      <th className="py-3 px-4">Patient & Submission</th>
+                      <th className="py-3 px-4">Star Rating</th>
+                      <th className="py-3 px-4">Feedback Tag</th>
+                      <th className="py-3 px-4">Review Message / Feedback</th>
+                      <th className="py-3 px-4">Center & Equipment</th>
+                      <th className="py-3 px-4 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-emerald-950/60 font-normal">
+                    {filteredRatings.map((r, idx) => (
+                      <tr 
+                        key={r.id || r._id || idx} 
+                        className="hover:bg-emerald-950/30 transition-colors group"
+                      >
+                        {/* Patient Name & Date */}
+                        <td className="py-3.5 px-4">
+                          <div className="flex items-start gap-2.5">
+                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-500/30 to-emerald-700/40 border border-amber-500/40 flex items-center justify-center font-bold text-amber-300 text-xs shrink-0">
+                              {(r.name || 'P').charAt(0).toUpperCase()}
+                            </div>
+                            <div>
+                              <div className="font-bold text-white flex items-center gap-1.5">
+                                <span>{r.name || 'Verified Patient'}</span>
+                                <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-950 border border-emerald-600 text-emerald-300 inline-flex items-center gap-0.5">
+                                  <CheckCircle className="w-2.5 h-2.5 text-emerald-400" />
+                                  QR Verified
+                                </span>
+                              </div>
+                              <p className="text-[11px] text-neutral-400 mt-0.5 flex items-center gap-1">
+                                <Clock className="w-3 h-3 text-neutral-500" />
+                                {r.date || 'Recent Visit'}
+                              </p>
+                            </div>
+                          </div>
+                        </td>
+
+                        {/* Star Rating */}
+                        <td className="py-3.5 px-4 whitespace-nowrap">
+                          <div className="flex items-center gap-1 text-amber-400">
+                            {[...Array(5)].map((_, i) => (
+                              <Star
+                                key={i}
+                                className={`w-3.5 h-3.5 ${
+                                  i < (Number(r.rating) || 5)
+                                    ? 'fill-amber-400 text-amber-400'
+                                    : 'text-neutral-700'
+                                }`}
+                              />
+                            ))}
+                            <span className="text-xs font-bold text-amber-300 ml-1.5">
+                              {Number(r.rating) || 5}.0
+                            </span>
+                          </div>
+                        </td>
+
+                        {/* Feedback Tag */}
+                        <td className="py-3.5 px-4">
+                          <span className="inline-block px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-emerald-950/80 text-emerald-200 border border-emerald-700/60 max-w-[220px] truncate">
+                            {r.selectiveFeedback || '🌟 Excellent Therapy'}
+                          </span>
+                        </td>
+
+                        {/* Review Message */}
+                        <td className="py-3.5 px-4 max-w-xs">
+                          <p className="text-xs text-neutral-200 italic leading-relaxed line-clamp-3">
+                            "{r.comment || r.quote || r.fullStory || r.selectiveFeedback || 'Great Korean medical therapy experience'}"
+                          </p>
+                        </td>
+
+                        {/* Center & Equipment */}
+                        <td className="py-3.5 px-4">
+                          <div className="text-xs font-medium text-white flex items-center gap-1">
+                            <MapPin className="w-3 h-3 text-amber-400 shrink-0" />
+                            <span>{r.location || 'Bhubaneswar, Odisha'}</span>
+                          </div>
+                          <div className="text-[11px] text-neutral-400 mt-0.5">
+                            {r.treatment || 'BEDRO Smart-1 Thermal Spine Bed'}
+                          </div>
+                        </td>
+
+                        {/* Actions: Edit & Delete */}
+                        <td className="py-3.5 px-4 text-right whitespace-nowrap">
+                          <div className="flex items-center justify-end gap-1.5">
+                            <button
+                              onClick={() => setEditingRating({ ...r })}
+                              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-emerald-500/20 border border-emerald-500/50 hover:bg-emerald-500 hover:text-black text-emerald-300 text-xs font-semibold transition-all cursor-pointer"
+                              title="Edit patient rating, star score, message, or details"
+                            >
+                              <Edit3 className="w-3.5 h-3.5" />
+                              <span>Edit</span>
+                            </button>
+
+                            <button
+                              onClick={() => setItemToDelete({ type: 'rating', id: r.id || r._id, name: r.name || 'Patient Rating' })}
+                              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-red-950/70 border border-red-800/60 hover:bg-red-900 text-red-200 text-xs font-semibold transition-all cursor-pointer"
+                              title="Permanently delete this rating from database"
+                            >
+                              <Trash2 className="w-3.5 h-3.5 text-red-400" />
+                              <span>Delete</span>
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+
+                    {filteredRatings.length === 0 && (
+                      <tr>
+                        <td colSpan="6" className="text-center py-12 text-neutral-400">
+                          <div className="flex flex-col items-center justify-center gap-3">
+                            <div className="w-12 h-12 rounded-2xl bg-emerald-950/60 border border-emerald-800 flex items-center justify-center">
+                              <QrCode className="w-6 h-6 text-amber-400" />
+                            </div>
+                            <p className="text-sm font-semibold text-white">No QR ratings found</p>
+                            <p className="text-xs text-neutral-400 max-w-sm">
+                              {searchQuery || ratingStarFilter !== 'ALL'
+                                ? 'No ratings matched your current search query or star filter. Try clearing the filters.'
+                                : 'Patients will appear here automatically when they scan the standee QR poster at any Dooroomi therapy center and submit their rating.'}
+                            </p>
+                            {(searchQuery || ratingStarFilter !== 'ALL') && (
+                              <button
+                                onClick={() => { setSearchQuery(''); setRatingStarFilter('ALL'); }}
+                                className="px-3.5 py-1.5 rounded-xl bg-amber-500 text-black text-xs font-bold hover:bg-amber-400 cursor-pointer mt-1"
+                              >
+                                Clear Filters
+                              </button>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
           </div>
         )}
 
@@ -3864,6 +4269,189 @@ export const AdminPortalPage = ({ onNavigateHome, onLogout }) => {
                 <button
                   type="submit"
                   className="px-5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-bold shadow-lg cursor-pointer transition-all"
+                >
+                  Save Changes & Update MongoDB
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: EDIT PATIENT QR RATING & REVIEW */}
+      {editingRating && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 overflow-hidden">
+          <div className="bg-[#0b1c16] border border-amber-500/60 rounded-2xl max-w-xl w-full max-h-[90vh] flex flex-col shadow-2xl relative overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            {/* Modal Header */}
+            <div className="shrink-0 px-6 py-4 border-b border-emerald-900/60 flex items-center justify-between bg-[#0b1c16]">
+              <div className="flex items-center gap-2.5">
+                <Edit3 className="w-5 h-5 text-amber-400" />
+                <div>
+                  <h3 className="text-base font-bold text-white">Edit Patient QR Rating & Review</h3>
+                  <p className="text-xs text-neutral-400">Modify patient name, star score, feedback comment, or therapy center</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEditingRating(null)}
+                className="w-8 h-8 rounded-full bg-neutral-900/80 hover:bg-neutral-800 text-neutral-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer text-sm font-bold"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Form */}
+            <form onSubmit={handleEditRatingSubmit} className="flex flex-col flex-1 min-h-0 overflow-hidden">
+              <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3.5 text-xs [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-emerald-800/80 [&::-webkit-scrollbar-track]:bg-[#07130f]">
+                
+                {/* Patient Name & Date */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-neutral-300 font-semibold mb-1">Patient Name *</label>
+                    <input
+                      type="text"
+                      required
+                      value={editingRating.name || ''}
+                      onChange={(e) => setEditingRating({ ...editingRating, name: e.target.value })}
+                      placeholder="e.g. Ramesh Kumar"
+                      className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-neutral-300 font-semibold mb-1">Rating Date</label>
+                    <input
+                      type="text"
+                      value={editingRating.date || ''}
+                      onChange={(e) => setEditingRating({ ...editingRating, date: e.target.value })}
+                      placeholder="YYYY-MM-DD"
+                      className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                    />
+                  </div>
+                </div>
+
+                {/* Star Rating Picker */}
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1.5">
+                    Star Rating: <span className="text-amber-400 font-bold">{editingRating.rating || 5} / 5 Stars</span>
+                  </label>
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-[#07130f] border border-emerald-800">
+                    <div className="flex items-center gap-1.5">
+                      {[1, 2, 3, 4, 5].map((starNum) => (
+                        <button
+                          key={starNum}
+                          type="button"
+                          onClick={() => setEditingRating({ ...editingRating, rating: starNum })}
+                          className="p-1 hover:scale-125 transition-transform cursor-pointer"
+                          title={`Set rating to ${starNum} Stars`}
+                        >
+                          <Star
+                            className={`w-6 h-6 transition-colors ${
+                              starNum <= (editingRating.rating || 5)
+                                ? 'fill-amber-400 text-amber-400'
+                                : 'text-neutral-700 hover:text-neutral-500'
+                            }`}
+                          />
+                        </button>
+                      ))}
+                    </div>
+                    <span className="text-neutral-400 text-xs">
+                      Click stars to change rating (1–5)
+                    </span>
+                  </div>
+                </div>
+
+                {/* Feedback Highlight Tag */}
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Feedback Tag / Category</label>
+                  <input
+                    type="text"
+                    value={editingRating.selectiveFeedback || ''}
+                    onChange={(e) => setEditingRating({ ...editingRating, selectiveFeedback: e.target.value })}
+                    placeholder="e.g. 🌟 Excellent Therapy"
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                  />
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    {[
+                      '🌟 Excellent Therapy',
+                      '👍 Very Good Recovery',
+                      '⚡ Good Pain Relief',
+                      '❤️ Kind & Caring Staff',
+                      '✨ Highly Recommended'
+                    ].map((tag) => (
+                      <button
+                        key={tag}
+                        type="button"
+                        onClick={() => setEditingRating({ ...editingRating, selectiveFeedback: tag })}
+                        className={`px-2 py-0.5 rounded text-[10px] font-medium border transition-all cursor-pointer ${
+                          editingRating.selectiveFeedback === tag
+                            ? 'bg-amber-500/20 text-amber-300 border-amber-500/80 font-bold'
+                            : 'bg-emerald-950/60 text-neutral-400 border-emerald-800 hover:text-white'
+                        }`}
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Patient Review Message / Quote */}
+                <div>
+                  <label className="block text-neutral-300 font-semibold mb-1">Patient Review Message / Comments *</label>
+                  <textarea
+                    rows={4}
+                    required
+                    value={editingRating.comment || editingRating.quote || editingRating.fullStory || ''}
+                    onChange={(e) => setEditingRating({ 
+                      ...editingRating, 
+                      comment: e.target.value,
+                      quote: e.target.value,
+                      fullStory: e.target.value
+                    })}
+                    placeholder="Enter the patient's feedback or message..."
+                    className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400 leading-relaxed"
+                  />
+                </div>
+
+                {/* Therapy Center Location & Machine */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-neutral-300 font-semibold mb-1">Center Location</label>
+                    <input
+                      type="text"
+                      value={editingRating.location || ''}
+                      onChange={(e) => setEditingRating({ ...editingRating, location: e.target.value })}
+                      placeholder="e.g. Bhubaneswar, Odisha"
+                      className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-neutral-300 font-semibold mb-1">Therapy Machine / Treatment</label>
+                    <input
+                      type="text"
+                      value={editingRating.treatment || ''}
+                      onChange={(e) => setEditingRating({ ...editingRating, treatment: e.target.value })}
+                      placeholder="e.g. BEDRO Smart-1 Thermal Spine Bed"
+                      className="w-full bg-[#07130f] border border-emerald-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400"
+                    />
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Modal Sticky Footer */}
+              <div className="shrink-0 px-6 py-3.5 border-t border-emerald-900/60 bg-[#081712] flex items-center justify-end space-x-3">
+                <button
+                  type="button"
+                  onClick={() => setEditingRating(null)}
+                  className="px-4 py-2 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-white font-medium cursor-pointer transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-bold shadow-lg cursor-pointer transition-all"
                 >
                   Save Changes & Update MongoDB
                 </button>

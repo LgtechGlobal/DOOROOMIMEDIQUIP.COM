@@ -710,6 +710,73 @@ export const DataProvider = ({ children }) => {
     return formatted;
   };
 
+  const updateCustomerRating = async (ratingId, updatedFields) => {
+    try {
+      const res = await fetch(`${BACKEND_URL}/testimonials/${ratingId}`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+        body: JSON.stringify(updatedFields)
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.message || `Failed to update rating in MongoDB (Status ${res.status})`);
+      }
+      setCustomerRatings((prev) => {
+        const updated = prev.map(r => (r.id === ratingId || r._id === ratingId) ? { ...r, ...updatedFields } : r);
+        try {
+          localStorage.setItem('dooroomi_customer_ratings', JSON.stringify(updated));
+        } catch (_) {}
+        return updated;
+      });
+      setTestimonials((prev) => prev.map(t => (t.id === ratingId || t._id === ratingId) ? { ...t, ...updatedFields } : t));
+      return data;
+    } catch (err) {
+      console.error('MongoDB updateCustomerRating failed:', err.message);
+      // Fallback update in local state and storage
+      setCustomerRatings((prev) => {
+        const updated = prev.map(r => (r.id === ratingId || r._id === ratingId) ? { ...r, ...updatedFields } : r);
+        try {
+          localStorage.setItem('dooroomi_customer_ratings', JSON.stringify(updated));
+        } catch (_) {}
+        return updated;
+      });
+      throw err;
+    }
+  };
+
+  const deleteCustomerRating = async (ratingId) => {
+    try {
+      const res = await fetch(`${BACKEND_URL}/testimonials/${ratingId}`, {
+        method: 'DELETE',
+        headers: getAuthHeaders()
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data.message || `Failed to delete rating from MongoDB (Status ${res.status})`);
+      }
+      setCustomerRatings((prev) => {
+        const updated = prev.filter(r => r.id !== ratingId && r._id !== ratingId);
+        try {
+          localStorage.setItem('dooroomi_customer_ratings', JSON.stringify(updated));
+        } catch (_) {}
+        return updated;
+      });
+      setTestimonials((prev) => prev.filter(t => t.id !== ratingId && t._id !== ratingId));
+      return data;
+    } catch (err) {
+      console.error('MongoDB deleteCustomerRating failed:', err.message);
+      // Fallback local deletion
+      setCustomerRatings((prev) => {
+        const updated = prev.filter(r => r.id !== ratingId && r._id !== ratingId);
+        try {
+          localStorage.setItem('dooroomi_customer_ratings', JSON.stringify(updated));
+        } catch (_) {}
+        return updated;
+      });
+      throw err;
+    }
+  };
+
   const deleteTestimonial = async (testimonialId) => {
     try {
       const res = await fetch(`${BACKEND_URL}/testimonials/${testimonialId}`, {
@@ -966,6 +1033,8 @@ export const DataProvider = ({ children }) => {
         testimonials,
         customerRatings,
         submitCustomerRating,
+        updateCustomerRating,
+        deleteCustomerRating,
         ads,
         activeAd,
         galleryItems,
