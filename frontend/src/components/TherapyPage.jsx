@@ -39,6 +39,7 @@ import { SITE_CONFIG } from '../data/siteData';
 export const TherapyPage = ({ onNavigateHome, onNavigateGallery, onContactClick }) => {
   const [activeTab, setActiveTab] = useState('principles'); // 'flagship' | 'usp' | 'principles' | 'minerals' | 'archival'
   const [selectedBrochurePage, setSelectedBrochurePage] = useState(null);
+  const [isSpineChartOpen, setIsSpineChartOpen] = useState(false);
 
   // All 7 Original Korean Corporate Brochure Scans (Pages 7 to 13)
   const brochurePages = [
@@ -279,6 +280,68 @@ export const TherapyPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
   return (
     <div style={{ backgroundColor: '#d9a05b' }} className="bg-[#d9a05b] min-h-screen py-8 sm:py-14 text-slate-950">
       
+      {/* Spine Is Our Lifeline Chart Lightbox Modal */}
+      {isSpineChartOpen && (
+        <div 
+          className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200"
+          onClick={() => setIsSpineChartOpen(false)}
+          data-lenis-prevent
+        >
+          <div 
+            className="relative bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl border border-amber-400/40 overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-6 py-4 border-b border-hanbit-border bg-amber-50/60">
+              <div>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-800 bg-amber-500/15 px-2.5 py-0.5 rounded-full border border-amber-500/30">
+                  Dooroomi Clinical Reference Poster
+                </span>
+                <h3 className="text-lg font-bold text-slate-900 font-serif mt-1">
+                  Spine Is Our Lifeline — Central Nervous System &amp; Organ Anatomy
+                </h3>
+              </div>
+              
+              <div className="flex items-center gap-2">
+                <a 
+                  href="/assets/img/spine-is-our-lifeline.png" 
+                  download="Dooroomi-Spine-Is-Our-Lifeline.png"
+                  className="p-2 rounded-full hover:bg-amber-100 text-slate-700 transition-colors"
+                  title="Download High-Res Chart"
+                >
+                  <Download className="w-4 h-4" />
+                </a>
+                <button 
+                  onClick={() => setIsSpineChartOpen(false)}
+                  className="p-2 rounded-full hover:bg-slate-200 text-slate-600 transition-colors cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            <div className="overflow-y-auto p-4 sm:p-6 bg-slate-900/95 flex items-center justify-center">
+              <img 
+                src="/assets/img/spine-is-our-lifeline.png" 
+                alt="Spine Is Our Lifeline"
+                className="max-h-[72vh] w-auto rounded-xl shadow-2xl border border-amber-400/40 object-contain mx-auto"
+              />
+            </div>
+
+            <div className="p-4 sm:p-5 bg-white border-t border-slate-200 text-xs text-slate-700 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <p className="font-light leading-relaxed">
+                <strong className="text-slate-900 font-semibold">Autonomic Correlation</strong> — Demonstrates how spinal vertebrae alignment directly influences vital thoracic, abdominal, and pelvic organ functioning.
+              </p>
+              <button
+                onClick={() => setIsSpineChartOpen(false)}
+                className="shrink-0 px-4 py-2 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-xs cursor-pointer"
+              >
+                Close Preview
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Lightbox Modal for Archival Brochure Inspection */}
       {selectedBrochurePage && (
         <div 
@@ -450,6 +513,112 @@ export const TherapyPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
             </div>
           </div>
         </div>
+
+        {/* SPINE IS OUR LIFELINE - ANATOMICAL FOUNDATION SECTION */}
+        <section className="relative rounded-3xl bg-white border-2 border-amber-300/80 shadow-2xl overflow-hidden p-6 sm:p-10 lg:p-12 mb-12">
+          
+          {/* Subtle Ambient Decorative Gradients */}
+          <div className="absolute top-0 right-0 w-96 h-96 bg-amber-100/50 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-emerald-100/40 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            
+            {/* Left Side: Medical Chart "SPINE IS OUR LIFELINE" */}
+            <div className="lg:col-span-5 flex flex-col items-center">
+              <div 
+                onClick={() => setIsSpineChartOpen(true)}
+                className="relative w-full max-w-md bg-gradient-to-b from-amber-50/80 to-white rounded-2xl p-3 sm:p-4 border-2 border-amber-400/80 shadow-lg hover:shadow-2xl transition-all duration-300 group cursor-pointer"
+                title="Click to view full-resolution Spine Is Our Lifeline chart"
+              >
+                <div className="relative overflow-hidden rounded-xl bg-white border border-amber-200/70 shadow-inner flex items-center justify-center">
+                  <img
+                    src="/assets/img/spine-is-our-lifeline.png"
+                    alt="Spine Is Our Lifeline — Central Nervous System & Organ Correlation Chart"
+                    className="w-full h-auto max-h-[560px] object-contain group-hover:scale-[1.02] transition-transform duration-500"
+                    loading="lazy"
+                  />
+                  
+                  {/* Hover Overlay with Zoom Icon */}
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/75 backdrop-blur-md text-white text-xs font-bold border border-white/30 shadow-lg">
+                      <Maximize2 className="w-3.5 h-3.5 text-amber-300" />
+                      <span>Click to Enlarge Chart</span>
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mt-3 pt-2.5 border-t border-amber-200/90 flex items-center justify-between text-[11px] font-mono">
+                  <span className="font-bold text-amber-900 uppercase tracking-wider flex items-center gap-1.5">
+                    <HeartPulse className="w-3.5 h-3.5 text-amber-700" />
+                    Spine Is Our Lifeline
+                  </span>
+                  <span className="text-slate-500 font-sans font-medium text-[10px]">Autonomic Nerve Map</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Side: Message & Clinical Importance */}
+            <div className="lg:col-span-7 space-y-6 text-left">
+              
+              <div className="space-y-3">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-xs font-bold text-amber-900 shadow-2xs">
+                  <Activity className="w-3.5 h-3.5 text-amber-700" />
+                  <span className="font-mono tracking-wider uppercase text-[11px]">
+                    ANATOMICAL FOUNDATION &amp; BODY SUPPORT
+                  </span>
+                </div>
+
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold font-serif text-slate-900 tracking-tight leading-snug">
+                  The Spine: Your Body's <span className="text-amber-800">Central Lifeline</span> &amp; Structural Pillar
+                </h2>
+              </div>
+
+              {/* Exact User Message - Paragraph 1 */}
+              <div className="p-5 rounded-2xl bg-amber-50/70 border border-amber-200/90 shadow-2xs">
+                <p className="text-sm sm:text-base text-slate-800 font-medium leading-relaxed">
+                  Your spine, or backbone, is your body's central support structure. It connects different parts of your musculoskeletal system. Your spine helps you sit, stand, walk, twist, and bend. Back injuries, spinal cord conditions and other problems can damage the spine and cause back pain.
+                </p>
+              </div>
+
+              {/* Exact User Message - Paragraph 2 */}
+              <div className="p-5 rounded-2xl bg-slate-50/90 border border-slate-200 shadow-2xs">
+                <p className="text-sm sm:text-base text-slate-800 font-medium leading-relaxed">
+                  It gives your body structure and support. It allows you to move about freely and to bend with flexibility. The spine is also designed to protect your spinal cord. The spinal cord is a column of nerves that connects your brain with the rest of your body, allowing you to control your movements.
+                </p>
+              </div>
+
+              {/* Supporting Clinical Keynotes */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-1">
+                <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-2xs flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-800 flex items-center justify-center shrink-0 mt-0.5 font-bold">
+                    <ShieldCheck className="w-4 h-4 text-emerald-700" />
+                  </div>
+                  <div>
+                    <h5 className="text-xs font-bold text-slate-900 font-serif">Central Neural Conduit</h5>
+                    <p className="text-[11px] text-slate-600 mt-0.5 leading-normal">
+                      Houses and protects the spinal cord connecting cerebral impulses to vital autonomic organs.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-2xs flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-amber-50 text-amber-800 flex items-center justify-center shrink-0 mt-0.5 font-bold">
+                    <CheckCircle2 className="w-4 h-4 text-amber-700" />
+                  </div>
+                  <div>
+                    <h5 className="text-xs font-bold text-slate-900 font-serif">Kinetic Mobility &amp; Alignment</h5>
+                    <p className="text-[11px] text-slate-600 mt-0.5 leading-normal">
+                      Preserves physiological lordosis, relieving mechanical nerve root compression across all vertebrae.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
 
         {/* Section Navigation Tabs */}
         <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-10 no-scrollbar border-b border-hanbit-border">
