@@ -104,20 +104,20 @@ export const DooroomiGroupsSection = ({ onContactClick, onNavigateAbout, onNavig
                     </h3>
                   </div>
 
-                  {/* Description Paragraph */}
-                  <p className="text-xs sm:text-[13px] text-hanbit-muted leading-relaxed font-light">
+                  {/* Description Paragraph - Bold & Dark */}
+                  <p className="text-xs sm:text-[13px] text-slate-950 font-bold leading-relaxed">
                     {group.desc}
                   </p>
                 </div>
 
                 {/* Bottom Verified Badge */}
                 <div className="pt-4 border-t border-hanbit-border/50 flex items-center justify-between text-[11px] font-medium text-hanbit-forest">
-                  <span className="flex items-center gap-1.5 text-emerald-700">
+                  <span className="flex items-center gap-1.5 text-emerald-700 font-bold">
                     <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                     <span>Global Standard Verified</span>
                   </span>
 
-                  <span className="text-[10px] font-mono text-hanbit-muted group-hover:text-hanbit-gold transition-colors">
+                  <span className="text-[10px] font-mono text-slate-700 font-bold group-hover:text-hanbit-gold transition-colors">
                     Since 1991
                   </span>
                 </div>

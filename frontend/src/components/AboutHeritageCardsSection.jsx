@@ -153,8 +153,6 @@ export const AboutHeritageCardsSection = ({ onContactClick, onOpenPdfModal }) =>
                 </span>
               </div>
 
-              
-
               {/* Text Content */}
               <div className="p-6 space-y-4">
                 <div>
@@ -166,18 +164,19 @@ export const AboutHeritageCardsSection = ({ onContactClick, onOpenPdfModal }) =>
                   </h3>
                 </div>
 
-                <p className="text-xs text-hanbit-muted font-light leading-relaxed line-clamp-3">
+                {/* Explanation Tagline - Bold & Dark */}
+                <p className="text-xs sm:text-[13px] text-slate-950 font-bold leading-relaxed line-clamp-3">
                   {card.tagline}
                 </p>
 
-                {/* Key Points Bullet List */}
-                <div className="space-y-2 pt-1 border-t border-stone-100">
+                {/* Key Points Bullet List - Bold & Dark */}
+                <div className="space-y-2 pt-2 border-t border-stone-200">
                   {card.keyPoints.map((kp, kpIdx) => (
                     <div key={kpIdx} className="flex items-start gap-2 text-xs">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-700 shrink-0 mt-0.5" />
                       <div>
-                        <strong className="text-hanbit-forest font-semibold">{kp.label}: </strong>
-                        <span className="text-stone-600">{kp.desc}</span>
+                        <strong className="text-slate-950 font-bold">{kp.label}: </strong>
+                        <span className="text-slate-900 font-semibold">{kp.desc}</span>
                       </div>
                     </div>
                   ))}
@@ -187,7 +186,7 @@ export const AboutHeritageCardsSection = ({ onContactClick, onOpenPdfModal }) =>
 
             {/* Card Footer Bar */}
             <div className="p-5 pt-3 border-t border-stone-100 bg-stone-50/70 flex items-center justify-between text-xs">
-              <span className="text-[11px] font-mono text-stone-500 font-medium">
+              <span className="text-[11px] font-mono text-stone-600 font-bold">
                 {card.pageRef}
               </span>
               <span className="inline-flex items-center gap-1 text-[11px] font-bold text-hanbit-gold group-hover:translate-x-0.5 transition-transform">
@@ -258,7 +257,7 @@ export const AboutHeritageCardsSection = ({ onContactClick, onOpenPdfModal }) =>
                 <h3 className="text-2xl sm:text-3xl font-extrabold text-hanbit-forest font-serif">
                   {activeModalCard.title}
                 </h3>
-                <p className="text-sm text-stone-600 font-light leading-relaxed">
+                <p className="text-sm text-slate-900 font-semibold leading-relaxed">
                   {activeModalCard.tagline}
                 </p>
               </div>
@@ -282,7 +281,7 @@ export const AboutHeritageCardsSection = ({ onContactClick, onOpenPdfModal }) =>
 
                 {/* Right Column: Detailed Verbatim Text & Pillars */}
                 <div className="md:col-span-7 space-y-5">
-                  <div className="space-y-4 text-stone-800 text-sm sm:text-base leading-relaxed text-justify">
+                  <div className="space-y-4 text-slate-900 text-sm sm:text-base leading-relaxed text-justify font-normal">
                     {activeModalCard.paragraphs.map((p, pIdx) => (
                       <p key={pIdx}>
                         {p}
@@ -299,7 +298,7 @@ export const AboutHeritageCardsSection = ({ onContactClick, onOpenPdfModal }) =>
                       </h4>
                       <div className="space-y-2">
                         {activeModalCard.certificates.map((cert, cIdx) => (
-                          <div key={cIdx} className="flex items-start gap-2 text-xs text-stone-700">
+                          <div key={cIdx} className="flex items-start gap-2 text-xs text-slate-900 font-medium">
                             <span className="w-2 h-2 rounded-full bg-hanbit-gold shrink-0 mt-1.5" />
                             <span>{cert}</span>
                           </div>
@@ -312,11 +311,11 @@ export const AboutHeritageCardsSection = ({ onContactClick, onOpenPdfModal }) =>
                   {activeModalCard.keyPoints && (
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
                       {activeModalCard.keyPoints.map((kp, kIdx) => (
-                        <div key={kIdx} className="p-3.5 rounded-2xl bg-stone-100/80 border border-stone-200 space-y-1">
+                        <div key={kIdx} className="p-3.5 rounded-2xl bg-stone-100 border border-stone-200 space-y-1">
                           <span className="text-[11px] font-bold text-hanbit-forest font-mono block">
                             {kp.label}
                           </span>
-                          <p className="text-[11px] text-stone-600 leading-snug">
+                          <p className="text-[11px] text-slate-950 font-bold leading-snug">
                             {kp.desc}
                           </p>
                         </div>
@@ -336,7 +335,6 @@ export const AboutHeritageCardsSection = ({ onContactClick, onOpenPdfModal }) =>
               </span>
 
               <div className="flex items-center gap-3">
-
                 <button
                   onClick={() => setActiveModalCard(null)}
                   className="px-4 py-1.5 rounded-xl bg-stone-200 hover:bg-stone-300 text-stone-800 font-bold transition-colors cursor-pointer"

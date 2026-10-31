@@ -331,7 +331,7 @@ export const AboutUsPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
                     </h4>
                   </div>
 
-                  <p className="text-xs text-hanbit-muted leading-relaxed font-light">
+                  <p className="text-xs sm:text-[13px] text-slate-950 font-bold leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
@@ -367,7 +367,7 @@ export const AboutUsPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
                   <span className="w-2.5 h-2.5 rounded-full bg-hanbit-forest" />
                 </div>
                 <h4 className="text-sm font-bold text-hanbit-forest">{m.title}</h4>
-                <p className="text-xs text-hanbit-muted leading-relaxed font-light">{m.text}</p>
+                <p className="text-xs sm:text-[13px] text-slate-950 font-bold leading-relaxed">{m.text}</p>
               </div>
             ))}
           </div>
