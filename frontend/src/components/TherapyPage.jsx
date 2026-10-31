@@ -264,6 +264,7 @@ export const TherapyPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
       subtitle: "85% Clinical Efficacy · 72-Hour Relief",
       icon: Activity,
       tag: "Neuro-Synaptic Signal Modulation",
+      image: "/assets/therapy/biowave-pain-blocker.jpg",
       summary: "Patented technology delivering specialized electrical signals through the skin to block pain at the source.",
       details: [
         "Prevents pain signals from traveling along C-fibers and reaching the cerebral pain centers.",
