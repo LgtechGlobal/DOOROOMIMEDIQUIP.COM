@@ -200,6 +200,7 @@ export const TherapyPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
       subtitle: "Needle-Free Energy Center Stimulation",
       icon: HeartPulse,
       tag: "Eastern Energy Balance",
+      image: "/assets/therapy/ancient-meridian-acupressure.jpg",
       summary: "Targeted mechanical pressure applied to specific biological acupoints without invasive needles.",
       details: [
         "Accesses and unblocks congested meridian energy channels (Qi/Ki) throughout the torso.",
@@ -215,6 +216,7 @@ export const TherapyPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
       subtitle: "Deep-Penetrating Thermal Kinetic Energy",
       icon: Flame,
       tag: "Hyperthermic Tissue Restoration",
+      image: "/assets/therapy/far-infrared-moxibustion.jpg",
       summary: "Traditional thermal treatment modeled after medicinal mugwort heat, penetrating up to 7cm into deep tissues.",
       details: [
         "Warms deep abdominal, lumbar, and pelvic regions and targeted acupuncture points.",
