@@ -60,33 +60,36 @@ export const FreeTherapyMissionSection = ({ onContactClick, onNavigateAbout, onN
   ];
 
   return (
-    <section id="free-therapy" className="relative py-20 lg:py-28 bg-gradient-to-b from-[#fdfbf7] via-[#f8f2e6] to-[#f2e7d3] overflow-hidden border-t border-b border-[#dfd4be]">
-      
+    <section 
+      id="free-therapy" 
+      style={{ backgroundColor: '#a39ba2' }}
+      className="relative py-20 lg:py-28 bg-[#a39ba2] overflow-hidden border-t border-b border-[#8c848b]"
+    >
       {/* Decorative Background Radiance */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-gradient-to-b from-hanbit-gold/10 via-hanbit-sage-light/20 to-transparent blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-hanbit-forest/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -top-24 -left-24 w-96 h-96 bg-hanbit-gold/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-gradient-to-b from-white/20 via-white/10 to-transparent blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-white/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -top-24 -left-24 w-96 h-96 bg-black/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16">
         
         {/* Header Tagline & Mission Statement */}
         <div className="text-center max-w-4xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-hanbit-gold/40 shadow-sm">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-[11px] sm:text-xs font-bold tracking-wider uppercase text-hanbit-forest font-mono">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 border border-slate-300 shadow-sm">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse" />
+            <span className="text-[11px] sm:text-xs font-bold tracking-wider uppercase text-slate-900 font-mono">
               Public Health Initiative · 대한민국 두루미 무료 체험관
             </span>
           </div>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-hanbit-forest font-serif tracking-tight leading-tight">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0a1a2e] font-serif tracking-tight leading-tight">
             Dooroomi’s Core Mission: <br className="hidden sm:inline" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-hanbit-forest via-emerald-800 to-hanbit-gold">
+            <span className="text-[#07192f] font-black drop-shadow-xs">
               100% Free Daily Therapy For Every Family
             </span>
           </h2>
 
-          <p className="text-sm sm:text-base lg:text-lg text-hanbit-ink/80 font-light leading-relaxed max-w-3xl mx-auto pt-2">
-            Guided by our corporate motto <strong className="text-hanbit-forest font-semibold">“Love, Service, and Kindness”</strong> (사랑 · 봉사 · 친절), Dooroomi was established in South Korea on November 24, 1991. Unlike conventional medical companies, we invite you and your loved ones to visit our 15+ authorized centers daily to receive premium medical therapy at absolutely <strong>zero cost</strong>.
+          <p className="text-sm sm:text-base lg:text-lg text-slate-900 font-medium leading-relaxed max-w-3xl mx-auto pt-2">
+            Guided by our corporate motto <strong className="text-[#07192f] font-bold">“Love, Service, and Kindness”</strong> (사랑 · 봉사 · 친절), Dooroomi was established in South Korea on November 24, 1991. Unlike conventional medical companies, we invite you and your loved ones to visit our 15+ authorized centers daily to receive premium medical therapy at absolutely <strong className="text-[#07192f] font-bold">zero cost</strong>.
           </p>
         </div>
 
@@ -129,14 +132,14 @@ export const FreeTherapyMissionSection = ({ onContactClick, onNavigateAbout, onN
 
               <div>
                 <a
-                  href={`tel:${SITE_CONFIG.tollFree}`}
+                  href={`tel:${SITE_CONFIG.phoneTel}`}
                   className="inline-flex items-center gap-3 text-2xl sm:text-3xl font-black text-white hover:text-hanbit-gold transition-colors font-mono tracking-wide"
                 >
                   <PhoneCall className="w-7 h-7 text-hanbit-gold animate-bounce" />
-                  <span>{SITE_CONFIG.tollFree}</span>
+                  <span>{SITE_CONFIG.phone}</span>
                 </a>
                 <span className="block text-[11px] text-gray-300 mt-1">
-                  Toll-Free Customer Care (All India)
+                  Helpline Customer Care (All India)
                 </span>
               </div>
 
@@ -159,7 +162,7 @@ export const FreeTherapyMissionSection = ({ onContactClick, onNavigateAbout, onN
             return (
               <div 
                 key={idx}
-                className="group p-7 rounded-3xl bg-white border border-hanbit-border/80 hover:border-hanbit-gold/60 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                className="group p-7 rounded-3xl bg-white border border-slate-300/80 hover:border-amber-500/60 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
               >
                 <div className="space-y-4">
                   <div className="w-14 h-14 rounded-2xl bg-[#f0f5f0] group-hover:bg-hanbit-forest text-hanbit-forest group-hover:text-hanbit-gold flex items-center justify-center transition-colors shadow-xs">
@@ -167,7 +170,7 @@ export const FreeTherapyMissionSection = ({ onContactClick, onNavigateAbout, onN
                   </div>
 
                   <div>
-                    <span className="text-[11px] font-mono uppercase font-bold text-hanbit-gold tracking-wider block">
+                    <span className="text-[11px] font-mono uppercase font-bold text-amber-700 tracking-wider block">
                       {item.subtitle}
                     </span>
                     <h4 className="text-lg font-bold text-hanbit-forest font-serif mt-1 group-hover:text-emerald-950">
@@ -175,12 +178,12 @@ export const FreeTherapyMissionSection = ({ onContactClick, onNavigateAbout, onN
                     </h4>
                   </div>
 
-                  <p className="text-xs sm:text-sm text-hanbit-muted leading-relaxed font-light">
+                  <p className="text-xs sm:text-sm text-slate-700 leading-relaxed font-normal">
                     {item.desc}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-hanbit-border/50 mt-4 flex items-center gap-1.5 text-xs font-semibold text-hanbit-forest group-hover:text-hanbit-gold transition-colors">
+                <div className="pt-4 border-t border-slate-200 mt-4 flex items-center gap-1.5 text-xs font-semibold text-hanbit-forest group-hover:text-amber-700 transition-colors">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                   <span>Clinically Verified Technology</span>
                 </div>
@@ -190,16 +193,16 @@ export const FreeTherapyMissionSection = ({ onContactClick, onNavigateAbout, onN
         </div>
 
         {/* Conditions Treated & Recovered Grid */}
-        <div className="mt-16 p-8 sm:p-12 rounded-3xl bg-white border border-hanbit-border shadow-sm">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-hanbit-border/60">
+        <div className="mt-16 p-8 sm:p-12 rounded-3xl bg-white border border-slate-300/80 shadow-md">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-slate-200">
             <div>
-              <span className="text-xs font-bold text-hanbit-gold uppercase tracking-widest block font-mono">
+              <span className="text-xs font-bold text-amber-700 uppercase tracking-widest block font-mono">
                 Real Patient Indications
               </span>
               <h3 className="text-2xl sm:text-3xl font-extrabold text-hanbit-forest font-serif mt-1">
                 Conditions Showing Remarkable Improvement
               </h3>
-              <p className="text-xs sm:text-sm text-hanbit-muted mt-2 max-w-2xl font-light">
+              <p className="text-xs sm:text-sm text-slate-700 mt-2 max-w-2xl font-normal">
                 Documented in thousands of regular attendees across Dooroomi's Indian therapeutic centers. Daily moxibustion and far-infrared therapy stimulate natural biological self-repair.
               </p>
             </div>
@@ -209,12 +212,12 @@ export const FreeTherapyMissionSection = ({ onContactClick, onNavigateAbout, onN
             {targetConditions.map((cond, idx) => (
               <div 
                 key={idx}
-                className="p-4 rounded-2xl bg-gradient-to-br from-hanbit-ivory to-white border border-hanbit-border/70 hover:border-hanbit-forest/40 transition-all flex items-center gap-3"
+                className="p-4 rounded-2xl bg-gradient-to-br from-[#f8f9fa] to-white border border-slate-200 hover:border-emerald-600/50 transition-all flex items-center gap-3 shadow-2xs"
               >
                 <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0">
                   <CheckCircle2 className="w-4 h-4" />
                 </div>
-                <span className="text-xs sm:text-sm font-semibold text-hanbit-forest">
+                <span className="text-xs sm:text-sm font-semibold text-slate-900">
                   {cond}
                 </span>
               </div>
@@ -222,7 +225,7 @@ export const FreeTherapyMissionSection = ({ onContactClick, onNavigateAbout, onN
           </div>
 
           {/* Quick Center Notice */}
-          <div className="mt-8 p-4 sm:p-5 rounded-2xl bg-emerald-50/70 border border-emerald-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-emerald-900">
+          <div className="mt-8 p-4 sm:p-5 rounded-2xl bg-emerald-50/80 border border-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-emerald-950">
             <div className="flex items-center gap-2.5">
               <MapPin className="w-5 h-5 text-emerald-700 shrink-0" />
               <span>
@@ -232,7 +235,7 @@ export const FreeTherapyMissionSection = ({ onContactClick, onNavigateAbout, onN
 
             <button
               onClick={onContactClick}
-              className="text-xs font-bold text-emerald-800 hover:text-emerald-950 underline underline-offset-4 cursor-pointer shrink-0 self-start sm:self-auto"
+              className="text-xs font-bold text-emerald-900 hover:text-emerald-950 underline underline-offset-4 cursor-pointer shrink-0 self-start sm:self-auto"
             >
               Contact Nearest Center →
             </button>
