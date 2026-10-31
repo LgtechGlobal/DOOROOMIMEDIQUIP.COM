@@ -219,7 +219,11 @@ export const PatientTestimonialsRowSection = ({ onOpenScanner }) => {
   }, [isPaused, selectedStory, selectedScan]);
 
   return (
-    <section id="patient-testimonials" className="relative py-16 sm:py-24 bg-gradient-to-b from-[#edf5f0] via-[#e2efe8] to-[#d6e8dd] border-t border-b border-[#c2d7cb] overflow-hidden">
+    <section 
+      id="patient-testimonials" 
+      style={{ backgroundColor: '#b57677' }}
+      className="relative py-16 sm:py-24 bg-[#b57677] border-t border-b border-[#9c5f60] overflow-hidden"
+    >
       
       {/* Decorative Background Lighting */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-400/5 rounded-full blur-3xl pointer-events-none" />
@@ -377,24 +381,24 @@ export const PatientTestimonialsRowSection = ({ onOpenScanner }) => {
       <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16">
         
         {/* Section Header with Korean Medical Tag */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-hanbit-border/60">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-white/20">
           <div className="space-y-3 max-w-3xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-hanbit-gold/40 text-xs font-semibold text-hanbit-forest shadow-2xs">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/95 border border-white/40 text-xs font-semibold text-slate-900 shadow-sm">
               <Heart className="w-3.5 h-3.5 text-red-500 fill-red-500" />
-              <span className="font-mono text-hanbit-gold font-bold">환자 치유 체험담</span>
-              <span className="text-hanbit-border">|</span>
-              <span className="tracking-wider uppercase text-[11px]">Real Indian Patient Testimonials</span>
+              <span className="font-mono text-amber-700 font-bold">환자 치유 체험담</span>
+              <span className="text-slate-300">|</span>
+              <span className="tracking-wider uppercase text-[11px] text-slate-800">Real Indian Patient Testimonials</span>
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-hanbit-forest font-serif tracking-tight leading-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white font-serif tracking-tight leading-tight">
               Testimonials: <br className="hidden sm:inline" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-hanbit-forest via-emerald-800 to-hanbit-gold">
+              <span className="text-amber-200 drop-shadow-sm">
                 The Backbone of Our Business
               </span>
             </h2>
 
-            <p className="text-xs sm:text-sm lg:text-base text-hanbit-ink/80 font-light leading-relaxed">
-              Read direct, unedited recovery accounts from real families who attended our 15+ free therapy centers across India. Chronic slip discs, high blood pressure, asthma, and knee arthritis healed through <strong>BEDRO Smart-1</strong> and <strong>TAEYANGSUK Mat</strong> natural therapies.
+            <p className="text-xs sm:text-sm lg:text-base text-rose-50 font-medium leading-relaxed">
+              Read direct, unedited recovery accounts from real families who attended our 15+ free therapy centers across India. Chronic slip discs, high blood pressure, asthma, and knee arthritis healed through <strong className="text-white">BEDRO Smart-1</strong> and <strong className="text-white">TAEYANGSUK Mat</strong> natural therapies.
             </p>
           </div>
 
@@ -404,7 +408,7 @@ export const PatientTestimonialsRowSection = ({ onOpenScanner }) => {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => handleScroll('left')}
-                  className="w-11 h-11 rounded-full border border-hanbit-border bg-white hover:bg-hanbit-forest hover:text-white text-hanbit-forest flex items-center justify-center transition-all shadow-xs cursor-pointer group"
+                  className="w-11 h-11 rounded-full border border-white/30 bg-white/90 hover:bg-white text-slate-900 flex items-center justify-center transition-all shadow-md cursor-pointer group"
                   title="Scroll Left"
                   aria-label="Previous Testimonials"
                 >
@@ -412,7 +416,7 @@ export const PatientTestimonialsRowSection = ({ onOpenScanner }) => {
                 </button>
                 <button
                   onClick={() => handleScroll('right')}
-                  className="w-11 h-11 rounded-full border border-hanbit-border bg-white hover:bg-hanbit-forest hover:text-white text-hanbit-forest flex items-center justify-center transition-all shadow-xs cursor-pointer group"
+                  className="w-11 h-11 rounded-full border border-white/30 bg-white/90 hover:bg-white text-slate-900 flex items-center justify-center transition-all shadow-md cursor-pointer group"
                   title="Scroll Right"
                   aria-label="Next Testimonials"
                 >
