@@ -109,29 +109,29 @@ export const AboutUsPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
   ];
 
   return (
-    <div className="min-h-screen bg-[#fbfbfa] pt-6 pb-24">
+    <div style={{ backgroundColor: '#6f7396' }} className="min-h-screen bg-[#6f7396] pt-6 pb-24 text-white">
       {/* Top Breadcrumbs */}
       <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16 mb-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-3 border-b border-hanbit-border/60">
-          <nav className="flex items-center space-x-2 text-xs text-hanbit-muted font-medium">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-3 border-b border-white/20">
+          <nav className="flex items-center space-x-2 text-xs text-indigo-100 font-medium">
             <button 
               onClick={() => onNavigateHome('hero')}
-              className="hover:text-hanbit-forest flex items-center gap-1 cursor-pointer transition-colors"
+              className="hover:text-amber-200 flex items-center gap-1 cursor-pointer transition-colors text-white"
             >
-              <Home className="w-3.5 h-3.5 text-hanbit-gold" />
+              <Home className="w-3.5 h-3.5 text-amber-300" />
               <span>Home</span>
             </button>
-            <ChevronRight className="w-3.5 h-3.5 text-hanbit-border" />
-            <span className="text-hanbit-forest font-bold">About Us</span>
-            <span className="text-hanbit-border">|</span>
-            <span className="text-[11px] text-hanbit-gold font-mono">Official Heritage & Corporate Profile</span>
+            <ChevronRight className="w-3.5 h-3.5 text-indigo-200" />
+            <span className="text-white font-bold">About Us</span>
+            <span className="text-indigo-200">|</span>
+            <span className="text-[11px] text-amber-300 font-mono">Official Heritage & Corporate Profile</span>
           </nav>
 
           <button
             onClick={() => onNavigateHome('hero')}
-            className="inline-flex items-center gap-2 text-xs font-bold text-hanbit-forest hover:text-hanbit-gold transition-colors cursor-pointer self-start sm:self-auto"
+            className="inline-flex items-center gap-2 text-xs font-bold text-white hover:text-amber-200 transition-colors cursor-pointer self-start sm:self-auto"
           >
-            <ArrowLeft className="w-4 h-4 text-hanbit-gold" />
+            <ArrowLeft className="w-4 h-4 text-amber-300" />
             <span>Back to Home</span>
           </button>
         </div>
@@ -141,19 +141,19 @@ export const AboutUsPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
         
         {/* Page Hero Header */}
         <div className="text-center max-w-4xl mx-auto pt-4 space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-hanbit-gold/40 text-xs font-semibold text-hanbit-forest shadow-xs">
-            <span className="w-2 h-2 rounded-full bg-hanbit-gold animate-pulse" />
-            <span className="font-mono text-hanbit-gold font-bold">대한민국 주식회사 두루미</span>
-            <span className="text-hanbit-border">|</span>
-            <span className="tracking-wider uppercase text-[11px]">Since November 24, 1991</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-sm border border-amber-300/40 text-xs font-semibold text-slate-900 shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+            <span className="font-mono text-amber-700 font-bold">대한민국 주식회사 두루미</span>
+            <span className="text-slate-300">|</span>
+            <span className="tracking-wider uppercase text-[11px] text-slate-700">Since November 24, 1991</span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-hanbit-forest tracking-tight leading-tight font-serif">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight font-serif drop-shadow-sm">
             About Dooroomi (두루미)
           </h1>
 
-          <p className="text-base sm:text-xl text-hanbit-muted font-light leading-relaxed max-w-3xl mx-auto">
-            Founded on the guiding ethos of <strong className="text-hanbit-forest font-semibold">“Love, Service, and Kindness”</strong> (사랑 · 봉사 · 친절). For over 35 years, Dooroomi has brought restorative Korean thermal acupressure and bio-mineral healing to over 51 nations worldwide.
+          <p className="text-base sm:text-xl text-indigo-50 font-light leading-relaxed max-w-3xl mx-auto">
+            Founded on the guiding ethos of <strong className="text-white font-semibold">“Love, Service, and Kindness”</strong> (사랑 · 봉사 · 친절). For over 35 years, Dooroomi has brought restorative Korean thermal acupressure and bio-mineral healing to over 51 nations worldwide.
           </p>
         </div>
 
@@ -299,13 +299,13 @@ export const AboutUsPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
         {/* 4 Core Technological Pillars from the PDF */}
         <div className="space-y-6">
           <div className="text-center max-w-2xl mx-auto">
-            <span className="text-xs font-bold text-hanbit-gold uppercase tracking-widest block font-mono">
+            <span className="text-xs font-bold text-amber-300 uppercase tracking-widest block font-mono">
               Patented Medical Engineering
             </span>
-            <h3 className="text-2xl sm:text-3xl font-extrabold text-hanbit-forest font-serif mt-1">
+            <h3 className="text-2xl sm:text-3xl font-extrabold text-white font-serif mt-1 drop-shadow-sm">
               Core Dooroomi Therapeutic Technologies
             </h3>
-            <p className="text-xs sm:text-sm text-hanbit-muted mt-2 font-light">
+            <p className="text-xs sm:text-sm text-indigo-50 mt-2 font-light">
               Integrating ancient Korean moxibustion and jade stone therapy with cutting-edge electro-magnetic and neuro-stimulation science.
             </p>
           </div>
