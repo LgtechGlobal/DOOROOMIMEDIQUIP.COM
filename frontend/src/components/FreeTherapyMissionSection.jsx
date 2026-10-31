@@ -193,16 +193,19 @@ export const FreeTherapyMissionSection = ({ onContactClick, onNavigateAbout, onN
         </div>
 
         {/* Conditions Treated & Recovered Grid */}
-        <div className="mt-16 p-8 sm:p-12 rounded-3xl bg-white border border-slate-300/80 shadow-md">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-slate-200">
+        <div 
+          style={{ backgroundColor: '#998631' }}
+          className="mt-16 p-8 sm:p-12 rounded-3xl bg-[#998631] border border-[#7d6d24] shadow-xl text-white"
+        >
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-amber-500/40">
             <div>
-              <span className="text-xs font-bold text-amber-700 uppercase tracking-widest block font-mono">
+              <span className="text-xs font-mono font-bold text-amber-100 uppercase tracking-widest block">
                 Real Patient Indications
               </span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-hanbit-forest font-serif mt-1">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-white font-serif mt-1 drop-shadow-sm">
                 Conditions Showing Remarkable Improvement
               </h3>
-              <p className="text-xs sm:text-sm text-slate-700 mt-2 max-w-2xl font-normal">
+              <p className="text-xs sm:text-sm text-amber-50 mt-2 max-w-2xl font-medium leading-relaxed">
                 Documented in thousands of regular attendees across Dooroomi's Indian therapeutic centers. Daily moxibustion and far-infrared therapy stimulate natural biological self-repair.
               </p>
             </div>
@@ -212,12 +215,12 @@ export const FreeTherapyMissionSection = ({ onContactClick, onNavigateAbout, onN
             {targetConditions.map((cond, idx) => (
               <div 
                 key={idx}
-                className="p-4 rounded-2xl bg-gradient-to-br from-[#f8f9fa] to-white border border-slate-200 hover:border-emerald-600/50 transition-all flex items-center gap-3 shadow-2xs"
+                className="p-4 rounded-2xl bg-white border border-white/80 hover:border-amber-300 transition-all flex items-center gap-3 shadow-sm hover:shadow-md"
               >
-                <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0">
-                  <CheckCircle2 className="w-4 h-4" />
+                <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0">
+                  <CheckCircle2 className="w-4 h-4 stroke-[2.5]" />
                 </div>
-                <span className="text-xs sm:text-sm font-semibold text-slate-900">
+                <span className="text-xs sm:text-sm font-bold text-slate-900">
                   {cond}
                 </span>
               </div>
@@ -225,17 +228,17 @@ export const FreeTherapyMissionSection = ({ onContactClick, onNavigateAbout, onN
           </div>
 
           {/* Quick Center Notice */}
-          <div className="mt-8 p-4 sm:p-5 rounded-2xl bg-emerald-50/80 border border-emerald-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-emerald-950">
+          <div className="mt-8 p-4 sm:p-5 rounded-2xl bg-[#09221a]/90 backdrop-blur-md border border-amber-400/40 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs text-white shadow-lg">
             <div className="flex items-center gap-2.5">
-              <MapPin className="w-5 h-5 text-emerald-700 shrink-0" />
+              <MapPin className="w-5 h-5 text-amber-400 shrink-0" />
               <span>
-                <strong>Authorized Centers Active In:</strong> Bhubaneswar (Palasuni Square & Cuttack), New Delhi, and expanding across major Indian states.
+                <strong className="text-amber-300">Authorized Centers Active In:</strong> Bhubaneswar (Palasuni Square & Cuttack), New Delhi, and expanding across major Indian states.
               </span>
             </div>
 
             <button
               onClick={onContactClick}
-              className="text-xs font-bold text-emerald-900 hover:text-emerald-950 underline underline-offset-4 cursor-pointer shrink-0 self-start sm:self-auto"
+              className="text-xs font-bold text-amber-300 hover:text-white underline underline-offset-4 cursor-pointer shrink-0 self-start sm:self-auto"
             >
               Contact Nearest Center →
             </button>
