@@ -184,6 +184,7 @@ export const TherapyPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
       subtitle: "Ergonomic Traction & Unblocking",
       icon: Waves,
       tag: "Anatomical & Kinetic Therapy",
+      image: "/assets/therapy/spinal-soft-tissue-massage.jpg",
       summary: "Soft tissue manipulation acting on and manipulating the body with structured tension, motion, and vibration.",
       details: [
         "Spinal stretching relaxes muscles and tendons along the paravertebral column.",
@@ -518,6 +519,16 @@ export const TherapyPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
                           </span>
                         </div>
                       </div>
+
+                      {principle.image && (
+                        <div className="my-3 rounded-2xl overflow-hidden border border-stone-200 shadow-xs relative aspect-[16/9] max-h-40 bg-stone-100">
+                          <img 
+                            src={principle.image} 
+                            alt={principle.title}
+                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                          />
+                        </div>
+                      )}
 
                       <p className="text-xs text-slate-900 font-medium italic mt-2 mb-4 bg-slate-100/90 p-2.5 rounded-xl border border-slate-300">
                         {principle.summary}
