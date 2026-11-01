@@ -156,7 +156,7 @@ export const ContactSection = ({
           
           {/* Left Column: Direct Contact & Facility Details */}
           <div className="lg:col-span-5 space-y-8">
-            <div className="p-8 rounded-3xl bg-white/95 backdrop-blur-md border border-[#ded5c2] shadow-md space-y-6">
+            <div className="p-8 rounded-3xl bg-white/95 backdrop-blur-md border border-[#ded5c2] shadow-md space-y-6 text-slate-900">
               <h3 className="text-xl font-extrabold text-hanbit-forest">
                 Direct Contact Channels
               </h3>
@@ -242,7 +242,7 @@ export const ContactSection = ({
           </div>
 
           {/* Right Column: Interactive Quotation Form */}
-          <div className="lg:col-span-7 p-8 sm:p-10 rounded-3xl bg-white/95 backdrop-blur-md border border-[#ded5c2] shadow-xl">
+          <div className="lg:col-span-7 p-8 sm:p-10 rounded-3xl bg-white/95 backdrop-blur-md border border-[#ded5c2] shadow-xl text-slate-900">
             <h3 className="text-xl font-extrabold text-hanbit-forest">
               Submit Therapy Inquiry & Consultation
             </h3>
@@ -333,7 +333,7 @@ export const ContactSection = ({
                       placeholder="e.g. Director Sarah Jenkins"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className={`w-full px-4 py-2.5 rounded-xl bg-white border text-xs focus:outline-none ${
+                      className={`w-full px-4 py-2.5 rounded-xl bg-white text-slate-900 placeholder:text-slate-400 font-medium border text-xs focus:outline-none ${
                         errors.name ? 'border-red-500 ring-1 ring-red-500' : 'border-hanbit-border focus:border-hanbit-gold'
                       }`}
                     />
@@ -349,7 +349,7 @@ export const ContactSection = ({
                       placeholder="s.jenkins@brand.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className={`w-full px-4 py-2.5 rounded-xl bg-white border text-xs focus:outline-none ${
+                      className={`w-full px-4 py-2.5 rounded-xl bg-white text-slate-900 placeholder:text-slate-400 font-medium border text-xs focus:outline-none ${
                         errors.email ? 'border-red-500 ring-1 ring-red-500' : 'border-hanbit-border focus:border-hanbit-gold'
                       }`}
                     />
@@ -367,7 +367,7 @@ export const ContactSection = ({
                       placeholder="e.g. Wellness Clinic or Private Individual"
                       value={formData.company}
                       onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl bg-white border border-hanbit-border text-xs focus:outline-none focus:border-hanbit-gold"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white text-slate-900 placeholder:text-slate-400 font-medium border border-hanbit-border text-xs focus:outline-none focus:border-hanbit-gold"
                     />
                   </div>
 
@@ -380,7 +380,7 @@ export const ContactSection = ({
                       placeholder="+91 94371 88200"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl bg-white border border-hanbit-border text-xs focus:outline-none focus:border-hanbit-gold"
+                      className="w-full px-4 py-2.5 rounded-xl bg-white text-slate-900 placeholder:text-slate-400 font-medium border border-hanbit-border text-xs focus:outline-none focus:border-hanbit-gold"
                     />
                   </div>
                 </div>
@@ -394,7 +394,7 @@ export const ContactSection = ({
                     placeholder="e.g. BEDRO Smart-1 Thermal Massager, TAEYANGSUK Mat, Free Daily Therapy"
                     value={formData.product}
                     onChange={(e) => setFormData({ ...formData, product: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-xl bg-white border border-hanbit-border text-xs focus:outline-none focus:border-hanbit-gold"
+                    className="w-full px-4 py-2.5 rounded-xl bg-white text-slate-900 placeholder:text-slate-400 font-medium border border-hanbit-border text-xs focus:outline-none focus:border-hanbit-gold"
                   />
                 </div>
 
@@ -407,7 +407,7 @@ export const ContactSection = ({
                     placeholder="Please describe your health condition (e.g. chronic back pain, knee arthritis, sciatica, high BP), preferred therapy center, or device inquiry..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className={`w-full px-4 py-2.5 rounded-xl bg-white border text-xs focus:outline-none resize-none ${
+                    className={`w-full px-4 py-2.5 rounded-xl bg-white text-slate-900 placeholder:text-slate-400 font-medium border text-xs focus:outline-none resize-none ${
                       errors.message ? 'border-red-500 ring-1 ring-red-500' : 'border-hanbit-border focus:border-hanbit-gold'
                     }`}
                   />

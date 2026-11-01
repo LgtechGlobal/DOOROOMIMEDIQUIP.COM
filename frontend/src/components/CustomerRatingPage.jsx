@@ -287,7 +287,7 @@ export const CustomerRatingPage = ({ onNavigateHome }) => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="e.g. Ramesh Jena"
-                    className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-stone-200 text-xs sm:text-sm focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 bg-stone-50"
+                    className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-stone-200 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 bg-stone-50"
                   />
                 </div>
               </div>
@@ -303,7 +303,7 @@ export const CustomerRatingPage = ({ onNavigateHome }) => {
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
                     placeholder="e.g. Palasuni, Bhubaneswar"
-                    className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-stone-200 text-xs sm:text-sm focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 bg-stone-50"
+                    className="w-full pl-9 pr-3 py-2.5 rounded-xl border border-stone-200 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 bg-stone-50"
                   />
                 </div>
               </div>
@@ -316,7 +316,7 @@ export const CustomerRatingPage = ({ onNavigateHome }) => {
               <select
                 value={treatment}
                 onChange={(e) => setTreatment(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-xl border border-stone-200 text-xs sm:text-sm focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 bg-stone-50"
+                className="w-full px-3 py-2.5 rounded-xl border border-stone-200 text-xs sm:text-sm text-stone-900 focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 bg-stone-50"
               >
                 <option value="BEDRO Smart-1 Thermal Spine Bed">BEDRO Smart-1 Thermal Spine Bed</option>
                 <option value="TAEYANGSUK PLUS Bio-Mat">TAEYANGSUK PLUS Far-Infrared Bio-Mat</option>
@@ -342,7 +342,7 @@ export const CustomerRatingPage = ({ onNavigateHome }) => {
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 placeholder="Share how thermal therapy helped your back pain, joints, or overall health..."
-                className="w-full p-3 rounded-xl border border-stone-200 text-xs sm:text-sm focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 bg-stone-50"
+                className="w-full p-3 rounded-xl border border-stone-200 text-xs sm:text-sm text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-emerald-700 focus:ring-1 focus:ring-emerald-700 bg-stone-50"
               />
             </div>
           </div>
