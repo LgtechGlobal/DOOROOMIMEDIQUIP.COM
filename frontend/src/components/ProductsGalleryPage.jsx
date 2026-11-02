@@ -52,50 +52,50 @@ export const ProductsGalleryPage = ({
   }, [productsList, selectedCategory, searchQuery]);
 
   return (
-    <div className="bg-[#fcfdfa] min-h-screen py-10 sm:py-16 text-hanbit-ink">
+    <div style={{ backgroundColor: '#f5ada6' }} className="bg-[#f5ada6] min-h-screen py-10 sm:py-16 text-slate-900">
       <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16">
         
         {/* Navigation Breadcrumb */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-hanbit-border">
-          <nav className="flex items-center space-x-2 text-xs text-hanbit-muted font-medium">
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-[#dd928b]">
+          <nav className="flex items-center space-x-2 text-xs text-slate-800 font-medium">
             <button 
               onClick={() => onNavigateHome('hero')}
-              className="hover:text-hanbit-forest flex items-center gap-1 transition-colors"
+              className="hover:text-black flex items-center gap-1 transition-colors font-semibold"
             >
-              <Home className="w-3.5 h-3.5 text-hanbit-gold" />
+              <Home className="w-3.5 h-3.5 text-[#871c13]" />
               <span>Home</span>
             </button>
-            <ChevronRight className="w-3.5 h-3.5 text-hanbit-border" />
-            <span className="text-hanbit-forest font-semibold">Formulation Library</span>
-            <ChevronRight className="w-3.5 h-3.5 text-hanbit-border" />
-            <span className="text-hanbit-gold font-bold">All Master Series</span>
+            <ChevronRight className="w-3.5 h-3.5 text-slate-700" />
+            <span className="text-[#0c2e1f] font-bold">Formulation Library</span>
+            <ChevronRight className="w-3.5 h-3.5 text-slate-700" />
+            <span className="text-[#871c13] font-extrabold">All Master Series</span>
           </nav>
 
-          <span className="text-xs font-mono text-hanbit-muted">
+          <span className="text-xs font-mono text-slate-800 font-semibold bg-white/70 px-3 py-1 rounded-full border border-white/60 shadow-xs">
             Showing {filteredProducts.length} of {productsList.length} Formulations
           </span>
         </div>
 
         {/* Page Hero Header */}
         <div className="max-w-4xl mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-hanbit-gold/30 text-xs font-semibold text-hanbit-forest shadow-2xs mb-4">
-            <Sparkles className="w-4 h-4 text-hanbit-gold" />
-            <span className="font-mono text-hanbit-gold font-bold">두루미 전제품 라인업</span>
-            <span className="text-hanbit-border">|</span>
-            <span className="tracking-wider uppercase text-[11px]">Comprehensive Medical &amp; Therapeutic Portfolio</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 border border-white text-xs font-semibold text-[#0c2e1f] shadow-2xs mb-4">
+            <Sparkles className="w-4 h-4 text-[#c8102e]" />
+            <span className="font-mono text-[#c8102e] font-bold">두루미 전제품 라인업</span>
+            <span className="text-slate-300">|</span>
+            <span className="tracking-wider uppercase text-[11px] text-slate-800 font-medium">Comprehensive Medical &amp; Therapeutic Portfolio</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-hanbit-forest tracking-tight leading-tight font-serif">
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-[#062419] tracking-tight leading-tight font-serif drop-shadow-xs">
             Precision Bio-Active Formulations &amp; Thermal Systems.
           </h1>
 
-          <p className="mt-4 text-base sm:text-lg text-slate-800 font-normal leading-relaxed">
+          <p className="mt-4 text-base sm:text-lg text-slate-900 font-medium leading-relaxed">
             Engineered under ISO 22716, ISO 13485, and Korea CGMP certifications. Explore our complete series of clinically verified skincare, body therapeutics, and hospital-grade thermal recovery devices.
           </p>
         </div>
 
         {/* Filter & Search Bar */}
-        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 mb-10 pb-6 border-b border-hanbit-border">
+        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 mb-10 pb-6 border-b border-[#dd928b]">
           
           {/* Category Filter Pills */}
           <div className="flex items-center gap-2 overflow-x-auto pb-2 lg:pb-0 no-scrollbar">
@@ -103,8 +103,8 @@ export const ProductsGalleryPage = ({
               onClick={() => setSelectedCategory('all')}
               className={`px-4 py-2 rounded-full text-xs font-semibold transition-all whitespace-nowrap cursor-pointer ${
                 selectedCategory === 'all'
-                  ? 'bg-hanbit-forest text-white shadow-xs'
-                  : 'bg-white hover:bg-hanbit-ivory text-hanbit-muted border border-hanbit-border'
+                  ? 'bg-[#0c2e1f] text-white shadow-xs'
+                  : 'bg-white hover:bg-slate-50 text-slate-800 border border-white/80 shadow-2xs'
               }`}
             >
               All Series ({productsList.length})
@@ -120,8 +120,8 @@ export const ProductsGalleryPage = ({
                   onClick={() => setSelectedCategory(cat.id)}
                   className={`px-4 py-2 rounded-full text-xs font-semibold transition-all whitespace-nowrap cursor-pointer ${
                     isSelected
-                      ? 'bg-hanbit-forest text-white shadow-xs'
-                      : 'bg-white hover:bg-hanbit-ivory text-hanbit-muted border border-hanbit-border'
+                      ? 'bg-[#0c2e1f] text-white shadow-xs'
+                      : 'bg-white hover:bg-slate-50 text-slate-800 border border-white/80 shadow-2xs'
                   }`}
                 >
                   {cat.name} ({count})
@@ -132,18 +132,18 @@ export const ProductsGalleryPage = ({
 
           {/* Search Input Box */}
           <div className="relative w-full lg:w-80">
-            <Search className="w-4 h-4 text-hanbit-muted absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by name, model, active..."
-              className="w-full pl-10 pr-9 py-2.5 text-xs rounded-xl bg-white border border-hanbit-border text-hanbit-ink placeholder-hanbit-muted focus:outline-none focus:border-hanbit-gold focus:ring-1 focus:ring-hanbit-gold transition-colors shadow-2xs"
+              className="w-full pl-10 pr-9 py-2.5 text-xs rounded-xl bg-white border border-white/90 text-slate-900 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#0c2e1f] transition-colors shadow-2xs font-medium"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-hanbit-muted hover:text-hanbit-ink cursor-pointer"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-900 cursor-pointer"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -153,7 +153,7 @@ export const ProductsGalleryPage = ({
 
         {/* Filter Feedback Notice */}
         {(selectedCategory !== 'all' || searchQuery) && (
-          <div className="flex items-center justify-between text-xs text-hanbit-muted mb-8 px-2">
+          <div className="flex items-center justify-between text-xs text-slate-900 font-medium mb-8 px-2">
             <span>
               Showing <b>{filteredProducts.length}</b> results
               {selectedCategory !== 'all' && ` in ${CATEGORIES.find((c) => c.id === selectedCategory)?.name}`}

@@ -13,7 +13,7 @@ export const GallerySection = () => {
   );
 
   return (
-    <section id="gallery" className="py-20 lg:py-28 bg-hanbit-ivory border-t border-hanbit-border">
+    <section id="gallery" style={{ backgroundColor: '#c7db9e' }} className="py-20 lg:py-28 bg-[#c7db9e] border-t border-[#a9c47e]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}

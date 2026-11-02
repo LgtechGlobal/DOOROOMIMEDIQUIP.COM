@@ -88,21 +88,21 @@ export const GalleryPage = ({ onNavigateHome, onNavigateProducts, onContactClick
   };
 
   return (
-    <div className="min-h-screen bg-[#fbfbfa] pt-6 pb-24">
+    <div style={{ backgroundColor: '#c7db9e' }} className="min-h-screen bg-[#c7db9e] pt-6 pb-24 text-slate-900">
       {/* Top Breadcrumb Bar */}
       <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16 mb-8">
-        <nav className="flex items-center space-x-2 text-xs text-hanbit-muted font-medium py-3 border-b border-hanbit-border/60">
+        <nav className="flex items-center space-x-2 text-xs text-slate-800 font-medium py-3 border-b border-[#a9c47e]">
           <button 
             onClick={() => onNavigateHome ? onNavigateHome('hero') : (window.location.hash = '')}
-            className="hover:text-hanbit-forest flex items-center gap-1 cursor-pointer transition-colors"
+            className="hover:text-black flex items-center gap-1 cursor-pointer transition-colors font-semibold"
           >
-            <Home className="w-3.5 h-3.5 text-hanbit-gold" />
+            <Home className="w-3.5 h-3.5 text-[#0c2e1f]" />
             <span>Home</span>
           </button>
-          <ChevronRight className="w-3.5 h-3.5 text-hanbit-border" />
-          <span className="text-hanbit-forest font-bold">Media Gallery</span>
-          <span className="text-hanbit-border">|</span>
-          <span className="text-[11px] text-hanbit-gold font-mono">
+          <ChevronRight className="w-3.5 h-3.5 text-slate-700" />
+          <span className="text-[#0c2e1f] font-bold">Media Gallery</span>
+          <span className="text-slate-400">|</span>
+          <span className="text-[11px] text-[#0c2e1f] font-mono font-bold bg-white/70 px-2.5 py-0.5 rounded-full border border-white/60">
             {galleryItems.length} Published Media ({imageItems.length} Images, {videoItems.length} Videos)
           </span>
         </nav>
@@ -111,35 +111,35 @@ export const GalleryPage = ({ onNavigateHome, onNavigateProducts, onContactClick
       <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16">
         {/* Gallery Hero Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-hanbit-gold/30 text-xs font-semibold text-hanbit-forest shadow-xs mb-4">
-            <span className="w-2 h-2 rounded-full bg-hanbit-gold animate-pulse" />
-            <span className="font-mono text-hanbit-gold font-bold">두루미 미디어 갤러리</span>
-            <span className="text-hanbit-border">|</span>
-            <span className="tracking-wider uppercase text-[11px]">Official Visual Showcase</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 border border-white text-xs font-semibold text-[#0c2e1f] shadow-xs mb-4">
+            <span className="w-2 h-2 rounded-full bg-[#0c2e1f] animate-pulse" />
+            <span className="font-mono text-[#0c2e1f] font-bold">두루미 미디어 갤러리</span>
+            <span className="text-slate-300">|</span>
+            <span className="tracking-wider uppercase text-[11px] text-slate-800 font-medium">Official Visual Showcase</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-hanbit-forest tracking-tight leading-tight font-serif">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0c2e1f] tracking-tight leading-tight font-serif drop-shadow-xs">
             Dooroomi Mediquip Media Gallery
           </h1>
 
-          <p className="mt-4 text-sm sm:text-base text-hanbit-muted font-light leading-relaxed max-w-2xl mx-auto">
+          <p className="mt-4 text-sm sm:text-base text-slate-900 font-medium leading-relaxed max-w-2xl mx-auto">
             Explore authentic high-definition photo archives and clinical video demonstrations of our Korean thermal therapy systems, GMP manufacturing facilities, and community health centers.
           </p>
         </div>
 
         {/* View Switcher Bar (All / Images / Videos) */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-3 sm:p-4 rounded-3xl bg-white border border-hanbit-border shadow-sm mb-12">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-3 sm:p-4 rounded-3xl bg-white border border-[#b8d18e] shadow-md mb-12">
           {/* Main Media Tabs */}
           <div className="flex items-center gap-2 w-full sm:w-auto">
             <button
               onClick={() => setActiveTab('all')}
               className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer ${
                 activeTab === 'all'
-                  ? 'bg-hanbit-forest text-white shadow-sm ring-1 ring-hanbit-gold/50'
-                  : 'bg-hanbit-ivory text-hanbit-muted hover:bg-hanbit-sage-light hover:text-hanbit-forest border border-hanbit-border/70'
+                  ? 'bg-[#0c2e1f] text-white shadow-sm ring-1 ring-[#0c2e1f]'
+                  : 'bg-[#edf5dc] text-slate-800 hover:bg-white hover:text-black border border-[#b8d18e]'
               }`}
             >
-              <Layers className="w-3.5 h-3.5 text-hanbit-gold" />
+              <Layers className="w-3.5 h-3.5 text-amber-300" />
               <span>All Media ({galleryItems.length})</span>
             </button>
 
@@ -147,11 +147,11 @@ export const GalleryPage = ({ onNavigateHome, onNavigateProducts, onContactClick
               onClick={() => setActiveTab('images')}
               className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer ${
                 activeTab === 'images'
-                  ? 'bg-hanbit-forest text-white shadow-sm ring-1 ring-hanbit-gold/50'
-                  : 'bg-hanbit-ivory text-hanbit-muted hover:bg-hanbit-sage-light hover:text-hanbit-forest border border-hanbit-border/70'
+                  ? 'bg-[#0c2e1f] text-white shadow-sm ring-1 ring-[#0c2e1f]'
+                  : 'bg-[#edf5dc] text-slate-800 hover:bg-white hover:text-black border border-[#b8d18e]'
               }`}
             >
-              <Camera className="w-3.5 h-3.5 text-emerald-400" />
+              <Camera className="w-3.5 h-3.5 text-emerald-600" />
               <span>Image Gallery ({imageItems.length})</span>
             </button>
 
@@ -159,11 +159,11 @@ export const GalleryPage = ({ onNavigateHome, onNavigateProducts, onContactClick
               onClick={() => setActiveTab('videos')}
               className={`flex-1 sm:flex-initial flex items-center justify-center gap-2 px-5 py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer ${
                 activeTab === 'videos'
-                  ? 'bg-hanbit-forest text-white shadow-sm ring-1 ring-hanbit-gold/50'
-                  : 'bg-hanbit-ivory text-hanbit-muted hover:bg-hanbit-sage-light hover:text-hanbit-forest border border-hanbit-border/70'
+                  ? 'bg-[#0c2e1f] text-white shadow-sm ring-1 ring-[#0c2e1f]'
+                  : 'bg-[#edf5dc] text-slate-800 hover:bg-white hover:text-black border border-[#b8d18e]'
               }`}
             >
-              <Film className="w-3.5 h-3.5 text-amber-400" />
+              <Film className="w-3.5 h-3.5 text-amber-600" />
               <span>Video Gallery ({videoItems.length})</span>
             </button>
           </div>
@@ -197,22 +197,22 @@ export const GalleryPage = ({ onNavigateHome, onNavigateProducts, onContactClick
         {/* ========================================================================= */}
         {(activeTab === 'all' || activeTab === 'images') && (
           <div className="mb-20">
-            <div className="flex items-center justify-between pb-4 mb-8 border-b border-hanbit-border">
+            <div className="flex items-center justify-between pb-4 mb-8 border-b border-[#a9c47e]">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-2xl bg-white border border-[#b8d18e] text-emerald-800 flex items-center justify-center shadow-xs">
                   <Camera className="w-5 h-5 text-emerald-700" />
                 </div>
                 <div>
-                  <h2 className="text-2xl sm:text-3xl font-extrabold text-hanbit-forest font-serif">
+                  <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0c2e1f] font-serif">
                     Photo & Facility Gallery
                   </h2>
-                  <p className="text-xs sm:text-sm text-hanbit-muted">
+                  <p className="text-xs sm:text-sm text-slate-800 font-medium">
                     High-resolution imagery of research cleanrooms, therapy centers, and precision devices
                   </p>
                 </div>
               </div>
 
-              <span className="hidden sm:inline-flex px-3 py-1 rounded-full text-xs font-bold bg-white border border-hanbit-border text-hanbit-forest shadow-2xs font-mono">
+              <span className="hidden sm:inline-flex px-3 py-1 rounded-full text-xs font-bold bg-white border border-[#b8d18e] text-[#0c2e1f] shadow-2xs font-mono">
                 {filteredImages.length} Image{filteredImages.length === 1 ? '' : 's'}
               </span>
             </div>
@@ -291,22 +291,22 @@ export const GalleryPage = ({ onNavigateHome, onNavigateProducts, onContactClick
         {/* ========================================================================= */}
         {(activeTab === 'all' || activeTab === 'videos') && (
           <div className="mb-20">
-            <div className="flex items-center justify-between pb-4 mb-8 border-b border-hanbit-border">
+            <div className="flex items-center justify-between pb-4 mb-8 border-b border-[#a9c47e]">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-amber-50 border border-amber-200 text-amber-800 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-2xl bg-white border border-[#b8d18e] text-amber-800 flex items-center justify-center shadow-xs">
                   <Film className="w-5 h-5 text-amber-700" />
                 </div>
                 <div>
-                  <h2 className="text-2xl sm:text-3xl font-extrabold text-hanbit-forest font-serif">
+                  <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0c2e1f] font-serif">
                     Clinical & Demonstration Video Gallery
                   </h2>
-                  <p className="text-xs sm:text-sm text-hanbit-muted">
+                  <p className="text-xs sm:text-sm text-slate-800 font-medium">
                     Watch video tours, device operations, and authentic patient recovery demonstrations
                   </p>
                 </div>
               </div>
 
-              <span className="hidden sm:inline-flex px-3 py-1 rounded-full text-xs font-bold bg-white border border-hanbit-border text-hanbit-forest shadow-2xs font-mono">
+              <span className="hidden sm:inline-flex px-3 py-1 rounded-full text-xs font-bold bg-white border border-[#b8d18e] text-[#0c2e1f] shadow-2xs font-mono">
                 {filteredVideos.length} Video{filteredVideos.length === 1 ? '' : 's'}
               </span>
             </div>

@@ -84,12 +84,12 @@ export const ServicesPage = ({ onNavigateHome, onNavigateGallery, onContactClick
   ];
 
   return (
-    <div className="bg-[#fbfbfa] min-h-screen py-10 sm:py-16">
+    <div style={{ backgroundColor: '#86ad7b' }} className="bg-[#86ad7b] min-h-screen py-10 sm:py-16 text-slate-900">
       <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16">
         
         {/* Navigation Breadcrumb */}
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-hanbit-border">
-          <nav className="flex items-center space-x-2 text-xs text-hanbit-muted font-medium">
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-[#6c9162]">
+          <nav className="flex items-center space-x-2 text-xs text-slate-900 font-semibold">
             <button 
               onClick={() => onNavigateHome('hero')}
               className="hover:text-hanbit-forest flex items-center gap-1 transition-colors"
@@ -121,11 +121,11 @@ export const ServicesPage = ({ onNavigateHome, onNavigateGallery, onContactClick
             <span className="tracking-wider uppercase text-[11px]">Turnkey B2B Manufacturing Solutions</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-extrabold text-hanbit-forest tracking-tight leading-tight font-serif">
+          <h1 className="text-3xl sm:text-5xl font-extrabold text-[#062419] tracking-tight leading-tight font-serif drop-shadow-xs">
             Comprehensive Formulation, Clinical Testing & Cleanroom Manufacturing.
           </h1>
 
-          <p className="mt-4 text-base sm:text-lg text-slate-800 font-normal leading-relaxed">
+          <p className="mt-4 text-base sm:text-lg text-slate-950 font-medium leading-relaxed">
             From bespoke active synthesis in our South Korean laboratories to high-speed automated aseptic filling at our Songdo Bio-Cluster facility, Dooroomi provides end-to-end OEM, ODM, and OBM solutions for global beauty and medical brands.
           </p>
         </div>

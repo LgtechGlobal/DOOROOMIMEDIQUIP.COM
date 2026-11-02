@@ -6,7 +6,7 @@ export const ServicesSection = () => {
   const [openFaq, setOpenFaq] = useState(0); // First FAQ open by default
 
   return (
-    <section id="services" className="py-20 lg:py-28 bg-white border-t border-hanbit-border">
+    <section id="services" style={{ backgroundColor: '#86ad7b' }} className="py-20 lg:py-28 bg-[#86ad7b] border-t border-[#6c9162]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}

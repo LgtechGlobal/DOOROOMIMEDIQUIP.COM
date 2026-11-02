@@ -42,36 +42,36 @@ export const SingleProductPage = ({
   const isCompared = comparedProducts.some((p) => p.id === product.id);
 
   return (
-    <div className="min-h-screen bg-[#fbfbfa] pt-6 pb-24">
+    <div style={{ backgroundColor: '#f5ada6' }} className="min-h-screen bg-[#f5ada6] pt-6 pb-24 text-slate-900">
       {/* Top Breadcrumb Navigation */}
       <div className="w-full max-w-[1780px] mx-auto px-4 sm:px-8 lg:px-12 2xl:px-16 mb-8">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-3 border-b border-hanbit-border/60">
-          <nav className="flex items-center space-x-2 text-xs text-hanbit-muted font-medium flex-wrap">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-3 border-b border-[#dd928b]">
+          <nav className="flex items-center space-x-2 text-xs text-slate-800 font-medium flex-wrap">
             <button 
               onClick={() => onNavigateHome('hero')}
-              className="hover:text-hanbit-forest flex items-center gap-1 cursor-pointer transition-colors"
+              className="hover:text-black flex items-center gap-1 cursor-pointer transition-colors font-semibold"
             >
-              <Home className="w-3.5 h-3.5 text-hanbit-gold" />
+              <Home className="w-3.5 h-3.5 text-[#871c13]" />
               <span>Home</span>
             </button>
-            <ChevronRight className="w-3.5 h-3.5 text-hanbit-border" />
+            <ChevronRight className="w-3.5 h-3.5 text-slate-700" />
             <button
               onClick={onBackToGallery}
-              className="hover:text-hanbit-forest cursor-pointer transition-colors"
+              className="hover:text-black cursor-pointer transition-colors font-semibold"
             >
               Products Gallery
             </button>
-            <ChevronRight className="w-3.5 h-3.5 text-hanbit-border" />
-            <span className="text-hanbit-gold font-bold">{product.catLabel?.split('·')[0]}</span>
-            <ChevronRight className="w-3.5 h-3.5 text-hanbit-border" />
-            <span className="text-hanbit-forest font-bold truncate max-w-xs">{product.name}</span>
+            <ChevronRight className="w-3.5 h-3.5 text-slate-700" />
+            <span className="text-[#871c13] font-bold">{product.catLabel?.split('·')[0]}</span>
+            <ChevronRight className="w-3.5 h-3.5 text-slate-700" />
+            <span className="text-[#0c2e1f] font-extrabold truncate max-w-xs">{product.name}</span>
           </nav>
 
           <button
             onClick={onBackToGallery}
-            className="inline-flex items-center gap-2 text-xs font-bold text-hanbit-forest hover:text-hanbit-gold transition-colors cursor-pointer self-start sm:self-auto"
+            className="inline-flex items-center gap-2 text-xs font-bold text-[#0c2e1f] hover:text-[#c8102e] bg-white/80 px-3 py-1.5 rounded-lg border border-white/60 shadow-2xs transition-colors cursor-pointer self-start sm:self-auto"
           >
-            <ArrowLeft className="w-4 h-4 text-hanbit-gold" />
+            <ArrowLeft className="w-4 h-4 text-[#871c13]" />
             <span>Back to Products Gallery</span>
           </button>
         </div>
