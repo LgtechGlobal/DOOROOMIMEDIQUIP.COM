@@ -138,14 +138,17 @@ export const Navbar = ({
               </a>
             </div>
 
-            <span className="hidden sm:inline-block text-white/40 font-light">|</span>
-
+            {/* Mail Icon & Link - visible on mobile & desktop */}
             <a 
               href={`mailto:${SITE_CONFIG.email}`}
-              className="hidden sm:inline-flex items-center gap-1.5 hover:text-white/80 transition-colors font-semibold text-white text-[11px] sm:text-xs"
+              title={`Email us at ${SITE_CONFIG.email}`}
+              aria-label="Email"
+              className="inline-flex items-center gap-1.5 hover:text-white/80 transition-colors font-semibold text-white text-[11px] sm:text-xs"
             >
-              <Mail className="w-3.5 h-3.5 text-white shrink-0" />
-              <span>{SITE_CONFIG.email}</span>
+              <span className="w-5 h-5 rounded-full bg-[#EA4335] text-white flex items-center justify-center hover:scale-115 hover:shadow-[0_0_10px_rgba(234,67,53,0.8)] transition-all duration-200 shrink-0">
+                <Mail className="w-2.5 h-2.5 text-white" />
+              </span>
+              <span className="hidden sm:inline">{SITE_CONFIG.email}</span>
             </a>
             {/* Design Scanner Button (Visible on md/desktop screens) */}
             <button
@@ -385,6 +388,14 @@ export const Navbar = ({
                     className="w-6 h-6 rounded-full bg-[#FF0000] text-white flex items-center justify-center"
                   >
                     <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                  </a>
+                  <a
+                    href={`mailto:${SITE_CONFIG.email}`}
+                    title={`Email us at ${SITE_CONFIG.email}`}
+                    aria-label="Email"
+                    className="w-6 h-6 rounded-full bg-[#EA4335] text-white flex items-center justify-center hover:scale-110 transition-transform"
+                  >
+                    <Mail className="w-3 h-3 text-white" />
                   </a>
                 </div>
               </div>
