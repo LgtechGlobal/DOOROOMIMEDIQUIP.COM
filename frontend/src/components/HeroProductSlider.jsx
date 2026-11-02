@@ -183,11 +183,12 @@ export const HeroProductSlider = ({
     <section
       id="featured-showcase"
       aria-label="Featured Medical Equipment Showcase"
-      className="py-8 sm:py-12 lg:py-14 bg-gradient-to-b from-[#f8f6f0] via-[#f3efe4] to-[#ede7d8] border-b border-[#ded7c4]/80 relative overflow-hidden select-none w-full"
+      style={{ backgroundColor: '#9ccad6' }}
+      className="py-8 sm:py-12 lg:py-14 bg-[#9ccad6] border-b border-[#82b8c5] relative overflow-hidden select-none w-full"
     >
       {/* Subtle ambient lighting decoration */}
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/3 right-1/4 -translate-y-1/2 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-white/25 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/3 right-1/4 -translate-y-1/2 w-96 h-96 bg-cyan-700/15 rounded-full blur-3xl pointer-events-none" />
 
       {/* FULL WIDTH CONTAINER */}
       <div className="w-full px-3 sm:px-6 lg:px-10 2xl:px-14 relative z-10">
@@ -195,10 +196,10 @@ export const HeroProductSlider = ({
         {/* Top Header Row with Title and Controls */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 sm:mb-8 gap-4">
           <div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl font-serif font-bold text-hanbit-forest tracking-tight">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl 2xl:text-5xl font-serif font-bold text-[#062419] tracking-tight drop-shadow-xs">
               Featured Therapeutic Equipment & Bio-Minerals
             </h2>
-            <p className="text-stone-600 text-xs sm:text-sm lg:text-base mt-1 max-w-3xl">
+            <p className="text-slate-900 text-xs sm:text-sm lg:text-base mt-1 max-w-3xl font-medium">
               Authentic Korean spinal traction beds, far-infrared tourmaline bio-mats, and targeted thermal therapy systems.
             </p>
           </div>
