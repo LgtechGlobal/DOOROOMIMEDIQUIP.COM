@@ -84,7 +84,7 @@ export const Hero = ({ onExploreProducts, onRequestQuote }) => {
             </p>
 
             {/* Left-Aligned Action Buttons (CTAs) */}
-            <div className="flex flex-wrap items-center gap-3.5 sm:gap-4 pt-2">
+            <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 sm:gap-4 pt-2 w-full sm:w-auto">
               <button
                 onClick={handleScrollToFreeTherapy}
                 className="px-6 sm:px-7 py-3.5 rounded-full bg-gradient-to-r from-[#c8102e] via-red-700 to-[#a50d24] hover:from-red-600 hover:to-red-700 text-white font-bold text-sm sm:text-base shadow-xl shadow-red-950/30 transform hover:-translate-y-0.5 active:scale-98 transition-all inline-flex items-center gap-2 cursor-pointer"
@@ -115,7 +115,7 @@ export const Hero = ({ onExploreProducts, onRequestQuote }) => {
 
           {/* RIGHT COLUMN: Square Bracket Video Container (Infinite Loop) */}
           <div className="lg:col-span-5 flex justify-center lg:justify-end w-full">
-            <div className="relative w-full max-w-[520px] p-4 sm:p-6 group">
+            <div className="relative w-full max-w-[520px] p-2 sm:p-6 group">
               
               {/* Square Bracket Framing Accents (Top-Left, Top-Right, Bottom-Left, Bottom-Right) */}
               <div className="absolute top-0 left-0 w-8 sm:w-12 h-8 sm:h-12 border-t-4 border-l-4 border-white drop-shadow-md pointer-events-none" />

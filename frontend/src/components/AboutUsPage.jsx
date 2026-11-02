@@ -181,7 +181,7 @@ export const AboutUsPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
               </div>
 
               {/* Floating Stat Overlay Cards */}
-              <div className="grid grid-cols-2 gap-4 mt-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mt-6">
                 <div className="p-5 rounded-2xl bg-hanbit-ivory border border-hanbit-border/70">
                   <span className="text-3xl sm:text-4xl font-extrabold text-hanbit-forest font-serif block">
                     35<span className="text-hanbit-gold font-sans">+</span>

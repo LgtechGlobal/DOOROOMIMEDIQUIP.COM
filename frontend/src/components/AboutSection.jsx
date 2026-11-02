@@ -92,7 +92,7 @@ export const AboutSection = ({ onContactClick }) => {
               </div>
 
               {/* Floating Stat Overlay Cards */}
-              <div className="grid grid-cols-2 gap-4 mt-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mt-6">
                 <div className="p-4 rounded-2xl bg-hanbit-ivory border border-hanbit-border/70">
                   <span className="text-2xl sm:text-3xl font-extrabold text-hanbit-forest font-serif block">
                     28<span className="text-hanbit-gold font-sans">+</span>

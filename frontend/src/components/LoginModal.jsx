@@ -102,7 +102,7 @@ export const LoginModal = ({ isOpen, onClose, onLoginSuccess }) => {
         onClick={onClose}
       />
 
-      <div className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl border border-hanbit-gold/40 p-6 sm:p-8 z-10 animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-md max-h-[92vh] overflow-y-auto bg-white rounded-3xl shadow-2xl border border-hanbit-gold/40 p-5 sm:p-8 z-10 animate-in fade-in zoom-in-95 duration-200">
         
         {/* Close Button */}
         <button

@@ -117,7 +117,7 @@ export const SingleProductPage = ({
                   decoding="async"
                   className="w-full h-full object-contain filter drop-shadow-2xl transition-transform duration-500 group-hover:scale-105"
                 />
-                <div className="absolute bottom-2 right-2 p-2 rounded-xl bg-white/90 backdrop-blur-md border border-hanbit-border text-hanbit-forest shadow-sm opacity-0 group-hover:opacity-100 transition-opacity text-xs font-medium flex items-center gap-1.5">
+                <div className="absolute bottom-2 right-2 p-2 rounded-xl bg-white/90 backdrop-blur-md border border-hanbit-border text-hanbit-forest shadow-sm opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity text-xs font-medium flex items-center gap-1.5">
                   <Eye className="w-3.5 h-3.5 text-hanbit-gold" />
                   <span>Click to Expand</span>
                 </div>
@@ -137,7 +137,7 @@ export const SingleProductPage = ({
             </div>
 
             {/* Quality Seals Bar */}
-            <div className="p-5 rounded-2xl bg-white border border-hanbit-border shadow-xs flex items-center justify-between text-xs text-hanbit-forest">
+            <div className="p-4 sm:p-5 rounded-2xl bg-white border border-hanbit-border shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 text-xs text-hanbit-forest">
               <span className="inline-flex items-center gap-1.5 font-semibold">
                 <ShieldCheck className="w-4 h-4 text-hanbit-gold" />
                 <span>ISO 22716 Cleanroom Verified</span>

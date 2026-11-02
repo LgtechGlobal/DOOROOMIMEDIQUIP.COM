@@ -69,7 +69,7 @@ export const Navbar = ({
               className="inline-flex items-center gap-1.5 hover:text-white/80 transition-colors font-bold text-[11px] sm:text-xs text-white"
             >
               <Phone className="w-3.5 h-3.5 text-white shrink-0" />
-              <span>Helpline: {SITE_CONFIG.phone}</span>
+              <span className="hidden sm:inline">Helpline: </span><span>{SITE_CONFIG.phone}</span>
             </a>
             <span className="hidden md:inline-block text-white/40 font-light">|</span>
             <span className="hidden md:inline-flex items-center gap-1.5 text-white text-[11px] font-medium">
@@ -150,7 +150,7 @@ export const Navbar = ({
             {/* Design Scanner Button */}
             <button
               onClick={() => onOpenScanner && onOpenScanner()}
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-white hover:bg-slate-100 text-[#1941b0] transition-all text-xs font-bold cursor-pointer shadow-sm group"
+              className="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-0.5 sm:py-1 rounded-md bg-white hover:bg-slate-100 text-[#1941b0] transition-all text-[11px] sm:text-xs font-bold cursor-pointer shadow-sm group"
               title="Open Design QR Scanner to rate"
             >
               <QrCode className="w-3.5 h-3.5 text-[#1941b0] transition-colors" />
@@ -160,7 +160,7 @@ export const Navbar = ({
             {isAdminAuthenticated ? (
               <button
                 onClick={onOpenAdmin}
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-white hover:bg-slate-100 border border-white/40 text-[#1941b0] transition-all text-xs font-bold cursor-pointer shadow-sm"
+                className="inline-flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-0.5 sm:py-1 rounded-md bg-white hover:bg-slate-100 border border-white/40 text-[#1941b0] transition-all text-[11px] sm:text-xs font-bold cursor-pointer shadow-sm"
               >
                 <ShieldCheck className="w-3.5 h-3.5 text-[#1941b0]" />
                 <span>Admin Portal</span>

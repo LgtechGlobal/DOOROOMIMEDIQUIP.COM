@@ -598,7 +598,7 @@ export const DooroomiGroupsSection = ({ onContactClick, onNavigateAbout, onNavig
                   </span>
                 </div>
 
-                <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
+                <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 sm:gap-3">
                   {filteredImages.map((img, idx) => (
                     <button
                       key={img.id}

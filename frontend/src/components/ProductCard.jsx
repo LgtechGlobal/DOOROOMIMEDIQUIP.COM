@@ -82,7 +82,7 @@ export const ProductCard = ({
         {/* Quick View Button on Hover */}
         <button
           onClick={() => onQuickView(product)}
-          className="absolute bottom-2.5 right-3.5 py-1.5 px-3 rounded-lg bg-hanbit-dark/90 hover:bg-hanbit-forest text-white text-[11px] font-semibold backdrop-blur-sm transition-all duration-200 flex items-center gap-1.5 shadow-md hover:scale-105 cursor-pointer opacity-0 group-hover:opacity-100"
+          className="absolute bottom-2.5 right-3.5 py-1.5 px-3 rounded-lg bg-hanbit-dark/90 hover:bg-hanbit-forest text-white text-[11px] font-semibold backdrop-blur-sm transition-all duration-200 flex items-center gap-1.5 shadow-md hover:scale-105 cursor-pointer opacity-90 sm:opacity-0 sm:group-hover:opacity-100"
           title="Quick View Specifications"
         >
           <Eye className="w-3 h-3 text-hanbit-gold" />

@@ -292,10 +292,10 @@ export const HeroProductSlider = ({
 
               {/* Bottom Actions & Slide Counter */}
               <div className="pt-6 mt-6 border-t border-stone-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
-                <div className="flex flex-wrap items-center gap-3">
+                <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3 w-full sm:w-auto">
                   <button
                     onClick={() => onSelectProduct && onSelectProduct(currentProduct.id)}
-                    className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 cursor-pointer"
+                    className="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white font-semibold text-sm shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5 cursor-pointer w-full sm:w-auto"
                   >
                     <span>View Clinical Specs</span>
                     <ArrowRight className="w-4 h-4" />
@@ -303,7 +303,7 @@ export const HeroProductSlider = ({
 
                   <button
                     onClick={() => onSelectForQuote && onSelectForQuote(currentProduct)}
-                    className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-emerald-50 border border-emerald-300 text-emerald-900 font-semibold text-sm shadow-xs transition cursor-pointer"
+                    className="inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-3 rounded-xl bg-white hover:bg-emerald-50 border border-emerald-300 text-emerald-900 font-semibold text-sm shadow-xs transition cursor-pointer w-full sm:w-auto"
                   >
                     <MessageSquare className="w-4 h-4 text-emerald-700" />
                     <span>Inquire ({currentProduct.price || 'Quote'})</span>

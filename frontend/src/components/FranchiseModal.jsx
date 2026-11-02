@@ -210,7 +210,7 @@ ${formData.phone}`;
           
           {/* 1. REAL HUMAN PARTNERSHIP SHOWCASE - INCREASED HEIGHT CARD WITH PERFECT FULL IMAGE & TOP-CORNER VIDEO */}
           <div 
-            className="relative rounded-3xl p-6 sm:p-10 md:p-12 lg:p-14 text-white border-2 border-amber-400/60 shadow-2xl overflow-hidden bg-cover bg-center min-h-[500px] sm:min-h-[580px] md:min-h-[640px] lg:min-h-[660px] flex flex-col justify-between"
+            className="relative rounded-3xl p-6 sm:p-10 md:p-12 lg:p-14 text-white border-2 border-amber-400/60 shadow-2xl overflow-hidden bg-cover bg-center min-h-[380px] sm:min-h-[480px] md:min-h-[580px] lg:min-h-[640px] flex flex-col justify-between"
             style={{
               backgroundImage: "linear-gradient(to right, rgba(15, 23, 42, 0.78) 0%, rgba(15, 23, 42, 0.30) 45%, rgba(15, 23, 42, 0.40) 100%), url('/assets/img/franchise-partnership-bg.jpg')",
               backgroundPosition: 'center center',
@@ -218,7 +218,7 @@ ${formData.phone}`;
             }}
           >
             {/* Infinite Loop Video in Top Right Corner */}
-            <div className="sm:absolute sm:top-7 sm:right-7 w-full sm:w-56 md:w-64 aspect-video rounded-2xl overflow-hidden border-2 border-amber-400/80 shadow-[0_14px_40px_rgba(0,0,0,0.75)] z-20 bg-black group mb-6 sm:mb-0">
+            <div className="sm:absolute sm:top-7 sm:right-7 w-full max-w-[280px] sm:max-w-none mx-auto sm:w-56 md:w-64 aspect-video rounded-2xl overflow-hidden border-2 border-amber-400/80 shadow-[0_14px_40px_rgba(0,0,0,0.75)] z-20 bg-black group mb-6 sm:mb-0">
               <video
                 autoPlay
                 loop
