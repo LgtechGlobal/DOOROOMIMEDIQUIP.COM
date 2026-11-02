@@ -148,7 +148,7 @@ export const AboutUsPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
             <span className="tracking-wider uppercase text-[11px] text-slate-700">Since November 24, 1991</span>
           </div>
 
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight font-serif drop-shadow-sm">
+          <h1 className="text-[22px] min-[360px]:text-2xl min-[390px]:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight font-serif drop-shadow-sm whitespace-nowrap">
             About Dooroomi (두루미)
           </h1>
 
