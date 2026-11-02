@@ -1,17 +1,12 @@
 import React, { useState, useRef } from 'react';
 import { 
-  HeartHandshake, 
-  ArrowRight, 
-  PhoneCall, 
-  Activity,
   Play,
   Pause,
   Volume2,
   VolumeX
 } from 'lucide-react';
-import { SITE_CONFIG } from '../data/siteData';
 
-export const Hero = ({ onExploreProducts, onRequestQuote }) => {
+export const Hero = () => {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef(null);
@@ -30,24 +25,6 @@ export const Hero = ({ onExploreProducts, onRequestQuote }) => {
     if (!videoRef.current) return;
     videoRef.current.muted = !isMuted;
     setIsMuted(!isMuted);
-  };
-
-  const handleScrollToFreeTherapy = () => {
-    const freeTherapyEl = document.getElementById('dooroomi-free-therapy') || document.getElementById('free-therapy');
-    if (freeTherapyEl) {
-      freeTherapyEl.scrollIntoView({ behavior: 'smooth' });
-    } else if (onRequestQuote) {
-      onRequestQuote();
-    }
-  };
-
-  const handleScrollToContact = () => {
-    const contactEl = document.getElementById('contact');
-    if (contactEl) {
-      contactEl.scrollIntoView({ behavior: 'smooth' });
-    } else if (onRequestQuote) {
-      onRequestQuote();
-    }
   };
 
   return (
@@ -82,34 +59,6 @@ export const Hero = ({ onExploreProducts, onRequestQuote }) => {
             <p className="text-base sm:text-lg lg:text-xl text-[#062419] font-medium leading-relaxed max-w-2xl">
               Established in South Korea in 1991 under our timeless corporate motto <strong className="text-white font-bold bg-[#07251a]/30 px-2 py-0.5 rounded">“Love, Service, and Kindness”</strong>, <strong className="text-white font-bold">Dooroomi (두루미)</strong> is a certified organization dedicated to public wellness. We open our authorized therapy centers every day to provide <strong className="text-[#c8102e] font-extrabold bg-white px-2 py-0.5 rounded shadow-xs">100% Free Therapy</strong> with zero fees, zero obligation, and zero financial burden.
             </p>
-
-            {/* Left-Aligned Action Buttons (CTAs) */}
-            <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 sm:gap-4 pt-2 w-full sm:w-auto">
-              <button
-                onClick={handleScrollToFreeTherapy}
-                className="px-6 sm:px-7 py-3.5 rounded-full bg-gradient-to-r from-[#c8102e] via-red-700 to-[#a50d24] hover:from-red-600 hover:to-red-700 text-white font-bold text-sm sm:text-base shadow-xl shadow-red-950/30 transform hover:-translate-y-0.5 active:scale-98 transition-all inline-flex items-center gap-2 cursor-pointer"
-              >
-                <HeartHandshake className="w-5 h-5 text-amber-300" />
-                <span>Experience Free Therapy Today</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-
-              <button
-                onClick={onExploreProducts}
-                className="px-5 sm:px-6 py-3.5 rounded-full bg-white hover:bg-slate-100 text-[#0c2e1f] font-bold text-sm sm:text-base shadow-md transition-all inline-flex items-center gap-2 cursor-pointer"
-              >
-                <Activity className="w-4 h-4 text-emerald-700" />
-                <span>Explore Equipment</span>
-              </button>
-
-              <button
-                onClick={handleScrollToContact}
-                className="px-5 py-3.5 rounded-full bg-[#1941b0] hover:bg-[#13348f] text-white font-semibold text-sm sm:text-base shadow-md transition-all inline-flex items-center gap-2 cursor-pointer"
-              >
-                <PhoneCall className="w-4 h-4 text-amber-300" />
-                <span>Helpline: {SITE_CONFIG.phone}</span>
-              </button>
-            </div>
 
           </div>
 
