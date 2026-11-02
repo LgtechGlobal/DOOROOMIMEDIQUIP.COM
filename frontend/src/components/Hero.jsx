@@ -56,8 +56,8 @@ export const Hero = () => {
             </h1>
 
             {/* Narrative Description / Subtitle */}
-            <p className="text-base sm:text-lg lg:text-xl text-[#062419] font-medium leading-relaxed max-w-2xl">
-              Established in South Korea in 1991 under our timeless corporate motto <strong className="text-white font-bold bg-[#07251a]/30 px-2 py-0.5 rounded">“Love, Service, and Kindness”</strong>, <strong className="text-white font-bold">Dooroomi (두루미)</strong> is a certified organization dedicated to public wellness. We open our authorized therapy centers every day to provide <strong className="text-[#c8102e] font-extrabold bg-white px-2 py-0.5 rounded shadow-xs">100% Free Therapy</strong> with zero fees, zero obligation, and zero financial burden.
+            <p className="text-base sm:text-lg lg:text-xl text-[#062419] font-normal leading-relaxed max-w-2xl">
+              Established in South Korea in 1991 under our timeless corporate motto “Love, Service, and Kindness”, Dooroomi (두루미) is a certified organization dedicated to public wellness. We open our authorized therapy centers every day to provide 100% Free Therapy with zero fees, zero obligation, and zero financial burden.
             </p>
 
           </div>
