@@ -52,7 +52,7 @@ export const Hero = () => {
 
             {/* Main Headline */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-white font-serif leading-[1.15] drop-shadow-[0_2px_4px_rgba(0,0,0,0.25)]">
-              Experience our Free Demo Therapy
+              Experience Free Therapy at Dooroomi
             </h1>
 
             {/* Narrative Description / Subtitle */}
