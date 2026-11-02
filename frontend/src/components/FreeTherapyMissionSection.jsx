@@ -162,29 +162,30 @@ export const FreeTherapyMissionSection = ({ onContactClick, onNavigateAbout, onN
             return (
               <div 
                 key={idx}
-                className="group p-7 rounded-3xl bg-white border border-slate-300/80 hover:border-amber-500/60 shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between"
+                style={{ backgroundColor: '#7199a1' }}
+                className="group p-7 rounded-3xl bg-[#7199a1] border border-[#587e85] hover:border-white shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between text-white"
               >
                 <div className="space-y-4">
-                  <div className="w-14 h-14 rounded-2xl bg-[#f0f5f0] group-hover:bg-hanbit-forest text-hanbit-forest group-hover:text-hanbit-gold flex items-center justify-center transition-colors shadow-xs">
-                    <Icon className="w-7 h-7 transition-transform group-hover:scale-110" />
+                  <div className="w-14 h-14 rounded-2xl bg-white text-[#07192f] group-hover:scale-105 flex items-center justify-center transition-all shadow-sm">
+                    <Icon className="w-7 h-7 text-[#07192f]" />
                   </div>
 
                   <div>
-                    <span className="text-[11px] font-mono uppercase font-black text-amber-800 tracking-wider block">
+                    <span className="text-[11px] font-mono uppercase font-black text-amber-200 tracking-wider block drop-shadow-2xs">
                       {item.subtitle}
                     </span>
-                    <h4 className="text-lg font-black text-[#07192f] font-serif mt-1">
+                    <h4 className="text-lg sm:text-xl font-black text-white font-serif mt-1 drop-shadow-xs">
                       {item.title}
                     </h4>
                   </div>
 
-                  <p className="text-xs sm:text-sm text-slate-950 leading-relaxed font-bold">
+                  <p className="text-xs sm:text-sm text-white/95 leading-relaxed font-medium">
                     {item.desc}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-slate-200 mt-4 flex items-center gap-1.5 text-xs font-bold text-slate-900 group-hover:text-emerald-800 transition-colors">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 stroke-[2.5]" />
+                <div className="pt-4 border-t border-white/20 mt-4 flex items-center gap-1.5 text-xs font-bold text-white transition-colors">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-300 stroke-[2.5]" />
                   <span>Clinically Verified Technology</span>
                 </div>
               </div>
