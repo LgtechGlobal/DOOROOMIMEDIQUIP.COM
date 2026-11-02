@@ -29,13 +29,13 @@ export const Hero = () => {
 
   return (
     <section 
-      className="relative text-white pt-10 sm:pt-14 lg:pt-16 pb-12 sm:pb-16 lg:pb-20 overflow-hidden border-b border-[#529373] min-h-[540px] flex items-center justify-center bg-[#69b38e]"
-      style={{ backgroundColor: '#69b38e' }}
+      className="relative text-slate-900 pt-10 sm:pt-14 lg:pt-16 pb-12 sm:pb-16 lg:pb-20 overflow-hidden border-b border-[#b0b3b2] min-h-[540px] flex items-center justify-center bg-[#c7c9c8]"
+      style={{ backgroundColor: '#c7c9c8' }}
     >
       {/* Subtle ambient luxury texture & glow overlays */}
-      <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px] opacity-15 pointer-events-none" />
-      <div className="absolute -top-24 -left-24 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-[#3f7a5d]/30 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px] opacity-25 pointer-events-none" />
+      <div className="absolute -top-24 -left-24 w-96 h-96 bg-white/30 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-slate-400/20 rounded-full blur-3xl pointer-events-none" />
 
       {/* Main Container: 2-Column Responsive Grid (Left: Content, Right: Square Bracket Video) */}
       <div className="relative w-full max-w-[1580px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 z-10">
@@ -45,13 +45,13 @@ export const Hero = () => {
           <div className="lg:col-span-7 flex flex-col items-start text-left space-y-6">
             
             {/* Top Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold tracking-wide uppercase shadow-xs">
-              <span className="w-2 h-2 rounded-full bg-white animate-ping" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md border border-white text-slate-900 text-xs font-bold tracking-wide uppercase shadow-xs">
+              <span className="w-2 h-2 rounded-full bg-emerald-600 animate-ping" />
               <span>South Korea Since 1991 · Authentic Medical Care</span>
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-[20px] min-[360px]:text-[22px] min-[390px]:text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-white font-serif leading-[1.15] drop-shadow-[0_2px_4px_rgba(0,0,0,0.25)] whitespace-nowrap">
+            <h1 className="text-[20px] min-[360px]:text-[22px] min-[390px]:text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-[#062419] font-serif leading-[1.15] drop-shadow-xs whitespace-nowrap">
               Free Therapy at Dooroomi
             </h1>
 
