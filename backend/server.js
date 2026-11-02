@@ -466,7 +466,7 @@ const seedInitialData = async () => {
           area: "Palasuni Center (Corporate Office)",
           state: "Odisha",
           address: "Plot no 3557, 1st floor, palasuni square, bhubaneswar 751010",
-          phone: "0674 291 6680",
+          phone: "0674- 2916680",
           timing: "Mon–Sat: 8:00 AM – 5:00 PM",
           status: "Active · 100% Free Daily Therapy",
           dailyCapacity: "180+ Patients/Day"

@@ -611,7 +611,7 @@ export function downloadScannerPoster({
 
   ctx.fillStyle = "#9ca3af";
   ctx.font = "15px sans-serif";
-  ctx.fillText("Helpline / Toll-Free: 0674 291 6680 · WhatsApp: +91 91536 97636 · www.dooroomimediquip.com", width / 2, 1285);
+  ctx.fillText("Helpline / Toll-Free: 0674- 2916680 · WhatsApp: +91 91536 97636 · www.dooroomimediquip.com", width / 2, 1285);
 
   // Trigger browser download
   const link = document.createElement("a");
