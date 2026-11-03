@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { 
   X, 
-  Sparkles, 
   ArrowRight, 
   MessageCircle, 
   Handshake, 
-  PhoneCall, 
-  ExternalLink,
-  ShieldCheck,
-  CheckCircle2,
-  Calendar
+  PhoneCall
 } from 'lucide-react';
 import { useData } from '../context/DataContext';
 import { getOptimizedImageUrl } from '../utils/imageUrl';
@@ -89,7 +84,7 @@ export const AdvertisementModal = ({ onOpenFranchise, forceOpen = false, preview
       }
     } else if (ad.buttonActionType === 'whatsapp') {
       const phone = '919153697636';
-      const text = encodeURIComponent(`Hello DOOROOMI Team, I saw the special announcement: "${ad.title}" on your website and would like more details.`);
+      const text = encodeURIComponent(`Hello DOOROOMI Team, I saw the special announcement: "${ad.title || 'Special Announcement'}" on your website and would like more details.`);
       window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
     } else if (ad.buttonActionType === 'call') {
       window.location.href = `tel:+919153697636`;
@@ -115,7 +110,7 @@ export const AdvertisementModal = ({ onOpenFranchise, forceOpen = false, preview
       aria-modal="true"
     >
       <div 
-        className="relative w-full max-w-md max-h-[90vh] flex flex-col bg-gradient-to-b from-[#0b1c16] via-[#081712] to-[#040c09] border border-amber-500/40 rounded-2xl shadow-2xl shadow-emerald-950/90 overflow-hidden transform transition-all animate-scaleUp"
+        className="relative w-full max-w-lg md:max-w-xl max-h-[92vh] flex flex-col bg-gradient-to-b from-[#0b1c16] via-[#081712] to-[#040c09] border border-amber-500/40 rounded-2xl shadow-2xl shadow-emerald-950/90 overflow-hidden transform transition-all animate-scaleUp"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Top Gold Ambient Glow Bar */}
@@ -125,80 +120,41 @@ export const AdvertisementModal = ({ onOpenFranchise, forceOpen = false, preview
         <button
           onClick={handleClose}
           aria-label="Close Announcement"
-          className="absolute top-2.5 right-2.5 z-20 w-8 h-8 rounded-full bg-black/70 hover:bg-red-950/90 border border-emerald-700/60 hover:border-red-500/80 text-neutral-300 hover:text-red-300 flex items-center justify-center transition-all duration-200 cursor-pointer shadow-md group"
+          className="absolute top-2.5 right-2.5 z-20 w-8 h-8 rounded-full bg-black/75 hover:bg-red-950/90 border border-emerald-700/60 hover:border-red-500/80 text-neutral-200 hover:text-red-300 flex items-center justify-center transition-all duration-200 cursor-pointer shadow-md group"
         >
           <X className="w-4 h-4 group-hover:rotate-90 transition-transform duration-200" />
         </button>
 
-        {/* Media / Visual Banner */}
-        {ad.imageUrl && (
-          <div className="shrink-0 relative w-full h-36 sm:h-40 bg-neutral-900 overflow-hidden group">
+        {/* Media / Visual Banner - Whole Image Displayed Without Cropping */}
+        {ad.imageUrl ? (
+          <div 
+            onClick={handleAction}
+            className="relative w-full flex-1 min-h-0 flex items-center justify-center bg-black/50 overflow-hidden cursor-pointer group"
+            title="Click to inquire"
+          >
             <img 
-              src={getOptimizedImageUrl(ad.imageUrl, { width: 600 })} 
-              alt={ad.title} 
+              src={getOptimizedImageUrl(ad.imageUrl, { width: 1200 })} 
+              alt={ad.title || 'Announcement'} 
               loading="lazy"
-              className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 brightness-90"
+              className="w-full h-auto max-h-[72vh] sm:max-h-[78vh] object-contain group-hover:scale-[1.01] transition-transform duration-300 block"
               onError={(e) => {
                 e.target.src = '/assets/products/bedro-smart-1-traction-bed.png';
               }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0b1c16] via-[#0b1c16]/30 to-transparent" />
-            
-            {/* Discount / Highlight Tag */}
-            {ad.discountTag && (
-              <div className="absolute bottom-2.5 left-3 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-black text-[10px] font-black tracking-wider uppercase shadow-md flex items-center gap-1">
-                <Sparkles className="w-3 h-3" />
-                <span>{ad.discountTag}</span>
-              </div>
+          </div>
+        ) : (
+          /* Text Fallback when no image is uploaded */
+          <div className="flex-1 overflow-y-auto p-5 text-center">
+            <h3 className="text-base sm:text-lg font-bold text-white leading-snug">
+              {ad.title}
+            </h3>
+            {ad.description && (
+              <p className="mt-2 text-xs text-neutral-300 leading-relaxed">
+                {ad.description}
+              </p>
             )}
           </div>
         )}
-
-        {/* Modal Scrollable Content Body */}
-        <div className="flex-1 overflow-y-auto p-4 sm:p-5 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-emerald-800/80 [&::-webkit-scrollbar-track]:bg-transparent">
-          
-          {/* Badge & Official Korean Tag */}
-          <div className="flex flex-wrap items-center gap-2 mb-2">
-            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/40 tracking-wider uppercase">
-              <ShieldCheck className="w-3 h-3 text-amber-400" />
-              {ad.badge || 'SPECIAL ANNOUNCEMENT'}
-            </span>
-            <span className="text-[10px] font-medium text-emerald-400/80 font-mono tracking-wide">
-              두루미 · DOOROOMI OFFICIAL
-            </span>
-          </div>
-
-          {/* Ad Title */}
-          <h3 className="text-base sm:text-lg font-bold text-white leading-snug tracking-tight">
-            {ad.title}
-          </h3>
-
-          {/* Subtitle */}
-          {ad.subtitle && (
-            <p className="mt-1 text-xs sm:text-sm font-medium text-amber-300/90 leading-snug">
-              {ad.subtitle}
-            </p>
-          )}
-
-          {/* Description */}
-          {ad.description && (
-            <p className="mt-2 text-[11px] sm:text-xs text-neutral-300/85 leading-relaxed">
-              {ad.description}
-            </p>
-          )}
-
-          {/* Key Advantages Compact Badges */}
-          <div className="mt-3 flex flex-wrap items-center gap-2 text-[11px] text-neutral-300">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-950/60 border border-emerald-800/40 text-[10px] sm:text-[11px]">
-              <CheckCircle2 className="w-3 h-3 text-emerald-400 shrink-0" />
-              <span>Korea Clinical Certification</span>
-            </div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-950/60 border border-emerald-800/40 text-[10px] sm:text-[11px]">
-              <CheckCircle2 className="w-3 h-3 text-amber-400 shrink-0" />
-              <span>100% Free Daily Therapy</span>
-            </div>
-          </div>
-        </div>
 
         {/* Action Buttons Row (Pinned Sticky Footer) */}
         <div className="shrink-0 px-4 py-3 sm:px-5 sm:py-3.5 border-t border-emerald-900/60 bg-[#06120e] flex items-center justify-between gap-2">
@@ -217,7 +173,7 @@ export const AdvertisementModal = ({ onOpenFranchise, forceOpen = false, preview
             {ad.buttonActionType === 'whatsapp' && <MessageCircle className="w-3.5 h-3.5" />}
             {ad.buttonActionType === 'call' && <PhoneCall className="w-3.5 h-3.5" />}
             {ad.buttonActionType === 'link' && <ArrowRight className="w-3.5 h-3.5" />}
-            <span>{ad.buttonText || 'Explore Now'}</span>
+            <span>{ad.buttonText || 'Inquire for Product'}</span>
           </button>
         </div>
 
