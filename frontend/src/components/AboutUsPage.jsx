@@ -316,7 +316,8 @@ export const AboutUsPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
               return (
                 <div
                   key={idx}
-                  className="p-8 rounded-3xl bg-white border border-hanbit-border/80 hover:border-hanbit-gold/60 shadow-sm hover:shadow-xl transition-all space-y-4 group"
+                  style={{ backgroundColor: "#d3e3ba" }}
+                  className="p-8 rounded-3xl bg-[#d3e3ba] border border-[#bdcf9f] hover:border-amber-600/50 shadow-sm hover:shadow-xl transition-all space-y-4 group"
                 >
                   <div className="w-12 h-12 rounded-2xl bg-hanbit-ivory border border-hanbit-border/60 group-hover:bg-hanbit-forest group-hover:text-white text-hanbit-forest flex items-center justify-center transition-colors">
                     <Icon className="w-6 h-6 text-hanbit-gold" />
