@@ -89,6 +89,7 @@ export const Hero = () => {
                   preload="auto"
                   className="w-full h-full object-cover object-center"
                 >
+                  <source src="/assets/DOOROOMI_MEDIQUIP_Promotional_Video.mp4" type="video/mp4" />
                   <source src="/assets/videos/hero-therapy.mp4" type="video/mp4" />
                   <source src="/assets/videos/hero-bg.mp4" type="video/mp4" />
                   Your browser does not support the video tag.
