@@ -389,8 +389,9 @@ export const DooroomiGroupsSection = ({ onContactClick, onNavigateAbout, onNavig
       title: "Dooroomi Textile",
       badge: "Far-Infrared Smart Fiber",
       desc: "Proprietary functional bio-ceramic textiles and therapeutic compression garments infused with micro-pulverized natural minerals and negative ions. Radiates continuous far-infrared resonance deep into capillaries to enhance microcirculation, correct musculoskeletal posture, and sustain cellular thermal balance.",
-      hasExplore: false,
-      ctaText: "View Bio-Ceramic Products"
+      hasExplore: true,
+      exploreCount: 20,
+      ctaText: "Explore Dooroomi Textile"
     },
     {
       id: "hydrogen-water",
@@ -626,6 +627,16 @@ export const DooroomiGroupsSection = ({ onContactClick, onNavigateAbout, onNavig
                     All ({EXPLORE_IMAGES.length})
                   </button>
                   <button
+                    onClick={() => { setSelectedExploreCategory('textile'); setActiveImageIndex(0); }}
+                    className={`px-3 py-1 rounded-lg font-medium transition-colors cursor-pointer ${
+                      selectedExploreCategory === 'textile'
+                        ? 'bg-amber-400 text-slate-950 font-bold'
+                        : 'text-white/80 hover:text-white'
+                    }`}
+                  >
+                    Textile (20)
+                  </button>
+                  <button
                     onClick={() => { setSelectedExploreCategory('body-care'); setActiveImageIndex(0); }}
                     className={`px-3 py-1 rounded-lg font-medium transition-colors cursor-pointer ${
                       selectedExploreCategory === 'body-care'
@@ -666,6 +677,14 @@ export const DooroomiGroupsSection = ({ onContactClick, onNavigateAbout, onNavig
                 }`}
               >
                 All ({EXPLORE_IMAGES.length})
+              </button>
+              <button
+                onClick={() => { setSelectedExploreCategory('textile'); setActiveImageIndex(0); }}
+                className={`px-3 py-1 rounded-lg text-xs font-medium whitespace-nowrap ${
+                  selectedExploreCategory === 'textile' ? 'bg-amber-400 text-slate-950 font-bold' : 'text-white'
+                }`}
+              >
+                Textile (20)
               </button>
               <button
                 onClick={() => { setSelectedExploreCategory('body-care'); setActiveImageIndex(0); }}
@@ -763,20 +782,41 @@ export const DooroomiGroupsSection = ({ onContactClick, onNavigateAbout, onNavig
                   </p>
 
                   <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-200/80 space-y-2 text-xs">
-                    <span className="font-bold text-amber-900 block font-mono">Formula & Production Standards:</span>
+                    <span className="font-bold text-amber-900 block font-mono">
+                      {activeImage.category === 'textile' ? 'Bio-Ceramic Textile Standards:' : 'Formula & Production Standards:'}
+                    </span>
                     <ul className="space-y-1.5 text-slate-900 font-semibold">
-                      <li className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                        <span>Formulated in Seoul, South Korea CGMP automated cleanrooms</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                        <span>Natural bio-active fermentation & trans-dermal micro-absorption</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                        <span>Distributed under Dooroomi Medical Global Standards across 51+ nations</span>
-                      </li>
+                      {activeImage.category === 'textile' ? (
+                        <>
+                          <li className="flex items-center gap-2">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                            <span>Micro-pulverized natural bio-minerals & negative ion infusion</span>
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                            <span>Deep-penetrating Far-Infrared (FIR) thermal resonance technology</span>
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                            <span>Ergonomic therapeutic compression for microcirculation & posture support</span>
+                          </li>
+                        </>
+                      ) : (
+                        <>
+                          <li className="flex items-center gap-2">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                            <span>Formulated in Seoul, South Korea CGMP automated cleanrooms</span>
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                            <span>Natural bio-active fermentation & trans-dermal micro-absorption</span>
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                            <span>Distributed under Dooroomi Medical Global Standards across 51+ nations</span>
+                          </li>
+                        </>
+                      )}
                     </ul>
                   </div>
 
