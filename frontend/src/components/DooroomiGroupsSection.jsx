@@ -239,7 +239,8 @@ export const DooroomiGroupsSection = ({ onContactClick, onNavigateAbout, onNavig
               <div
                 key={group.id}
                 onClick={handleCardClick}
-                className={`p-8 rounded-3xl bg-white border transition-all duration-300 flex flex-col justify-between space-y-5 group cursor-pointer hover:-translate-y-1.5 ${
+                style={{ backgroundColor: '#e6c9bc' }}
+                className={`p-8 rounded-3xl bg-[#e6c9bc] border transition-all duration-300 flex flex-col justify-between space-y-5 group cursor-pointer hover:-translate-y-1.5 ${
                   group.id === 'body-care'
                     ? 'border-amber-300 shadow-md hover:shadow-2xl hover:border-amber-500 ring-2 ring-amber-400/20'
                     : 'border-hanbit-border/80 hover:border-hanbit-gold/80 shadow-sm hover:shadow-xl'
