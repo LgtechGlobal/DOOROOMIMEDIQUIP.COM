@@ -34,7 +34,7 @@ import { CeoSection } from './CeoSection';
 import { DooroomiGroupsSection } from './DooroomiGroupsSection';
 import { AboutHeritageCardsSection } from './AboutHeritageCardsSection';
 
-export const AboutUsPage = ({ onNavigateHome, onNavigateGallery, onContactClick }) => {
+export const AboutUsPage = ({ onNavigateHome, onNavigateGallery, onNavigateProducts, onContactClick }) => {
   const [showPdfModal, setShowPdfModal] = useState(false);
 
   // Prevent background scroll and pause Lenis while PDF modal is open
@@ -285,6 +285,7 @@ export const AboutUsPage = ({ onNavigateHome, onNavigateGallery, onContactClick 
             onContactClick={onContactClick}
             onNavigateAbout={() => {}}
             onNavigateGallery={onNavigateGallery}
+            onNavigateProducts={onNavigateProducts || (() => onNavigateHome && onNavigateHome('products'))}
           />
         </div>
 

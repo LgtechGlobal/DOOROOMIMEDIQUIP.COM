@@ -307,7 +307,7 @@ const EXPLORE_IMAGES = [
   }
 ];
 
-export const DooroomiGroupsSection = ({ onContactClick, onNavigateAbout, onNavigateGallery }) => {
+export const DooroomiGroupsSection = ({ onContactClick, onNavigateAbout, onNavigateGallery, onNavigateProducts }) => {
   const [selectedExploreCategory, setSelectedExploreCategory] = useState(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
 
@@ -452,6 +452,13 @@ export const DooroomiGroupsSection = ({ onContactClick, onNavigateAbout, onNavig
             const handleCardClick = () => {
               if (group.id === 'body-care' || group.id === 'hydrogen-water' || group.id === 'textile') {
                 handleOpenExplore(group.id);
+              } else if (group.id === 'medical') {
+                if (onNavigateProducts) {
+                  onNavigateProducts();
+                } else {
+                  window.location.hash = '/products';
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
               } else if (onNavigateGallery) {
                 onNavigateGallery();
               }
@@ -518,7 +525,7 @@ export const DooroomiGroupsSection = ({ onContactClick, onNavigateAbout, onNavig
                     </div>
                   ) : (
                     <div className="pt-3 border-t border-hanbit-border/50">
-                      <div className="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-stone-50 hover:bg-hanbit-forest text-stone-700 hover:text-white border border-stone-200 text-xs font-semibold transition-all">
+                      <div className="flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-stone-50 hover:bg-hanbit-forest text-stone-700 hover:text-white border border-stone-200 text-xs font-semibold transition-all cursor-pointer shadow-xs hover:shadow-sm">
                         <span>{group.ctaText}</span>
                         <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                       </div>

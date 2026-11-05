@@ -341,6 +341,7 @@ export function App() {
             <AboutUsPage
               onNavigateHome={scrollToSection}
               onNavigateGallery={() => scrollToSection('gallery')}
+              onNavigateProducts={() => scrollToSection('products')}
               onContactClick={() => scrollToSection('contact')}
             />
           ) : currentRoute.view === 'certificates' ? (
