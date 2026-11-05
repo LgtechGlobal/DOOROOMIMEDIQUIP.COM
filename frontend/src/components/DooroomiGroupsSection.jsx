@@ -84,6 +84,227 @@ const EXPLORE_IMAGES = [
     desc: "Portable mineral-generating thermos flask that transforms ordinary drinking water into rich antioxidant alkaline hydrogen water, promoting cellular hydration and free radical defense.",
     tag: "Antioxidant Hydrogen Water"
   }
+,
+  {
+    id: "textile-shirt-01",
+    src: "/assets/explore/shirt_1-removebg-preview.png",
+    fallbackSrc: "/explore/shirt_1-removebg-preview.png",
+    category: "textile",
+    title: "Dooroomi Bio-Ceramic Thermal Shirt (Classic Black)",
+    koreanTitle: "두루미 바이오 세라믹 기능성 상의 (블랙)",
+    badge: "Far-Infrared Smart Fiber",
+    desc: "Premium bio-ceramic therapeutic compression shirt infused with micro-pulverized natural minerals. Stimulates capillary blood circulation, maintains core warmth, and provides posture support.",
+    tag: "Bio-Ceramic · Thermal Shirt"
+  },
+  {
+    id: "textile-shirt-02",
+    src: "/assets/explore/shirt2-removebg-preview.png",
+    fallbackSrc: "/explore/shirt2-removebg-preview.png",
+    category: "textile",
+    title: "Dooroomi FIR Compression Performance Shirt (Design 02)",
+    koreanTitle: "두루미 원적외선 압박 기능성 웨어",
+    badge: "Far-Infrared Resonance",
+    desc: "Ergonomically patterned far-infrared compression garment. Features negative ion emitting smart weave for enhanced microvascular flow and muscle fatigue reduction.",
+    tag: "FIR Resonance · Smart Weave"
+  },
+  {
+    id: "textile-shirt-03",
+    src: "/assets/explore/shirt3-removebg-preview.png",
+    fallbackSrc: "/explore/shirt3-removebg-preview.png",
+    category: "textile",
+    title: "Dooroomi Bio-Mineral Circulation Shirt (Design 03)",
+    koreanTitle: "두루미 음이온 바이오 미네랄 셔츠",
+    badge: "Negative Ion Infusion",
+    desc: "Infused with Korean natural mineral complexes to promote cellular thermal balance and deep tissue vitality throughout daily wear.",
+    tag: "Negative Ion · Microcirculation"
+  },
+  {
+    id: "textile-shirt-04",
+    src: "/assets/explore/shirt_4-removebg-preview.png",
+    fallbackSrc: "/explore/shirt_4-removebg-preview.png",
+    category: "textile",
+    title: "Dooroomi Ergonomic Posture-Correcting Shirt (Design 04)",
+    koreanTitle: "두루미 척추 자세 교정 기능성 이너웨어",
+    badge: "Chiropractic Support",
+    desc: "Targeted elastic bio-fiber zones provide gentle spinal decompression and scapular alignment while delivering therapeutic far-infrared warmth.",
+    tag: "Posture Support · FIR Fiber"
+  },
+  {
+    id: "textile-shirt-05",
+    src: "/assets/explore/shirt5-removebg-preview.png",
+    fallbackSrc: "/explore/shirt5-removebg-preview.png",
+    category: "textile",
+    title: "Dooroomi Active Thermal Bio-Shirt (Design 05)",
+    koreanTitle: "두루미 액티브 테라피 바이오 웨어",
+    badge: "Cellular Thermal Balance",
+    desc: "High-performance therapeutic thermal fabric that converts body heat into resonant far-infrared rays, relieving upper back tension and stiffness.",
+    tag: "Cellular Vitality · Active Thermal"
+  },
+  {
+    id: "textile-shirt-06",
+    src: "/assets/explore/shirt6-removebg-preview.png",
+    fallbackSrc: "/explore/shirt6-removebg-preview.png",
+    category: "textile",
+    title: "Dooroomi Bio-Resonance Comfort Shirt (Design 06)",
+    koreanTitle: "두루미 바이오 공명 헬스케어 상의",
+    badge: "Bio-Ceramic Composite",
+    desc: "Soft, breathable therapeutic textile engineered with micro-encapsulated natural bio-ceramics for continuous metabolic rejuvenation.",
+    tag: "Bio-Ceramic · Comfort Weave"
+  },
+  {
+    id: "textile-shirt-07",
+    src: "/assets/explore/shirt7-removebg-preview.png",
+    fallbackSrc: "/explore/shirt7-removebg-preview.png",
+    category: "textile",
+    title: "Dooroomi Precision Fit Compression Top (Design 07)",
+    koreanTitle: "두루미 고탄성 압박 바이오 셔츠",
+    badge: "Microvascular Stimulation",
+    desc: "Multi-panel anatomical compression construction that supports chest and core posture while optimizing blood oxygenation and capillary perfusion.",
+    tag: "Compression · Microvascular"
+  },
+  {
+    id: "textile-shirt-08",
+    src: "/assets/explore/shirt8-removebg-preview.png",
+    fallbackSrc: "/explore/shirt8-removebg-preview.png",
+    category: "textile",
+    title: "Dooroomi Daily Wellness FIR Shirt (Design 08)",
+    koreanTitle: "두루미 데일리 웰니스 원적외선 상의",
+    badge: "Deep Far-Infrared",
+    desc: "Formulated for all-day comfort and non-invasive pain management across shoulders and thoracic spine through continuous far-infrared emission.",
+    tag: "Pain Relief · Daily Wellness"
+  },
+  {
+    id: "textile-shirt-09",
+    src: "/assets/explore/shirt9-removebg-preview.png",
+    fallbackSrc: "/explore/shirt9-removebg-preview.png",
+    category: "textile",
+    title: "Dooroomi Premium Bio-Fiber Top (Design 09)",
+    koreanTitle: "두루미 프리미엄 스마트 바이오 섬유",
+    badge: "Smart Bio-Fiber",
+    desc: "Seamless, antibacterial smart fabric containing micro-pulverized jade and tourmaline minerals to harmonize cellular resonance.",
+    tag: "Smart Fiber · Antibacterial"
+  },
+  {
+    id: "textile-shirt-10",
+    src: "/assets/explore/shirt10-removebg-preview.png",
+    fallbackSrc: "/explore/shirt10-removebg-preview.png",
+    category: "textile",
+    title: "Dooroomi Elite Bio-Energy Shirt (Design 10)",
+    koreanTitle: "두루미 엘리트 바이오 에너지 테라피 상의",
+    badge: "Energy Resonance",
+    desc: "Combines superior moisture-wicking properties with powerful negative-ion emitting threads for whole-day comfort and muscle revitalization.",
+    tag: "Energy Resonance · Moisture Wicking"
+  },
+  {
+    id: "textile-pant-01",
+    src: "/assets/explore/pant_1-removebg-preview.png",
+    fallbackSrc: "/explore/pant_1-removebg-preview.png",
+    category: "textile",
+    title: "Dooroomi Bio-Ceramic Compression Leggings (Model P-01)",
+    koreanTitle: "두루미 바이오 세라믹 기능성 하의 (레깅스)",
+    badge: "Lower Body FIR Therapy",
+    desc: "Advanced bio-ceramic lower body compression tights designed to enhance venous return, relieve leg fatigue, and alleviate lumbar discomfort.",
+    tag: "FIR Leggings · Venous Flow"
+  },
+  {
+    id: "textile-pant-02",
+    src: "/assets/explore/pant2-removebg-preview.png",
+    fallbackSrc: "/explore/pant2-removebg-preview.png",
+    category: "textile",
+    title: "Dooroomi Microcirculation Support Pants (Model P-02)",
+    koreanTitle: "두루미 혈액순환 촉진 압박 팬츠",
+    badge: "Circulation Booster",
+    desc: "Infused with therapeutic far-infrared minerals along key meridian points to stimulate blood circulation and promote muscular relaxation.",
+    tag: "Circulation Booster · Meridian Care"
+  },
+  {
+    id: "textile-pant-03",
+    src: "/assets/explore/pant3-removebg-preview.png",
+    fallbackSrc: "/explore/pant3-removebg-preview.png",
+    category: "textile",
+    title: "Dooroomi Lumbo-Pelvic Alignment Tights (Model P-03)",
+    koreanTitle: "두루미 골반 밸런스 기능성 하의",
+    badge: "Pelvic Alignment",
+    desc: "Targeted compression bands stabilize the sacroiliac and pelvic region, supporting lower spinal alignment and reducing knee and hip fatigue.",
+    tag: "Pelvic Alignment · Joint Support"
+  },
+  {
+    id: "textile-pant-04",
+    src: "/assets/explore/pant4-removebg-preview.png",
+    fallbackSrc: "/explore/pant4-removebg-preview.png",
+    category: "textile",
+    title: "Dooroomi Thermal Mineral Compression Pants (Model P-04)",
+    koreanTitle: "두루미 온열 미네랄 기능성 타이즈",
+    badge: "Thermal Mineral Weave",
+    desc: "Graduated compression tights with far-infrared mineral coating that gently warms lower extremities and prevents cramps and fluid retention.",
+    tag: "Thermal Mineral · Anti-Swelling"
+  },
+  {
+    id: "textile-pant-06",
+    src: "/assets/explore/pant6-removebg-preview.png",
+    fallbackSrc: "/explore/pant6-removebg-preview.png",
+    category: "textile",
+    title: "Dooroomi Negative Ion Active Leggings (Model P-06)",
+    koreanTitle: "두루미 음이온 액티브 테라피 하의",
+    badge: "Negative Ion Infused",
+    desc: "High-elasticity bio-smart yarn emits continuous negative ions and far-infrared waves to support active lifestyle recovery and vascular health.",
+    tag: "Active Therapy · Vascular Care"
+  },
+  {
+    id: "textile-pant-07",
+    src: "/assets/explore/pant7-removebg-preview.png",
+    fallbackSrc: "/explore/pant7-removebg-preview.png",
+    category: "textile",
+    title: "Dooroomi Ergonomic Joint-Relief Pants (Model P-07)",
+    koreanTitle: "두루미 관절 보호 기능성 압박 하의",
+    badge: "Joint & Tendon Relief",
+    desc: "Specially reinforced knee and thigh compression zones reduce joint friction, cushion impact, and promote cellular thermal equilibrium.",
+    tag: "Joint Relief · Ergonomic"
+  },
+  {
+    id: "textile-pant-08",
+    src: "/assets/explore/pant8-removebg-preview.png",
+    fallbackSrc: "/explore/pant8-removebg-preview.png",
+    category: "textile",
+    title: "Dooroomi Deep Capillary Resonance Tights (Model P-08)",
+    koreanTitle: "두루미 모세혈관 공명 바이오 타이즈",
+    badge: "Capillary Resonance",
+    desc: "Micro-pulverized Korean volcanic and ceramic minerals woven into microfibers stimulate deep microcirculation and soothe sore leg muscles.",
+    tag: "Capillary Flow · Sore Muscle Care"
+  },
+  {
+    id: "textile-pant-09",
+    src: "/assets/explore/pant9-removebg-preview.png",
+    fallbackSrc: "/explore/pant9-removebg-preview.png",
+    category: "textile",
+    title: "Dooroomi Posture Balance Therapy Leggings (Model P-09)",
+    koreanTitle: "두루미 척추 하체 균형 테라피 레깅스",
+    badge: "Kinematic Balance",
+    desc: "Engineered to gently correct gait asymmetry and stabilize core lower muscles with durable bio-ceramic elastane fibers.",
+    tag: "Kinematic Balance · Core Stability"
+  },
+  {
+    id: "textile-pant-10",
+    src: "/assets/explore/pant10-removebg-preview.png",
+    fallbackSrc: "/explore/pant10-removebg-preview.png",
+    category: "textile",
+    title: "Dooroomi Ultra-Comfort Bio-Textile Pants (Model P-10)",
+    koreanTitle: "두루미 편안한 일상 웰니스 하의",
+    badge: "All-Day Comfort Fit",
+    desc: "Breathable, lightweight four-way stretch fabric infused with negative ion ceramics for everyday wear, light exercise, or restorative rest.",
+    tag: "All-Day Comfort · 4-Way Stretch"
+  },
+  {
+    id: "textile-pant-11",
+    src: "/assets/explore/pant11-removebg-preview.png",
+    fallbackSrc: "/explore/pant11-removebg-preview.png",
+    category: "textile",
+    title: "Dooroomi Elite Far-Infrared Recovery Pants (Model P-11)",
+    koreanTitle: "두루미 엘리트 원적외선 리커버리 타이즈",
+    badge: "Intensive Recovery",
+    desc: "Maximum concentration bio-ceramic yarn designed for overnight muscular recovery, thermal stabilization, and enhanced lymphatic drainage.",
+    tag: "Intensive Recovery · Lymphatic Support"
+  }
 ];
 
 export const DooroomiGroupsSection = ({ onContactClick, onNavigateAbout, onNavigateGallery }) => {
@@ -228,7 +449,7 @@ export const DooroomiGroupsSection = ({ onContactClick, onNavigateAbout, onNavig
             const isClickable = true;
 
             const handleCardClick = () => {
-              if (group.id === 'body-care' || group.id === 'hydrogen-water') {
+              if (group.id === 'body-care' || group.id === 'hydrogen-water' || group.id === 'textile') {
                 handleOpenExplore(group.id);
               } else if (onNavigateGallery) {
                 onNavigateGallery();
