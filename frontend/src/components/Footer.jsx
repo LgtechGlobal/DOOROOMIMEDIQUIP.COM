@@ -184,11 +184,6 @@ export const Footer = ({ onNavigate, onSelectCategory }) => {
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => onNavigate('services')} className="hover:text-white transition-colors cursor-pointer text-left">
-                    Services & FAQs
-                  </button>
-                </li>
-                <li>
                   <button onClick={() => onNavigate('contact')} className="hover:text-amber-200 text-emerald-200/90 font-medium transition-colors cursor-pointer text-left">
                     Submit Therapy Inquiry
                   </button>

@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SmoothScroll } from './components/SmoothScroll';
 import { ScrollProgress } from './components/ScrollProgress';
 import { PageLoader } from './components/PageLoader';
@@ -13,7 +13,7 @@ import { AboutUsPage } from './components/AboutUsPage';
 import { CertificatesPage } from './components/CertificatesPage';
 import { PrinciplePage } from './components/PrinciplePage';
 import { TherapyPage } from './components/TherapyPage';
-import { ServicesPage } from './components/ServicesPage';
+
 import { ProductsGalleryPage } from './components/ProductsGalleryPage';
 import { GalleryPage } from './components/GalleryPage';
 import { SingleProductPage } from './components/SingleProductPage';
@@ -32,7 +32,7 @@ import { GoogleAuthPage } from './components/GoogleAuthPage';
 import { CustomerRatingPage } from './components/CustomerRatingPage';
 import { QRScannerModal } from './components/QRScannerModal';
 
-const DEDICATED_ROUTES = ['about', 'certificates', 'principle', 'therapy', 'services', 'gallery', 'products', 'admin', 'google-auth', 'rate'];
+const DEDICATED_ROUTES = ['about', 'certificates', 'principle', 'therapy', 'gallery', 'products', 'admin', 'google-auth', 'rate'];
 
 const parseHash = () => {
   const hash = window.location.hash || '';
@@ -362,13 +362,7 @@ export function App() {
               onNavigateGallery={() => scrollToSection('gallery')}
               onContactClick={() => scrollToSection('contact')}
             />
-          ) : currentRoute.view === 'services' ? (
-            <ServicesPage
-              onNavigateHome={scrollToSection}
-              onNavigateGallery={() => scrollToSection('gallery')}
-              onContactClick={() => scrollToSection('contact')}
-            />
-          ) : currentRoute.view === 'products' ? (
+) : currentRoute.view === 'products' ? (
             <ProductsGalleryPage
               onSelectProduct={handleSelectProduct}
               onNavigateHome={scrollToSection}

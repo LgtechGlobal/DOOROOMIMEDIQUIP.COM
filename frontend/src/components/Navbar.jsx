@@ -41,7 +41,7 @@ export const Navbar = ({
     { id: 'products', label: 'Products' },
     { id: 'gallery', label: 'Gallery' },
     { id: 'therapy', label: 'Therapy Principle' },
-    { id: 'services', label: 'Services' },
+
     { id: 'contact', label: 'Contact Us' },
   ];
 
