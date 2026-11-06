@@ -226,7 +226,7 @@ export const AboutUsPage = ({ onNavigateHome, onNavigateGallery, onNavigateProdu
 
           {/* Right Narrative Column */}
           <div className="lg:col-span-6 space-y-6">
-            <div className="p-8 rounded-3xl bg-white border border-hanbit-border shadow-sm space-y-4">
+            <div style={{ backgroundColor: '#e0a8a8' }} className="p-8 rounded-3xl bg-[#e0a8a8] border border-white/30 shadow-md space-y-4">
               <span className="text-xs font-bold text-hanbit-gold uppercase tracking-widest block font-mono">
                 Corporate Philosophy & Origin
               </span>
